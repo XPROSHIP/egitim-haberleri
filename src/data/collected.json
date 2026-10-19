@@ -1361,6 +1361,40 @@
     "status": "published"
   },
   {
+    "id": "f_11ha3sd_mvfsk51n",
+    "slug": "yabanci-arastirmacilar-uyardi-cevrim-ici-reklamlar-casus-yazilim-yay-11ha3s",
+    "title": "Araştırmacılar uyardı: Çevrim içi reklamlar casus yazılım yaymak amacıyla silaha dönüştürüldü",
+    "excerpt": "Toronto Üniversitesi bünyesindeki araştırmacılar, çevrim içi reklamların hedef cihazlara 'sıfır tıklama' casus yazılım sızdırmak için kullanıldığını belirledi. Uzmanlar, İsrailli bir reklam ajansının milyonlarca internet kullanıcısının profilini çıkararak hedefleri gizlice hacklediğini duyurdu.",
+    "body": [
+      "Kanada'daki Toronto Üniversitesi bünyesinde dijital araştırmalar yürüten Citizen Lab birimi araştırmacıları, İsrail merkezli bir dijital reklam ajansının çevrim içi reklamları casus yazılım yaymak üzere kullandığını açıkladı. Discover-Tech adlı ajansın geliştirdiği Controlium yazılımının, internet kullanıcılarını kitlesel olarak profillemeye ve hedefleri hedef alan 'sıfır tıklama' casus yazılımlarını gizlice bulaştırmaya yaradığı ifade edildi.",
+      "Araştırmacılara göre ajans, 2024 yılından bu yana dünya çapında milyonlarca kullanıcıya reklam ulaştırdı. Citizen Lab, Katarlı yayın kuruluşu Al Jazeera çalışanlarına ait onlarca cihazın da Discover-Tech tarafından sunulan reklamlar aracılığıyla sızdırılan casus yazılımlarca ele geçirildiğini bildirdi."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "SİBER GÜVENLİK",
+      "CASUS YAZILIM",
+      "DİJİTAL GİZLİLİK",
+      "TORONTO ÜNİVERSİTESİ"
+    ],
+    "source": {
+      "name": "The Guardian",
+      "url": "https://www.theguardian.com/technology/2026/oct/15/israeli-firm-digital-ads-enabling-installation-of-zero-click-spyware-researchers-say",
+      "image": "/img/online-ads-weaponised-to-deliver-zero-click-spyware-research-1potg9.jpg"
+    },
+    "publishedAt": "2026-10-15T12:15:22.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:11ha3sd",
+    "rawTitle": "Online ads weaponised to deliver ‘zero-click’ spyware, researchers say",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "n_1ync5ui_mvex5h8d",
     "slug": "bartin-daki-koy-okullarinda-egitim-goren-ogrenciler-bilim-ve-sanat-etkin-1xy93k",
     "title": "Bartın'daki köy okullarında eğitim gören öğrenciler bilim ve sanat etkinlikleriyle buluşuyor",
@@ -1391,6 +1425,41 @@
     "dedupeKey": "1xy93kf",
     "rawTitle": "Köy okullarındaki çocuklar bilim ve sanatla buluşuyor",
     "status": "review"
+  },
+  {
+    "id": "f_1qsstfm_mvfsk51n",
+    "slug": "yabanci-arnavutluk-ta-artan-egitim-masraflarini-protesto-eden-ogrenc-1qsstf",
+    "title": "Arnavutluk'ta artan eğitim masraflarını protesto eden öğrencilerin gösterileri şiddet olaylarına dönüştü",
+    "excerpt": "Arnavutluk'un başkenti Tiran'da eğitim masraflarını ve yolsuzluğu protesto eden on binlerce öğrencinin eylemi polisle çatışmaya dönüştü. Olaylarda eğitim bakanlığı ve iki banka ateşe verilirken çok sayıda kişi gözaltına alındı.",
+    "body": [
+      "Arnavutluk'un başkenti Tiran'da on binlerce öğrenci, hızla yükselen eğitim masrafları ve yolsuzluğa tepki göstermek için sokaklara döküldü. Barışçıl başlayan eylemler, göstericilerin bir hükümet binasını ve iki bankayı ateşe vermesiyle şiddet olaylarına sahne oldu.",
+      "Polis ekipleri, eğitim bakanlığı binasında yangın çıkaran, çöp konteynerlerini deviren ve çevredeki işletmelere zarar veren göstericileri dağıtmak amacıyla tazyikli su ve göz yaşartıcı gaz kullandı. Milli eğitim binasının yakınındaki Raiffeisen Bank şubesi de alevler arasında kaldı.",
+      "Yetkililer, çıkan olaylar sonucunda 23 polis memuru ile 6 sivilin yaralandığını ve tedavi altına alındığını açıkladı. Gösteriler sırasında taşkınlık yaptığı belirlenen 35 kişinin ise gözaltına alındığı bildirildi."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "ÖĞRENCİ EYLEMLERİ",
+      "ARNAVUTLUK",
+      "EĞİTİM MASRAFLARI",
+      "YÜKSEKÖĞRETİM"
+    ],
+    "source": {
+      "name": "The Guardian",
+      "url": "https://www.theguardian.com/world/2026/oct/14/student-protests-tirana-albania-police-clashes",
+      "image": "/img/student-protests-in-albania-turn-violent-as-demonstrators-cl-13uobp.jpg"
+    },
+    "publishedAt": "2026-10-14T23:19:43.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1qsstfm",
+    "rawTitle": "Student protests in Albania turn violent as demonstrators clash with police",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "n_12wub2f_mvevprmq",
@@ -2231,6 +2300,41 @@
     "status": "published"
   },
   {
+    "id": "f_1ycyhfj_mvfsk51n",
+    "slug": "yabanci-avustralya-hukumeti-vize-suiistimali-yapan-uluslararasi-ogre-1ycyhf",
+    "title": "Avustralya hükümeti vize suiistimali yapan uluslararası öğrencilere ve acentelere karşı harekete geçti",
+    "excerpt": "Avustralya'da İşçi Partisi hükümeti, ülkede kalıcılaşmak amacıyla sürekli vize ve bölüm değiştiren uluslararası öğrencilere yönelik yeni kısıtlamaları duyurdu. Düzenlemeyle göçmenlik sistemini suiistimal eden eğitim acenteleri ve avukatlar da hedef alınıyor.",
+    "body": [
+      "Avustralya federal hükümeti, ülkedeki geçici göçü sınırlandırmak ve göçmenlik sisteminin suistimal edilmesini engellemek için yeni önlemler paketini açıkladı. İçişleri Bakanı Tony Burke, yeni kuralların öğrencilerin sürekli vize türü değiştirmesini engellemeyi amaçladığını ve güvenilir bir sistem kurmayı hedeflediğini belirtti.",
+      "Cuma günü ilan edilen düzenlemeler doğrultusunda, uluslararası öğrencilerin eğitim aldıkları kurs veya bölümleri değiştirebilmeleri için artık ayrı bir vize başvurusu yapmaları gerekecek. Hükümet, daha önce de öğrencilerin daha düşük seviyeli kurslara geçişini engelleyen kuralları yürürlüğe koymuştu.",
+      "Yeni kurallar sadece öğrencileri değil, Avustralya'da kalmak isteyen kişilere gerçek dışı umutlar vadeden ve sistemi manipüle eden göçmenlik acenteleri ile avukatları da doğrudan hedef alıyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "ÖĞRENCİ VİZESİ",
+      "AVUSTRALYA",
+      "ULUSLARARASI EĞİTİM",
+      "GÖÇMENLİK POLİTİKASI"
+    ],
+    "source": {
+      "name": "The Guardian Dünya",
+      "url": "https://www.theguardian.com/australia-news/2026/oct/02/labor-migration-crackdown-international-students",
+      "image": "/img/labor-targets-visa-hopping-international-students-in-crackdo-1dyhws.jpg"
+    },
+    "publishedAt": "2026-10-02T01:33:56.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1ycyhfj",
+    "rawTitle": "Labor targets ‘visa hopping’ international students in crackdown on ‘permanently temporary’ migration",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "n_18do9m6_mvevury5",
     "slug": "nevsehir-idare-mahkemesinden-sportif-yetenek-taramasinda-gorevlendirilen-142njc",
     "title": "Nevşehir idare mahkemesinden sportif yetenek taramasında görev alan öğretmene ek ders kararı",
@@ -2296,6 +2400,41 @@
     "dedupeKey": "144i4qg",
     "rawTitle": "Türkiye’nin eğitim tablosu... 17,7 milyon öğrenci, 1,2 milyon öğretmen",
     "status": "published"
+  },
+  {
+    "id": "f_1gij7tw_mvfsk51n",
+    "slug": "yabanci-avustralya-da-ozel-kolejlere-iptal-edilen-diploma-programi-u-1gij7t",
+    "title": "Avustralya'da özel kolejlere iptal edilen diploma programı üzerinden vize oyunu uyarısı yapıldı",
+    "excerpt": "Avustralya hükümeti, kapatılma kararı alınan bir diploma programına yapılan son dakika kayıtları üzerine özel kolejleri sert bir dille uyardı. Sistemin açıklarını kötüye kullanan eğitim kurumlarının lisanslarının askıya alınabileceği bildirildi.",
+    "body": [
+      "Avustralya'da özel kolejlerin, gerçek öğrenci olmayan kişilerce suistimal edildiği gerekçesiyle iptal edilmesine karar verilen bir diploma programına son anda yaklaşık 3.000 kayıt yaptığı ortaya çıktı. Hükümet temsilcisi Julian Hill, eğitim kurumlarının mercek altına alındığını belirterek kolejleri kuralları manipüle etmemeleri konusunda uyardı.",
+      "Söz konusu program olan yönetim ve öğrenme yüksek lisans diplomasının 5 Ekim tarihinde iptal edileceği açıklanmıştı. Ancak özel kolejlerin iptal kararı öncesinde öğrencileri aceleyle programa çekmek için çeşitli indirimler sunduğu tespit edildi.",
+      "Julian Hill, öğrencileri mevcut eğitimleri devam ederken başka bir programa başlamaları yönünde baskı yapan aracılara karşı uyardı. İşçi Partisi hükümeti ise vize kurallarını suiistimal eden eğitim sağlayıcılarını kapatmakla tehdit etti."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "AVUSTRALYA",
+      "ÖZEL KOLEJLER",
+      "ÖĞRENCİ VİZESİ",
+      "YÜKSEKÖĞRETİM"
+    ],
+    "source": {
+      "name": "The Guardian Dünya",
+      "url": "https://www.theguardian.com/australia-news/2026/oct/01/australia-private-colleges-student-visa-enrolments-soar-for-cancelled-diploma-ntwnfb",
+      "image": "/img/australian-colleges-warned-do-not-try-to-game-student-visas--1qjfqt.jpg"
+    },
+    "publishedAt": "2026-09-30T15:00:45.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1gij7tw",
+    "rawTitle": "Australian colleges warned ‘do not try to game’ student visas after last-minute enrolments for cancelled diploma soar",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "n_1hs6nfj_mveiblan",
