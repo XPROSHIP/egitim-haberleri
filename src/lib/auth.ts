@@ -25,6 +25,20 @@ export const isConfigured = Boolean(URL && KEY)
 type SbClient = import('@supabase/supabase-js').SupabaseClient
 type SbSession = import('@supabase/supabase-js').Session
 
+const STORAGE_KEY = 'eh.supabase.auth'
+
+/**
+ * Depolamada oturum var mı? Bunu bilmeden istemciyi yüklemek gereksiz:
+ * anonim ziyaretçi 200 KB'lık istemciyi indirmemeli.
+ */
+function hasStoredSession(): boolean {
+  try {
+    return Boolean(localStorage.getItem(STORAGE_KEY))
+  } catch {
+    return false
+  }
+}
+
 let clientPromise: Promise<SbClient | null> | null = null
 
 function getClient(): Promise<SbClient | null> {
@@ -101,10 +115,10 @@ export function readSession(): Session | null {
   return current
 }
 
-/** Oturum değişikliklerini dinler. */
+/** Oturum değişikliklerini dinler. Oturum yoksa istemci hiç yüklenmez. */
 export function watchSession(fn: (s: Session | null) => void): () => void {
   sessionListeners.add(fn)
-  void ensureSubscription()
+  if (hasStoredSession()) void ensureSubscription()
   return () => sessionListeners.delete(fn)
 }
 
@@ -152,6 +166,11 @@ export async function completeSignIn(_code?: string): Promise<Session | null> {
 
 /** Depolanan oturumu doğrular; geçersizse temizler. */
 export async function restoreSession(): Promise<Session | null> {
+  // Depolamada oturum yoksa istemciyi yüklemenin anlamı yok.
+  if (!hasStoredSession()) {
+    current = null
+    return null
+  }
   const client = await getClient()
   if (!client) return null
   const { data, error } = await client.auth.getSession()
