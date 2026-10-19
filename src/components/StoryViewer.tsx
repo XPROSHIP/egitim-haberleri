@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react'
+import { Link } from 'react-router-dom'
 import clsx from 'clsx'
 import { getCategory } from '../data/categories'
 import { formatDate } from '../lib/format'
@@ -231,13 +232,13 @@ export function StoryViewer({
           </p>
 
           <div className="pointer-events-auto mt-4 flex items-center gap-2">
-            <a
-              href={`/haber/${item.slug}`}
+            <Link
+              to={`/haber/${item.slug}`}
               onClick={onClose}
               className="rounded-full bg-white px-4 py-2 text-[13px] font-semibold text-black transition hover:bg-white/90"
             >
               Habere Git
-            </a>
+            </Link>
             <span className="text-[10.5px] text-white/40">
               Sağ/sol yarıya ya da ok tuşlarına bas · Boşluk: sonraki · Esc: kapat
             </span>

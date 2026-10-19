@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { categories } from '../data/categories'
 import { CategoryMark } from '../components/CategoryMark'
 import { Icon } from '../components/Icon'
+import { useStore } from '../lib/store'
+import { signOut } from '../lib/auth'
 
 const CONTENT: Record<string, { title: string; updated: string; body: string[] }> = {
   hakkimizda: {
@@ -145,6 +147,47 @@ export function NotFoundPage() {
 
 export function LoginPage({ onOpen }: { onOpen: () => void }) {
   const { t } = useTranslation()
+  const { signedIn, user } = useStore()
+
+  // Giriş yapılmışsa: profil kartı ve "çıkış yap" yerine profille yönlendir.
+  if (signedIn) {
+    return (
+      <div className="mx-auto max-w-md px-4 py-20 text-center">
+        {user?.avatarUrl ? (
+          <img
+            src={user.avatarUrl}
+            alt=""
+            className="mx-auto size-16 rounded-full object-cover"
+            referrerPolicy="no-referrer"
+          />
+        ) : (
+          <span className="mx-auto grid size-16 place-items-center rounded-full bg-fg text-xl font-bold text-bg">
+            {(user?.name ?? user?.email ?? '?').trim().charAt(0).toLocaleUpperCase('tr')}
+          </span>
+        )}
+        <h1 className="mt-5 text-xl font-bold text-fg">
+          Giriş yapıldı{user?.name ? `, ${user.name}` : ''}
+        </h1>
+        <p className="mt-2 text-[13px] text-muted">{user?.email}</p>
+        <div className="mt-6 flex flex-col gap-2">
+          <Link
+            to="/profil"
+            className="w-full rounded-full bg-fg px-5 py-3 text-sm font-semibold text-bg"
+          >
+            Profilime git
+          </Link>
+          <button
+            type="button"
+            onClick={() => void signOut()}
+            className="w-full rounded-full border border-line px-5 py-3 text-sm font-semibold text-fg transition hover:bg-surface-2"
+          >
+            Çıkış yap
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="mx-auto max-w-md px-4 py-20 text-center">
       <span className="mx-auto grid size-16 place-items-center rounded-full bg-gradient-to-br from-accent to-primary text-white">

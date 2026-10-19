@@ -127,9 +127,15 @@ export async function signInWithGoogle(): Promise<void> {
   const client = await getClient()
   if (!client) throw new Error('SUPABASE_YAPILANDIRILMADI')
   setAuthError('')
+
+  // Dönüş adresine "next" taşınır; girişten sonra kullanıcı kaldığı yere gider.
+  const next = new URLSearchParams(window.location.search).get('next')
+  const base = `${window.location.origin}/giris`
+  const redirectTo = next && next.startsWith('/') ? `${base}?next=${encodeURIComponent(next)}` : base
+
   const { error } = await client.auth.signInWithOAuth({
     provider: 'google',
-    options: { redirectTo: `${window.location.origin}/giris` },
+    options: { redirectTo },
   })
   if (error) {
     setAuthError(`Google girişi başlatılamadı: ${error.message}`)

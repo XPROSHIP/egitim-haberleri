@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { BrowserRouter, Route, Routes, useLocation, useSearchParams } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { StoreProvider, useStore } from './lib/store'
 import { TopBar } from './components/TopBar'
@@ -44,6 +44,7 @@ function ScrollManager() {
 function AuthBootstrap() {
   const { setUser } = useStore()
   const [params] = useSearchParams()
+  const navigate = useNavigate()
   const code = params.get('code')
   const done = useRef(false)
 
@@ -62,6 +63,9 @@ function AuthBootstrap() {
         if (alive) window.history.replaceState({}, '', window.location.pathname)
         if (alive && session) {
           setUser(session.user)
+          // Giriş başarılı: kullanıcıyı profiline götür, "Giriş Yap" ekranında bırakma.
+          const next = new URLSearchParams(window.location.search).get('next')
+          navigate(next && next.startsWith('/') ? next : '/profil', { replace: true })
           return
         }
         // Başarısız dönüş: kullanıcı sebebi görsün diye giriş penceresini aç.
@@ -71,9 +75,10 @@ function AuthBootstrap() {
       if (alive && existing) setUser(existing.user)
     }
     void run()
-    // İstemci oturumu kendisi de bildirebilir (sayfa yenileme, token yenileme).
+    // İstemci oturumu kendisi de bildirebilir (sayfa yenileme, token yenileme,
+    // çıkış). Çıkışta da kullanıcı temizlenmeli.
     const off = watchSession((s) => {
-      if (alive && s) setUser(s.user)
+      if (alive) setUser(s?.user ?? null)
     })
     return () => {
       alive = false
