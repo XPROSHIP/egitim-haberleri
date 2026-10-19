@@ -106,5 +106,5 @@ for (let i = 0; i < items.length; i += CHUNK) {
   await new Promise((r2) => setTimeout(r2, 400)) // Worker kotasını zorlamamak için
 }
 
-console.log(`\nTamam · yeni ${inserted} · zaten var ${skipped}`)
+console.log(`\nTamam · eklenen/güncellenen ${inserted} · değişmeyen ${skipped}`)
 console.log(`Toplam ${items.length} haber, ${items.filter((i) => i.source.image).length} görselli`)

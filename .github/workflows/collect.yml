@@ -12,6 +12,10 @@ concurrency:
   group: collect
   cancel-in-progress: false
 
+# Toplanan haberleri depoya geri yazabilmek için gerekli.
+permissions:
+  contents: write
+
 jobs:
   collect:
     runs-on: ubuntu-latest
