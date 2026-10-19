@@ -1563,6 +1563,39 @@
     "status": "review"
   },
   {
+    "id": "f_1eohsoq_mvfuthdb",
+    "slug": "yabanci-pandemi-fonlarinin-sona-ermesi-abd-deki-yogun-ozel-ders-prog-1eohso",
+    "title": "Pandemi fonlarının sona ermesi ABD'deki yoğun özel ders programlarını tehlikeye atıyor",
+    "excerpt": "ABD'de salgın döneminde sağlanan federal bütçenin tükenmesi, öğrencilerin akademik başarısını artıran yoğun özel ders programlarının geleceğini belirsizliğe sürükledi. Birçok okul bölgesi programları askıya alırken bazı yöneticiler en etkili modelleri yaşatmaya çalışıyor.",
+    "body": [
+      "ABD genelindeki okul bölgeleri, federal pandemi yardım fonları sayesinde öğrencilerin öğrenme sürecini güçlendiren yoğun özel ders programlarını yıllarca genişletmişti. Bu temel kaynağın tükenmesiyle birlikte birçok eğitim lideri programları ayakta tutabilmek için zorlu bir mücadeleye girişti. Bazı bölgeler özel dersleri durdururken veya küçültürken, bazıları ise en verimli unsurları korumaya çalışıyor.",
+      "ABD Kongresi, Mart 2020 ile Mart 2021 arasında İlkokul ve Ortaokul Acil Durum Yardımı fonu aracılığıyla kamu eğitimine yaklaşık 190,5 milyar dolar tahsis etmişti. Bu destek, ABD tarihindeki K-12 eğitimine yönelik tek seferlik en büyük federal yatırım olarak kayıtlara geçti. Ancak söz konusu fonların 2022 ile 2024 yılları arasında aşamalı olarak sona ermesi okulları yeni arayışlara itti."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "ABD EĞİTİMİ",
+      "ÖZEL DERS",
+      "PANDEMİ FONLARI"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/can-high-impact-tutoring-survive-post-pandemic-funding-loss",
+      "image": "/img/can-high-mpact-tutoring-survive-post-pandemic-funding-loss-19e7gs.jpg"
+    },
+    "publishedAt": "2026-10-15T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1eohsoq",
+    "rawTitle": "Can High-Impact Tutoring Survive Post-Pandemic Funding Loss?",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "f_1qsstfm_mvfsk51n",
     "slug": "yabanci-arnavutluk-ta-artan-egitim-masraflarini-protesto-eden-ogrenc-1qsstf",
     "title": "Arnavutluk'ta artan eğitim masraflarını protesto eden öğrencilerin gösterileri şiddet olaylarına dönüştü",
@@ -2232,6 +2265,40 @@
     "rawTitle": "2026 KPSS Ön Lisans sınav sonuç tarihi belli oldu mu? KPSS Ön Lisans sınav sonuçları nasıl sorgulanır?",
     "status": "published",
     "lang": "tr"
+  },
+  {
+    "id": "f_r7uk9m_mvfuthdb",
+    "slug": "yabanci-fransiz-ogrenciler-sokaklara-dokulurken-ingiliz-akranlari-ne-r7uk9m",
+    "title": "Fransız öğrenciler sokaklara dökülürken İngiliz akranları neden sessiz kalmayı tercih ediyor?",
+    "excerpt": "Fransa'da yetişen gençlerin hak arama ve sokak protestosu geleneği, benzer ekonomik sorunlarla boğuşan İngiliz öğrencilerin eylemsizliğiyle belirgin bir tezat oluşturuyor. İngiltere'deki gençler yüksek borçlar ve barınma krizi yaşasa da bunu kitlesel eylemlere dönüştüremiyor.",
+    "body": [
+      "Fransa'da büyüyen çocuklar, ülkelerinin devrimci köklerini ve devletin vatandaşlarına karşı olan sorumluluklarını erken yaşta öğreniyor. İngiltere'deki gençlerin de yüksek öğrenci borçları, özel okul ayrıcalıkları ve ulaşılamaz konut piyasası gibi öfkelenecek pek çok sebebi bulunuyor. Ancak Fransız akranlarının aksine, İngiliz öğrencilerin bu hoşnutsuzluğu kitlesel eylemlere dönüştürme alışkanlığı zayıf kalıyor.",
+      "Fransa milli marşı La Marseillaise'in harekete geçirici dizeleri, ülkedeki devrimci ruhun geçmişe ait bir kalıntı olmadığını gösteriyor. Son haftalarda liselerde gerçekleşen protestolar, Fransız öğrencilerin cesaretini ve örgütlenme becerisini bir kez daha gözler önüne seriyor. Örneğin Lens kentindeki 15 yaşındaki bir lise öğrencisinin öncülük ettiği eylemler bu mücadeleci geleneğin sürdüğünü kanıtlıyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "FRANSA",
+      "ÖĞRENCİ PROTESTOLARI",
+      "İNGİLTERE",
+      "EĞİTİM"
+    ],
+    "source": {
+      "name": "The Guardian",
+      "url": "https://www.theguardian.com/commentisfree/2026/oct/10/angry-french-students-protests-british-dont-why",
+      "image": "/img/angry-french-students-take-to-the-streets-british-students-d-mmez1.jpg"
+    },
+    "publishedAt": "2026-10-10T09:45:40.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:r7uk9m",
+    "rawTitle": "Angry French students take to the streets. British students don’t – and I think I know why | Kitty Sayers",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "n_1pw6ivb_mvfupav1",
