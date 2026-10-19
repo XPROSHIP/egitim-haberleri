@@ -77,35 +77,38 @@ export function ArticlePage() {
     <div className="mx-auto max-w-[1180px] px-3 pb-20 sm:px-4">
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
         <article className="min-w-0">
-          <button
-            type="button"
-            onClick={() => navigate(-1)}
-            className="mt-4 mb-5 inline-flex items-center gap-1.5 text-[13px] text-muted transition hover:text-fg"
-          >
-            <ArrowLeft size={15} />
-            {t('common.back')}
-          </button>
-
-          <div className="flex flex-wrap items-center gap-2">
-            <Link
-              to={`/kategori/${cat.slug}`}
-              className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold text-white transition hover:opacity-90"
-              style={{ background: cat.color }}
+          {/* Başlık bloğu: sayfa kaydırılırken üstte sabit kalır */}
+          <div className="sticky top-14 z-20 -mx-3 bg-bg/92 px-3 backdrop-blur-xl sm:-mx-4 sm:px-4">
+            <button
+              type="button"
+              onClick={() => navigate(-1)}
+              className="mt-3 mb-3 inline-flex items-center gap-1.5 text-[13px] text-muted transition hover:text-fg"
             >
-              <CategoryMark mark={cat.mark} size={11} strokeWidth={2.1} />
-              {cat.name}
-            </Link>
-            {item.province && (
-              <span className="inline-flex items-center gap-1 rounded-full border border-line px-2.5 py-1 text-[11px] text-muted">
-                <Icon name="MapPin" size={11} />
-                {item.province}
-              </span>
-            )}
-          </div>
+              <ArrowLeft size={15} />
+              {t('common.back')}
+            </button>
 
-          <h1 className="mt-3.5 text-[26px] leading-[1.15] font-bold tracking-tight text-fg sm:text-[40px]">
-            {item.title}
-          </h1>
+            <div className="flex flex-wrap items-center gap-2">
+              <Link
+                to={`/kategori/${cat.slug}`}
+                className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold text-white transition hover:opacity-90"
+                style={{ background: cat.color }}
+              >
+                <CategoryMark mark={cat.mark} size={11} strokeWidth={2.1} />
+                {cat.name}
+              </Link>
+              {item.province && (
+                <span className="inline-flex items-center gap-1 rounded-full border border-line px-2.5 py-1 text-[11px] text-muted">
+                  <Icon name="MapPin" size={11} />
+                  {item.province}
+                </span>
+              )}
+            </div>
+
+            <h1 className="mt-2.5 mb-3 text-[23px] leading-[1.16] font-bold tracking-tight text-fg sm:text-[34px]">
+              {item.title}
+            </h1>
+          </div>
 
           <p className="mt-4 text-[15.5px] leading-relaxed text-muted sm:text-[17px]">{item.excerpt}</p>
 

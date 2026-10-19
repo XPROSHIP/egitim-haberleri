@@ -63,11 +63,14 @@ export type Session = { accessToken: string; user: User }
 
 function toUser(u: SbSession['user']): User {
   const meta = (u.user_metadata ?? {}) as { full_name?: string; name?: string; avatar_url?: string }
+  // Google, isimsiz hesaplarda full_name alanını boş string olarak döndürebiliyor.
+  // "||" kullanıyoruz çünkü "??" boş stringi geçerli sayar ve isim boş kalırdı.
+  const email = u.email ?? ''
   return {
     id: u.id,
-    email: u.email ?? '',
-    name: meta.full_name ?? meta.name ?? (u.email ?? '').split('@')[0],
-    avatarUrl: meta.avatar_url ?? '',
+    email,
+    name: meta.full_name || meta.name || email.split('@')[0] || 'Kullanıcı',
+    avatarUrl: meta.avatar_url || undefined,
   }
 }
 

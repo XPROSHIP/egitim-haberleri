@@ -25,34 +25,35 @@ export function MobileTabBar() {
   return (
     <nav
       aria-label="Alt gezinme"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-bg/85 backdrop-blur-xl lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-line/60 bg-bg/55 backdrop-blur-xl backdrop-saturate-150 lg:hidden"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
-      <ul className="mx-auto flex max-w-lg items-stretch justify-between px-1 py-1.5">
+      <ul className="mx-auto flex w-full max-w-md items-stretch justify-between px-1 py-1.5">
         {TABS.map((tab) => (
-          <li key={tab.to} className="flex-1">
+          <li key={tab.to} className="min-w-0 flex-1">
             <NavLink
               to={tab.to}
               end={tab.end}
               className={({ isActive }) =>
                 clsx(
-                  'flex flex-col items-center gap-0.5 rounded-lg px-1 py-1 text-[10.5px] transition',
+                  'flex flex-col items-center gap-0.5 rounded-lg px-0.5 py-1 text-[10px] transition',
                   isActive ? 'text-fg' : 'text-faint hover:text-muted',
                 )
               }
             >
-              <Icon name={tab.icon} size={19} />
-              <span className="truncate">{tab.label}</span>
+              <Icon name={tab.icon} size={18} />
+              <span className="max-w-full truncate">{tab.label}</span>
             </NavLink>
           </li>
         ))}
         {!signedIn && (
-          <li className="flex-1">
+          <li className="min-w-0 flex-1">
             <NavLink
               to="/giris"
-              className="flex flex-col items-center gap-0.5 rounded-lg px-1 py-1 text-[10.5px] text-faint transition hover:text-muted"
+              className="flex flex-col items-center gap-0.5 rounded-lg px-0.5 py-1 text-[10px] text-faint transition hover:text-muted"
             >
-              <Icon name="User" size={19} />
-              <span className="truncate">Giriş</span>
+              <Icon name="User" size={18} />
+              <span className="max-w-full truncate">Giriş</span>
             </NavLink>
           </li>
         )}

@@ -46,15 +46,33 @@ export function ProfilePage() {
     { label: 'Takip edilen', value: store.followed.length, icon: 'Check' },
   ]
 
+  // Gerçek kullanıcı bilgisi; demo modunda demo kullanıcı gösterilir.
+  const user = store.user
+  const isDemo = store.demoUser
+  const displayName = user?.name || (isDemo ? 'Demo Kullanıcı' : 'Kullanıcı')
+  const displayEmail = user?.email || (isDemo ? 'Demo hesabı ile giriş yapıldı' : '')
+  const initial = displayName.trim().charAt(0).toLocaleUpperCase('tr')
+
   return (
     <div className="mx-auto max-w-[760px] px-3 pb-16 sm:px-4">
       <header className="mb-6 flex items-center gap-4 rounded-2xl border border-line bg-surface p-5">
-        <span className="grid size-16 shrink-0 place-items-center rounded-full bg-gradient-to-br from-accent to-primary text-2xl font-black text-white">
-          S
-        </span>
+        {user?.avatarUrl ? (
+          <img
+            src={user.avatarUrl}
+            alt=""
+            className="size-16 shrink-0 rounded-full object-cover"
+            referrerPolicy="no-referrer"
+          />
+        ) : (
+          <span className="grid size-16 shrink-0 place-items-center rounded-full bg-gradient-to-br from-accent to-primary text-2xl font-black text-white">
+            {initial}
+          </span>
+        )}
         <div className="min-w-0 flex-1">
-          <h1 className="text-xl font-extrabold tracking-tight text-fg">Demo Kullanıcı</h1>
-          <p className="mt-0.5 text-[12px] text-faint">{t('auth.devModeDesc')}</p>
+          <h1 className="truncate text-xl font-extrabold tracking-tight text-fg">{displayName}</h1>
+          <p className="mt-0.5 truncate text-[12px] text-faint">
+            {displayEmail || t('auth.devModeDesc')}
+          </p>
         </div>
         <Link
           to="/ayarlar"

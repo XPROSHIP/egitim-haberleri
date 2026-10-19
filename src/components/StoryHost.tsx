@@ -1,12 +1,16 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useAllNews } from '../lib/api'
 import { bus, EVENTS } from '../lib/bus'
+import { categories } from '../data/categories'
 import { StoryViewer } from './StoryViewer'
 
 /**
  * Hikâye oynatıcısının sahibi.
  * Uygulama kabuğunda bir kez takılır; yuvarlak kategori düğmelerinden veya
  * üst bardaki "Hikâyeler" düğmesinden açılabilir.
+ *
+ * Bir kategorinin hikâyeleri bitince oynatıcı kapanmaz, sıradaki kategorinin
+ * hikâyelerine devam eder.
  */
 export function StoryHost() {
   const { data } = useAllNews()
@@ -26,10 +30,20 @@ export function StoryHost() {
     })
   }, [data])
 
-  const items = useMemo(
-    () => (slug ? (data ?? []).filter((n) => n.category === slug) : []),
-    [data, slug],
-  )
+  const items = useMemo(() => {
+    const all = data ?? []
+    if (!slug) return []
+    // Seçilen kategori başta, ardından diğer kategoriler sırayla.
+    const order = [slug, ...categories.map((c) => c.slug).filter((s) => s !== slug)]
+    const out: typeof all = []
+    for (const s of order) {
+      const inCategory = all
+        .filter((n) => n.category === s)
+        .sort((a, b) => +new Date(b.publishedAt) - +new Date(a.publishedAt))
+      if (inCategory.length) out.push(...inCategory)
+    }
+    return out
+  }, [data, slug])
 
   if (!slug || items.length === 0) return null
 

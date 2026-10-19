@@ -74,6 +74,9 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-wrap: break-word;
+  /* Mobilde yatay kaydırma olmasın: sabit alt çubuk gibi geniş öğeler
+     dokunmatik kaydırmayı bozuyordu. */
+  overflow-x: clip;
   letter-spacing: -0.011em;
 }
 

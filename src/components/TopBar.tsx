@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { NavLink, Link, useNavigate } from 'react-router-dom'
+import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
 import { categories } from '../data/categories'
@@ -60,6 +60,9 @@ export function TopBar({
 
   const visible = categories.filter((c) => !hiddenCategories.includes(c.slug))
   const currentLabel = t(MODE_KEYS[feedMode])
+  // Akış (Twitter benzeri) modunda mıyız?
+  const { pathname } = useLocation()
+  const isFeed = pathname.startsWith('/feed')
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-bg/85 backdrop-blur-xl">
@@ -119,9 +122,23 @@ export function TopBar({
                 <>
                   <div className="fixed inset-0 z-10" onClick={() => setModeOpen(false)} />
                   <div className="absolute left-0 z-20 mt-2 w-56 overflow-hidden rounded-xl border border-line bg-surface shadow-2xl">
-                    <p className="px-3.5 pt-3 pb-1.5 text-[11px] font-semibold tracking-wide text-faint uppercase">
+                    {/* Akış modu (Twitter benzeri) ile blog modu arasındaki geçiş */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setModeOpen(false)
+                        navigate(isFeed ? '/' : '/feed')
+                      }}
+                      className={clsx(
+                        'flex w-full items-center gap-2.5 border-b border-line-soft px-3.5 py-2.5 text-sm transition hover:bg-surface-2',
+                        isFeed ? 'text-primary' : 'text-fg',
+                      )}
+                    >
+                      <Icon name="Newspaper" size={16} />
                       {t('feed.feedMode')}
-                    </p>
+                      {isFeed && <Icon name="Check" size={14} className="ml-auto" />}
+                    </button>
+
                     {(Object.keys(MODE_KEYS) as FeedMode[]).map((m) => (
                       <button
                         key={m}
@@ -180,15 +197,6 @@ export function TopBar({
         )}
 
         <div className="ml-auto flex shrink-0 items-center gap-0.5">
-          {/* Akış modu (Twitter benzeri) ile blog modu arasında geçiş */}
-          <Link
-            to="/feed"
-            className="hidden items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-[13px] font-medium text-fg transition hover:bg-surface-2 lg:flex"
-            title={t('feed.feedMode')}
-          >
-            <Icon name="Newspaper" size={15} />
-            {t('feed.feedMode')}
-          </Link>
           <button
             type="button"
             onClick={() => bus.emit(EVENTS.openStories)}
@@ -274,11 +282,11 @@ export function TopBar({
                 />
               ) : (
                 <span className="grid size-7 place-items-center rounded-full bg-fg text-[11px] font-semibold text-bg">
-                  {(user?.name ?? user?.email ?? '?').trim().charAt(0).toLocaleUpperCase('tr')}
+                  {(user?.name || user?.email || '?').trim().charAt(0).toLocaleUpperCase('tr')}
                 </span>
               )}
               <span className="max-w-[110px] truncate text-[13px] font-semibold text-fg">
-                {user?.name ?? user?.email ?? 'Profil'}
+                {user?.name || user?.email || 'Profil'}
               </span>
             </Link>
           ) : (

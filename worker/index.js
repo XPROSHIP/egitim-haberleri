@@ -18,16 +18,27 @@
  */
 import { createD1Store, createMemoryStore, fromRow } from './src/store.js'
 
-const CORS = {
-  'access-control-allow-origin': '*',
-  'access-control-allow-headers': 'content-type, x-collect-secret',
-  'access-control-allow-methods': 'GET, POST, OPTIONS',
+/**
+ * CORS basliklari istege gore uretilir.
+ * "Authorization" basligi gonderen isteklerde Chrome joker "*" degerini kabul
+ * etmez; tam origin dondurulmek zorundadir. Aksi halde tarayici istegi
+ * engeller ve "Failed to fetch" hatasi verir.
+ */
+function corsFor(request) {
+  const origin = request.headers.get('origin')
+  return {
+    'access-control-allow-origin': origin ?? '*',
+    'access-control-allow-headers': 'content-type, authorization, x-collect-secret',
+    'access-control-allow-methods': 'GET, POST, OPTIONS',
+    'access-control-max-age': '86400',
+    vary: 'Origin',
+  }
 }
 
-const json = (body, status = 200, extra = {}) =>
+const json = (body, status = 200, extra = {}, cors = {}) =>
   new Response(JSON.stringify(body), {
     status,
-    headers: { 'content-type': 'application/json; charset=utf-8', ...CORS, ...extra },
+    headers: { 'content-type': 'application/json; charset=utf-8', ...cors, ...extra },
   })
 
 function store(env) {
@@ -90,8 +101,11 @@ async function currentUser(request, env) {
 
 export default {  async fetch(request, env) {
     const url = new URL(request.url)
+    const cors = corsFor(request)
+    /** Bu isteğe ait CORS başlıklarıyla JSON döndürür. */
+    const reply = (body, status = 200, extra = {}) => json(body, status, extra, cors)
 
-    if (request.method === 'OPTIONS') return new Response(null, { headers: CORS })
+    if (request.method === 'OPTIONS') return new Response(null, { headers: cors })
 
     // Haber görselleri
     // Not: D1, BLOB sütununu normal sorguda sayı dizisi olarak döndürüyor;
@@ -108,20 +122,20 @@ export default {  async fetch(request, env) {
         headers: {
           'content-type': row?.type ?? 'image/jpeg',
           'cache-control': 'public, max-age=31536000, immutable',
-          ...CORS,
+          ...cors,
         },
       })
     }
 
     // Görsel yükleme (yalnızca toplayıcı)
     if (url.pathname === '/api/image' && request.method === 'POST') {
-      if (!authorized(request, env)) return json({ error: 'unauthorized' }, 401)
+      if (!authorized(request, env)) return reply({ error: 'unauthorized' }, 401)
       const key = url.searchParams.get('key') ?? ''
-      if (!/^[\w.-]{1,120}$/.test(key)) return json({ error: 'invalid_key' }, 400)
+      if (!/^[\w.-]{1,120}$/.test(key)) return reply({ error: 'invalid_key' }, 400)
       const type = request.headers.get('content-type') ?? 'image/jpeg'
       const data = new Uint8Array(await request.arrayBuffer())
-      if (data.length === 0) return json({ error: 'empty' }, 400)
-      if (data.length > 2_000_000) return json({ error: 'too_large' }, 413)
+      if (data.length === 0) return reply({ error: 'empty' }, 400)
+      if (data.length > 2_000_000) return reply({ error: 'too_large' }, 413)
 
       await env.DB.prepare(
         `INSERT INTO images (key, data, type, bytes) VALUES (?,?,?,?)
@@ -129,7 +143,7 @@ export default {  async fetch(request, env) {
       )
         .bind(key, data, type, data.length)
         .run()
-      return json({ ok: true, key, bytes: data.length })
+      return reply({ ok: true, key, bytes: data.length })
     }
 
     // --- Etkileşim: beğeni, kaydetme, yorum (gerçek kullanıcı verisi) ---
@@ -137,7 +151,7 @@ export default {  async fetch(request, env) {
     if (url.pathname === '/api/engagement' && request.method === 'GET') {
       const article = url.searchParams.get('article') ?? ''
       const user = await currentUser(request, env)
-      if (!article) return json({ error: 'missing_article' }, 400)
+      if (!article) return reply({ error: 'missing_article' }, 400)
 
       const [likes, bookmarks, comments] = await Promise.all([
         env.DB.prepare('SELECT article_id FROM news_likes WHERE article_id = ?').bind(article).all(),
@@ -162,7 +176,7 @@ export default {  async fetch(request, env) {
           : [],
       )
 
-      return json({
+      return reply({
         likes: likes.results.length,
         bookmarks: bookmarks.results.length,
         myLikes: [...myLikes],
@@ -182,9 +196,9 @@ export default {  async fetch(request, env) {
 
     if (url.pathname === '/api/like' && request.method === 'POST') {
       const user = await currentUser(request, env)
-      if (!user) return json({ error: 'unauthorized' }, 401)
+      if (!user) return reply({ error: 'unauthorized' }, 401)
       const { article, on } = await request.json().catch(() => ({}))
-      if (!article) return json({ error: 'missing_article' }, 400)
+      if (!article) return reply({ error: 'missing_article' }, 400)
       if (on) {
         await env.DB.prepare('INSERT OR IGNORE INTO news_likes (article_id, user_id) VALUES (?,?)')
           .bind(article, user.id)
@@ -197,14 +211,14 @@ export default {  async fetch(request, env) {
       const { results } = await env.DB.prepare('SELECT COUNT(*) AS n FROM news_likes WHERE article_id = ?')
         .bind(article)
         .all()
-      return json({ ok: true, likes: results[0]?.n ?? 0, liked: Boolean(on) })
+      return reply({ ok: true, likes: results[0]?.n ?? 0, liked: Boolean(on) })
     }
 
     if (url.pathname === '/api/bookmark' && request.method === 'POST') {
       const user = await currentUser(request, env)
-      if (!user) return json({ error: 'unauthorized' }, 401)
+      if (!user) return reply({ error: 'unauthorized' }, 401)
       const { article, on } = await request.json().catch(() => ({}))
-      if (!article) return json({ error: 'missing_article' }, 400)
+      if (!article) return reply({ error: 'missing_article' }, 400)
       if (on) {
         await env.DB.prepare('INSERT OR IGNORE INTO news_bookmarks (article_id, user_id) VALUES (?,?)')
           .bind(article, user.id)
@@ -214,23 +228,23 @@ export default {  async fetch(request, env) {
           .bind(article, user.id)
           .run()
       }
-      return json({ ok: true, bookmarked: Boolean(on) })
+      return reply({ ok: true, bookmarked: Boolean(on) })
     }
 
     if (url.pathname === '/api/comment' && request.method === 'POST') {
       const user = await currentUser(request, env)
-      if (!user) return json({ error: 'unauthorized' }, 401)
+      if (!user) return reply({ error: 'unauthorized' }, 401)
       const { article, body, parentId } = await request.json().catch(() => ({}))
       const text = String(body ?? '').trim()
-      if (!article || !text) return json({ error: 'missing_fields' }, 400)
-      if (text.length > 1000) return json({ error: 'too_long' }, 413)
+      if (!article || !text) return reply({ error: 'missing_fields' }, 400)
+      if (text.length > 1000) return reply({ error: 'too_long' }, 413)
       const id = `c_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`
       await env.DB.prepare(
         'INSERT INTO news_comments (id, article_id, user_id, author_name, body, parent_id) VALUES (?,?,?,?,?,?)',
       )
         .bind(id, article, user.id, user.name, text, parentId ?? null)
         .run()
-      return json({
+      return reply({
         ok: true,
         comment: {
           id,
@@ -246,7 +260,7 @@ export default {  async fetch(request, env) {
     }
 
     if (url.pathname === '/api/news') {      const items = await store(env).all(Math.min(Number(url.searchParams.get('limit') ?? 500), 500))
-      return json(
+      return reply(
         { items, count: items.length },
         200,
         { 'cache-control': 'public, max-age=120, stale-while-revalidate=900' },
@@ -256,21 +270,21 @@ export default {  async fetch(request, env) {
     if (url.pathname.startsWith('/api/news/')) {
       const slug = decodeURIComponent(url.pathname.slice('/api/news/'.length))
       const row = await store(env).bySlug(slug)
-      if (!row) return json({ error: 'not_found' }, 404)
-      return json(row, 200, { 'cache-control': 'public, max-age=300' })
+      if (!row) return reply({ error: 'not_found' }, 404)
+      return reply(row, 200, { 'cache-control': 'public, max-age=300' })
     }
 
     // GitHub Actions topladığı haberleri buraya gönderir.
     if (url.pathname === '/api/collect' && request.method === 'POST') {
-      if (!authorized(request, env)) return json({ error: 'unauthorized' }, 401)
+      if (!authorized(request, env)) return reply({ error: 'unauthorized' }, 401)
       let payload
       try {
         payload = await request.json()
       } catch {
-        return json({ error: 'invalid_json' }, 400)
+        return reply({ error: 'invalid_json' }, 400)
       }
       const items = Array.isArray(payload?.items) ? payload.items : []
-      if (items.length === 0) return json({ ok: true, inserted: 0, skipped: 0 })
+      if (items.length === 0) return reply({ ok: true, inserted: 0, skipped: 0 })
 
       // D1 tek seferde en fazla 100 bağlı ifade kabul eder.
       const CHUNK = 50
@@ -283,13 +297,13 @@ export default {  async fetch(request, env) {
         skipped += result.skipped
       }
       console.log(`[worker] ${inserted} yeni, ${skipped} tekrar`)
-      return json({ ok: true, inserted, skipped })
+      return reply({ ok: true, inserted, skipped })
     }
 
     if (url.pathname === '/api/health') {
       const news = await env.DB?.prepare('SELECT COUNT(*) AS n FROM news').all()
       const images = await env.DB?.prepare('SELECT COUNT(*) AS n FROM images').all()
-      return json({
+      return reply({
         ok: true,
         news: news?.results?.[0]?.n ?? 0,
         images: images?.results?.[0]?.n ?? 0,
@@ -297,7 +311,7 @@ export default {  async fetch(request, env) {
       })
     }
 
-    return json({ error: 'not_found' }, 404)
+    return reply({ error: 'not_found' }, 404)
   },
 }
 

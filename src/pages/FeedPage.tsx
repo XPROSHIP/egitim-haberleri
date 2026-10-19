@@ -10,6 +10,7 @@ import { CategoryBadge } from '../components/NewsCard'
 import { CategoryMark } from '../components/CategoryMark'
 import { Cover } from '../components/Cover'
 import { Icon } from '../components/Icon'
+import { StoryBar } from '../components/StoryBar'
 
 const MODES: { key: FeedMode; label: string }[] = [
   { key: 'latest', label: 'Güncel' },
@@ -207,6 +208,13 @@ export function FeedPage() {
               ))}
             </div>
           </div>
+
+          {/* Yuvarlak kategori (hikâye) düğmeleri */}
+          {data && data.length > 0 && (
+            <div className="border-b border-line px-4 py-3">
+              <StoryBar items={data} />
+            </div>
+          )}
 
           {isLoading && !data ? (
             <div className="grid gap-px bg-line sm:grid-cols-2">

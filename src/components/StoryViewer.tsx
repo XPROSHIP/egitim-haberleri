@@ -106,6 +106,20 @@ export function StoryViewer({
     }
   }, [open])
 
+  /* Tarayıcının geri tuşu hikâyeyi kapatsın */
+  useEffect(() => {
+    if (!open) return
+    const marker = `eh-story-${Date.now()}`
+    window.history.pushState({ [marker]: true }, '')
+    const onPop = () => onClose()
+    window.addEventListener('popstate', onPop)
+    return () => {
+      window.removeEventListener('popstate', onPop)
+      // Kapatılırken eklediğimiz geçmiş kaydını temizle
+      if (window.history.state?.[marker]) window.history.back()
+    }
+  }, [open, onClose])
+
   if (!open || items.length === 0) return null
 
   const item = items[clamp(index, items.length)]
@@ -239,9 +253,13 @@ export function StoryViewer({
             >
               Habere Git
             </Link>
-            <span className="text-[10.5px] text-white/40">
-              Sağ/sol yarıya ya da ok tuşlarına bas · Boşluk: sonraki · Esc: kapat
-            </span>
+            <button
+              type="button"
+              onClick={() => step(1)}
+              className="rounded-full border border-white/25 px-4 py-2 text-[13px] font-semibold text-white/85 transition hover:bg-white/10"
+            >
+              Sonraki
+            </button>
           </div>
         </div>
       </div>

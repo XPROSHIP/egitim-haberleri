@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b --force && vite build",
     "lint": "oxlint",
     "preview": "npm run build && wrangler dev",
     "collect": "node worker/scripts/collect-local.mjs",
