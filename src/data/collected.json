@@ -2876,6 +2876,40 @@
     "lang": "en"
   },
   {
+    "id": "f_1h2z9tb_mvfv6b3b",
+    "slug": "yabanci-yapay-zeka-panigi-okullarda-okuma-yazma-egitimini-tehlikeye--1h2z9t",
+    "title": "Yapay Zeka Panigi Okullarda Okuma Yazma Egitimini Tehlikeye Atiyor",
+    "excerpt": "Siniflarda yapay zeka kullanimina karsi baslatilan tepkiler yayiliyor. Ancak New Mexico'nun durumu, toptan yasaklarin ogrencileri erken okuryazarlık desteklerinden mahrum birakabilecegini gosteriyor.",
+    "body": [
+      "Kamu okullarinda yapay zekaya karsi buyuk bir tepki dalgasi goruluyor. Ancak New Mexico orneginde oldugu gibi, toptan yasaklar ogrencileri erken donem okuryazarlik calismalarindan mahrum birakma riski tasiyor.",
+      "15 Temmuz tarihinde New Mexico Kamu Egitimi Departmani yetkilileri, Amira Learning CEO'su ile birlikte milletvekillerinin karsisina cikti. Amca'nin yapay zeka destekli okuryazarlik tarayicisinin eyalet genelindeki devlet okullarinda kullanilmasini savundular.",
+      "New Mexico, dezavantajli ogrencilerin basari oranlarini artirmak icin 2018'den beri mahkeme emri altindadir. Yetkililer, okuma becerilerini gelistirmek amaciyla 2025 yilinda bu yazilimi kullanmaya basladilar."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Yapay Zeka",
+      "Egitim Teknolojisi",
+      "Okuryazarlik"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/will-kids-pay-the-price-for-ai-panic",
+      "image": "/img/will-kids-pay-the-price-for-a-panic-1qibzr.jpg"
+    },
+    "publishedAt": "2026-10-05T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1h2z9tb",
+    "rawTitle": "Will Kids Pay the Price for AI Panic?",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "f_xqe5ch_mvfumps0",
     "slug": "yabanci-ingiltere-ve-galler-okullarindaki-akran-istismari-sorunu-ara-xqe5ch",
     "title": "İngiltere ve Galler okullarındaki akran istismarı sorunu aradan geçen on yıla rağmen sürüyor",
@@ -3243,6 +3277,40 @@
     "score": 4,
     "dedupeKey": "foreign:msj089",
     "rawTitle": "Peugeot recalls hundreds of cars in Australia over issue that could increase ‘risk of serious injury or death’ – as it happened",
+    "status": "published",
+    "lang": "en"
+  },
+  {
+    "id": "f_10m122w_mvfv6b3b",
+    "slug": "yabanci-okullar-egitim-teknolojilerindeki-yapay-zeka-ozelliklerine-g-10m122",
+    "title": "Okullar Egitim Teknolojilerindeki Yapay Zeka Ozelliklerine Guvenebilir mi?",
+    "excerpt": "This Week with EdSurge programinin bu bolumunde, dijital ogretim araclarinin etkililigini dogrulamanin neden onemli oldugu tartisiliyor. Egitim teknolojisi sirketleri yapay zekayi hizla urunlerine entegre ediyor.",
+    "body": [
+      "This Week with EdSurge programinin yeni bolumunde eski egitimciler, EdReports'un yayinladigi yeni raporu degerlendiriyor. Dijital ogretim araclarinin gercekten etki saglayip saglamadigini test etmenin kritik onemi vurgulaniyor.",
+      "Egitim teknolojisi sirketleri, yapay zeka ozelliklerini yeni ve mevcut materyallere hizla ekliyor. Ancak bagimsiz kurulus EdReports, bu iddialarin arkasindaki kanitlari arastirdiginda bazi soru isaretleriyle karsilasti.",
+      "Bazi yapay zeka araclari ogretmenlerin icerigi denetlemesine izin verirken, digerleri dogrudan ogrencilerin karsisina cikarabiliyor. EdReports yetkilileri, okul liderlerinin bu sonbahardaki alim kararlarinda dikkatli olmasi gerektigini belirtiyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Egitim Teknolojisi",
+      "Yapay Zeka",
+      "Okul Yonetimi"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/can-schools-trust-ai-features-in-edtech-products",
+      "image": "/img/can-schools-trust-a-features-in-edtech-products-uyiouo.jpg"
+    },
+    "publishedAt": "2026-09-30T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:10m122w",
+    "rawTitle": "Can Schools Trust AI Features in Edtech Products?",
     "status": "published",
     "lang": "en"
   },
