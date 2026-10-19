@@ -102,10 +102,17 @@ const KEEP_UPPER = new Set(
 )
 
 const ACRONYMS = new Set(
-  ['meb', 'mesem', 'yks', 'kpss', 'ayt', 'tyt', 'oabt', 'osym', 'ab', 'tubitak', 'aof', 'ales'].map(
-    foldWord,
-  ),
+  [
+    'meb', 'mesem', 'yks', 'kpss', 'ayt', 'tyt', 'oabt', 'ales', 'osym', 'ab', 'tubitak',
+    'aof', 'yds', 'lgs', 'cyos', 'yke', 'ohs', 'ales', 'meb', 'obn', 'sks', 'eml', 'aime',
+  ].map(foldWord),
 )
+
+/** "TÜBİTAK'ın" gibi kesme ekli kısaltmaları da yakalar. */
+function isAcronym(word) {
+  const k = foldWord(word).replace(/['’].*$/, '')
+  return ACRONYMS.has(k)
+}
 
 /** Korunan ifade içinde büyük harf almayan bağlaçlar. */
 const LOWERS = new Set(['ve', 'veya', 'ile', 'yada', 'ic', 'icin', 'da', 'de', 'ta', 'te'])
@@ -149,6 +156,9 @@ const PROTECTED_PHRASES = [
 export function foldWord(w) {
   return w
     .toLocaleLowerCase('tr')
+    // "İ" küçültmede "i" + birleşen nokta (U+0307) olur; nokta atılır
+    // yoksa "MESLEKİ" ile "mesleki" eşleşmez.
+    .replace(/̈/g, '')
     .replace(/[çğıöşüâîû]/g, (c) => ({ ç: 'c', ğ: 'g', ı: 'i', ö: 'o', ş: 's', ü: 'u', â: 'a', î: 'i', û: 'u' })[c])
 }
 
@@ -170,8 +180,41 @@ function capitalizeFirst(word) {
  * `sourceTitle` verilirse kaynak başlığında büyük harfle yazan kelimeler korunur
  * (kişi adları, kurum adları gibi kaynaktan gelen özel adlar).
  */
+/** Sık kullanılan ortak kelimeler; kaynakta büyük harfle geçse de küçük yazılır. */
+const COMMON_WORDS = new Set(
+  [
+    'eğitim', 'egitim', 'okul', 'okullar', 'ogrenci', 'oğrenci', 'ogrenciler', 'oğrenciler',
+    'ogretmen', 'öğretmen', 'ogretmenler', 'öğretmenler', 'sinif', 'sınıf', 'sinavi', 'sınavı',
+    'bakanlik', 'bakanlığı', 'bakani', 'bakanı', 'haber', 'haberler', 'duyuru', 'aciklama', 'açıklama',
+    'program', 'proje', 'calisma', 'çalışma', 'toplanti', 'toplantı', 'etkinlik', 'zaman',
+    'ilk', 'son', 'yeni', 'her', 'bu', 'bir', 've', 'ile', 'icin', 'için', 'kadar', 'sonra',
+    'once', 'önce', 'da', 'de', 'ta', 'te', 'ya', 'veya', 'gibi', 'kadar', 'olan', 'oldu',
+    'yer', 'is', 'iş', 'yapildi', 'yapıldı', 'aciklan', 'açıklan', 'duyurul', 'gercekles',
+    'milli', 'millî', 'ozel', 'özel', 'resmi', 'resmî', 'yeni', 'devam', 'ilk', 'son',
+  ].map(foldWord),
+)
+
+/** Unvanlar: bunların ardından gelen kelime kişi adıdır ve büyük harfle yazılır. */
+const HONORIFICS = new Set(
+  [
+    'bakan', 'bakani', 'bakanlik', 'genel mudur', 'mudur', 'muduru', 'vali', 'valisi',
+    'rektor', 'rektoru', 'dekan', 'dekani', 'baskan', 'baskani', 'ogretmen', 'ogretmeni',
+    'docent', 'profesor', 'avukat', 'muhendis', 'uzman', 'milletvekili', 'kaymakam',
+    'bakan yardimcisi', 'yardimcisi', 'sozcu', 'yazici', 'sanatci', 'kultur muzigi',
+  ].map(foldWord),
+)
+
 export function normalizeTitleCase(title = '', sourceTitle = '', opts = {}) {
   if (!title) return title
+
+  // Yayıncının eklediği çöp ekler: " - son dakika eğitim haberleri", " | haber"
+  const cleaned = title
+    .replace(/\s*[-–—|]\s*son\s+dakika\b.*$/i, '')
+    .replace(/\s*[-–—|]\s*(haber|news)\s*haberleri\s*$/i, '')
+    .replace(/\s*[-–—|]\s*\S+\s+haberleri\s*$/i, '')
+    .replace(/\s*[-–—|]\s*haberler?\s*$/i, '')
+    .trim()
+  if (cleaned) title = cleaned
 
   // Kaynak başlık tamamen büyük harfse (ör. MEB RSS) veya Title Case yazılmışsa
   // her kelime büyük harfle görünür; bu durumda kaynağa güvenmek yanlış büyük harf
@@ -190,12 +233,23 @@ export function normalizeTitleCase(title = '', sourceTitle = '', opts = {}) {
 
   // Kaynakta büyük harfle yazılmış kelimeler gerçek özel ad olabilir; küçük harfle
   // de geçmişse o kelime ortak kelimedir ("tatil"). Ayrı iki küme tutulur.
+  // Cümle başındaki kelimeler özel ad işareti sayılmaz: "Bakan Tekin: Okullarda ..."
+  // içindeki "Okullarda" özel ad değildir.
   const srcUpper = new Set()
   const srcLower = new Set()
-  for (const w of srcWords) {
-    const f = foldWord(w)
-    if (/^[A-ZÇĞİÖŞÜ]/.test(w)) srcUpper.add(f)
-    else srcLower.add(f)
+  {
+    const parts = (sourceTitle ?? '').split(/(?<=[.!?:;])\s+/)
+    for (const part of parts) {
+      const words = part.split(/[\s,.;:()"]+/).filter(Boolean)
+      words.forEach((w, i) => {
+        const f = foldWord(w)
+        if (/^[A-ZÇĞİÖŞÜ]/.test(w)) {
+          if (i > 0) srcUpper.add(f)
+        } else {
+          srcLower.add(f)
+        }
+      })
+    }
   }
   const properInSource = (key) => srcUpper.has(key) && !srcLower.has(key)
 
@@ -250,17 +304,44 @@ export function normalizeTitleCase(title = '', sourceTitle = '', opts = {}) {
 
   return words
     .map((word, i) => {
-      if (i === 0) return word
+      // Cümle başı korunur; ama korunan bir ifadenin parçasıysa büyük harf
+      // dayatılır ("Mesleki Eğitim Merkezi ...").
+      if (i === 0 && !protectedIdx.has(i)) return word
       const key = stripSuffixes(word)
+      // "Bakanı yusuf" -> "Bakanı Yusuf": unvan sonrası kelime kişi adıdır.
+      const prev = i > 0 ? stripSuffixes(words[i - 1]) : ''
+      if (
+        word.length >= 3 &&
+        !/^[A-ZÇĞİÖŞÜ]/.test(word) &&
+        HONORIFICS.has(prev)
+      ) {
+        return capitalizeFirst(word)
+      }
+      // Kısaltmalar (MEB, YKS, KPSS) her zaman büyük harf kalır.
+      if (isAcronym(word)) return word
       // Korunan ifadeler özel addır: büyük harf dayatılır (bağlaçlar hariç).
-      if (protectedIdx.has(i)) return LOWERS.has(key) ? word : capitalizeFirst(word)
-      if (/[A-ZÇĞİÖŞÜ]{2,}/.test(word)) return word // MEB, YKS, ORTAK SINAV
+      if (protectedIdx.has(i)) {
+        return LOWERS.has(key) ? word.toLocaleLowerCase('tr') : capitalizeFirst(word.toLocaleLowerCase('tr'))
+      }
       if (!/^[A-ZÇĞİÖŞÜ]/.test(word)) {
         // "çorum" -> "Çorum", "meb" -> "MEB"
         if (ACRONYMS.has(key)) return key.toLocaleUpperCase('tr')
         if (KEEP_UPPER.has(key)) return capitalizeFirst(word)
-        // Kaynakta büyük harfle geçen özgün kelime ("Dumlupınar Şehitliği")
-        if (word.length >= 3 && srcUpper.has(key) && trusted(key)) return capitalizeFirst(word)
+        // Kaynakta büyük harfle geçen özgün kelime ("Dumlupınar", "Tekin").
+        // Cümle biçimindeki kaynakta büyük harf özel ad işaretidir. Title Case
+        // kaynakta ise her kelime büyük harfli olduğundan gövde metni
+        // doğrulayıcı olarak kullanılır: gövdede küçük harfle geçen kelime
+        // ortak kelimedir. Tamamen büyük harfli kaynakta hiçbir çıkarım yapılmaz.
+        const properInSource =
+          sourceIsReliable
+            ? srcUpper.has(key) && !srcLower.has(key) && !COMMON_WORDS.has(key)
+            : sourceIsTitleCase &&
+              srcUpper.has(key) &&
+              !bodyLower.has(key) &&
+              !COMMON_WORDS.has(key)
+        if (word.length >= 3 && properInSource) {
+          return capitalizeFirst(word)
+        }
         return word
       }
       if (KEEP_UPPER.has(key)) return word

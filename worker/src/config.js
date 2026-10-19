@@ -26,6 +26,12 @@ export const RSS_FEEDS = [
 export const SECTION_PAGES = [
   { name: 'Milli Eğitim Bakanlığı', url: 'https://www.meb.gov.tr/', prefix: '', weight: 3 },
   {
+    name: 'MEB Haber Dizini',
+    url: 'https://www.meb.gov.tr/meb_haberindex.php',
+    prefix: '',
+    weight: 3,
+  },
+  {
     name: 'Hürriyet',
     url: 'https://www.hurriyet.com.tr/egitim/',
     prefix: '/egitim/',
@@ -36,6 +42,36 @@ export const SECTION_PAGES = [
     url: 'https://www.cumhuriyet.com.tr/egitim/',
     prefix: '/egitim/',
     weight: 4,
+  },
+  {
+    name: 'Milliyet',
+    url: 'https://www.milliyet.com.tr/egitim/',
+    prefix: '/egitim/',
+    weight: 3,
+  },
+  {
+    name: 'Takvim',
+    url: 'https://www.takvim.com.tr/egitim',
+    prefix: '/egitim/',
+    weight: 3,
+  },
+  {
+    name: 'Star',
+    url: 'https://www.star.com.tr/egitim/',
+    prefix: '/egitim/',
+    weight: 3,
+  },
+  {
+    name: 'A Haber',
+    url: 'https://www.ahaber.com.tr/egitim/',
+    prefix: '/egitim/',
+    weight: 3,
+  },
+  {
+    name: 'NTV',
+    url: 'https://www.ntv.com.tr/egitim',
+    prefix: '/egitim/',
+    weight: 3,
   },
   { name: 'Sözcü', url: 'https://www.sozcu.com.tr/egitim', prefix: '', weight: 3 },
   { name: 'Yeni Çağrı', url: 'https://www.yenicagri.com/', prefix: '', weight: 3 },
@@ -60,12 +96,56 @@ export const GOOGLE_NEWS_QUERIES = [
 /** Yayıncı olarak işe yaramayan kaynaklar. */
 export const BLOCK_SOURCES = ['sponsor', 'google haberler']
 
+/**
+ * Mesleki Eğitim Merkezi (MESEM) ile ilgili terimler.
+ *
+ * Türkiye'de "Mesleki Eğitim Merkezi" haberleri esas olarak yerel basında
+ * çıkıyor ve erişilebilir tek bir ulusal kaynak yok. Bu yüzden MESEM kategorisi
+ * mesleki eğitimin tümünü kapsar: çıraklık, ustalık, işbaşı eğitimi, meslek
+ * liseleri, atölye ve branş dalları. Kategori, okul bünyesindeki kişilerin
+ * (öğretmen, öğrenci, işbaşı eğitimi öğrencisi) ilgilendiği haberlerin toplandığı
+ * yerdir.
+ */
+export const MESEM_TERMS = [
+  'mesem',
+  'mesleki eğitim merkezi',
+  'mesleki eğitim merkezleri',
+  'teknik eğitim merkezi',
+  'çırak',
+  'çıraklık',
+  'ustalık belgesi',
+  'ustalık sınavı',
+  'işbaşı eğitimi',
+  'işbaşı',
+  'kalifiye',
+  'sözleşmeli öğretmen',
+  'uzman öğretmen',
+  'mesleki eğitim danışmanı',
+  'meslek öğretmeni',
+  'öğretmenlik belgesi',
+  'mesleki eğitim',
+  'mesleki ve teknik',
+  'meslek lisesi',
+  'mesleki anadolu',
+  'mtal',
+  'atölye',
+  'bilişim teknolojileri',
+  'elektrik tesisat',
+  'makine teknolojisi',
+  'mobilya',
+  'gıda teknolojisi',
+  'otomotiv',
+  'kaynakçılık',
+  'nitelikli eleman',
+  'iş gücü',
+]
+
 /** Kategori tespiti: hangi başlık hangi kategoriye gider. */
 export const CATEGORY_RULES = [
   {
     slug: 'mesem',
-    weight: 6,
-    terms: ['mesem', 'çırak', 'staj', 'ustalık', 'işbaşı eğitimi', 'mesleki eğitim merkezi'],
+    weight: 8,
+    terms: MESEM_TERMS,
   },
   {
     slug: 'corum',
@@ -77,8 +157,7 @@ export const CATEGORY_RULES = [
     weight: 6,
     terms: [
       'mesleki eğitim', 'mesleki ve teknik', 'mesleki anadolu', 'meslek lisesi', 'mtal',
-      'atölye', 'laboratuvar', 'beceri', 'mesleki gelişim', 'bilişim teknolojileri',
-      'elektrik tesisat', 'makine', 'mobilya', 'gıda teknolojisi', 'otomotiv', 'kaynakçılık',
+      'atölye', 'laboratuvar', 'beceri', 'mesleki gelişim',
     ],
   },
   {
@@ -153,5 +232,19 @@ export const VOCATIONAL_TERMS = [
 ]
 
 export const GEMINI_MODEL = 'gemini-3.8-flash'
+
+/**
+ * Model yedekleme zinciri.
+ * Gemini zaman zaman "high demand" (503) döndürüyor; bu durumda bir sonraki
+ * modele geçiliyor. Anahtar döndürme tek başına yetmiyor çünkü tüm anahtarlar
+ * aynı aşırı yüklü modele gidiyor.
+ */
+export const GEMINI_MODELS = [
+  'gemini-3.8-flash',
+  'gemini-3.7-flash',
+  'gemini-3.6-flash',
+  'gemini-3.5-flash',
+  'gemini-flash-latest',
+]
 export const MAX_AI_PER_RUN = 18
 export const AUTO_PUBLISH_SCORE = 4

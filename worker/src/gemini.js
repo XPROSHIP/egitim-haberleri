@@ -1,5 +1,5 @@
 /** Gemini istemcisi: çoklu anahtar rotasyonu + toplu özetleme (ücretsiz katman). */
-import { GEMINI_MODEL } from './config.js'
+import { GEMINI_MODEL, GEMINI_MODELS } from './config.js'
 
 const ENDPOINT = (model, key) =>
   `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`
@@ -27,10 +27,13 @@ const SCHEMA = {
   },
 }
 
-export function createGemini(rawKeys, model = GEMINI_MODEL) {
+export function createGemini(rawKeys, modelOrModels = GEMINI_MODEL) {
   const keys = (Array.isArray(rawKeys) ? rawKeys : String(rawKeys ?? '').split(','))
     .map((k) => k.trim())
     .filter(Boolean)
+
+  const models = (Array.isArray(modelOrModels) ? modelOrModels : [modelOrModels]).filter(Boolean)
+  if (!models.includes(GEMINI_MODEL)) models.unshift(GEMINI_MODEL)
 
   const health = keys.map(() => ({ fails: 0, blockedUntil: 0 }))
   let cursor = 0
@@ -53,38 +56,42 @@ export function createGemini(rawKeys, model = GEMINI_MODEL) {
     if (keys.length === 0) throw new Error('GEMINI_API_KEYS boş')
     let lastError = null
 
-    for (let attempt = 0; attempt < keys.length; attempt++) {
-      const idx = pick()
-      try {
-        const res = await fetch(ENDPOINT(model, keys[idx]), {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify(payload),
-        })
+    // Model yedekleme: 5xx alınırsa sıradaki modele geçilir. Anahtar
+    // döndürme tek başına yetmez, çünkü tüm anahtarlar aynı modele gider.
+    for (const model of models) {
+      for (let attempt = 0; attempt < keys.length; attempt++) {
+        const idx = pick()
+        try {
+          const res = await fetch(ENDPOINT(model, keys[idx]), {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(payload),
+          })
 
-        if (res.ok) {
-          const json = await res.json()
-          health[idx].fails = 0
-          const text = json?.candidates?.[0]?.content?.parts?.[0]?.text
-          if (!text) throw new Error('Boş yanıt')
-          return JSON.parse(text)
-        }
-
-        const detail = await res.text()
-        lastError = new Error(`Gemini ${res.status}: ${detail.slice(0, 160)}`)
-        if (res.status === 429 || res.status >= 500) {
-          health[idx].fails++
-          if (health[idx].fails >= 2) {
-            health[idx].blockedUntil = Date.now() + 5 * 60_000
+          if (res.ok) {
+            const json = await res.json()
+            health[idx].fails = 0
+            const text = json?.candidates?.[0]?.content?.parts?.[0]?.text
+            if (!text) throw new Error('Boş yanıt')
+            return JSON.parse(text)
           }
-          await sleep(350 * (attempt + 1))
-          continue
+
+          const detail = await res.text()
+          lastError = new Error(`Gemini ${res.status} (${model}): ${detail.slice(0, 160)}`)
+          if (res.status === 429 || res.status >= 500) {
+            health[idx].fails++
+            if (health[idx].fails >= 2) {
+              health[idx].blockedUntil = Date.now() + 5 * 60_000
+            }
+            await sleep(350 * (attempt + 1))
+            continue
+          }
+          // 400/403 gibi hatalarda diğer anahtar/modele geçmenin anlamı yok
+          break
+        } catch (err) {
+          lastError = err
+          await sleep(250 * (attempt + 1))
         }
-        // 400/403 gibi hatalarda diğer anahtara geçmenin anlamı yok
-        break
-      } catch (err) {
-        lastError = err
-        await sleep(250 * (attempt + 1))
       }
     }
     throw lastError ?? new Error('Gemini isteği başarısız')

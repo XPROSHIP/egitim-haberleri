@@ -42,7 +42,8 @@ const defaults: Persisted = {
   readMarks: [],
   followed: ['mesleki', 'meb', 'corum'],
   hiddenCategories: [],
-  consent: null,
+  // Analitik kullanmadigimiz icin izin varsayilan olarak verilir; bildirim gosterilmez.
+  consent: 'essential',
   feedMode: 'latest',
   hideRead: false,
   user: null,

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
 import { categories } from '../data/categories'
@@ -213,6 +213,42 @@ export function TopBar({
           >
             <Icon name="Sparkles" size={17} />
           </button>
+
+          {/* Profil, kaydedilenler, beğeniler ve ayarlar kısayolları.
+              Alt menüde de var; buradaki düğmeler hızlı erişim sağlar. */}
+          <Link
+            to="/kaydedilenler"
+            aria-label="Kaydedilenler"
+            title="Kaydedilenler"
+            className="grid size-9 place-items-center rounded-full text-muted transition hover:text-fg"
+          >
+            <Icon name="Bookmark" size={17} />
+          </Link>
+          <Link
+            to="/begeniler"
+            aria-label="Beğenilerim"
+            title="Beğenilerim"
+            className="grid size-9 place-items-center rounded-full text-muted transition hover:text-fg"
+          >
+            <Icon name="Heart" size={17} />
+          </Link>
+          <Link
+            to="/profil"
+            aria-label="Profil"
+            title="Profil"
+            className="grid size-9 place-items-center rounded-full text-muted transition hover:text-fg"
+          >
+            <Icon name="User" size={17} />
+          </Link>
+          <Link
+            to="/ayarlar"
+            aria-label="Ayarlar"
+            title="Ayarlar"
+            className="grid size-9 place-items-center rounded-full text-muted transition hover:text-fg"
+          >
+            <Icon name="Settings" size={17} />
+          </Link>
+
           <button
             type="button"
             onClick={onOpenLogin}

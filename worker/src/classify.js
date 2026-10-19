@@ -2,6 +2,7 @@
 import {
   CATEGORY_RULES,
   EDUCATION_TERMS,
+  MESEM_TERMS,
   VOCATIONAL_TERMS,
   NOISE_TITLE,
   BLOCKED_PATH,
@@ -46,6 +47,18 @@ export function detectCategory(text) {
     if (score > best.score) best = { slug: rule.slug, score }
   }
   return best.slug
+}
+
+/**
+ * Haberin ait olduğu ek kategoriler.
+ * Bir haberin tek bir ana kategorisi olabilir ama MESEM haberi olduğu için
+ * "mesem" kategorisinde de görünmelidir (Çorum MEM haberleri gibi).
+ */
+export function detectExtraTags(text) {
+  const f = fold(text)
+  const tags = []
+  if (MESEM_TERMS.some((t) => f.includes(fold(t)))) tags.push('mesem')
+  return tags
 }
 
 export function detectProvince(text) {

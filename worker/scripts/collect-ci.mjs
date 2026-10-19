@@ -40,13 +40,13 @@ function resolveSrc(name) {
 }
 
 /** Görseli Worker'a yükleyip "/img/<anahtar>" adresini döndürür. */
-async function saveImage(imageUrl, referer) {
+async function saveImage(imageUrl, referer, cluster) {
   try {
     const { downloadImage } = await import(pathToFileURL(resolveSrc('article.js')).href)
     const result = await downloadImage(imageUrl, referer)
     if (!result) return null
     const ext = result.type.includes('png') ? 'png' : result.type.includes('webp') ? 'webp' : 'jpg'
-    const key = `${slug(result.url)}-${hash(imageUrl).slice(0, 6)}.${ext}`
+    const key = `${slug(cluster?.title ?? imageUrl)}-${hash(imageUrl).slice(0, 6)}.${ext}`
 
     const res = await fetch(`${API}/api/image?key=${encodeURIComponent(key)}`, {
       method: 'POST',

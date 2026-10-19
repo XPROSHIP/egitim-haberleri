@@ -40,6 +40,30 @@ const authorized = (request, env) => {
   return Boolean(env.COLLECT_SECRET) && secret === env.COLLECT_SECRET
 }
 
+/**
+ * D1 BLOB sütununu bayt dizisine çevirir.
+ * D1 sürüme göre ArrayBuffer, Uint8Array ya da sayı dizisi döndürebiliyor;
+ * hepsini destekliyoruz çünkü new Response() yalnızca ilk ikisini kabul eder.
+ */
+function toBytes(value) {
+  if (!value) return null
+  if (value instanceof ArrayBuffer) return new Uint8Array(value)
+  if (ArrayBuffer.isView(value)) return new Uint8Array(value.buffer, value.byteOffset, value.byteLength)
+  if (Array.isArray(value)) return Uint8Array.from(value)
+  if (typeof value === 'string') {
+    // base64 gelen satırlar
+    try {
+      const bin = atob(value)
+      const out = new Uint8Array(bin.length)
+      for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i)
+      return out
+    } catch {
+      return null
+    }
+  }
+  return null
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url)
@@ -47,15 +71,19 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { headers: CORS })
 
     // Haber görselleri
+    // Not: D1, BLOB sütununu normal sorguda sayı dizisi olarak döndürüyor;
+    // new Response() onu boş gövdeye çeviriyor. Dönüş biçimi sürüme göre
+    // değişebildiği için hepsini karşılayacak şekilde dönüştürüyoruz.
     if (url.pathname.startsWith('/img/')) {
       const key = decodeURIComponent(url.pathname.slice('/img/'.length))
       const row = await env.DB?.prepare('SELECT data, type FROM images WHERE key = ?')
         .bind(key)
         .first()
-      if (!row?.data) return new Response('Not found', { status: 404 })
-      return new Response(row.data, {
+      const bytes = toBytes(row?.data)
+      if (!bytes) return new Response('Not found', { status: 404 })
+      return new Response(bytes, {
         headers: {
-          'content-type': row.type ?? 'image/jpeg',
+          'content-type': row?.type ?? 'image/jpeg',
           'cache-control': 'public, max-age=31536000, immutable',
           ...CORS,
         },

@@ -81,7 +81,12 @@ export function selectNews(items: NewsItem[], f: FeedFilters): NewsItem[] {
   if (f.mode === 'following' && f.followed?.length) {
     list = list.filter((n) => f.followed!.includes(n.category))
   }
-  if (f.category) list = list.filter((n) => n.category === f.category)
+  // Kategori filtresi etiketleri de kapsar: bir haberin ana kategorisi Çorum
+  // olsa bile "mesem" etiketi taşıyorsa MESEM kategorisinde de görünür.
+  if (f.category) {
+    const cat = f.category
+    list = list.filter((n) => n.category === cat || n.tags.includes(cat))
+  }
   if (f.tag) list = list.filter((n) => n.tags.includes(f.tag!))
   if (f.province) list = list.filter((n) => n.province === f.province)
   if (f.hideRead && f.readMarks?.length) {

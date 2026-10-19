@@ -1,44 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { X } from 'lucide-react'
 import { useStore } from '../lib/store'
 import { getCategory } from '../data/categories'
 import { isConfigured, signInWithGoogle, getAuthError, subscribeAuthError } from '../lib/auth'
-
-export function CookieBanner() {
-  const { t } = useTranslation()
-  const { consent, setConsent } = useStore()
-  if (consent) return null
-  return (
-    <div className="fixed inset-x-0 bottom-0 z-50 p-3 sm:p-5">
-      <div className="mx-auto flex max-w-3xl flex-col gap-3 rounded-xl border border-line bg-surface/95 p-4 shadow-2xl backdrop-blur-xl sm:flex-row sm:items-center">
-        <p className="flex-1 text-[13px] leading-relaxed text-muted">
-          {t('cookie.text')}{' '}
-          <Link to="/cerez-politikasi" className="text-fg underline underline-offset-2">
-            {t('cookie.policy')}
-          </Link>
-        </p>
-        <div className="flex shrink-0 gap-2">
-          <button
-            type="button"
-            onClick={() => setConsent('essential')}
-            className="flex-1 rounded-lg border border-line px-3.5 py-2 text-[13px] font-medium text-fg transition hover:bg-surface-2"
-          >
-            {t('cookie.essential')}
-          </button>
-          <button
-            type="button"
-            onClick={() => setConsent('all')}
-            className="flex-1 rounded-lg bg-fg px-3.5 py-2 text-[13px] font-semibold text-bg transition hover:opacity-90"
-          >
-            {t('cookie.accept')}
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
 
 export function AssistantOrb({ onClick }: { onClick: () => void }) {
   return (

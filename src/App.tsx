@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { BrowserRouter, Route, Routes, useLocation, useSearchParams } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { StoreProvider, useStore } from './lib/store'
 import { TopBar } from './components/TopBar'
 import { SideDrawer } from './components/SideDrawer'
-import { AssistantOrb, CookieBanner, LoginModal } from './components/Overlays'
+import { AssistantOrb, LoginModal } from './components/Overlays'
 import { AssistantPanel } from './components/AssistantPanel'
 import { StoryHost } from './components/StoryHost'
 import { Footer, ScrollToTop } from './components/Footer'
@@ -23,7 +23,7 @@ import { SettingsPage } from './pages/SettingsPage'
 import { ProfilePage } from './pages/ProfilePage'
 import { LegalPage, LoginPage, NotFoundPage } from './pages/LegalPages'
 import { bus, EVENTS } from './lib/bus'
-import { completeSignIn, restoreSession } from './lib/auth'
+import { completeSignIn, restoreSession, watchSession } from './lib/auth'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,19 +39,25 @@ function ScrollManager() {
   return null
 }
 
-/** Google'dan dönüşte `?code=` ile oturum açar, ardından adresi temizler. */
+/** Google'dan dönüşte oturumu açar, ardından adresi temizler. */
 function AuthBootstrap() {
   const { setUser } = useStore()
   const [params] = useSearchParams()
   const code = params.get('code')
+  const done = useRef(false)
 
   useEffect(() => {
     let alive = true
     const run = async () => {
+      // setUser her state değişiminde yeni bir fonksiyon olduğu için bu efekt
+      // yeniden çalışabiliyor. Bayrak gövdenin yalnızca bir kez çalışmasını
+      // garanti eder; aksi halde render döngüsü oluşur.
+      if (done.current) return
+      done.current = true
+
       if (code) {
         const session = await completeSignIn(code)
-        // Adres çubuğu her durumda temizlenir: yenilemede aynı kod yeniden denenmesin
-        // ve asıl hata "doğrulayıcı bulunamadı" ile örtülmesin.
+        // Adres çubuğu temizlenir: yenilemede aynı kod tekrar denenmesin.
         if (alive) window.history.replaceState({}, '', window.location.pathname)
         if (alive && session) {
           setUser(session.user)
@@ -64,8 +70,13 @@ function AuthBootstrap() {
       if (alive && existing) setUser(existing.user)
     }
     void run()
+    // İstemci oturumu kendisi de bildirebilir (sayfa yenileme, token yenileme).
+    const off = watchSession((s) => {
+      if (alive && s) setUser(s.user)
+    })
     return () => {
       alive = false
+      off()
     }
   }, [code, setUser])
 
@@ -127,7 +138,6 @@ function Shell() {
       <StoryHost />
       {assistant && <AssistantPanel open onClose={() => setAssistant(false)} />}
       <LoginModal open={login} onClose={() => setLogin(false)} />
-      <CookieBanner />
     </div>
   )
 }

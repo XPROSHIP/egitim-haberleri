@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
@@ -11,6 +11,9 @@ import { Icon } from '../components/Icon'
 import { groupByDay } from '../lib/format'
 
 const MODES = ['latest', 'featured', 'following', 'foryou'] as const
+
+/** Akışta bir seferde gösterilen haber sayısı. */
+const PAGE_SIZE = 20
 
 const MODE_KEYS: Record<(typeof MODES)[number], string> = {
   latest: 'feed.modeLatest',
@@ -50,7 +53,13 @@ export function HomePage() {
   const hero = feed[heroIdx]
   const side = feed.filter((_, i) => i !== heroIdx).slice(0, 2)
   const rest = feed.filter((_, i) => i !== heroIdx)
-  const grouped = groupByDay(rest, (n) => n.publishedAt, lang)
+
+  // Kademeli açılma: önce 20 haber, sonra "daha fazla" ile 20'şer artar.
+  // Böylece sayfa dibindeki açıklamalara da kolayca ulaşılır.
+  const [limit, setLimit] = useState(PAGE_SIZE)
+  const visible = rest.slice(0, limit)
+  const grouped = groupByDay(visible, (n) => n.publishedAt, lang)
+  const remaining = rest.length - visible.length
 
   const modeLabel = (m: (typeof MODES)[number]) => t(MODE_KEYS[m])
 
@@ -64,7 +73,10 @@ export function HomePage() {
               <button
                 key={m}
                 type="button"
-                onClick={() => setFeedMode(m)}
+                onClick={() => {
+                  setFeedMode(m)
+                  setLimit(PAGE_SIZE)
+                }}
                 className={clsx(
                   'rounded-full px-3 py-1.5 text-[13px] font-medium whitespace-nowrap transition',
                   feedMode === m ? 'bg-fg text-bg' : 'text-muted hover:text-fg',
@@ -177,6 +189,21 @@ export function HomePage() {
                   </div>
                 </div>
               ))}
+
+              {remaining > 0 && (
+                <div className="mt-6 flex flex-col items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setLimit((v) => v + PAGE_SIZE)}
+                    className="rounded-full border border-line bg-surface px-6 py-2.5 text-sm font-semibold text-fg transition hover:bg-surface-2"
+                  >
+                    Daha fazla göster
+                  </button>
+                  <span className="text-[11.5px] text-faint">
+                    {remaining} haber daha var
+                  </span>
+                </div>
+              )}
             </section>
 
             {/* En çok okunanlar */}

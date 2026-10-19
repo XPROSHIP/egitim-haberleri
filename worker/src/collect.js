@@ -13,11 +13,12 @@ import {
   BLOCK_SOURCES,
   MAX_AI_PER_RUN,
   AUTO_PUBLISH_SCORE,
+  GEMINI_MODELS,
 } from './config.js'
 import { fetchFeed, googleNewsRssUrl } from './rss.js'
 import { fetchSectionLinks } from './section.js'
 import { dedupeKey, similarity, slugify, hash, normalizeTitleCase, foldWord } from './text.js'
-import { scoreItem, detectCategory, detectProvince } from './classify.js'
+import { scoreItem, detectCategory, detectProvince, detectExtraTags } from './classify.js'
 import { createGemini, enrichWithGemini } from './gemini.js'
 import { fetchArticle } from './article.js'
 
@@ -66,6 +67,18 @@ function clean(raw) {
       seen.add(i.link)
       return true
     })
+}
+
+/**
+ * Haberin kategorisini belirler.
+ * Kural tabanlı tespit güçlü bir eşleşme bulduysa onu kullanır; aksi hâlde
+ * modelin seçimine güvenilir.
+ */
+function pickCategory(text, aiCategory) {
+  const rule = detectCategory(text)
+  if (rule === 'mesem') return 'mesem'
+  if (aiCategory && aiCategory !== 'gundem') return aiCategory
+  return rule
 }
 
 export async function collect({
@@ -261,7 +274,7 @@ export async function collect({
 
   // 9) Gemini ile başlık, özet, etiket, kategori
   const targets = withImage.slice(0, maxAi)
-  const gemini = createGemini(keys)
+  const gemini = createGemini(keys, GEMINI_MODELS)
   let enriched = []
   try {
     enriched = await enrichWithGemini(gemini, targets)
@@ -285,8 +298,18 @@ export async function collect({
       title,
       excerpt: ai?.excerpt || cluster.description || title,
       body: fullText ? cluster.paragraphs : (ai?.paragraphs ?? [title]),
-      category: ai?.category || cluster.category,
-      tags: ai?.tags?.length ? ai.tags : [sourceName],
+      // Kategori önceliği: kural tabanlı tespit güçlü bir eşleşme bulduysa
+      // (ör. MESEM terimleri) modelin seçiminden önce gelir. Model, terimi
+      // bilmediği kategorileri "gundem" seçebiliyor ve MESEM hep boş kalıyordu.
+      category: pickCategory(`${title} ${cluster.description ?? ''}`, ai?.category),
+      // Ana kategorisi Çorum olsa bile MESEM haberi "mesem" etiketiyle
+      // MESEM kategorisinde de listelenir.
+      tags: [
+        ...new Set([
+          ...(ai?.tags?.length ? ai.tags : [sourceName]),
+          ...detectExtraTags(`${title} ${cluster.description ?? ''}`),
+        ]),
+      ],
       source: { name: sourceName, url: cluster.link, image: cluster.localImage },
       publishedAt: cluster.publishedAt,
       views: 0,

@@ -79,7 +79,11 @@ export function createD1Store(db) {
                           source_image, published_at, views, likes, featured, province, score,
                           dedupe_key, status, raw_title, full_text)
         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-        ON CONFLICT(dedupe_key) DO NOTHING
+        ON CONFLICT(dedupe_key) DO UPDATE SET
+          title=excluded.title, excerpt=excluded.excerpt, body=excluded.body,
+          category=excluded.category, tags=excluded.tags, source_image=excluded.source_image,
+          featured=excluded.featured, province=excluded.province, score=excluded.score,
+          status=excluded.status, raw_title=excluded.raw_title, full_text=excluded.full_text
       `)
       const bound = items.map((i) =>
         stmt.bind(
