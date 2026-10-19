@@ -2639,6 +2639,74 @@
     "status": "published"
   },
   {
+    "id": "f_onocff_mvfv0ffv",
+    "slug": "yabanci-egitim-uzmani-mike-anderson-ogretmenlerin-ekim-ayi-tukenmisl-onocff",
+    "title": "Eğitim uzmanı Mike Anderson öğretmenlerin ekim ayı tükenmişliğiyle başa çıkma yollarını anlattı",
+    "excerpt": "Yazar ve eğitim danışmanı Mike Anderson, her sonbaharda öğretmenleri etkisi altına alan 'ekim hüznü' adlı motivasyon kaybıyla mücadele etme yöntemlerini ele alıyor.",
+    "body": [
+      "Öğretmenler her sonbaharda yeni eğitim yılına büyük bir enerjiyle başlasa da bu dalga kısa sürede kırılabiliyor. Eğitimciler, bu dönemin ardından gelen durgunluğu ve motivasyon kaybını 'ekim hüznü' olarak adlandırıyor.",
+      "Bu süreç, özellikle mesleğe yeni başlayan öğretmenlerin kariyerlerini sorgulamasına yol açacak kadar sert hissedilebiliyor. Daha zor olan soru ise bu düşüşü hafifletecek bir çözüm bulunup bulunamayacağı ya da her öğretmenin sadece sürecin geçmesini beklemek zorunda olup olmadığıdır.",
+      "Eski bir sınıf öğretmeni ve danışman olan Mike Anderson, ilk yılında haftada 100 saatten fazla çalışarak bu süreci bizzat yaşadı. Anderson, 22 yaşındayken tüm gün dördüncü sınıflara ders verdikten sonra iki yüzme takımına antrenörlük yapmıştı."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "ÖĞRETMEN TÜKENMİŞLİĞİ",
+      "EĞİTİMDE MOTİVASYON",
+      "MESLEKİ GELİŞİM"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/why-do-so-many-teachers-crash-in-october",
+      "image": "/img/why-do-so-many-teachers-crash-in-october-1839lw.jpg"
+    },
+    "publishedAt": "2026-10-07T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:onocff",
+    "rawTitle": "Why Do So Many Teachers Crash in October?",
+    "status": "published",
+    "lang": "en"
+  },
+  {
+    "id": "f_o926e5_mvfv0ffv",
+    "slug": "yabanci-tarihi-toplumsal-hareketleri-teknoloji-egitimine-dahil-etmek-o926e5",
+    "title": "Tarihi toplumsal hareketleri teknoloji eğitimine dahil etmek öğrencilerin sivil katılımını güçlendiriyor",
+    "excerpt": "Tarihteki toplumsal hareketlerden edinilen kazanımların teknoloji eğitimine dahil edilmesi, öğrencilerin geleceği şekillendirme ve sivil katılım konusundaki ilgisini artırıyor.",
+    "body": [
+      "Tarihi toplumsal hareketlerin teknoloji eğitimine entegre edilmesi, öğrencilerin geleceğe yön verme merakını önemli ölçüde pekiştiriyor. Geleneksel sınıf materyalleri ise çoğu zaman öğrencilerin canlı hikayelerle bağ kurmak yerine olguları ezberlediği pasif bir süreç sunuyor.",
+      "Sınıflarda kullanılan teknolojinin geçmişte kültür ve tarihten kopuk ve soyut kaldığı görülüyordu. 2002 yılında Miles College'a gitmek üzere Alabama'ya taşınmak ve Birmingham'da eğitime odaklanmak, sivil haklar hareketinin merkezinde derin bir temel oluşturdu.",
+      "Bununla birlikte, Institute for Common Power bünyesindeki Truth and Purpose Learning Tour'a katılana kadar bu anlayışta köklü bir değişim yaşanmamıştı. Söz konusu program, teknoloji ile toplumsal bilinç arasındaki bağı yeniden tanımlayan bir bakış açısı kazandırdı."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "KODLAMA VE TEKNOLOJİ",
+      "SİVİL KATILIM",
+      "TEKNOLOJİ EĞİTİMİ"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/how-coding-can-cultivate-deep-civic-engagement",
+      "image": "/img/how-coding-can-cultivate-deep-civic-engagement-1yfuph.jpg"
+    },
+    "publishedAt": "2026-10-07T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:o926e5",
+    "rawTitle": "How Coding Can Cultivate Deep Civic Engagement",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "f_d47a4v_mvfuxps0",
     "slug": "yabanci-kucuk-ve-kirsal-okul-bolgeleri-devamsizlikla-mucadelede-buyu-d47a4v",
     "title": "Küçük ve Kırsal Okul Bölgeleri Devamsızlıkla Mücadelede Büyük Şehirlere Fark Atıyor",
