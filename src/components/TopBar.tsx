@@ -33,7 +33,7 @@ export function TopBar({
 }) {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { resolvedTheme, setTheme, feedMode, setFeedMode, hiddenCategories } = useStore()
+  const { resolvedTheme, setTheme, feedMode, setFeedMode, hiddenCategories, signedIn, user } = useStore()
   const [searchOpen, setSearchOpen] = useState(false)
   const [q, setQ] = useState('')
   const [modeOpen, setModeOpen] = useState(false)
@@ -180,6 +180,15 @@ export function TopBar({
         )}
 
         <div className="ml-auto flex shrink-0 items-center gap-0.5">
+          {/* Akış modu (Twitter benzeri) ile blog modu arasında geçiş */}
+          <Link
+            to="/feed"
+            className="hidden items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-[13px] font-medium text-fg transition hover:bg-surface-2 lg:flex"
+            title={t('feed.feedMode')}
+          >
+            <Icon name="Newspaper" size={15} />
+            {t('feed.feedMode')}
+          </Link>
           <button
             type="button"
             onClick={() => bus.emit(EVENTS.openStories)}
@@ -249,13 +258,38 @@ export function TopBar({
             <Icon name="Settings" size={17} />
           </Link>
 
-          <button
-            type="button"
-            onClick={onOpenLogin}
-            className="ml-1.5 rounded-full bg-fg px-3.5 py-1.5 text-[13px] font-semibold text-bg transition hover:opacity-90"
-          >
-            {t('nav.signIn')}
-          </button>
+          {/* Giriş durumu: girildiyse kullanıcı düğmesi, girilmediyse "Giriş Yap" */}
+          {signedIn ? (
+            <Link
+              to="/profil"
+              className="ml-1.5 flex items-center gap-2 rounded-full border border-line py-1 pl-1 pr-3 transition hover:bg-surface-2"
+              title={user?.name ? `${user.name} · ${user.email}` : 'Profil'}
+            >
+              {user?.avatarUrl ? (
+                <img
+                  src={user.avatarUrl}
+                  alt=""
+                  className="size-7 rounded-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <span className="grid size-7 place-items-center rounded-full bg-fg text-[11px] font-semibold text-bg">
+                  {(user?.name ?? user?.email ?? '?').trim().charAt(0).toLocaleUpperCase('tr')}
+                </span>
+              )}
+              <span className="max-w-[110px] truncate text-[13px] font-semibold text-fg">
+                {user?.name ?? user?.email ?? 'Profil'}
+              </span>
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={onOpenLogin}
+              className="ml-1.5 rounded-full bg-fg px-3.5 py-1.5 text-[13px] font-semibold text-bg transition hover:opacity-90"
+            >
+              {t('nav.signIn')}
+            </button>
+          )}
         </div>
       </div>
 

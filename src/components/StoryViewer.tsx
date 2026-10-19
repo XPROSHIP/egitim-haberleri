@@ -109,6 +109,8 @@ export function StoryViewer({
 
   const item = items[clamp(index, items.length)]
   const cat = getCategory(item.category)
+  // Bir önceki kart arkada kalıp hafif küçülerek "destek" hissi verir.
+  const prev = index > 0 ? items[index - 1] : null
 
   return (
     <div
@@ -119,15 +121,37 @@ export function StoryViewer({
     >
       {/* 9:16'ya yakın, ortalanmış hikâye karesi */}
       <div className="relative mx-auto h-full w-full max-w-[480px] overflow-hidden bg-black">
+        {/* Arka kart (önceki haber) — kart desteği efekti */}
+        {prev && (
+          <div
+            key={`prev-${prev.id}`}
+            aria-hidden="true"
+            className="animate-[eh-fade-up] absolute inset-0 origin-top scale-[0.94] opacity-0 transition-all duration-300"
+            style={{ ...fadeUp, transform: 'translateY(2.5%) scale(0.94)', opacity: 0.45 }}
+          >
+            <Cover
+              id={prev.id}
+              category={prev.category}
+              image={prev.source.image}
+              className="absolute inset-0 size-full"
+            />
+            <div className="absolute inset-0 bg-black/70" />
+          </div>
+        )}
+
         {/* Görsel + karartma; haber değişince yeniden mount olup animasyona girer */}
-        <div key={item.id} className="animate-[eh-fade-up] absolute inset-0" style={fadeUp}>
+        <div
+          key={item.id}
+          className="animate-[eh-fade-up] absolute inset-0 transition-transform duration-300 ease-out"
+          style={fadeUp}
+        >
           <Cover
             id={item.id}
             category={item.category}
             image={item.source.image}
             className="absolute inset-0 size-full"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/45 to-black/75" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/80" />
         </div>
 
         {/* Ekranın sol/sağ yarısı: önceki / sonraki haber */}
@@ -184,7 +208,7 @@ export function StoryViewer({
           </div>
         </div>
 
-        {/* Alt bilgi: rozet, başlık, özet ve tarih */}
+        {/* Alt bilgi: rozet, başlık, özet, tarih ve "Habere Git" */}
         <div
           key={`${item.id}-meta`}
           className="animate-[eh-fade-up] pointer-events-none absolute inset-x-0 bottom-0 z-30 p-5"
@@ -192,9 +216,13 @@ export function StoryViewer({
         >
           <CategoryBadge slug={item.category} size="sm" />
 
-          <h2 className="mt-3 text-xl font-bold leading-snug text-white">{item.title}</h2>
+          <h2 className="mt-3 text-[26px] leading-[1.18] font-extrabold tracking-tight text-white">
+            {item.title}
+          </h2>
 
-          <p className="line-clamp-2x mt-2 text-[13px] leading-relaxed text-white/70">{item.excerpt}</p>
+          <p className="mt-2.5 line-clamp-3 text-[13.5px] leading-relaxed text-white/75">
+            {item.excerpt}
+          </p>
 
           <p className="tnum mt-3 flex flex-wrap items-center gap-1.5 text-[11px] text-white/50">
             <span className="truncate">{item.source.name}</span>
@@ -202,9 +230,18 @@ export function StoryViewer({
             <span>{formatDate(item.publishedAt, 'tr')}</span>
           </p>
 
-          <p className="mt-3 text-[10.5px] text-white/35">
-            Sağ/sol yarıya ya da ok tuşlarına bas · Boşluk: sonraki · Esc: kapat
-          </p>
+          <div className="pointer-events-auto mt-4 flex items-center gap-2">
+            <a
+              href={`/haber/${item.slug}`}
+              onClick={onClose}
+              className="rounded-full bg-white px-4 py-2 text-[13px] font-semibold text-black transition hover:bg-white/90"
+            >
+              Habere Git
+            </a>
+            <span className="text-[10.5px] text-white/40">
+              Sağ/sol yarıya ya da ok tuşlarına bas · Boşluk: sonraki · Esc: kapat
+            </span>
+          </div>
         </div>
       </div>
     </div>

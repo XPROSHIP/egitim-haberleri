@@ -1,37 +1,17 @@
 /** Bağımlılıksız RSS/Atom ayrıştırıcı (Google News RSS uyumlu). */
+import { decode as decodeHtmlEntities } from 'he'
 
-const ENTITIES = {
-  amp: '&',
-  lt: '<',
-  gt: '>',
-  quot: '"',
-  apos: "'",
-  nbsp: ' ',
-  '#39': "'",
-  '#x27': "'",
-  '#231': 'ç',
-  '#246': 'ö',
-  '#252': 'ü',
-  '#220': 'Ü',
-  '#199': 'Ç',
-  '#214': 'Ö',
-  '#287': 'ğ',
-  '#305': 'ı',
-  '#351': 'ş',
-}
-
+/**
+ * HTML entity'lerini çözer.
+ * Elle yazılan küçük bir tablo Türkçe karakterleri (&uuml;, &ccedil;, &rsquo;)
+ * kaçırıyordu; `he` tüm HTML5 entity'lerini doğru çözüyor.
+ */
 export function decodeEntities(str = '') {
-  return str
-    .replace(/&#x([0-9a-f]+);/gi, (_, h) => safeChar(parseInt(h, 16)))
-    .replace(/&#(\d+);/g, (_, d) => safeChar(parseInt(d, 10)))
-    .replace(/&([a-z0-9#]+);/gi, (m, name) => ENTITIES[name.toLowerCase()] ?? m)
-}
-
-function safeChar(code) {
+  if (!str) return ''
   try {
-    return String.fromCodePoint(code)
+    return decodeHtmlEntities(str)
   } catch {
-    return ''
+    return str
   }
 }
 

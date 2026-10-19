@@ -3,6 +3,7 @@ import type { Comment, NewsItem } from '../types'
 import { categories } from '../data/categories'
 import collectedRaw from '../data/collected.json'
 import { authHeaders } from './auth'
+import { decodeItem } from './entities'
 
 type CollectedItem = NewsItem & {
   status?: string
@@ -34,7 +35,7 @@ function withImageBase(item: NewsItem): NewsItem {
 }
 
 async function fetchAll(): Promise<NewsItem[]> {
-  if (!BASE) return collected as NewsItem[]
+  if (!BASE) return (collected as NewsItem[]).map(decodeItem)
   try {
     // Başlık "x-refresh" göndermiyordu: Worker'da tazeleme anlamına geliyordu ve
     // ücretsiz kademede her sayfa açılışında CPU limitini patlatıyordu. Toplama
@@ -42,9 +43,9 @@ async function fetchAll(): Promise<NewsItem[]> {
     const res = await fetch(`${BASE}/api/news?limit=500`)
     if (!res.ok) throw new Error(String(res.status))
     const data = (await res.json()) as { items: NewsItem[] }
-    return data.items.map(withImageBase)
+    return data.items.map((i) => decodeItem(withImageBase(i)))
   } catch {
-    return collected as NewsItem[]
+    return (collected as NewsItem[]).map(decodeItem)
   }
 }
 

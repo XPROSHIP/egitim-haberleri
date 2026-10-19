@@ -22,6 +22,7 @@ import {
 import { SettingsPage } from './pages/SettingsPage'
 import { ProfilePage } from './pages/ProfilePage'
 import { LegalPage, LoginPage, NotFoundPage } from './pages/LegalPages'
+import { MobileTabBar } from './components/MobileTabBar'
 import { bus, EVENTS } from './lib/bus'
 import { completeSignIn, restoreSession, watchSession } from './lib/auth'
 
@@ -108,7 +109,8 @@ function Shell() {
       <ScrollManager />
       <AuthBootstrap />
 
-      <div className="flex-1">
+      {/* Mobilde sabit alt çubuk içeriği kapatmasın */}
+      <div className="flex-1 pb-16 lg:pb-0">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/feed" element={<FeedPage />} />
@@ -138,6 +140,7 @@ function Shell() {
       <StoryHost />
       {assistant && <AssistantPanel open onClose={() => setAssistant(false)} />}
       <LoginModal open={login} onClose={() => setLogin(false)} />
+      <MobileTabBar />
     </div>
   )
 }
