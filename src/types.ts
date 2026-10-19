@@ -51,6 +51,10 @@ export type NewsItem = {
   fullText?: boolean
   /** Haberin kaynak dili. 'en' ise Türkçeye çevrilmiş yabancı kaynak haberidir. */
   lang?: 'tr' | 'en'
+  /** Sunucuda hazır üretilmiş ses var mı (EMA Lightning ile). */
+  hasAudio?: boolean
+  /** Hazır sesin süresi (saniye). */
+  audioDuration?: number
 }
 
 export type User = {

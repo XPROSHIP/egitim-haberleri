@@ -228,6 +228,8 @@ export function fromRow(r) {
     province: r.province ?? undefined,
     fullText: !!r.full_text,
     lang: r.lang ?? 'tr',
+    hasAudio: !!r.audio_id,
+    audioDuration: r.audio_duration ?? undefined,
   }
 }
 

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import clsx from 'clsx'
 import type { NewsItem } from '../types'
 import { Icon } from './Icon'
+import { audioUrlFor } from '../lib/api'
 
 type Voice = SpeechSynthesisVoice
 
@@ -26,14 +27,25 @@ function rankVoices(voices: Voice[]): Voice[] {
 
 const RATES = [0.9, 1, 1.25, 1.5]
 
+/**
+ * Haber seslendirici.
+ *
+ * Sunucuda hazır üretilmiş ses varsa (EMA Lightning) onu çalar; yoksa
+ * tarayıcının kendi Türkçe sesine düşer. Ses hazır olana kadar tarayıcı
+ * TTS'i kullanılabilir.
+ */
 export function AudioReader({ item, className }: { item: NewsItem; className?: string }) {
   const [voices, setVoices] = useState<Voice[]>([])
   const [voiceIdx, setVoiceIdx] = useState(0)
   const [state, setState] = useState<'idle' | 'playing' | 'paused'>('idle')
   const [rate, setRate] = useState(1)
   const [progress, setProgress] = useState(0)
+  const [mode, setMode] = useState<'audio' | 'tts'>('tts')
   const utterRef = useRef<SpeechSynthesisUtterance | null>(null)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
   const cancelRef = useRef(false)
+
+  const audioUrl = useMemo(() => audioUrlFor(item), [item])
 
   const script = useMemo(() => {
     const body = item.fullText ? item.body : [item.excerpt]
@@ -60,15 +72,53 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
     cancelRef.current = true
     setState('idle')
     setProgress(0)
+    audioRef.current?.pause()
   }, [item.id])
 
   const stop = useCallback(() => {
     cancelRef.current = true
     window.speechSynthesis?.cancel()
+    audioRef.current?.pause()
+    if (audioRef.current) audioRef.current.currentTime = 0
     setState('idle')
     setProgress(0)
   }, [])
 
+  /* --- Sunucuda hazır olan ses --- */
+  const playAudio = useCallback(() => {
+    if (!audioUrl) return false
+    let el = audioRef.current
+    if (!el) {
+      el = new Audio()
+      audioRef.current = el
+    }
+    el.src = audioUrl
+    el.playbackRate = rate
+    el.onended = () => {
+      if (!cancelRef.current) {
+        setState('idle')
+        setProgress(1)
+      }
+    }
+    el.ontimeupdate = () => {
+      if (el.duration) setProgress(Math.min(1, el.currentTime / el.duration))
+    }
+    el.onerror = () => {
+      // Hazır ses açılamadıysa tarayıcı TTS'ine düş.
+      setMode('tts')
+      setState('idle')
+    }
+    cancelRef.current = false
+    void el.play().catch(() => {
+      setMode('tts')
+      setState('idle')
+    })
+    setMode('audio')
+    setState('playing')
+    return true
+  }, [audioUrl, rate])
+
+  /* --- Tarayıcı TTS --- */
   const speak = useCallback(() => {
     if (!('speechSynthesis' in window)) return
     cancelRef.current = false
@@ -97,17 +147,22 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
 
     utterRef.current = u
     window.speechSynthesis.speak(u)
+    setMode('tts')
     setState('playing')
   }, [script, voices, voiceIdx, rate])
 
   const toggle = () => {
     if (state === 'playing') {
-      window.speechSynthesis.pause()
+      if (mode === 'audio') audioRef.current?.pause()
+      else window.speechSynthesis.pause()
       setState('paused')
     } else if (state === 'paused') {
-      window.speechSynthesis.resume()
+      if (mode === 'audio') void audioRef.current?.play()
+      else window.speechSynthesis.resume()
       setState('playing')
     } else {
+      // Önce hazır sesi dene, olmazsa tarayıcı TTS'ine düş.
+      if (audioUrl && playAudio()) return
       speak()
     }
   }
@@ -118,7 +173,12 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
     if (state !== 'idle') setTimeout(speak, 60)
   }
 
-  const supported = typeof window !== 'undefined' && 'speechSynthesis' in window
+  const supported =
+    typeof window !== 'undefined' && ('speechSynthesis' in window || Boolean(audioUrl))
+
+  const durationLabel = item.audioDuration
+    ? `${Math.round(item.audioDuration)} sn`
+    : null
 
   return (
     <div className={clsx('rounded-xl border border-line bg-surface p-3.5', className)}>
@@ -138,7 +198,9 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
             {state === 'idle' ? 'Haberi dinle' : state === 'playing' ? 'Okunuyor…' : 'Duraklatıldı'}
           </p>
           <p className="truncate text-[11px] text-faint">
-            {voices[voiceIdx]?.name ?? (supported ? 'Türkçe ses bulunamadı' : 'Desteklenmiyor')}
+            {mode === 'audio'
+              ? `Sentezlenmiş Türkçe ses${durationLabel ? ` · ${durationLabel}` : ''}`
+              : (voices[voiceIdx]?.name ?? (supported ? 'Türkçe ses bulunamadı' : 'Desteklenmiyor'))}
           </p>
           <div className="mt-1.5 h-[3px] overflow-hidden rounded-full bg-surface-3">
             <div
@@ -150,35 +212,63 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
       </div>
 
       <div className="mt-3 flex items-center gap-1.5">
-        <button
-          type="button"
-          onClick={() => changeVoice(-1)}
-          disabled={voices.length < 2}
-          aria-label="Önceki ses"
-          className="grid size-7 place-items-center rounded-full border border-line text-muted transition hover:text-fg disabled:opacity-30"
-        >
-          <Icon name="SkipForward" size={13} className="rotate-180" />
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            const i = RATES.indexOf(rate)
-            setRate(RATES[(i + 1) % RATES.length])
-            if (state !== 'idle') setTimeout(speak, 60)
-          }}
-          className="rounded-full border border-line px-2.5 py-1 text-[11px] font-semibold text-muted transition hover:text-fg"
-        >
-          {rate}×
-        </button>
-        <button
-          type="button"
-          onClick={() => changeVoice(1)}
-          disabled={voices.length < 2}
-          aria-label="Sonraki ses"
-          className="grid size-7 place-items-center rounded-full border border-line text-muted transition hover:text-fg disabled:opacity-30"
-        >
-          <Icon name="SkipForward" size={13} />
-        </button>
+        {mode === 'tts' && (
+          <>
+            <button
+              type="button"
+              onClick={() => changeVoice(-1)}
+              disabled={voices.length < 2}
+              aria-label="Önceki ses"
+              className="grid size-7 place-items-center rounded-full border border-line text-muted transition hover:text-fg disabled:opacity-30"
+            >
+              <Icon name="SkipForward" size={13} className="rotate-180" />
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                const i = RATES.indexOf(rate)
+                setRate(RATES[(i + 1) % RATES.length])
+                if (state !== 'idle') setTimeout(speak, 60)
+              }}
+              className="rounded-full border border-line px-2.5 py-1 text-[11px] font-semibold text-muted transition hover:text-fg"
+            >
+              {rate}×
+            </button>
+            <button
+              type="button"
+              onClick={() => changeVoice(1)}
+              disabled={voices.length < 2}
+              aria-label="Sonraki ses"
+              className="grid size-7 place-items-center rounded-full border border-line text-muted transition hover:text-fg disabled:opacity-30"
+            >
+              <Icon name="SkipForward" size={13} />
+            </button>
+          </>
+        )}
+        {mode === 'audio' && (
+          <button
+            type="button"
+            onClick={() => {
+              const i = RATES.indexOf(rate)
+              setRate(RATES[(i + 1) % RATES.length])
+              if (audioRef.current) audioRef.current.playbackRate = rate
+            }}
+            className="rounded-full border border-line px-2.5 py-1 text-[11px] font-semibold text-muted transition hover:text-fg"
+          >
+            {rate}×
+          </button>
+        )}
+        {audioUrl && mode === 'tts' && (
+          <button
+            type="button"
+            onClick={() => {
+              if (playAudio()) setState('playing')
+            }}
+            className="rounded-full border border-line px-2.5 py-1 text-[11px] font-medium text-muted transition hover:text-fg"
+          >
+            Sentezlenmiş sesi dene
+          </button>
+        )}
         {state !== 'idle' && (
           <button
             type="button"

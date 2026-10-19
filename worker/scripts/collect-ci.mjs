@@ -83,6 +83,23 @@ if (run.errors.length) console.log(`Hatalar       :\n - ${run.errors.slice(0, 5)
 
 // Görseller yüklendiği için localImage alanı URL'ye çevrildi; toplayıcı zaten
 // kaydettiği için dosyayı bir kez daha yazıyoruz (görsel adresleri kalıcı).
+// Ses bayrakları (audioId) önceki dosyadan korunur; aksi halde her koşuda
+// aynı haberlerin sesi yeniden üretilirdi.
+let previous = []
+try {
+  previous = JSON.parse(await readFile(outFile, 'utf8'))
+} catch {
+  /* dosya yoksa boş geç */
+}
+const audioFlags = new Map(previous.filter((i) => i.audioId).map((i) => [i.id, i]))
+for (const item of items) {
+  const flag = audioFlags.get(item.id)
+  if (flag) {
+    item.audioId = flag.audioId
+    item.audioDuration = flag.audioDuration
+  }
+}
+
 await mkdir(path.dirname(outFile), { recursive: true })
 await writeFile(outFile, JSON.stringify(items, null, 2))
 

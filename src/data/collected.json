@@ -30,7 +30,9 @@
     "dedupeKey": "8l05mi",
     "rawTitle": "ÖĞRETMEN AKADEMİLERİ AÇILIŞINDA EĞİTİM, SANAT VE KÜLTÜR BULUŞTU",
     "status": "published",
-    "lang": "tr"
+    "lang": "tr",
+    "audioId": "n_1q1o1ho_mvfr9kuk",
+    "audioDuration": 33.48
   },
   {
     "id": "n_19jrr63_mvfiiw1u",
@@ -63,7 +65,9 @@
     "score": 5.6,
     "dedupeKey": "1o3u5yv",
     "rawTitle": "Okullarda yeni güvenlik önlemleri masada. Milli Eğitim Bakanı Tekin tarih verdi",
-    "status": "published"
+    "status": "published",
+    "audioId": "n_19jrr63_mvfiiw1u",
+    "audioDuration": 18.82
   },
   {
     "id": "n_ghypzy_mvfiiw1q",
@@ -97,7 +101,9 @@
     "score": 10,
     "dedupeKey": "itzb15",
     "rawTitle": "MESLEKİ VE TEKNİK EĞİTİMDE HEDEFLER VE ÖNCELİKLER DEĞERLENDİRİLDİ",
-    "status": "published"
+    "status": "published",
+    "audioId": "n_ghypzy_mvfiiw1q",
+    "audioDuration": 26.76
   },
   {
     "id": "n_tnlz67_mvfhkvtq",
@@ -798,72 +804,6 @@
     "status": "published"
   },
   {
-    "id": "n_10r2to2_mvfupav3",
-    "slug": "yilin-ucuncu-ales-oturumu-icin-gec-basvuru-sureci-gundeme-geldi-a92ifb",
-    "title": "Yılın üçüncü ALES oturumu için geç başvuru süreci gündeme geldi",
-    "excerpt": "Yılın üçüncü ALES sınavı için genel başvuruların sona ermesiyle birlikte geç başvuru günü adaylar tarafından takip ediliyor. Başvuru süresini kaçıran adaylar işlemlerin nereden ve nasıl yapılacağını inceliyor.",
-    "body": [
-      "ALES/3 geç başvuruları yalnızca bir gün sürecek. Sınav, 29 Kasım 2026 tarihinde yapılacak. Peki, 2026 ALES/3 geç başvuruları başladı mı? ALES/3 geç başvuruları nereden ve nasıl yapılır? İşte ayrıntılar...",
-      "ALES/3 başvurularını kaçıran adaylar, 21 Ekim’de saat 10.00 ile 23.59 arasında geç başvuru yapabilecek. Sınav ise 29 Kasım 2026’da gerçekleştirilecek.",
-      "Adaylar başvurularını ÖSYM Başvuru Merkezleri üzerinden gerçekleştirebilecek. Başvurular ayrıca ÖSYM Aday İşlemleri Sistemi (AİS) ve ÖSYM Aday İşlemleri Mobil Uygulaması üzerinden de yapılabilecek."
-    ],
-    "category": "sinav",
-    "tags": [
-      "ALES",
-      "GEÇ BAŞVURU",
-      "ÖSYM"
-    ],
-    "source": {
-      "name": "Cumhuriyet",
-      "url": "https://www.cumhuriyet.com.tr/egitim/2026-ales-3-gec-basvurulari-basladi-mi-ales-3-gec-basvurulari-nereden-ve-nasil-yapilir-2548059",
-      "image": "/img/2026-ales-3-ge-ba-vurular-ba-lad-m-ales-3-ge-ba-vurular-nere-1akcsh.jpg"
-    },
-    "publishedAt": "2026-10-19T06:32:00.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 6.1,
-    "dedupeKey": "a92ifb",
-    "rawTitle": "2026 ALES/3 geç başvuruları başladı mı? ALES/3 geç başvuruları nereden ve nasıl yapılır?",
-    "status": "published",
-    "lang": "tr"
-  },
-  {
-    "id": "f_1mprh8d_mvfuppn6",
-    "slug": "yabanci-ingiltere-egitim-bakani-powell-etkili-konusma-egitiminin-sad-1mprh8",
-    "title": "İngiltere Eğitim Bakanı Powell etkili konuşma eğitiminin sadece özel okullara bırakılamayacağını belirtti",
-    "excerpt": "Birleşik Krallık Eğitim Bakanı Lucy Powell, akıcı ve özgüvenli konuşma eğitiminin yalnızca ayrıcalıklı öğrencilere sunulmaması gerektiğini savundu. Powell, çocukların kendilerini doğru ifade edebilmesinin hayat şanslarını artırdığını vurgulayarak eleştirilere karşı çıktı.",
-    "body": [
-      "Birleşik Krallık Eğitim Bakanı ve İşçi Partisi Genel Başkan Yardımcısı Lucy Powell, özel okulların münazara, hitabet ve mülakat gibi iletişim becerilerini şansa bırakmadığını belirtti. Powell, ücret ödeyen ailelerin bu tür kazanımların gelecekte yeni kapılar açtığını çok iyi bildiğini ifade etti.",
-      "Kendilerine yöneltilen eğitim standartlarını düşürme iddialarını reddeden Bakan, bu hamlenin fırsat eşitliğini güçlendireceğini söyledi. Powell, yapay zekânın ve ekranların hâkim olduğu modern çağda insani iletişim yeteneklerinin her zamankinden daha kritik hâle geldiğini sözlerine ekledi."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "EĞİTİM POLİTİKASI",
-      "FIRSAT EŞİTLİĞİ",
-      "İNGİLTERE EĞİTİMİ"
-    ],
-    "source": {
-      "name": "The Guardian",
-      "url": "https://www.theguardian.com/commentisfree/2026/oct/19/young-people-speak-fluently-oracy-skills-pupils-schools",
-      "image": "/img/my-critics-think-speaking-fluently-is-vital-for-fee-paying-p-1ug53l.jpg"
-    },
-    "publishedAt": "2026-10-19T06:00:23.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:1mprh8d",
-    "rawTitle": "My critics think speaking fluently is vital for fee-paying pupils, but not for anyone else. Here’s why I reject that | Lucy Powell",
-    "status": "published",
-    "lang": "en"
-  },
-  {
     "id": "n_r9btf0_mveiblan",
     "slug": "kpss-on-lisans-sinavi-sonuclari-icin-adaylarin-heyecanli-bekleyisi-suruy-1r8bgj",
     "title": "ÖSYM tarafından düzenlenen KPSS ön Lisans sınavının sonuçları için adayların heyecanlı bekleyişi sürüyor",
@@ -928,41 +868,6 @@
     "dedupeKey": "cbiiqc",
     "rawTitle": "Bugün okullar tatil mi?",
     "status": "published"
-  },
-  {
-    "id": "f_pn5l7g_mvfus4ra",
-    "slug": "yabanci-ingiltere-egitim-bakani-lucy-powell-icin-okullarda-oncelikle-pn5l7g",
-    "title": "İngiltere Eğitim Bakanı Lucy Powell için okullarda öncelikleri belirlemek en zor sınav olacak",
-    "excerpt": "İngiltere Eğitim Bakanı Lucy Powell, yapay zeka çağında öğrencilerin yüz yüze iletişim ve konuşma becerilerini geliştirmenin öncelik haline gelmesi gerektiğini vurguluyor. Uzmanlar artan ekran kullanımının çocukların dil gelişimini olumsuz etkilediğine ve eğitimde doğru adımlar atılması gerektiğine dikkat çekiyor.",
-    "body": [
-      "Eğitim Bakanı mevcut durumu olduğu gibi korumak yerine nelerin öncelikle değiştirileceğine karar vermek zorunda kalacak. Yapay zeka yatırımlarıyla öne çıkan yeni makine çağında, bireylerin konuşma becerilerinin geliştirilmesi giderek daha kritik hale geliyor.",
-      "İnsanların otomasyona geçmesi en az muhtemel olan yüz yüze iş alanları için donanımlı kılınması büyük önem taşıyor. Hem Birleşik Krallık genelinde hem de uluslararası düzeyde çocukların dil gelişimindeki endişe verici gerileme yüksek ekran kullanımıyla ilişkilendiriliyor.",
-      "Teknoloji şirketlerinin insan gücüyle rekabet ederken aynı zamanda bireylerin iletişim kurma yetisini zayıflatması çelişkili bir tablo ortaya koyuyor. Geçen yıl tamamlanan müfredat incelemesi ise Starmer yönetiminin genel temkinli tutumunu yansıtıyor."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "EĞİTİM REFORMU",
-      "YAPAY ZEKA",
-      "KONUŞMA BECERİLERİ",
-      "BİRLEŞİK KRALLIK"
-    ],
-    "source": {
-      "name": "The Guardian",
-      "url": "https://www.theguardian.com/commentisfree/2026/oct/18/the-guardian-view-on-schools-the-hardest-questions-for-lucy-powell-are-about-priorities",
-      "image": "/img/the-guardian-view-on-schools-the-hardest-questions-for-lucy--12l66n.jpg"
-    },
-    "publishedAt": "2026-10-18T16:25:04.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:pn5l7g",
-    "rawTitle": "The Guardian view on schools: the hardest questions for Lucy Powell are about priorities | Editorial",
-    "status": "published",
-    "lang": "en"
   },
   {
     "id": "n_1h9ud59_mvfiiw1v",
@@ -1391,41 +1296,6 @@
     "status": "published"
   },
   {
-    "id": "f_h0634h_mvfus4ra",
-    "slug": "yabanci-ingiltere-de-mufredat-tartismasi-cocuklara-ezber-matematik-y-h0634h",
-    "title": "İngiltere'de müfredat tartışması: Çocuklara ezber matematik yerine akıcı konuşma becerisi kazandırılmalı",
-    "excerpt": "Eğitim Bakanı Lucy Powell, İngiltere ulusal müfredatında radikal bir değişikliğe giderek öğrencilerin kendilerini ifade etme ve sözlü iletişim becerilerine ağırlık vermeyi hedefliyor. Eğitimciler çocuklara ileride kullanmayacakları dersler yerine akıcı konuşma ve pratik yetkinlikler kazandırılmasını savunuyor.",
-    "body": [
-      "Okullardaki temel okuma, yazma ve aritmetik becerilerinin yanına nihayet sözlü ifade ve konuşma yetkinliğinin de eklenmesi hedefleniyor. Ekranların yarattığı baskıya karşı yürütülen mücadelede doğrudan sözlü iletişimin önemi artık eğitim çevrelerinde daha geniş kabul görüyor.",
-      "Eğitim Bakanı Lucy Powell, İngiltere'deki ulusal müfredatta masa başı teorik çalışmaları azaltarak sözlü akıcılık ve pratik becerileri öne çıkaracak kapsamlı bir reform amaçlıyor. Uzmanlar, geleneksel eğitim kalıplarının dışına çıkan bu tür adımların ciddi bir kararlılık gerektirdiğini belirtiyor.",
-      "Yıllardır eğitim yöneticileri öğrencilere gelecekte kullanmayacakları ve kolayca unutulacak akademik ders yüklerini dayatmayı sürdürüyor. Powell ise öğrencilerin en çok gereksinim duyduğu doğru ifade yeteneğine odaklanarak bu gidişatı değiştirmek istiyor."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "MÜFREDAT REFORMU",
-      "SÖZLÜ İLETİŞİM",
-      "İNGİLTERE EĞİTİMİ",
-      "EĞİTİM POLİTİKASI"
-    ],
-    "source": {
-      "name": "The Guardian",
-      "url": "https://www.theguardian.com/commentisfree/2026/oct/16/teach-children-maths-speaking-education-secretary",
-      "image": "/img/we-are-teaching-children-maths-they-will-never-use-sn-t-it-b-1o6f46.jpg"
-    },
-    "publishedAt": "2026-10-16T09:00:57.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:h0634h",
-    "rawTitle": "We are teaching children maths they will never use. Isn’t it better to help them speak fluently? | Simon Jenkins",
-    "status": "published",
-    "lang": "en"
-  },
-  {
     "id": "n_gkhort_mvei8kif",
     "slug": "vakiflar-genel-mudurlugu-2026-2027-burs-basvurularinda-son-gun-yaklasiyo-bynfn1",
     "title": "Vakıflar genel müdürlüğü yükseköğrenim burs başvurularında son gün yaklaşırken süreç devam ediyor",
@@ -1561,39 +1431,6 @@
     "dedupeKey": "1xy93kf",
     "rawTitle": "Köy okullarındaki çocuklar bilim ve sanatla buluşuyor",
     "status": "review"
-  },
-  {
-    "id": "f_1eohsoq_mvfuthdb",
-    "slug": "yabanci-pandemi-fonlarinin-sona-ermesi-abd-deki-yogun-ozel-ders-prog-1eohso",
-    "title": "Pandemi fonlarının sona ermesi ABD'deki yoğun özel ders programlarını tehlikeye atıyor",
-    "excerpt": "ABD'de salgın döneminde sağlanan federal bütçenin tükenmesi, öğrencilerin akademik başarısını artıran yoğun özel ders programlarının geleceğini belirsizliğe sürükledi. Birçok okul bölgesi programları askıya alırken bazı yöneticiler en etkili modelleri yaşatmaya çalışıyor.",
-    "body": [
-      "ABD genelindeki okul bölgeleri, federal pandemi yardım fonları sayesinde öğrencilerin öğrenme sürecini güçlendiren yoğun özel ders programlarını yıllarca genişletmişti. Bu temel kaynağın tükenmesiyle birlikte birçok eğitim lideri programları ayakta tutabilmek için zorlu bir mücadeleye girişti. Bazı bölgeler özel dersleri durdururken veya küçültürken, bazıları ise en verimli unsurları korumaya çalışıyor.",
-      "ABD Kongresi, Mart 2020 ile Mart 2021 arasında İlkokul ve Ortaokul Acil Durum Yardımı fonu aracılığıyla kamu eğitimine yaklaşık 190,5 milyar dolar tahsis etmişti. Bu destek, ABD tarihindeki K-12 eğitimine yönelik tek seferlik en büyük federal yatırım olarak kayıtlara geçti. Ancak söz konusu fonların 2022 ile 2024 yılları arasında aşamalı olarak sona ermesi okulları yeni arayışlara itti."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "ABD EĞİTİMİ",
-      "ÖZEL DERS",
-      "PANDEMİ FONLARI"
-    ],
-    "source": {
-      "name": "EdSurge",
-      "url": "https://edsurge.com/news/can-high-impact-tutoring-survive-post-pandemic-funding-loss",
-      "image": "/img/can-high-mpact-tutoring-survive-post-pandemic-funding-loss-19e7gs.jpg"
-    },
-    "publishedAt": "2026-10-15T00:00:00.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:1eohsoq",
-    "rawTitle": "Can High-Impact Tutoring Survive Post-Pandemic Funding Loss?",
-    "status": "published",
-    "lang": "en"
   },
   {
     "id": "f_1qsstfm_mvfsk51n",
@@ -1797,106 +1634,6 @@
     "status": "published"
   },
   {
-    "id": "f_32yaot_mvfuxprz",
-    "slug": "yabanci-arastirma-cocuk-koruma-hizmetleriyle-temasi-olan-ogrencileri-32yaot",
-    "title": "Araştırma: Çocuk Koruma Hizmetleriyle Teması Olan Öğrencilerin Okul Devamsızlığı Daha Yüksek",
-    "excerpt": "Yeni bir araştırma, çocuk koruma hizmetleriyle temas kuran öğrencilerin hem mazeretli hem de mazeretsiz devamsızlık oranlarının daha yüksek olduğunu ortaya koyuyor. Uzmanlar, okula bağlılık hissinin ve hedefe yönelik desteklerin bu öğrencileri sınıfta tutabileceğini vurguluyor.",
-    "body": [
-      "Children and Youth Services Review dergisinde yayımlanan araştırmaya göre, 15 yaşına kadar Çocuk Koruma Hizmetleri (CPS) ile teması bulunan öğrencilerin devamsızlık riski taşımayan akranlarına kıyasla belirgin şekilde daha yüksek. ABD'de çocukların üçte birinden fazlasının 18 yaşına kadar bir CPS soruşturması geçirdiği tahmin ediliyor.",
-      "Çalışma, CPS teması olan gençlerin neden daha fazla devamsızlık yaptığını tam olarak açıklamasa da ek araştırmalara ihtiyaç olduğunu belirtiyor. Ohio State Üniversitesi'nden Doçent Arya Ansari, devamsızlığın çocukların çok farklı nedenlerle okula gidemediği karmaşık bir sorun olduğunu ifade ediyor.",
-      "Araştırmacılar, okula aidiyet duygusunun CPS geçmişi ile yüksek devamsızlık arasındaki bağı hafifletip hafifletmediğini inceliyor. Elde edilen bulgular, kırılgan durumdaki öğrencilerin okula devamını artırmak için destekleyici okul ortamlarının kritik rol oynadığını gösteriyor."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "DEVAMSIZLIK",
-      "ÇOCUK KORUMA",
-      "EĞİTİM ARAŞTIRMALARI"
-    ],
-    "source": {
-      "name": "EdSurge",
-      "url": "https://edsurge.com/news/child-protective-services-contact-linked-to-higher-absenteeism-study-finds",
-      "image": "/img/child-protective-services-contact-linked-to-higher-absenteei-1o450k.jpg"
-    },
-    "publishedAt": "2026-10-14T00:00:00.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:32yaot",
-    "rawTitle": "Child Protective Services Contact Linked to Higher Absenteeism, Study Finds",
-    "status": "published",
-    "lang": "en"
-  },
-  {
-    "id": "f_19zour3_mvfuuj3e",
-    "slug": "yabanci-siniflarda-teknoloji-bagimliligiyla-mucadele-eden-egitimcile-19zour",
-    "title": "Sınıflarda Teknoloji Bağımlılığıyla Mücadele Eden Eğitimciler Uyarı İşaretlerine Dikkat Çekiyor",
-    "excerpt": "Eğitimcilerin teknoloji bağımlılığının uyarı işaretlerini fark ederek sınıfta ve evde dürüst diyaloglar kurması gerekiyor. Uzmanlar ekran kullanımının öğrenciler üzerindeki etkilerinin ciddiyetle ele alınması gerektiğini belirtiyor.",
-    "body": [
-      "Bir eğitimci, yedinci sınıftaki parlak ve yetenekli öğrencisi Billie'nin Chromebook'tan uzak kaldığında giderek dikkatsizleştiğini ve içine kapandığını aktardı. Cihaz başındayken odaklanma ve özdenetim becerilerinin neredeyse tamamen kaybolduğu gözlemlendi.",
-      "Öğrencinin ders dışı konuları aradığı, sürekli sekmeler arasında geçiş yaptığı ve oyun oynayarak görevlerinden uzaklaştığı belirtildi. Yetişkinler genellikle çocukların ekranlara bağımlı olduğunu söylese de bu durumun gerçek anlamı yeterince irdelenmiyor."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "TEKNOLOJİ BAĞIMLILIĞI",
-      "DİJİTAL EĞİTİM",
-      "ÖĞRENCİ GELİŞİMİ"
-    ],
-    "source": {
-      "name": "EdSurge",
-      "url": "https://edsurge.com/news/tech-addiction-was-a-problem-for-my-student-and-myself",
-      "image": "/img/tech-addiction-was-a-problem-for-my-student-and-myself-18xdav.jpg"
-    },
-    "publishedAt": "2026-10-14T00:00:00.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:19zour3",
-    "rawTitle": "Tech Addiction Was a Problem for My Student — and Myself",
-    "status": "published",
-    "lang": "en"
-  },
-  {
-    "id": "f_llpf11_mvfuuj3e",
-    "slug": "yabanci-k-12-siniflari-icin-yapay-zeka-altyapisini-kim-insa-ediyor-s-llpf11",
-    "title": "K-12 Sınıfları İçin Yapay Zeka Altyapısını Kim İnşa Ediyor Sorusu Gündemde",
-    "excerpt": "Chan Zuckerberg Initiative destekli Learning Commons, K-12 düzeyinde yapay zeka içeriklerini standartlarla buluşturacak yeni bir açık platform kurdu. Girişim, eğitim teknolojisi şirketleri ile okulların teknolojiyi daha güvenilir biçimde uygulamasına yardımcı olmayı hedefliyor.",
-    "body": [
-      "Yapay zeka araçları saniyeler içinde ders planları hazırlayabilse de öğretmenler üretilen içeriklerin resmi standartlara veya öğrenme araştırmalarına uygunluğunu doğrulamakta zorlanıyor. Kâr amacı gütmeyen Learning Commons, geliştirdiği yeni açık platformla bu eksikliği gidermeyi amaçlıyor.",
-      "Aralarında OpenAI ve Anthropic'in de bulunduğu 70'ten fazla iş ortağı projeye katılım sağladı. Daha önce Google, Facebook ve Quora'da ürün ekipleri yöneten Learning Commons Başkanı Sandra Liu Huang, açık bilgi grafiklerinin sürece nasıl katkı sunduğunu aktardı."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "YAPAY ZEKA",
-      "K-12 EĞİTİMİ",
-      "EĞİTİM TEKNOLOJİSİ"
-    ],
-    "source": {
-      "name": "EdSurge",
-      "url": "https://edsurge.com/news/who-is-building-the-ai-foundation-for-k-12-classrooms",
-      "image": "/img/who-s-building-the-a-foundation-for-k-12-classrooms-nikvfw.jpg"
-    },
-    "publishedAt": "2026-10-14T00:00:00.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:llpf11",
-    "rawTitle": "Who Is Building the AI Foundation for K-12 Classrooms?",
-    "status": "published",
-    "lang": "en"
-  },
-  {
     "id": "f_13rpl05_mvfnucog",
     "slug": "yabanci-lise-ogrencileri-hsc-sinavinda-insan-gucu-ve-kirilganligi-ko-13rpl0",
     "title": "Lise öğrencileri HSC sınavında insan gücü ve kırılganlığı konularını ele aldı",
@@ -1928,75 +1665,6 @@
     "rawTitle": "Bacon, eggs and Bowie: how year 12 English students tackled ‘human strength and vulnerability’ in HSC paper",
     "status": "published",
     "lang": "en"
-  },
-  {
-    "id": "n_zlctyd_mvfupav6",
-    "slug": "osym-dikey-gecis-sinavi-ek-tercih-ve-kontenjan-kilavuzu-bekleniyor-xi9n2r",
-    "title": "ÖSYM dikey geçiş sınavı ek tercih ve kontenjan kılavuzu bekleniyor",
-    "excerpt": "2026 DGS ek tercih sürecinde adayların boş kontenjanlar ve kılavuza dair bekleyişi sürüyor. Tercih takviminin başlamasıyla lisans programlarına yerleştirme işlemleri yapılacak.",
-    "body": [
-      "ÖSYM DGS ek tercih kılavuzu ve boş kontenjan listesi, ön lisans eğitimini lisans düzeyine tamamlamak isteyen adayların gündeminde yer alıyor. Peki, 2026 DGS ek tercihler ne zaman başlayacak? ÖSYM DGS ek tercih kılavuzu yayımlandı mı, boş kontenjanlar açıklandı mı?",
-      "2026 Dikey Geçiş Sınavı (DGS) ek tercih tarihleri, lisans programlarına yerleşmek isteyen adaylar tarafından yakından takip ediliyor. ÖSYM tarafından 2026 DGS ek yerleştirme takvimine ilişkin henüz resmi bir açıklama yapılmadı.",
-      "Geçtiğimiz yıl DGS yerleştirme sonuçları 8 Eylül'de açıklanmış, ek tercih işlemleri ise 7-13 Ekim 2025 tarihleri arasında gerçekleştirilmişti.",
-      "2026 DGS tercihleri 27 Ağustos-3 Eylül tarihleri arasında alınırken yerleştirme sonuçları 8 Eylül'de erişime açıldı. Önceki yılın takvimi dikkate alındığında ek tercih sürecinin ekim ayı içerisinde başlaması bekleniyor. Ancak kesin tarihler ÖSYM tarafından yapılacak duyuruyla netleşecek.",
-      "2026 DGS ek tercih kılavuzu henüz yayımlanmadı. ÖSYM tarafından hazırlanacak ek yerleştirme kılavuzunda üniversitelerin lisans programlarında kalan boş kontenjanlar, tercih koşulları ve ilgili puan bilgileri yer alacak."
-    ],
-    "category": "sinav",
-    "tags": [
-      "DGS",
-      "EK TERCİH",
-      "KONTENJAN"
-    ],
-    "source": {
-      "name": "Cumhuriyet",
-      "url": "https://www.cumhuriyet.com.tr/egitim/2026-dgs-ek-tercihler-ne-zaman-baslayacak-osym-dgs-ek-tercih-kilavuzu-yayimlandi-mi-bos-kontenjanlar-aciklandi-mi-2546146",
-      "image": "/img/2026-dgs-ek-tercihler-ne-zaman-ba-layacak-sym-dgs-ek-tercih--rcj4fo.jpg"
-    },
-    "publishedAt": "2026-10-13T06:48:00.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4.6,
-    "dedupeKey": "xi9n2r",
-    "rawTitle": "2026 DGS ek tercihler ne zaman başlayacak? ÖSYM DGS ek tercih kılavuzu yayımlandı mı, boş kontenjanlar açıklandı mı?",
-    "status": "published",
-    "lang": "tr"
-  },
-  {
-    "id": "n_4pxm2s_mvfupav5",
-    "slug": "kredi-ve-yurtlar-kurumu-burs-ve-kredi-basvuru-detaylari-arastiriliyor-1ei7z2",
-    "title": "Kredi ve Yurtlar Kurumu burs ve kredi başvuru detayları araştırılıyor",
-    "excerpt": "İlk kez KYK burs ve kredi başvurusu yapacak üniversite öğrencileri başvuru sürecine odaklandı. Öğrenciler başvuruların sona ereceği tarihi ve başvuru aşamalarını öğrenmeye çalışıyor.",
-    "body": [
-      "2026-2027 KYK burs ve kredi başvuruları başladı. Peki, KYK burs başvurusu son gün ne zaman? Kredi ve Yurtlar Kurumu burs başvurusu nasıl yapılır?",
-      "2026-2027 KYK burs ve kredi başvuruları başladı. Öğrenciler 16 Ekim Cuma saat 23.59'a kadar başvurularını tamamlayabilecek.",
-      "KYK burs ödeme tarihleri henüz açıklanmadı. Geçtiğimiz yıllara baktığımız zaman ilk ödemeler başvuru sonuçlarının açıklanıp taahhütname onaylarının tamamlanmasının ardından Kasım veya Aralık ayında ilk ödemenin iki aylık (Ekim + Kasım veya Kasım + Aralık) toplu olarak hesaplara yatırılıyor.",
-      "İlk ödemeden sonraki aylarda ödemeler, T.C. kimlik numarasının son rakamına göre her ayın 6 ile 10'uncu günleri arasında Kredi ve Yurtlar Genel Müdürlüğü tarafından yatırılmaktadır."
-    ],
-    "category": "universite",
-    "tags": [
-      "KYK",
-      "BURS BAŞVURUSU",
-      "KREDİ VE YURTLAR"
-    ],
-    "source": {
-      "name": "Cumhuriyet",
-      "url": "https://www.cumhuriyet.com.tr/egitim/kyk-burs-basvurusu-son-gun-ne-zaman-kredi-ve-yurtlar-kurumu-burs-basvurusu-nasil-yapilir-2546126",
-      "image": "/img/kyk-burs-ba-vurusu-son-g-n-ne-zaman-kredi-ve-yurtlar-kurumu--18fmdh.jpg"
-    },
-    "publishedAt": "2026-10-13T06:18:00.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 5.7,
-    "dedupeKey": "1ei7z2w",
-    "rawTitle": "KYK burs başvurusu son gün ne zaman? Kredi ve Yurtlar Kurumu burs başvurusu nasıl yapılır?",
-    "status": "published",
-    "lang": "tr"
   },
   {
     "id": "f_1b7eavp_mvfnucog",
@@ -2129,71 +1797,6 @@
     "dedupeKey": "x6damn",
     "rawTitle": "Bu okulun bir öğrencisi bir öğretmeni var",
     "status": "published"
-  },
-  {
-    "id": "n_1kba63v_mvfupav7",
-    "slug": "kamu-personel-secme-sinavi-brans-bazinda-siralama-sonuclari-merakla-bekl-6ihvzy",
-    "title": "Kamu personel seçme sınavı branş bazında sıralama sonuçları merakla bekleniyor",
-    "excerpt": "KPSS sonuçlarının açıklanmasının ardından memur adayları branş bazındaki başarı sıralamalarını araştırmaya başladı. Sıralamaların duyurulacağı tarihe yönelik beklentiler devam ediyor.",
-    "body": [
-      "6 Eylül 2026'da yapılan KPSS Lisans Genel Yetenek-Genel Kültür oturumu ile 12-13 Eylül'deki Alan Bilgisi oturumlarının sonuçları açıklanırken, adaylar şimdi de branş bazında sıralamaların yayımlanmasını bekliyor. Peki, 2026 KPSS branş bazında sıralamalar açıklandı mı? KPSS branş bazında sıralama tarihi belli oldu mu? İşte ayrıntılar...",
-      "KPSS branş bazında sıralamalar henüz açıklanmadı. Önceki yıllardaki uygulamalar dikkate alındığında, sıralamaların sınav sonuçlarının duyurulmasının ardından 1-2 hafta içerisinde ÖSYM Aday İşlemleri Sistemi (AİS) üzerinden erişime açılması bekleniyor.",
-      "Sıralamalar yayımlandığında adaylar, T.C. kimlik numaraları ve aday şifreleriyle ÖSYM Aday İşlemleri Sistemi üzerinden giriş yaparak kendi branşlarındaki sıralamalarını görüntüleyebilecek."
-    ],
-    "category": "sinav",
-    "tags": [
-      "KPSS",
-      "BRANŞ SIRALAMASI",
-      "ÖSYM"
-    ],
-    "source": {
-      "name": "Cumhuriyet",
-      "url": "https://www.cumhuriyet.com.tr/egitim/2026-kpss-brans-bazinda-siralamalar-aciklandi-mi-kpss-brans-bazinda-siralama-tarihi-belli-oldu-mu-2545882",
-      "image": "/img/2026-kpss-bran-baz-nda-s-ralamalar-a-kland-m-kpss-bran-baz-n-cgmfl6.jpg"
-    },
-    "publishedAt": "2026-10-12T09:58:00.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4.6,
-    "dedupeKey": "6ihvzy",
-    "rawTitle": "2026 KPSS branş bazında sıralamalar açıklandı mı? KPSS branş bazında sıralama tarihi belli oldu mu?",
-    "status": "published",
-    "lang": "tr"
-  },
-  {
-    "id": "n_1d816aj_mvfupav5",
-    "slug": "dikey-gecis-sinavi-ek-tercih-sureci-lisans-adaylarinin-gundeminde-yer-al-1hdxsi",
-    "title": "Dikey Geçiş Sınavı ek tercih süreci lisans adaylarının gündeminde yer alıyor",
-    "excerpt": "Dikey Geçiş Sınavı sonuçlarının ardından üniversite eğitimini lisans düzeyinde sürdürmek isteyen adaylar ÖSYM'den gelecek ek tercih açıklamasını bekliyor. Adaylar kılavuzun yayımlanacağı tarihi takip ediyor.",
-    "body": [
-      "2026 DGS yerleştirme sonuçlarının açıklanmasının ardından gözler ek tercih sürecine çevrildi. İlk yerleştirmede herhangi bir yükseköğretim programına yerleşemeyen adaylar, boş kontenjanlar için yapılacak ek yerleştirme takvimini yakından takip ediyor. Peki, 2026 DGS ek tercih tarihi belli oldu mu? ÖSYM DGS ek tercih başvuruları ne zaman alınacak, ek yerleştirme kılavuzu yayımlandı mı? İşte merak edilenler.",
-      "DGS ilk yerleştirme kayıt işlemlerinin eylül ayının son haftasında tamamlanmasının ardından, üniversiteler kayıt yaptırmayan öğrencilerin sayılarını YÖK'e iletiyor. YÖK'ün bu verileri toparlayıp ÖSYM'ye aktarmasıyla birlikte ek tercih süreci için düğmeye basılıyor. ÖSYM tarafından 2026 yılı DGS ek tercih tarihlerine ilişkin henüz resmi bir tarih açıklaması yapılmadı. Ancak kurumun geçmiş yıllardaki başvuru takvimleri ve işleyiş hızı göz önüne alındığında, 2026 DGS ek tercihlerinin ekim ayının üçüncü veya son haftası içerisinde alınmaya başlanması bekleniyor. Tarihlerin netleşmesiyle birlikte ÖSYM, resmi web sitesi ve sosyal medya hesapları üzerinden adayları bilgilendirecek."
-    ],
-    "category": "sinav",
-    "tags": [
-      "DGS",
-      "EK TERCİH",
-      "ÖSYM"
-    ],
-    "source": {
-      "name": "Cumhuriyet",
-      "url": "https://www.cumhuriyet.com.tr/egitim/dikey-gecis-sinavi-dgs-ek-tercih-tarihi-belli-oldu-mu-2026-osym-dgs-ek-tercihleri-ne-zaman-alinacak-2545827",
-      "image": "/img/dikey-ge-i-s-nav-dgs-ek-tercih-tarihi-belli-oldu-mu-2026-sym-rcj4fo.jpg"
-    },
-    "publishedAt": "2026-10-12T08:04:00.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 5.7,
-    "dedupeKey": "1hdxsii",
-    "rawTitle": "Dikey Geçiş Sınavı (DGS) ek tercih tarihi belli oldu mu? 2026 ÖSYM DGS ek tercihleri ne zaman alınacak?",
-    "status": "published",
-    "lang": "tr"
   },
   {
     "id": "n_76qti7_mvei314a",
@@ -2332,112 +1935,6 @@
     "dedupeKey": "17qb2h5",
     "rawTitle": "KPSS Sonuçları 2026: Lisans Sonuç Tarihi 7 Ekim, Sorgulama ve Sonraki Adımlar",
     "status": "review"
-  },
-  {
-    "id": "n_ztmmno_mvfupav9",
-    "slug": "kpss-on-lisans-oturumu-sonrasinda-sinav-sonuc-tarihi-takip-ediliyor-y9rk5w",
-    "title": "KPSS ön Lisans oturumu sonrasında sınav sonuç tarihi takip ediliyor",
-    "excerpt": "KPSS ön lisans oturumunun tamamlanmasıyla birlikte sınava katılan adaylar sonuçların açıklanacağı tarihi beklemeye başladı. Adaylar ayrıca sonuç sorgulama adımlarını araştırıyor.",
-    "body": [
-      "KPSS ön lisans sınavının ardından adaylar, sonuçların ne zaman açıklanacağını araştırmaya başladı. Peki, 2026 KPSS Ön Lisans sınav sonuç tarihi belli oldu mu? KPSS Ön Lisans sınav sonuçları nasıl sorgulanır? İşte ayrıntılar...",
-      "ÖSYM'nin 2026 sınav takvimine göre KPSS ön lisans sınavı sonuçları 30 Ekim 2026 tarihinde açıklanacak.",
-      "KPSS ön lisans sınav sonuçları, adayların T.C. kimlik numaraları ve şifreleriyle ÖSYM'nin sonuç açıklama sistemi ve mobil uygulamaları üzerinden görüntülenebilecek. Sonuç belgeleri basılmayacak ve adayların adreslerine gönderilmeyecek. Sonuç ekranında adayların doğru ve yanlış cevap sayıları ile KPSS puanları yer alacak."
-    ],
-    "category": "sinav",
-    "tags": [
-      "KPSS",
-      "ÖN LİSANS",
-      "SINAV SONUÇLARI"
-    ],
-    "source": {
-      "name": "Cumhuriyet",
-      "url": "https://www.cumhuriyet.com.tr/egitim/2026-kpss-on-lisans-sinav-sonuc-tarihi-belli-oldu-mu-kpss-on-lisans-sinav-sonuclari-nasil-sorgulanir-2545366",
-      "image": "/img/2026-kpss-n-lisans-s-nav-sonu-tarihi-belli-oldu-mu-kpss-n-li-nhdxv.jpg"
-    },
-    "publishedAt": "2026-10-10T11:24:00.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4.6,
-    "dedupeKey": "y9rk5w",
-    "rawTitle": "2026 KPSS Ön Lisans sınav sonuç tarihi belli oldu mu? KPSS Ön Lisans sınav sonuçları nasıl sorgulanır?",
-    "status": "published",
-    "lang": "tr"
-  },
-  {
-    "id": "f_r7uk9m_mvfuthdb",
-    "slug": "yabanci-fransiz-ogrenciler-sokaklara-dokulurken-ingiliz-akranlari-ne-r7uk9m",
-    "title": "Fransız öğrenciler sokaklara dökülürken İngiliz akranları neden sessiz kalmayı tercih ediyor?",
-    "excerpt": "Fransa'da yetişen gençlerin hak arama ve sokak protestosu geleneği, benzer ekonomik sorunlarla boğuşan İngiliz öğrencilerin eylemsizliğiyle belirgin bir tezat oluşturuyor. İngiltere'deki gençler yüksek borçlar ve barınma krizi yaşasa da bunu kitlesel eylemlere dönüştüremiyor.",
-    "body": [
-      "Fransa'da büyüyen çocuklar, ülkelerinin devrimci köklerini ve devletin vatandaşlarına karşı olan sorumluluklarını erken yaşta öğreniyor. İngiltere'deki gençlerin de yüksek öğrenci borçları, özel okul ayrıcalıkları ve ulaşılamaz konut piyasası gibi öfkelenecek pek çok sebebi bulunuyor. Ancak Fransız akranlarının aksine, İngiliz öğrencilerin bu hoşnutsuzluğu kitlesel eylemlere dönüştürme alışkanlığı zayıf kalıyor.",
-      "Fransa milli marşı La Marseillaise'in harekete geçirici dizeleri, ülkedeki devrimci ruhun geçmişe ait bir kalıntı olmadığını gösteriyor. Son haftalarda liselerde gerçekleşen protestolar, Fransız öğrencilerin cesaretini ve örgütlenme becerisini bir kez daha gözler önüne seriyor. Örneğin Lens kentindeki 15 yaşındaki bir lise öğrencisinin öncülük ettiği eylemler bu mücadeleci geleneğin sürdüğünü kanıtlıyor."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "FRANSA",
-      "ÖĞRENCİ PROTESTOLARI",
-      "İNGİLTERE",
-      "EĞİTİM"
-    ],
-    "source": {
-      "name": "The Guardian",
-      "url": "https://www.theguardian.com/commentisfree/2026/oct/10/angry-french-students-protests-british-dont-why",
-      "image": "/img/angry-french-students-take-to-the-streets-british-students-d-mmez1.jpg"
-    },
-    "publishedAt": "2026-10-10T09:45:40.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:r7uk9m",
-    "rawTitle": "Angry French students take to the streets. British students don’t – and I think I know why | Kitty Sayers",
-    "status": "published",
-    "lang": "en"
-  },
-  {
-    "id": "n_1pw6ivb_mvfupav1",
-    "slug": "i-stanbul-buyuksehir-belediyesi-universite-ogrencilerine-yonelik-burs-ba-1t2259",
-    "title": "İstanbul büyükşehir belediyesi Üniversite öğrencilerine yönelik burs başvuru sürecini sürdürüyor",
-    "excerpt": "İstanbul Büyükşehir Belediyesi tarafından üniversite öğrencilerine sağlanan burs başvuruları devam ediyor. Öğrenciler başvuruların tamamlanacağı son tarihi ve başvuru adımlarını araştırıyor.",
-    "body": [
-      "İstanbul’da öğrenim gören ya da ailesi İstanbul’da ikamet eden ön lisans, lisans, yüksek lisans ve doktora öğrencilerine yönelik sunulan İBB Genç Üniversiteli Eğitim Desteği başvuruları tüm hızıyla devam ediyor. Eğitim giderlerine katkı sağlamak amacıyla verilen burs imkanından yararlanmak isteyen adaylar için başvuru takvimi netleşti. Peki, 2026-2027 İBB burs başvuruları ne zaman bitecek? İBB Genç Üniversiteli başvuruları nasıl yapılır? İBB burs başvurusu için gerekli belgeler neler? İşte tüm ayrıntılar...",
-      "2026-2027 eğitim-öğretim dönemi İBB Genç Üniversiteli burs başvuruları 29 Eylül 2026 tarihinde başlamış olup, 23 Ekim 2026 Cuma günü mesai bitimiyle sona erecektir. Adayların mağduriyet yaşamaması adına belgelerini sistem üzerinden son güne kalmadan tamamlamaları gerekmektedir.",
-      "Başvurular fiziki olarak alınmamakta olup tamamen dijital kanallar üzerinden gerçekleştirilmektedir. Adaylar iki farklı yöntemle başvuru yapabilirler:",
-      "1. İstanbul Senin Uygulaması: Google Play veya App Store üzerinden Akıllı cep telefonlarına indirilen \"İstanbul Senin\" mobil uygulaması üzerinden kolayca başvuru adımları takip edilebilir.",
-      "2. Web Sitesi: İBB'nin resmi başvuru portalı olan gencuniversiteli.ibb.istanbul adresi üzerinden T.C. kimlik numarası ve istenen bilgiler girilerek başvuru formu doldurulabilir.",
-      "Türkiye Cumhuriyeti vatandaşı olmak. Öğrencinin kendisinin veya ailesinin (anne/baba vefatı durumunda yakınının) İstanbul’da ikamet etmesi.",
-      "Ara ve son sınıf öğrencileri için yılsonu başarı notunun en az 100 üzerinden 53 ya da 4,00 üzerinden 2,00 olması.",
-      "Maddi desteğe ihtiyacı bulunmak. İBB BURS BAŞVURUSU İÇİN GEREKLİ BELGELER Sisteme yüklenmesi gereken temel evraklar şunlar:"
-    ],
-    "category": "universite",
-    "tags": [
-      "İBB BURS",
-      "GENÇ ÜNİVERSİTELİ",
-      "BURS BAŞVURUSU"
-    ],
-    "source": {
-      "name": "Cumhuriyet",
-      "url": "https://www.cumhuriyet.com.tr/egitim/2026-2027-ibb-burs-basvuru-son-gun-ne-zaman-ibb-genc-universiteli-basvurulari-nasil-yapilir-2545331",
-      "image": "/img/2026-2027-ibb-burs-ba-vuru-son-g-n-ne-zaman-ibb-gen-niversit-yvsm7y.jpg"
-    },
-    "publishedAt": "2026-10-10T08:56:00.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "province": "İstanbul",
-    "fullText": true,
-    "score": 6.8,
-    "dedupeKey": "1t2259s",
-    "rawTitle": "2026-2027 İBB burs başvuru son gün ne zaman? İBB Genç Üniversiteli başvuruları nasıl yapılır?",
-    "status": "published",
-    "lang": "tr"
   },
   {
     "id": "n_1yop55u_mvew35tu",
@@ -2639,108 +2136,6 @@
     "status": "published"
   },
   {
-    "id": "f_onocff_mvfv0ffv",
-    "slug": "yabanci-egitim-uzmani-mike-anderson-ogretmenlerin-ekim-ayi-tukenmisl-onocff",
-    "title": "Eğitim uzmanı Mike Anderson öğretmenlerin ekim ayı tükenmişliğiyle başa çıkma yollarını anlattı",
-    "excerpt": "Yazar ve eğitim danışmanı Mike Anderson, her sonbaharda öğretmenleri etkisi altına alan 'ekim hüznü' adlı motivasyon kaybıyla mücadele etme yöntemlerini ele alıyor.",
-    "body": [
-      "Öğretmenler her sonbaharda yeni eğitim yılına büyük bir enerjiyle başlasa da bu dalga kısa sürede kırılabiliyor. Eğitimciler, bu dönemin ardından gelen durgunluğu ve motivasyon kaybını 'ekim hüznü' olarak adlandırıyor.",
-      "Bu süreç, özellikle mesleğe yeni başlayan öğretmenlerin kariyerlerini sorgulamasına yol açacak kadar sert hissedilebiliyor. Daha zor olan soru ise bu düşüşü hafifletecek bir çözüm bulunup bulunamayacağı ya da her öğretmenin sadece sürecin geçmesini beklemek zorunda olup olmadığıdır.",
-      "Eski bir sınıf öğretmeni ve danışman olan Mike Anderson, ilk yılında haftada 100 saatten fazla çalışarak bu süreci bizzat yaşadı. Anderson, 22 yaşındayken tüm gün dördüncü sınıflara ders verdikten sonra iki yüzme takımına antrenörlük yapmıştı."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "ÖĞRETMEN TÜKENMİŞLİĞİ",
-      "EĞİTİMDE MOTİVASYON",
-      "MESLEKİ GELİŞİM"
-    ],
-    "source": {
-      "name": "EdSurge",
-      "url": "https://edsurge.com/news/why-do-so-many-teachers-crash-in-october",
-      "image": "/img/why-do-so-many-teachers-crash-in-october-1839lw.jpg"
-    },
-    "publishedAt": "2026-10-07T00:00:00.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:onocff",
-    "rawTitle": "Why Do So Many Teachers Crash in October?",
-    "status": "published",
-    "lang": "en"
-  },
-  {
-    "id": "f_o926e5_mvfv0ffv",
-    "slug": "yabanci-tarihi-toplumsal-hareketleri-teknoloji-egitimine-dahil-etmek-o926e5",
-    "title": "Tarihi toplumsal hareketleri teknoloji eğitimine dahil etmek öğrencilerin sivil katılımını güçlendiriyor",
-    "excerpt": "Tarihteki toplumsal hareketlerden edinilen kazanımların teknoloji eğitimine dahil edilmesi, öğrencilerin geleceği şekillendirme ve sivil katılım konusundaki ilgisini artırıyor.",
-    "body": [
-      "Tarihi toplumsal hareketlerin teknoloji eğitimine entegre edilmesi, öğrencilerin geleceğe yön verme merakını önemli ölçüde pekiştiriyor. Geleneksel sınıf materyalleri ise çoğu zaman öğrencilerin canlı hikayelerle bağ kurmak yerine olguları ezberlediği pasif bir süreç sunuyor.",
-      "Sınıflarda kullanılan teknolojinin geçmişte kültür ve tarihten kopuk ve soyut kaldığı görülüyordu. 2002 yılında Miles College'a gitmek üzere Alabama'ya taşınmak ve Birmingham'da eğitime odaklanmak, sivil haklar hareketinin merkezinde derin bir temel oluşturdu.",
-      "Bununla birlikte, Institute for Common Power bünyesindeki Truth and Purpose Learning Tour'a katılana kadar bu anlayışta köklü bir değişim yaşanmamıştı. Söz konusu program, teknoloji ile toplumsal bilinç arasındaki bağı yeniden tanımlayan bir bakış açısı kazandırdı."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "KODLAMA VE TEKNOLOJİ",
-      "SİVİL KATILIM",
-      "TEKNOLOJİ EĞİTİMİ"
-    ],
-    "source": {
-      "name": "EdSurge",
-      "url": "https://edsurge.com/news/how-coding-can-cultivate-deep-civic-engagement",
-      "image": "/img/how-coding-can-cultivate-deep-civic-engagement-1yfuph.jpg"
-    },
-    "publishedAt": "2026-10-07T00:00:00.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:o926e5",
-    "rawTitle": "How Coding Can Cultivate Deep Civic Engagement",
-    "status": "published",
-    "lang": "en"
-  },
-  {
-    "id": "f_d47a4v_mvfuxps0",
-    "slug": "yabanci-kucuk-ve-kirsal-okul-bolgeleri-devamsizlikla-mucadelede-buyu-d47a4v",
-    "title": "Küçük ve Kırsal Okul Bölgeleri Devamsızlıkla Mücadelede Büyük Şehirlere Fark Atıyor",
-    "excerpt": "Yeni bir çalışma, küçük ve kırsal okul bölgelerinin kronik devamsızlıkla mücadelede kentsel ve banliyö bölgelerine kıyasla çok daha hızlı toparlandığını gösteriyor.",
-    "body": [
-      "The GRAD Partnership, Everyone Graduates Center ve Partnership for Student Success ortaklığında yürütülen yeni bir çalışma, ülke genelindeki devamsızlık verilerini inceledi. Araştırma, küçük ve kırsal okul bölgelerinin okula devam oranlarını büyük kentsel bölgelere göre çok daha hızlı toparladığını belirledi.",
-      "Rapora göre, 1.000'den az öğrencisi olan kırsal bölgeler, 2024-25 eğitim-öğretim yılı itibarıyla kronik devamsızlık oranlarını pandemi öncesi seviyelerin yüzde 2 yakınına getirmeyi başardı. Bu toparlanma oranı, 50.000'den fazla öğrencisi olan kentsel bölgelere kıyasla yaklaşık iki kat daha yüksek gerçekleşti.",
-      "Bazı kırsal bölgeler hızlı bir geri dönüş yakalasa da ülke çapında birçok bölgenin pandemi öncesi devamlılık seviyelerine ulaşmak için hâlâ katetmesi gereken uzun bir yol bulunuyor. Eğitim uzmanları, bu başarının arkasındaki yöntemleri anlamak amacıyla yerel idarecilerin ve danışmanların uyguladığı destek mekanizmalarını araştırıyor."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "KIRSAL EĞİTİM",
-      "KRONİK DEVAMSIZLIK",
-      "OKULA DEVAM"
-    ],
-    "source": {
-      "name": "EdSurge",
-      "url": "https://edsurge.com/news/how-some-small-rural-districts-are-winning-the-attendance-struggle",
-      "image": "/img/how-some-small-rural-districts-are-winning-the-attendance-st-1fmofb.jpg"
-    },
-    "publishedAt": "2026-10-07T00:00:00.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:d47a4v",
-    "rawTitle": "How Some Small, Rural Districts Are Winning the Attendance Struggle",
-    "status": "published",
-    "lang": "en"
-  },
-  {
     "id": "f_rg4wmn_mvfraztz",
     "slug": "yabanci-avustralya-da-mezun-vizelerinin-kisitlanmasi-plani-hindistan-rg4wmn",
     "title": "Avustralya'da mezun vizelerinin kısıtlanması planı Hindistan serbest ticaret anlaşmasını riske atıyor",
@@ -2841,141 +2236,6 @@
     "dedupeKey": "uy0wwe",
     "rawTitle": "'Dünyanın En İyi Okulu' olma adımı - Eğitim Haberleri",
     "status": "published"
-  },
-  {
-    "id": "f_1ukuxaq_mvfug8cz",
-    "slug": "yabanci-luks-ogrenci-yurdu-sirketlerinin-iflasi-birlesik-krallik-tak-1ukuxa",
-    "title": "Lüks öğrenci yurdu şirketlerinin iflası Birleşik Krallık'taki öğrencileri mağdur etti",
-    "excerpt": "Yaşam maliyeti krizi ve uluslararası öğrenci sayısındaki düşüş, lüks öğrenci konaklama sektörünü ciddi bir finansal krize sürükledi. İskoçya'da eğitim gören yabancı öğrenciler, kaldıkları binaların işletmecilerinin iflas etmesiyle büyük bir şok yaşadı.",
-    "body": [
-      "Maddi durumu iyi olan öğrencilere yönelik inşa edilen özel yurt binaları zinciri ekonomik zorluklarla karşı karşıya kaldı. Yaşam maliyeti krizi ve uluslararası öğrenci talebindeki gerileme, lüks konaklama pazarını olumsuz etkiledi.",
-      "Abertay Üniversitesi'nde oyun tasarımı son sınıf öğrencisi olan Nathalie Sriwiboonrattan, Tayland'daki ailesinin yanındayken İskoçya'daki stüdyo dairesinin sahibinin iflas ettiğini öğrendi. Yeni akademik yıl için hızla konaklama bulmak zorunda kalan öğrenci, eşyalarını güvenceye almak için 850 sterlin ödemek durumunda kaldığını belirtti."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "ÖĞRENCİ KONAKLAMASI",
-      "YÜKSEKÖĞRETİM",
-      "BARINMA KRİZİ"
-    ],
-    "source": {
-      "name": "The Guardian",
-      "url": "https://www.theguardian.com/education/2026/oct/05/collapse-providers-high-end-student-accommodation",
-      "image": "/img/didn-t-know-what-to-do-collapse-of-providers-of-high-end-dig-5se9wy.jpg"
-    },
-    "publishedAt": "2026-10-05T05:00:47.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:1ukuxaq",
-    "rawTitle": "‘I didn’t know what to do’: collapse of providers of high-end digs leaves students in shock",
-    "status": "published",
-    "lang": "en"
-  },
-  {
-    "id": "f_1h2z9tb_mvfv6b3b",
-    "slug": "yabanci-yapay-zeka-panigi-okullarda-okuma-yazma-egitimini-tehlikeye--1h2z9t",
-    "title": "Yapay Zeka Panigi Okullarda Okuma Yazma Egitimini Tehlikeye Atiyor",
-    "excerpt": "Siniflarda yapay zeka kullanimina karsi baslatilan tepkiler yayiliyor. Ancak New Mexico'nun durumu, toptan yasaklarin ogrencileri erken okuryazarlık desteklerinden mahrum birakabilecegini gosteriyor.",
-    "body": [
-      "Kamu okullarinda yapay zekaya karsi buyuk bir tepki dalgasi goruluyor. Ancak New Mexico orneginde oldugu gibi, toptan yasaklar ogrencileri erken donem okuryazarlik calismalarindan mahrum birakma riski tasiyor.",
-      "15 Temmuz tarihinde New Mexico Kamu Egitimi Departmani yetkilileri, Amira Learning CEO'su ile birlikte milletvekillerinin karsisina cikti. Amca'nin yapay zeka destekli okuryazarlik tarayicisinin eyalet genelindeki devlet okullarinda kullanilmasini savundular.",
-      "New Mexico, dezavantajli ogrencilerin basari oranlarini artirmak icin 2018'den beri mahkeme emri altindadir. Yetkililer, okuma becerilerini gelistirmek amaciyla 2025 yilinda bu yazilimi kullanmaya basladilar."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "Yapay Zeka",
-      "Egitim Teknolojisi",
-      "Okuryazarlik"
-    ],
-    "source": {
-      "name": "EdSurge",
-      "url": "https://edsurge.com/news/will-kids-pay-the-price-for-ai-panic",
-      "image": "/img/will-kids-pay-the-price-for-a-panic-1qibzr.jpg"
-    },
-    "publishedAt": "2026-10-05T00:00:00.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:1h2z9tb",
-    "rawTitle": "Will Kids Pay the Price for AI Panic?",
-    "status": "published",
-    "lang": "en"
-  },
-  {
-    "id": "f_xqe5ch_mvfumps0",
-    "slug": "yabanci-ingiltere-ve-galler-okullarindaki-akran-istismari-sorunu-ara-xqe5ch",
-    "title": "İngiltere ve Galler okullarındaki akran istismarı sorunu aradan geçen on yıla rağmen sürüyor",
-    "excerpt": "İngiltere ve Galler'deki okullarda çocuklar arası cinsel istismar ve zorbalık boyutunun ortaya konulmasının üzerinden on yıl geçmesine rağmen sorunun ciddiyetini koruduğu belirtildi. Uzmanlar ve sivil toplum kuruluşları, hızlı toplumsal değişimler karşısında okulların bu durumla mücadelede zorlandığını ifade ediyor.",
-    "body": [
-      "İngiltere'de kadın ve eşitlik komisyonu milletvekillerinin hazırladığı raporun okullardaki akran tacizi ve cinsel istismarın korkutucu boyutlarını gözler önüne sermesinin üzerinden 10 yıl geçti. Komisyon başkanı Maria Miller o dönem hükümetin acil eyleme geçmesi gerektiğini vurgulamıştı.",
-      "Denetleme kurumu Ofsted soruşturmalar yürütüp tavsiyeler yayımlarken, yetkililer yeni bir cinsel eğitim müfredatını hayata geçirdi. Ancak uzmanlar, avukatlar ve aktivistler pek çok vakanın yetkililere hiçbir zaman bildirilmediğini belirtiyor."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "İNGİLTERE",
-      "OKULDA ŞİDDET",
-      "AKRAN ZORBALIĞI",
-      "EĞİTİM"
-    ],
-    "source": {
-      "name": "The Guardian",
-      "url": "https://www.theguardian.com/education/2026/oct/04/children-schools-struggle-cope-sexual-abuse-england-wales",
-      "image": "/img/from-unwanted-touching-to-rape-the-scale-of-child-on-child-a-mjzhu0.jpg"
-    },
-    "publishedAt": "2026-10-04T15:00:30.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:xqe5ch",
-    "rawTitle": "From unwanted touching to rape: the scale of child-on-child abuse in English and Welsh schools",
-    "status": "published",
-    "lang": "en"
-  },
-  {
-    "id": "f_1k1h7bv_mvfumps0",
-    "slug": "yabanci-serebral-palsili-patrick-mccabe-goz-takip-teknolojisi-kullan-1k1h7b",
-    "title": "Serebral palsili Patrick McCabe göz takip teknolojisi kullanarak lise bitirme sınavlarını başarıyla tamamladı",
-    "excerpt": "İngiltere'de 16 yaşındaki serebral palsili öğrenci Patrick McCabe, göz takip teknolojisi yardımıyla GCSE sınavlarını geçerek büyük bir başarıya imza attı. Dört ay süren sınav maratonunun ardından McCabe, A-level düzeyindeki eğitimine resmen başladı.",
-    "body": [
-      "Cheshire bölgesindeki Macclesfield kentinde yer alan Fallibroome Akademisi öğrencisi Patrick McCabe, arkadaşları arasında neşeli tavırlarıyla tanınıyor. Serebral palsi hastası 16 yaşındaki öğrencinin yaz aylarında elde ettiği GCSE başarısı okulda büyük yankı uyandırdı.",
-      "Patrick, sınavlarını tamamlayabilmek için özel olarak geliştirilmiş göz takip teknolojisinden yararlandı ve süreç yaklaşık dört ay sürdü. Genç öğrenci şimdilerde Fransızca, işletme ve medya çalışmaları alanlarında A-level eğitimine odaklanıyor."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "ÖZEL EĞİTİM",
-      "SEREBRAL PALSİ",
-      "EĞİTİM TEKNOLOJİLERİ",
-      "İNGİLTERE"
-    ],
-    "source": {
-      "name": "The Guardian",
-      "url": "https://www.theguardian.com/education/2026/oct/02/patrick-mccabe-success-cheshire-reveals-limits-send-tech",
-      "image": "/img/just-like-my-big-brothers-boy-with-cerebral-palsy-passes-gcs-14hvpj.jpg"
-    },
-    "publishedAt": "2026-10-02T17:18:06.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:1k1h7bv",
-    "rawTitle": "‘Just like my big brothers’: boy with cerebral palsy passes GCSEs with eye-tracking technology",
-    "status": "published",
-    "lang": "en"
   },
   {
     "id": "n_1elrde5_mvei1j37",
@@ -3246,73 +2506,6 @@
     "dedupeKey": "1cpziwi",
     "rawTitle": "TVF Spor Lisesine ortaokul yapılıyor",
     "status": "published"
-  },
-  {
-    "id": "f_msj089_mvfug8cz",
-    "slug": "yabanci-avustralya-da-elektrikli-bisikletin-carptigi-kucuk-cocuk-agi-msj089",
-    "title": "Avustralya'da elektrikli bisikletin çarptığı küçük çocuk ağır yaralanarak hastaneye kaldırıldı",
-    "excerpt": "Avustralya'nın Sidney kentinde bir elektrikli bisikletin çarptığı beş yaşındaki çocuk bacağından ağır yaralandı. Polis, kaza sonrası durmayarak olay yerinden uzaklaşan sürücüyü arıyor.",
-    "body": [
-      "Yetkililer, saat 15.30 sularında Engadine banliyösünde bir çocuğa elektrikli bisiklet çarptığı ihbarı üzerine acil servis ekiplerinin bölgeye sevk edildiğini açıkladı. Bacağında ciddi yaralanmalar oluşan beş yaşındaki çocuk, olay yerindeki ilk müdahalenin ardından Sidney Çocuk Hastanesi'ne kaldırıldı.",
-      "Hastanede tedavi altına alınan çocuğun sağlık durumunun stabil olduğu bildirildi. Polis ekipleri, kazanın ardından durmayarak olay yerini terk eden bisiklet sürücüsü ile bağlantılı iki kişiyi tespit etmek için çalışma yürütüyor."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "AVUSTRALYA",
-      "TRAFİK KAZASI",
-      "ASAYİŞ"
-    ],
-    "source": {
-      "name": "The Guardian Dünya",
-      "url": "https://www.theguardian.com/australia-news/live/2026/sep/30/labor-anthony-albanese-coalition-polling-new-greens-leader-openai-hack-ntwnfb",
-      "image": "/img/peugeot-recalls-hundreds-of-cars-in-australia-over-issue-tha-14qmez.jpg"
-    },
-    "publishedAt": "2026-09-30T07:17:08.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:msj089",
-    "rawTitle": "Peugeot recalls hundreds of cars in Australia over issue that could increase ‘risk of serious injury or death’ – as it happened",
-    "status": "published",
-    "lang": "en"
-  },
-  {
-    "id": "f_10m122w_mvfv6b3b",
-    "slug": "yabanci-okullar-egitim-teknolojilerindeki-yapay-zeka-ozelliklerine-g-10m122",
-    "title": "Okullar Egitim Teknolojilerindeki Yapay Zeka Ozelliklerine Guvenebilir mi?",
-    "excerpt": "This Week with EdSurge programinin bu bolumunde, dijital ogretim araclarinin etkililigini dogrulamanin neden onemli oldugu tartisiliyor. Egitim teknolojisi sirketleri yapay zekayi hizla urunlerine entegre ediyor.",
-    "body": [
-      "This Week with EdSurge programinin yeni bolumunde eski egitimciler, EdReports'un yayinladigi yeni raporu degerlendiriyor. Dijital ogretim araclarinin gercekten etki saglayip saglamadigini test etmenin kritik onemi vurgulaniyor.",
-      "Egitim teknolojisi sirketleri, yapay zeka ozelliklerini yeni ve mevcut materyallere hizla ekliyor. Ancak bagimsiz kurulus EdReports, bu iddialarin arkasindaki kanitlari arastirdiginda bazi soru isaretleriyle karsilasti.",
-      "Bazi yapay zeka araclari ogretmenlerin icerigi denetlemesine izin verirken, digerleri dogrudan ogrencilerin karsisina cikarabiliyor. EdReports yetkilileri, okul liderlerinin bu sonbahardaki alim kararlarinda dikkatli olmasi gerektigini belirtiyor."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "Egitim Teknolojisi",
-      "Yapay Zeka",
-      "Okul Yonetimi"
-    ],
-    "source": {
-      "name": "EdSurge",
-      "url": "https://edsurge.com/news/can-schools-trust-ai-features-in-edtech-products",
-      "image": "/img/can-schools-trust-a-features-in-edtech-products-uyiouo.jpg"
-    },
-    "publishedAt": "2026-09-30T00:00:00.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:10m122w",
-    "rawTitle": "Can Schools Trust AI Features in Edtech Products?",
-    "status": "published",
-    "lang": "en"
   },
   {
     "id": "n_fzu26y_mvevprmo",
@@ -3620,140 +2813,6 @@
     "dedupeKey": "5ysmx6",
     "rawTitle": "SPK personel alımı 2026: 40 uzman yardımcısı için başvuru, şartlar ve sınav takvimi",
     "status": "published"
-  },
-  {
-    "id": "f_j2st5x_mvfug8cz",
-    "slug": "yabanci-avustralya-universitelerinde-odev-degerlendirmede-yapay-zeka-j2st5x",
-    "title": "Avustralya üniversitelerinde ödev değerlendirmede yapay zeka kullanımı tartışmalara yol açtı",
-    "excerpt": "Avustralya'daki bazı üniversitelerin ödev puanlamada ve geri bildirim sağlamada yapay zeka kullanması eğitim dünyasında tartışma başlattı. Uzmanlar, bu yöntemin yükseköğretimin niteliğinde geri dönülmez bir kısır döngü yaratabileceği uyarısında bulunuyor.",
-    "body": [
-      "Avustralya'da birçok yükseköğretim kurumu, akademik personelin öğrenci ödevlerini puanlarken ve geri bildirim sunarken üretken yapay zekadan yararlanmasına onay vermeye başladı. Bu uygulama, kurumları eğitimde yapay zekanın sınırları konusunda bir yol ayrımına getirdi.",
-      "Western Sydney Üniversitesi Hukuk ve Teknoloji Kıdemli Öğretim Görevlisi Armin Alimardani, üretken yapay zekaya aşırı bağımlılığın yükseköğretim için varoluşsal bir tehdit oluşturabileceğini ifade ediyor. Yapay zeka üzerine uzun süredir çalışmalar yürüten Alimardani, değerlendirme süreçlerindeki bu kaymanın getireceği risklere dikkat çekiyor."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "YAPAY ZEKA",
-      "YÜKSEKÖĞRETİM",
-      "EĞİTİM TEKNOLOJİLERİ"
-    ],
-    "source": {
-      "name": "The Guardian Dünya",
-      "url": "https://www.theguardian.com/australia-news/2026/sep/28/university-ai-marking-academic-overworked-staff-student-shortcut",
-      "image": "/img/as-more-australian-universities-use-a-to-mark-students-work--qdox77.jpg"
-    },
-    "publishedAt": "2026-09-27T15:00:08.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:j2st5x",
-    "rawTitle": "As more Australian universities use AI to mark students’ work, is it creating a ‘slop-cycle’?",
-    "status": "published",
-    "lang": "en"
-  },
-  {
-    "id": "f_1d4olt4_mvfuppn6",
-    "slug": "yabanci-st-andrews-universitesi-nde-amerikan-ogrencilerin-varligi-si-1d4olt",
-    "title": "St Andrews Üniversitesi'nde Amerikan öğrencilerin varlığı sınıf ayrımcılığı ve züppelik tartışmalarını alevlendirdi",
-    "excerpt": "St Andrews Üniversitesi'nde düşük gelirli öğrenciler ile varlıklı Amerikalı lisans öğrencileri arasındaki sınıfsal gerilimler sosyal medyada tartışma yarattı. Kampüste yaşadığı sınıf ayrımcılığı nedeniyle okula dönmeyeceğini açıklayan Sophie Rose Jenkins'in paylaşımı yüzlerce öğrenciden destek gördü.",
-    "body": [
-      "Sophie Rose Jenkins, kampüsteki sınıfsal ayrımcılık deneyimleri nedeniyle bu akademik yılda St Andrews Üniversitesi'ne dönmeyeceğini duyurdu. Jenkins'in LinkedIn platformunda yayımladığı hikâye, aradan geçen iki haftalık süreçte yüzlerce öğrencide yankı buldu.",
-      "Eski karşılaştırmalı edebiyat ve klasik çalışmalar öğrencisi, işçi sınıfı kökenli gençlerin üniversitede ev hayatlarından utandırıldığını belirtti. Paylaşılan deneyimler, düşük gelirli ailelerden gelen öğrenciler ile varlıklı Amerikalı öğrenciler arasındaki kutuplaşmayı ve kampüsteki züppelik tartışmalarını gözler önüne serdi."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "YÜKSEKÖĞRETİM",
-      "SINIF AYRIMCILIĞI",
-      "ST ANDREWS ÜNİVERSİTESİ"
-    ],
-    "source": {
-      "name": "The Guardian",
-      "url": "https://www.theguardian.com/education/2026/sep/27/st-andrews-university-class-divide-american-students",
-      "image": "/img/t-s-like-the-scottish-upper-east-side-shame-and-snobbery-as--pe8pmt.jpg"
-    },
-    "publishedAt": "2026-09-27T07:00:59.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:1d4olt4",
-    "rawTitle": "‘It’s like the Scottish Upper East Side’: shame and snobbery as American students blamed for St Andrews classism",
-    "status": "published",
-    "lang": "en"
-  },
-  {
-    "id": "f_939714_mvfumps0",
-    "slug": "yabanci-avustralya-daki-ozel-kolejler-iptal-edilecek-yonetim-diploma-939714",
-    "title": "Avustralya'daki özel kolejler iptal edilecek yönetim diploması programı için son dakika indirimleri sunuyor",
-    "excerpt": "Avustralya'da federal hükümet, sahte öğrenciler tarafından ülkede kalmak amacıyla suistimal edildiği gerekçesiyle lisansüstü yönetim diplomasını iptal etmeye hazırlanıyor. Kararın öncesinde özel kolejlerin öğrencilere sosyal medya üzerinden son dakika indirimleri sunması tepki çekiyor.",
-    "body": [
-      "Avustralya federal hükümeti, eylül ayı başında yaptığı duyuruyla yönetim alanındaki lisansüstü diploma programının kaydını iptal edeceğini açıklamıştı. Yetkililer, bu eğitimin gerçekte öğrenci olmayan kişilerce ülkede kalış süresini uzatmak için kötüye kullanıldığını öne sürüyor.",
-      "Kayıtların 5 Ekim tarihinde sonlandırılacak olması nedeniyle bazı özel kolejlerin ve göçmenlik danışmanlarının programı doldurmak için kampanyalar başlattığı görüldü. Sosyal medyada paylaşılan ilanlarda öğrencilerin iptal gününden önce indirimli fiyatlarla kayıt yaptırmaları teşvik ediliyor."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "AVUSTRALYA",
-      "YÜKSEKÖĞRETİM",
-      "ÖZEL KOLEJLER",
-      "EĞİTİM POLİTİKASI"
-    ],
-    "source": {
-      "name": "The Guardian Dünya",
-      "url": "https://www.theguardian.com/australia-news/2026/sep/27/australia-private-colleges-discount-deregistered-management-diploma-visa-crackdown-immigration-ntwnfb",
-      "image": "/img/private-colleges-around-australia-offering-last-minute-disco-c1py0f.jpg"
-    },
-    "publishedAt": "2026-09-26T20:00:45.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:939714",
-    "rawTitle": "Private colleges around Australia offering last-minute discounts for diploma allegedly ‘misused by shonks’",
-    "status": "published",
-    "lang": "en"
-  },
-  {
-    "id": "f_nagcxf_mvfumps0",
-    "slug": "yabanci-sidney-de-kefiye-takmasi-yasaklanan-filistinli-rehber-ogretm-nagcxf",
-    "title": "Sidney'de kefiye takması yasaklanan Filistinli rehber öğretmen eyalet yönetimine ırkçılık davası açtı",
-    "excerpt": "Avustralya'da bir devlet okulunda görev yapan Filistin kökenli rehber öğretmen Wasim El-Haj, kefiye taktığı gerekçesiyle uyarıldıktan sonra ırk ayrımcılığı suçlamasıyla dava açtı. Okul yönetiminin bu giysinin anlaşmazlığa yol açabileceğini iddia ettiği öne sürüldü.",
-    "body": [
-      "Sidney Kız Lisesi'nde kariyer danışmanı olarak çalışan Wasim El-Haj, okulda kefiye takmasının engellenmesi üzerine New South Wales eyaletine karşı federal mahkemede hukuki süreç başlattı. El-Haj, etnik kimliği ve giyimi sebebiyle ırk ayrımcılığına maruz kaldığını belirtiyor.",
-      "İddialara göre 2024 yılında okulun vekil müdürü, kefiyenin anlaşmazlığa yol açabilecek bir sembol olduğunu söyleyerek öğretmenden bunu takmayı bırakmasını istedi. Yaşanan olayın ardından El-Haj konuyu federal yargıya taşıma kararı aldı."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "AVUSTRALYA",
-      "AYRIMCILIK",
-      "EĞİTİM DÜNYASI",
-      "HUKUK"
-    ],
-    "source": {
-      "name": "The Guardian Dünya",
-      "url": "https://www.theguardian.com/australia-news/2026/sep/27/palestinian-careers-adviser-who-was-allegedly-told-to-stop-wearing-keffiyeh-at-sydney-school-sues-for-racial-discrimination-ntwnfb",
-      "image": "/img/palestinian-careers-adviser-who-was-allegedly-told-to-stop-w-z9yln8.jpg"
-    },
-    "publishedAt": "2026-09-26T20:00:45.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": true,
-    "score": 4,
-    "dedupeKey": "foreign:nagcxf",
-    "rawTitle": "Palestinian careers adviser who was allegedly told to stop wearing keffiyeh at NSW school sues state for racial discrimination",
-    "status": "published",
-    "lang": "en"
   },
   {
     "id": "n_1i6vsn7_mvei314a",
@@ -4542,39 +3601,6 @@
     "dedupeKey": "1ylk0ir",
     "rawTitle": "İstihdam oranı yüzde 56'ya düştü: Üniversitede bu bölümü seçenler şimdi pişman",
     "status": "published"
-  },
-  {
-    "id": "f_vd2yq4_mvfug8cy",
-    "slug": "yabanci-the-guardian-2027-universite-rehberi-birlesik-krallik-sirala-vd2yq4",
-    "title": "The Guardian 2027 Üniversite Rehberi Birleşik Krallık sıralamaları açıklandı",
-    "excerpt": "The Guardian, Birleşik Krallık'taki yükseköğretim kurumlarını akademik başarı ve olanaklarına göre değerlendiren 2027 üniversite sıralamasını yayımladı. Rehber, öğrencilerin en uygun bölümü seçmelerine yardımcı olmayı hedefliyor.",
-    "body": [
-      "The Guardian tarafından hazırlanan 2027 Üniversite Rehberi kapsamındaki sıralamalar paylaşıldı. Tablolar, ülkedeki en iyi yükseköğretim kurumlarını bölüm bazında ayrıntılı şekilde listeliyor.",
-      "Değerlendirmelerde öğrenci memnuniyeti, akademik personel sayısı, üniversitelerin harcama kalemleri ve mezunların kariyer beklentileri temel kriterler arasında yer alıyor. Liste, üniversite tercihi yapacak adaylar için kapsamlı bir başvuru kaynağı oluşturuyor."
-    ],
-    "category": "yabanci",
-    "tags": [
-      "yabancı eğitim",
-      "ÜNİVERSİTE SIRALAMALARI",
-      "YÜKSEKÖĞRETİM",
-      "EĞİTİM REHBERİ"
-    ],
-    "source": {
-      "name": "The Guardian",
-      "url": "https://www.theguardian.com/education/ng-interactive/2026/sep/12/the-guardian-university-guide-2027-the-rankings",
-      "image": "/img/the-guardian-university-guide-2027-the-rankings-on9upw.jpg"
-    },
-    "publishedAt": "2026-09-12T06:58:33.000Z",
-    "views": 0,
-    "likes": 0,
-    "commentsCount": 0,
-    "featured": false,
-    "fullText": false,
-    "score": 4,
-    "dedupeKey": "foreign:vd2yq4",
-    "rawTitle": "The Guardian University Guide 2027 – the rankings",
-    "status": "published",
-    "lang": "en"
   },
   {
     "id": "n_z3wqwo_mvei1j38",

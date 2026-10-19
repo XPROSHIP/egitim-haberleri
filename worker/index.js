@@ -99,6 +99,42 @@ async function currentUser(request, env) {
   }
 }
 
+/** GitHub iş akışını tetikler. Hata ayrıntısını döndürür. */
+async function dispatchCollect(env) {
+  if (!env.GITHUB_TOKEN || !env.GITHUB_REPO) {
+    return { ok: false, error: 'GITHUB_TOKEN veya GITHUB_REPO tanimli degil' }
+  }
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/${env.GITHUB_REPO}/actions/workflows/collect.yml/dispatches`,
+      {
+        method: 'POST',
+        headers: {
+          authorization: `Bearer ${env.GITHUB_TOKEN}`,
+          accept: 'application/vnd.github+json',
+          // GitHub REST API'si User-Agent başlığı olmadan isteği reddediyor
+          // ("Request forbidden by administrative rules").
+          'user-agent': 'EgitimHaberleri-Worker',
+          'x-github-api-version': '2022-11-28',
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({ ref: 'main' }),
+      },
+    )
+    const detail = res.status === 204 ? '' : (await res.text()).slice(0, 300)
+    console.log(`[worker] tetikleme -> HTTP ${res.status} ${detail}`)
+    return {
+      ok: res.status === 204,
+      status: res.status,
+      error: res.status === 204 ? undefined : detail,
+    }
+  } catch (err) {
+    const message = String(err?.message ?? err).slice(0, 200)
+    console.error('[worker] tetikleme hatasi', message)
+    return { ok: false, error: message }
+  }
+}
+
 export default {
   /**
    * Zamanlayıcı: GitHub iş akışını tetikler.
@@ -114,24 +150,7 @@ export default {
       console.warn('[worker] GITHUB_TOKEN/GITHUB_REPO tanimli degil, tetiklenmedi')
       return
     }
-    try {
-      const res = await fetch(
-        `https://api.github.com/repos/${env.GITHUB_REPO}/actions/workflows/collect.yml/dispatches`,
-        {
-          method: 'POST',
-          headers: {
-            authorization: `Bearer ${env.GITHUB_TOKEN}`,
-            accept: 'application/vnd.github+json',
-            'x-github-api-version': '2022-11-28',
-            'content-type': 'application/json',
-          },
-          body: JSON.stringify({ ref: 'main' }),
-        },
-      )
-      console.log(`[worker] tetikleme istegi -> HTTP ${res.status}`)
-    } catch (err) {
-      console.error('[worker] tetikleme hatasi', String(err?.message ?? err).slice(0, 120))
-    }
+    await dispatchCollect(env)
   },
 
   async fetch(request, env) {
@@ -146,6 +165,45 @@ export default {
     // Not: D1, BLOB sütununu normal sorguda sayı dizisi olarak döndürüyor;
     // new Response() onu boş gövdeye çeviriyor. Dönüş biçimi sürüme göre
     // değişebildiği için hepsini karşılayacak şekilde dönüştürüyoruz.
+    // Haber sesi (EMA Lightning ile üretilmiş MP3)
+    if (url.pathname.startsWith('/api/audio/') && request.method === 'GET') {
+      const id = decodeURIComponent(url.pathname.slice('/api/audio/'.length))
+      const row = await env.DB?.prepare('SELECT data, type FROM news_audio WHERE article_id = ?')
+        .bind(id)
+        .first()
+      const bytes = toBytes(row?.data)
+      if (!bytes) return new Response('Not found', { status: 404 })
+      return new Response(bytes, {
+        headers: {
+          'content-type': row?.type ?? 'audio/mpeg',
+          'cache-control': 'public, max-age=31536000, immutable',
+          ...corsFor(request),
+        },
+      })
+    }
+
+    // Ses yükleme (yalnızca toplayıcı)
+    if (url.pathname === '/api/audio' && request.method === 'POST') {
+      if (!authorized(request, env)) return reply({ error: 'unauthorized' }, 401)
+      const id = url.searchParams.get('id') ?? ''
+      if (!id || id.length > 120) return reply({ error: 'invalid_id' }, 400)
+      const data = new Uint8Array(await request.arrayBuffer())
+      if (data.length === 0) return reply({ error: 'empty' }, 400)
+      if (data.length > 4_000_000) return reply({ error: 'too_large' }, 413)
+      const duration = Number(request.headers.get('x-audio-duration') ?? 0) || null
+      await env.DB.prepare(
+        `INSERT INTO news_audio (article_id, data, type, duration, bytes) VALUES (?,?,?,?,?)
+         ON CONFLICT(article_id) DO UPDATE SET data=excluded.data, type=excluded.type,
+           duration=excluded.duration, bytes=excluded.bytes`,
+      )
+        .bind(id, data, 'audio/mpeg', duration, data.length)
+        .run()
+      await env.DB.prepare('UPDATE news SET audio_id = ?, audio_duration = ? WHERE id = ?')
+        .bind(id, duration, id)
+        .run()
+      return reply({ ok: true, id, bytes: data.length })
+    }
+
     if (url.pathname.startsWith('/img/')) {
       const key = decodeURIComponent(url.pathname.slice('/img/'.length))
       const row = await env.DB?.prepare('SELECT data, type FROM images WHERE key = ?')
@@ -292,6 +350,13 @@ export default {
           createdAt: new Date().toISOString(),
         },
       })
+    }
+
+    // Tetikleme testi / elle tetikleme (COLLECT_SECRET korumalı)
+    if (url.pathname === '/api/trigger' && request.method === 'POST') {
+      if (!authorized(request, env)) return reply({ error: 'unauthorized' }, 401)
+      const result = await dispatchCollect(env)
+      return reply(result, result.ok ? 200 : 502)
     }
 
     if (url.pathname === '/api/news') {      const items = await store(env).all(Math.min(Number(url.searchParams.get('limit') ?? 500), 500))

@@ -155,6 +155,12 @@ export function useComments(articleId: string | undefined) {
   })
 }
 
+/** Hazır üretilmiş sesin adresi (EMA Lightning). Yoksa boş string. */
+export function audioUrlFor(item: NewsItem): string {
+  if (!item.hasAudio || !BASE) return ''
+  return `${BASE}/api/audio/${encodeURIComponent(item.id)}`
+}
+
 export type Engagement = {
   likes: number
   bookmarks: number
