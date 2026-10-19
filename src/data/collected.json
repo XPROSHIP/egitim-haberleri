@@ -1,5 +1,38 @@
 [
   {
+    "id": "n_1q1o1ho_mvfr9kuk",
+    "slug": "corum-da-ogretmen-akademileri-acilis-programi-buharaevler-kultur-merkezi-8l05mi",
+    "title": "Çorum'da öğretmen akademileri açılış programı buharaevler kültür merkezi'nde yoğun katılımla gerçekleştirildi",
+    "excerpt": "Çorum İl Milli Eğitim Müdürlüğü koordinasyonunda yürütülen Öğretmen Akademilerinin açılış programı Buharaevler Kültür Merkezi'nde yapıldı. Etkinlik kent protokolünün geniş katılımıyla tamamlandı.",
+    "body": [
+      "Çorum İl Milli Eğitim Müdürlüğü tarafından yürütülen Öğretmen Akademilerinin açılış programı, Buharaevler Kültür Merkezi'nde geniş katılımla düzenlendi. Program kapsamında eğitim, sanat ve kültür temaları bir araya getirildi.",
+      "Açılışa Çorum Valisi Ali Çalgan, Anayasa Mahkemesi Üyesi Doç. Dr. Recai Akyel, Belediye Başkanı Dr. Halil İbrahim Aşgın ve Cumhuriyet Başsavcısı Ahmet Bektaş katılım sağladı. Etkinlikte öğretmenlerin mesleki ve kültürel gelişimine yönelik çalışmalar paylaşıldı."
+    ],
+    "category": "corum",
+    "tags": [
+      "ÖĞRETMEN AKADEMİLERİ",
+      "ÇORUM İL MEM",
+      "KÜLTÜR VE SANAT"
+    ],
+    "source": {
+      "name": "Çorum İl MEB",
+      "url": "https://corum.meb.gov.tr/www/ogretmen-akademileri-acilisinda-egitim-sanat-ve-kultur-bulustu/icerik/4239",
+      "image": "/img/retmen-akademileri-a-l-nda-e-itim-sanat-ve-k-lt-r-bulu-tu-3ckw0g.jpg"
+    },
+    "publishedAt": "2026-10-19T21:14:24.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": true,
+    "province": "Çorum",
+    "fullText": false,
+    "score": 8.7,
+    "dedupeKey": "8l05mi",
+    "rawTitle": "ÖĞRETMEN AKADEMİLERİ AÇILIŞINDA EĞİTİM, SANAT VE KÜLTÜR BULUŞTU",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_19jrr63_mvfiiw1u",
     "slug": "okullarda-yeni-guvenlik-onlemleri-masada-milli-egitim-bakani-tekin-tarih-1o3u5y",
     "title": "Milli Eğitim bakanı yusuf tekin okullarda yeni güvenlik tedbirleri için şubat ayını işaret etti",
@@ -965,6 +998,40 @@
     "status": "published"
   },
   {
+    "id": "f_kb6d3i_mvfraztz",
+    "slug": "yabanci-ingiltere-de-veliler-okul-arazisinin-satisini-durdurmak-icin-kb6d3i",
+    "title": "İngiltere'de veliler okul arazisinin satışını durdurmak için oyunlu protesto başlattı",
+    "excerpt": "Devon bölgesindeki Totnes kasabası sakinleri, yerel bir okulun yenileme masraflarını karşılamak amacıyla yeşil alanı satma planına karşı eylem yapıyor. Hükümetten onay alan okul yönetimi, 1,5 hektarlık araziyi konut inşası için satmayı hedefliyor.",
+    "body": [
+      "Güney Devon'daki Totnes kasabasında yaşayan veliler ve mahalle sakinleri, sonbahar boyunca River Dart kıyısındaki arazide toplanarak top oynadı, uçurtma uçurdu ve yeşil alanı korumak için protesto düzenledi. Bölge halkı, çocukların ve yerel topluluğun severek kullandığı bu açık alanın kaybedilmesini istemiyor.",
+      "Bölgedeki kapsamlı eğitim veren King Edward VI Community College (KEVICC), okul binalarının yenilenmesini finanse etmek amacıyla 1,5 hektarlık Lower Field adlı arsayı satmak için Birleşik Krallık hükümetinden onay aldı. Arazinin satılması durumunda alana konut inşa edilmesi beklenirken, okul yöneticileri bütçe yetersizliği nedeniyle bu kaynağa acil ihtiyaç duyduklarını belirtiyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "İNGİLTERE",
+      "OKUL ALANLARI",
+      "PROTESTO",
+      "EĞİTİM YÖNETİMİ"
+    ],
+    "source": {
+      "name": "The Guardian",
+      "url": "https://www.theguardian.com/uk-news/2026/oct/17/were-not-playing-games-parents-launch-playground-protests-to-fight-school-field-sell-off",
+      "image": "/img/we-re-not-playing-games-parents-launch-playground-protests-t-151jb9.jpg"
+    },
+    "publishedAt": "2026-10-17T13:00:31.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:kb6d3i",
+    "rawTitle": "‘We’re not playing games’: Parents launch playground protests to fight school field sell-off",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "n_124c7u0_mvei314a",
     "slug": "milli-egitim-bakanligina-bagli-okullarin-2027-yili-pansiyon-ucretleri-be-1x31ob",
     "title": "Milli Eğitim Bakanlığına bağlı pansiyonlu okulların iki bin yirmi yedi yılı ücret tarifesi açıklandı",
@@ -1059,6 +1126,40 @@
     "dedupeKey": "d9zwcm",
     "rawTitle": "2026 Kasım ara tatili ne zaman? Okullar ne zaman kapanacak?",
     "status": "published"
+  },
+  {
+    "id": "f_1wzdb7v_mvfraztz",
+    "slug": "yabanci-ingiltere-de-sirketlerin-yasca-buyuk-calisanlara-ciraklik-eg-1wzdb7",
+    "title": "İngiltere'de şirketlerin yaşça büyük çalışanlara çıraklık eğitimi için daha fazla ödemesi planlanıyor",
+    "excerpt": "İngiltere hükümeti, genç işsizliği kriziyle mücadele etmek amacıyla şirketlerin yaşça büyük çalışanları eğitme maliyetlerini artırmayı planlıyor. Hazırlanan düzenlemeyle işletmelerin genç çırak istihdamına yönlendirilmesi hedefleniyor.",
+    "body": [
+      "Bakanlar, İngiltere'de son on yılda genç çıraklık başvurularında yaşanan %40'lık düşüşü tersine çevirmek için çıraklık fon sistemini kapsamlı bir şekilde elden geçirmeyi değerlendiriyor. Taslağa göre hükümet, işverenleri gençlere yatırım yapmaya teşvik etmek amacıyla 25 yaş üstü çalışanların eğitim maliyetini %25 oranında artırmayı hedefliyor.",
+      "Genç istihdam krizini çözmeyi amaçlayan plan, İşçi Partisi hükümetinin ekonomik stratejisinin bir parçası olarak geliştiriliyor. Şirketlerin yaşça büyük personel yerine genç çıraklara yönelmesi amaçlanırken yeni model iş dünyasında geniş kapsamlı tartışmalara yol açıyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "İNGİLTERE",
+      "ÇIRAKLIK EĞİTİMİ",
+      "GENÇ İSTİHDAMI",
+      "MESLEKİ EĞİTİM"
+    ],
+    "source": {
+      "name": "The Guardian",
+      "url": "https://www.theguardian.com/business/2026/oct/17/make-firms-pay-more-train-older-workers-youth-apprentices-england",
+      "image": "/img/plan-to-make-firms-pay-more-to-train-older-workers-than-yout-1ktpd2.jpg"
+    },
+    "publishedAt": "2026-10-17T07:00:24.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1wzdb7v",
+    "rawTitle": "Plan to make firms pay more to train older workers than youth apprentices in England",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "n_ytnm0_mvfntxe4",
@@ -1692,6 +1793,40 @@
     "status": "published"
   },
   {
+    "id": "f_1ou0etw_mvfraztz",
+    "slug": "yabanci-avustralya-da-bolgesel-universiteler-vize-retleri-ve-siyasi--1ou0et",
+    "title": "Avustralya'da bölgesel üniversiteler vize retleri ve siyasi tartışmalar nedeniyle yabancı öğrenci bulamıyor",
+    "excerpt": "Avustralya'daki bölgesel üniversiteler, vize belirsizliği ve göçmenlik tartışmaları yüzünden uluslararası öğrenci kontenjanlarını doldurmakta büyük zorluk yaşıyor. Uzmanlar, düşen öğrenci sayısının kurumlar için ciddi mali sorunlara yol açtığı konusunda uyarıda bulunuyor.",
+    "body": [
+      "Üniversite yöneticileri, vize süreçlerindeki retler ve göç üzerine yürütülen sert siyasi tartışmalar nedeniyle uluslararası öğrenci kontenjanlarının boş kaldığını belirtiyor. Mali gelirlerinin büyük bir kısmını yabancı öğrencilerden sağlayan bölgesel üniversitelerin bu krizden en çok etkilenen kurumlar olduğu aktarılıyor.",
+      "Eğitim Bakanlığı'nın Ekim ayı verilerine göre, Avustralya üniversiteleri uluslararası öğrenci kontenjanlarının ortalama olarak yalnızca üçte ikisini doldurabildi. Kamu üniversitelerinden sadece beşinin belirlenen hedefleri aştığı görülürken, ortaya çıkan finansal açıkların yerel öğrencilerin eğitimine de olumsuz yansıyabileceği vurgulanıyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "AVUSTRALYA",
+      "YÜKSEKÖĞRETİM",
+      "ULUSLARARASI ÖĞRENCİLER",
+      "ÖĞRENCİ VİZESİ"
+    ],
+    "source": {
+      "name": "The Guardian Dünya",
+      "url": "https://www.theguardian.com/australia-news/2026/oct/11/falling-international-student-numbers-australian-universities",
+      "image": "/img/regional-universities-struggle-to-enrol-international-studen-sjia4d.jpg"
+    },
+    "publishedAt": "2026-10-10T19:00:05.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1ou0etw",
+    "rawTitle": "Regional universities struggle to enrol international students amid visa refusals and heated political rhetoric",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "n_1mp7ah7_mvevury5",
     "slug": "osym-2026-kpss-lisans-sonuclarinin-aciklanacagi-tarihi-7-ekim-olarak-duy-17qb2h",
     "title": "ÖSYM 2026 KPSS lisans sonuçlarının açıklanacağı tarihi resmi takviminde 7 ekim olarak duyurdu",
@@ -1924,6 +2059,40 @@
     "dedupeKey": "1mk68by",
     "rawTitle": "KPSS lisans sonuçları açıklandı",
     "status": "published"
+  },
+  {
+    "id": "f_rg4wmn_mvfraztz",
+    "slug": "yabanci-avustralya-da-mezun-vizelerinin-kisitlanmasi-plani-hindistan-rg4wmn",
+    "title": "Avustralya'da mezun vizelerinin kısıtlanması planı Hindistan serbest ticaret anlaşmasını riske atıyor",
+    "excerpt": "Avustralya'da muhalefet koalisyonunun mezun vizelerini sert şekilde sınırlama planının, Hindistan ile yapılan serbest ticaret anlaşmasını ihlal edebileceği belirtiliyor. Üniversite temsilcileri, bu kısıtlamaların Avustralya yükseköğretimini küresel ölçekte daha az rekabetçi hale getireceği uyarısında bulunuyor.",
+    "body": [
+      "Muhalefet koalisyonunun geçici mezun vizelerini 271.200 seviyesinden 2031-32 yıllarına kadar 10.000'e düşürme önerisi, Hindistanlı öğrencilere eğitim sonrasında dört yıla kadar ülkede çalışma hakkı tanıyan ikili ticaret anlaşmasını tehlikeye sokuyor. Uzmanlar, söz konusu adımın hem uluslararası diplomasiye hem de ülke ekonomisine zarar verebileceğine dikkat çekiyor.",
+      "Angus Taylor, hükümete gelmeleri halinde net denizaşırı göçü ilk iki yıl için 100.000'e indirmeyi planladıklarını duyurdu. Üniversite birlikleri ise mezuniyet sonrası çalışma haklarının kısıtlanmasının nitelikli öğrenci akışını keseceğini ve kurumların rekabet gücünü zayıflatacağını ifade ediyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "AVUSTRALYA",
+      "MEZUN VİZESİ",
+      "YÜKSEKÖĞRETİM",
+      "GÖÇ POLİTİKASI"
+    ],
+    "source": {
+      "name": "The Guardian Dünya",
+      "url": "https://www.theguardian.com/australia-news/2026/oct/07/coalition-migration-policy-reaction-universities-students-economy-india-ntwnfb",
+      "image": "/img/coalition-s-migration-plan-risks-breaching-ndia-free-trade-a-19vuxj.jpg"
+    },
+    "publishedAt": "2026-10-06T14:00:16.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:rg4wmn",
+    "rawTitle": "Coalition’s migration plan risks breaching India free trade agreement and damaging economy, advocates warn",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "n_k0d7ug_mvevprmo",
