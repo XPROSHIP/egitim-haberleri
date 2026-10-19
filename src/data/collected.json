@@ -930,6 +930,41 @@
     "status": "published"
   },
   {
+    "id": "f_pn5l7g_mvfus4ra",
+    "slug": "yabanci-ingiltere-egitim-bakani-lucy-powell-icin-okullarda-oncelikle-pn5l7g",
+    "title": "İngiltere Eğitim Bakanı Lucy Powell için okullarda öncelikleri belirlemek en zor sınav olacak",
+    "excerpt": "İngiltere Eğitim Bakanı Lucy Powell, yapay zeka çağında öğrencilerin yüz yüze iletişim ve konuşma becerilerini geliştirmenin öncelik haline gelmesi gerektiğini vurguluyor. Uzmanlar artan ekran kullanımının çocukların dil gelişimini olumsuz etkilediğine ve eğitimde doğru adımlar atılması gerektiğine dikkat çekiyor.",
+    "body": [
+      "Eğitim Bakanı mevcut durumu olduğu gibi korumak yerine nelerin öncelikle değiştirileceğine karar vermek zorunda kalacak. Yapay zeka yatırımlarıyla öne çıkan yeni makine çağında, bireylerin konuşma becerilerinin geliştirilmesi giderek daha kritik hale geliyor.",
+      "İnsanların otomasyona geçmesi en az muhtemel olan yüz yüze iş alanları için donanımlı kılınması büyük önem taşıyor. Hem Birleşik Krallık genelinde hem de uluslararası düzeyde çocukların dil gelişimindeki endişe verici gerileme yüksek ekran kullanımıyla ilişkilendiriliyor.",
+      "Teknoloji şirketlerinin insan gücüyle rekabet ederken aynı zamanda bireylerin iletişim kurma yetisini zayıflatması çelişkili bir tablo ortaya koyuyor. Geçen yıl tamamlanan müfredat incelemesi ise Starmer yönetiminin genel temkinli tutumunu yansıtıyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "EĞİTİM REFORMU",
+      "YAPAY ZEKA",
+      "KONUŞMA BECERİLERİ",
+      "BİRLEŞİK KRALLIK"
+    ],
+    "source": {
+      "name": "The Guardian",
+      "url": "https://www.theguardian.com/commentisfree/2026/oct/18/the-guardian-view-on-schools-the-hardest-questions-for-lucy-powell-are-about-priorities",
+      "image": "/img/the-guardian-view-on-schools-the-hardest-questions-for-lucy--12l66n.jpg"
+    },
+    "publishedAt": "2026-10-18T16:25:04.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:pn5l7g",
+    "rawTitle": "The Guardian view on schools: the hardest questions for Lucy Powell are about priorities | Editorial",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "n_1h9ud59_mvfiiw1v",
     "slug": "i-stanbul-da-19-ekim-pazartesi-okullar-tatil-mi-valilikten-egitim-acikla-bcirfb",
     "title": "İstanbul valiliği tarafından okulların tatil olup olmadığına ilişkin merak edilen açıklama yapıldı",
@@ -1354,6 +1389,41 @@
     "dedupeKey": "1o1zpnq",
     "rawTitle": "ÖSYM'den hafta sonu iki sınav - Eğitim Haberleri",
     "status": "published"
+  },
+  {
+    "id": "f_h0634h_mvfus4ra",
+    "slug": "yabanci-ingiltere-de-mufredat-tartismasi-cocuklara-ezber-matematik-y-h0634h",
+    "title": "İngiltere'de müfredat tartışması: Çocuklara ezber matematik yerine akıcı konuşma becerisi kazandırılmalı",
+    "excerpt": "Eğitim Bakanı Lucy Powell, İngiltere ulusal müfredatında radikal bir değişikliğe giderek öğrencilerin kendilerini ifade etme ve sözlü iletişim becerilerine ağırlık vermeyi hedefliyor. Eğitimciler çocuklara ileride kullanmayacakları dersler yerine akıcı konuşma ve pratik yetkinlikler kazandırılmasını savunuyor.",
+    "body": [
+      "Okullardaki temel okuma, yazma ve aritmetik becerilerinin yanına nihayet sözlü ifade ve konuşma yetkinliğinin de eklenmesi hedefleniyor. Ekranların yarattığı baskıya karşı yürütülen mücadelede doğrudan sözlü iletişimin önemi artık eğitim çevrelerinde daha geniş kabul görüyor.",
+      "Eğitim Bakanı Lucy Powell, İngiltere'deki ulusal müfredatta masa başı teorik çalışmaları azaltarak sözlü akıcılık ve pratik becerileri öne çıkaracak kapsamlı bir reform amaçlıyor. Uzmanlar, geleneksel eğitim kalıplarının dışına çıkan bu tür adımların ciddi bir kararlılık gerektirdiğini belirtiyor.",
+      "Yıllardır eğitim yöneticileri öğrencilere gelecekte kullanmayacakları ve kolayca unutulacak akademik ders yüklerini dayatmayı sürdürüyor. Powell ise öğrencilerin en çok gereksinim duyduğu doğru ifade yeteneğine odaklanarak bu gidişatı değiştirmek istiyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "MÜFREDAT REFORMU",
+      "SÖZLÜ İLETİŞİM",
+      "İNGİLTERE EĞİTİMİ",
+      "EĞİTİM POLİTİKASI"
+    ],
+    "source": {
+      "name": "The Guardian",
+      "url": "https://www.theguardian.com/commentisfree/2026/oct/16/teach-children-maths-speaking-education-secretary",
+      "image": "/img/we-are-teaching-children-maths-they-will-never-use-sn-t-it-b-1o6f46.jpg"
+    },
+    "publishedAt": "2026-10-16T09:00:57.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:h0634h",
+    "rawTitle": "We are teaching children maths they will never use. Isn’t it better to help them speak fluently? | Simon Jenkins",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "n_gkhort_mvei8kif",
