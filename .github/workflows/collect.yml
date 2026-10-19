@@ -1,0 +1,48 @@
+# 3 saatte bir haber toplar, görselleri ve kayıtları Worker'a gönderir.
+# Siteye girmek, bilgisayarın açık olması gerekmez.
+name: Haber topla
+
+on:
+  schedule:
+    # dakikada 0, 3, 6, 9, 12, 15, 18, 21 saatlerinde çalışır (UTC)
+    - cron: '0 */3 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: collect
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Bağımlılıkları kur
+        run: npm ci
+
+      - name: Haberleri topla ve yayınla
+        env:
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
+          COLLECT_SECRET: ${{ secrets.COLLECT_SECRET }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+        run: node worker/scripts/collect-ci.mjs
+
+      - name: Toplanan haberleri depoya kaydet
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data/collected.json
+          # Her koşuda aynı dosya değişmiş görünmesin diye yalnızca gerçekten
+          # fark varsa commit yapılır.
+          if git diff --staged --quiet; then
+            echo "Değişiklik yok, commit atlanıyor."
+          else
+            git commit -m "chore: haber toplama ($(date -u '+%Y-%m-%d %H:%M UTC'))"
+            git push
+          fi

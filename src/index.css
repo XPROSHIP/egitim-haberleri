@@ -1,0 +1,203 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/geist/index.css';
+@import '@fontsource-variable/geist-mono/index.css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root,
+.dark {
+  --bg: #000000;
+  --surface: #0a0a0b;
+  --surface-2: #141416;
+  --surface-3: #1e1e21;
+  --line: #222225;
+  --line-soft: #161619;
+  --fg: #fafafa;
+  --muted: #8e8e96;
+  --faint: #61616a;
+  --accent: #e4002b;
+  --accent-soft: #3a0d12;
+  --primary: #2f6bff;
+  --primary-fg: #ffffff;
+  --ring: rgba(255, 255, 255, 0.13);
+}
+
+.light {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f6f6f7;
+  --surface-3: #ebebee;
+  --line: #e4e4e7;
+  --line-soft: #f0f0f2;
+  --fg: #08080a;
+  --muted: #6a6a73;
+  --faint: #9b9ba3;
+  --accent: #d5001f;
+  --accent-soft: #fdeaec;
+  --primary: #1f5ae0;
+  --primary-fg: #ffffff;
+  --ring: rgba(0, 0, 0, 0.1);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-primary: var(--primary);
+  --color-primary-fg: var(--primary-fg);
+
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+}
+
+html {
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+  font-feature-settings: 'cv01', 'ss03';
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-wrap: break-word;
+  letter-spacing: -0.011em;
+}
+
+/* Büyük başlıklarda sıkı kerning — editöryel/premium his */
+h1,
+h2,
+h3,
+.font-display {
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+/* Sayısal veriler hizalı görünsün (görüntülenme, tarih, etiket sayıları) */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Üst çubuk ve çizgi gibi öğelerde ince, keskin sınırlar */
+@utility hairline {
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--surface-3) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--surface-3);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility line-clamp-1x {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+@utility line-clamp-2x {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+@utility line-clamp-3x {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+@utility line-clamp-4x {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@keyframes eh-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes eh-pulse-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.65;
+  }
+  70%,
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+@keyframes eh-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes eh-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, var(--surface-3), transparent);
+  animation: eh-shimmer 1.6s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after {
+    animation: none;
+  }
+}

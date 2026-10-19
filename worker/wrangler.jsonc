@@ -1,0 +1,28 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "egitim-haberleri-api",
+  "main": "index.js",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Zamanlayıcı YOK: Workers Free kademesinde cron başına yalnızca 10 ms CPU
+  // tanınıyor, toplayıcı ise tek turda ~200 ms harcıyor. Ağır toplama işi
+  // GitHub Actions'ta çalışır, sonucu POST /api/collect ile buraya yollar.
+  // Bu Worker yalnızca hafif veri servisi olarak görev yapar.
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "egitim-haberleri",
+      "database_id": "6d96cbf2-3732-4d43-bc0f-db17b9bb2c12",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  "vars": {
+    "SITE_URL": "https://egitim-haberleri.omerzen.workers.dev"
+  }
+  // Secrets (wrangler secret put ile girilir, koda yazılmaz):
+  //   GEMINI_API_KEYS   → üç anahtarı virgülle ayırarak
+  //   COLLECT_SECRET   → /api/collect uç noktasını koruyan parola
+}

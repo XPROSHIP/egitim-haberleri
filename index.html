@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="tr" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (t === 'system') {
+            t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          }
+          if (t === 'light') {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+          }
+          var fs = localStorage.getItem('font_scale');
+          if (fs === '1.25' || fs === '1.5') {
+            document.documentElement.style.fontSize = (parseFloat(fs) * 100) + '%';
+          }
+          var c = localStorage.getItem('consent');
+          if (c) document.documentElement.dataset.consent = c;
+        } catch (e) {}
+      })();
+    </script>
+    <title>Eğitim Haberleri — Mesleki Eğitim, MEB ve Çorum Eğitim Gündemi</title>
+    <meta name="description" content="Mesleki Eğitim, MESEM, MEB, Çorum Eğitim, Anadolu Liseleri, Fen Liseleri, Maarif Modeli ve eğitim gündeminden yapay zekâ destekli güncel haberler." />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="Eğitim Haberleri" />
+    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Eğitim Haberleri" />
+    <meta property="og:title" content="Eğitim Haberleri — Mesleki Eğitim ve MEB Gündemi" />
+    <meta property="og:description" content="Yapay zekâ destekli, güvenilir kaynaklardan derlenen eğitim haberleri." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Eğitim Haberleri",
+        "url": "https://egitimhaberleri.pages.dev/",
+        "inLanguage": "tr",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://egitimhaberleri.pages.dev/ara?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+  </head>
+  <body class="min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
