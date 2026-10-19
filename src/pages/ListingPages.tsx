@@ -48,11 +48,12 @@ function PageHeader({
 }
 
 function Feed({ items, lang }: { items: import('../types').NewsItem[]; lang: 'tr' | 'en' }) {
+  const { t } = useTranslation()
   const grouped = groupByDay(items, (n) => n.publishedAt, lang)
   if (items.length === 0) {
     return (
       <div className="py-20 text-center">
-        <p className="text-sm text-muted">{useTranslation().t('feed.empty')}</p>
+        <p className="text-sm text-muted">{t('feed.empty')}</p>
       </div>
     )
   }

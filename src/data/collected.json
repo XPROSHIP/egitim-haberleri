@@ -99,6 +99,39 @@
     "status": "published"
   },
   {
+    "id": "f_152pikj_mvfnucog",
+    "slug": "yabanci-kopuklu-savas-st-andrews-ogrencileri-antik-gelenegi-modern-b-152pik",
+    "title": "Köpüklü savaş: St Andrews öğrencileri antik geleneği modern bir ritüelle yaşatıyor",
+    "excerpt": "İskoç üniversitesinin geleneksel Raisin Pazartesi etkinliği artık dev köpük savaşlarına sahne oluyor. Yüzlerce birinci sınıf öğrencisi tıraş köpükleriyle birbirini sabun bulutuna boğdu.",
+    "body": [
+      "İskoçya'daki University of St Andrews'da Raisin Pazartesi'nin nasıl dev bir köpük savaşına dönüştüğünü kimse hatırlamıyor gibi görünüyor. 600 yıldır birinci sınıf öğrencileri, ilk haftalarında kendilerine rehberlik eden kıdemli öğrencilere teşekkür etmek için bu ritüele katılıyor.",
+      "Geleneksel olarak öğrenciler kıdemlilere bir pound kuru üzüm veriyordu ve etkinlik adını buradan alıyordu. Ancak bu Pazartesi yüzlerce öğrenci, yanlarında getirdikleri tıraş köpüğü kutularıyla St Salvator’s kolej çimlerinde toplanarak birbirlerini sabun bulutlarına boğdu."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Öğrenci Yaşamı",
+      "Kültür",
+      "Eğitim"
+    ],
+    "source": {
+      "name": "The Guardian",
+      "url": "https://www.theguardian.com/education/2026/oct/19/st-andrews-university-scotland-students-raisin-monday-foam-war",
+      "image": "/img/foamy-war-st-andrews-students-play-out-modern-take-10kfi7.png"
+    },
+    "publishedAt": "2026-10-19T14:17:49.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:152pikj",
+    "rawTitle": "Foamy war? St Andrews students play out modern take on ancient ritual",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "n_jm2412_mvfmajxi",
     "slug": "yurtdisinda-universite-okumak-isteyen-gencler-ieft-egitim-fuarlarinda-bi-1nceu7",
     "title": "Yurtdışında Üniversite okumak isteyen gençler ıeft eğitim fuarlarında bir araya geliyor",
@@ -833,6 +866,39 @@
     "status": "published"
   },
   {
+    "id": "f_1ktls6p_mvfnucog",
+    "slug": "yabanci-bristol-old-vic-tiyatroyu-siniflara-tasiyarak-sanat-krizine--1ktls6",
+    "title": "Bristol Old Vic tiyatroyu sınıflara taşıyarak sanat krizine çözüm arıyor",
+    "excerpt": "Bütçe krizine rağmen tiyatro topluluğu okullara ücretsiz oyunlar götürerek sanata erişimi genişletiyor. City Academy'de sahne alan genç oyuncular İngiltere'deki genç kimliğini sorguluyor.",
+    "body": [
+      "Bristol'daki City Academy'nin salonunda altı genç oyuncu sahneye çıkarken derin bir sessizlik hâkim oldu. Bir erkek öğrenci öne adım atarak 2026 yılında Britanya'da genç olmanın ne anlama geldiği sorusunu yöneltti.",
+      "Arka planda dalgalanan bayraklar eşliğinde üç kız öğrenci Spice Girls buluşmasını tartışırken odak noktası modern Britanya kimliğiyle boğuşan genç oyuncuya geri döndü. Oyuncu çay, balık ve patates kızartması gibi kültürel unsurları sıraladı."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Tiyatro",
+      "Sanat",
+      "Okul"
+    ],
+    "source": {
+      "name": "The Guardian",
+      "url": "https://www.theguardian.com/stage/2026/oct/18/bristol-old-vic-arts-emergency-city-academy-theatre-plays-access",
+      "image": "/img/bristol-old-vic-tackles-arts-emergency-by-bringing-1x35h3.jpg"
+    },
+    "publishedAt": "2026-10-18T13:00:03.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1ktls6p",
+    "rawTitle": "Bristol Old Vic tackles arts ‘emergency’ by bringing the theatre into classrooms",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "n_1wc9j59_mvfmajxl",
     "slug": "gencler-yurt-disinda-universite-tercihi-yaparken-kisisel-ilgi-ve-tutkula-1w64s4",
     "title": "Gençler yurt dışında Üniversite tercihi yaparken kişisel ilgi ve tutkularını öne çıkarıyor",
@@ -993,6 +1059,38 @@
     "dedupeKey": "d9zwcm",
     "rawTitle": "2026 Kasım ara tatili ne zaman? Okullar ne zaman kapanacak?",
     "status": "published"
+  },
+  {
+    "id": "n_ytnm0_mvfntxe4",
+    "slug": "avrupa-koleji-nde-yuksek-lisans-yapacak-ogrencilere-burs-imkani-saglaniy-18nr1t",
+    "title": "Avrupa koleji'nde yüksek lisans yapacak öğrencilere burs imkanı sağlanıyor",
+    "excerpt": "Avrupa Birliği Başkanlığı öncülüğünde, Avrupa Birliği alanında yüksek lisans yapmak isteyen başarılı öğrencilere burs desteği verileceği duyuruldu. Programdan iyi derecede İngilizce ve Fransızca bilen adayların yararlanabileceği bildirildi.",
+    "body": [
+      "Avrupa Birliği (AB) Başkanlığı tarafından Türk özel sektör kuruluşları, Avrupa Koleji ve Polonya Dışişleri Bakanlığı desteğiyle burs programı başlatıldı. Burs desteği, Avrupa Birliği alanında yüksek lisans eğitimi almak isteyen adayları kapsıyor.",
+      "Programa akademik açıdan başarılı olan, iyi derecede İngilizce ve Fransızca bilen öğrenciler başvurabilecek. Sağlanan burs desteği 2027-2028 akademik yılı Avrupa Koleji yüksek lisans eğitimi sürecinde geçerli olacak."
+    ],
+    "category": "universite",
+    "tags": [
+      "YÜKSEK LİSANS BURSU",
+      "AVRUPA KOLEJİ",
+      "AB BAŞKANLIĞI"
+    ],
+    "source": {
+      "name": "Milliyet",
+      "url": "https://milliyet.com.tr/egitim/yuksek-lisans-yapanlara-burs-7681495",
+      "image": "/img/yuksek-lisans-yapanlara-burs-1mc3r9.jpg"
+    },
+    "publishedAt": "2026-10-17T04:01:38.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": false,
+    "score": 3.9,
+    "dedupeKey": "18nr1ta",
+    "rawTitle": "Yüksek lisans yapanlara burs",
+    "status": "review",
+    "lang": "tr"
   },
   {
     "id": "n_1fj9y6p_mvei1j37",
@@ -1358,6 +1456,72 @@
     "dedupeKey": "jrscb5",
     "rawTitle": "2027 yarıyıl tatili ne zaman? 15 tatil hangi tarihte başlayacak, okullar ne zaman kapanacak?",
     "status": "published"
+  },
+  {
+    "id": "f_13rpl05_mvfnucog",
+    "slug": "yabanci-lise-ogrencileri-hsc-sinavinda-insan-gucu-ve-kirilganligi-ko-13rpl0",
+    "title": "Lise öğrencileri HSC sınavında insan gücü ve kırılganlığı konularını ele aldı",
+    "excerpt": "New South Wales genelinde on binlerce lise öğrencisi final sınavlarının ilk oturumuna katıldı. İngilizce sınavındaki zorlu soru öğrencileri yazarların metinleri üzerinden düşünmeye itti.",
+    "body": [
+      "Belirtilen metninizin yazarı insan gücü ve kırılganlığı hakkındaki varsayımları incelemeniz için size nasıl fırsatlar sunuyor? On binlerce 12. sınıf öğrencisinin final sınavlarının ilk gününde yanıtlamak üzere masaya oturduğu kafa karıştırıcı İngilizce sorusu budur.",
+      "Canley Vale lise öğrencisi 18 yaşındaki Kayden Tran sınavdan önce harika bir kahvaltı yaptığını belirtti. Öğrenciler Tim Winton, George Orwell veya Malala Yousafzai'nin yazılsalarındaki kararlılık ve duyarlılığı inceleyen bu makale sorusuyla ter döktü."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Sınav",
+      "Lise",
+      "Öğrenci"
+    ],
+    "source": {
+      "name": "The Guardian Dünya",
+      "url": "https://www.theguardian.com/australia-news/2026/oct/13/hsc-first-exam-english-paper-2026",
+      "image": "/img/bacon-eggs-and-bowie-how-year-12-english-students--4ud25n.jpg"
+    },
+    "publishedAt": "2026-10-13T06:56:22.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:13rpl05",
+    "rawTitle": "Bacon, eggs and Bowie: how year 12 English students tackled ‘human strength and vulnerability’ in HSC paper",
+    "status": "published",
+    "lang": "en"
+  },
+  {
+    "id": "f_1b7eavp_mvfnucog",
+    "slug": "yabanci-grevler-ve-butce-kesintileri-avustralya-universitelerinde-be-1b7eav",
+    "title": "Grevler ve bütçe kesintileri Avustralya üniversitelerinde belirsizlik yaratıyor",
+    "excerpt": "Üniversiteler ile personel arasındaki ilişki sürdürülemez bir çatışma noktasına ulaştı. University of Melbourne'de derslerin iptal edilmesi öğrencileri endişelendiriyor.",
+    "body": [
+      "Kampüsümde belirsizlik havası hâkim durumda. University of Melbourne'deki pek çok öğretim görevlisi ulusal greve ve bir haftalık ders boykotuna katılıyor, bu yüzden derslerimin çoğu iptal edildi.",
+      "Endüstriyel eylemi duyuran posterler her yerde asılı duruyor. Öğrenciler dönemin sonuna kadar derslerin yeniden başlayıp başlamayacağını veya notlarının ne olacağını merak ediyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Üniversite",
+      "Grev",
+      "Eğitim Krizi"
+    ],
+    "source": {
+      "name": "The Guardian Dünya",
+      "url": "https://www.theguardian.com/commentisfree/2026/oct/13/strikes-teaching-bans-and-slashed-subjects-how-australian-unis-are-an-education-in-uncertainty-and-cost-cutting",
+      "image": "/img/strikes-teaching-bans-and-slashed-subjects-how-aus-1gd64j.jpg"
+    },
+    "publishedAt": "2026-10-12T23:58:18.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1b7eavp",
+    "rawTitle": "Strikes, teaching bans and slashed subjects: how Australian unis are an education in uncertainty and cost-cutting | Saria Ratnam",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "n_1a5wfno_mveiblan",

@@ -147,7 +147,12 @@ export function ArticlePage() {
 
           {/* Tam metin — kaynaktan alındıysa başlık, değilse özet gövdesi */}
           <div className="mt-8 space-y-5">
-            {item.fullText && (
+            {item.lang === 'en' && (
+              <p className="border-l-2 border-line pl-4 text-[12px] text-faint">
+                {item.source.name} · İngilizce kaynaktan çevrildi
+              </p>
+            )}
+            {item.fullText && item.lang !== 'en' && (
               <p className="border-l-2 border-line pl-4 text-[12px] text-faint">
                 {t('news.fullText')} · {item.source.name}
               </p>

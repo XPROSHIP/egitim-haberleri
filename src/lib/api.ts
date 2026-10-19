@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import type { Comment, NewsItem } from '../types'
 import { categories } from '../data/categories'
 import collectedRaw from '../data/collected.json'
+import { authHeaders } from './auth'
 
 type CollectedItem = NewsItem & {
   status?: string
@@ -141,13 +142,83 @@ export function useComments(articleId: string | undefined) {
     queryKey: ['comments', articleId],
     queryFn: async (): Promise<Comment[]> => {
       if (!BASE || !articleId) return []
-      const res = await fetch(`${BASE}/api/comments?article=${encodeURIComponent(articleId)}`)
+      const res = await fetch(`${BASE}/api/engagement?article=${encodeURIComponent(articleId)}`, {
+        headers: authHeaders(),
+      })
       if (!res.ok) return []
-      return ((await res.json()) as { items: Comment[] }).items
+      const data = (await res.json()) as { comments?: Comment[] }
+      return data.comments ?? []
     },
     enabled: Boolean(articleId) && Boolean(BASE),
     staleTime: 30_000,
   })
+}
+
+export type Engagement = {
+  likes: number
+  bookmarks: number
+  myLikes: string[]
+  myBookmarks: string[]
+  comments: Comment[]
+}
+
+/** Bir haberin beğeni/kaydetme/yorum durumu — gerçek kullanıcı verisinden. */
+export function useEngagement(articleId: string | undefined) {
+  return useQuery({
+    queryKey: ['engagement', articleId],
+    queryFn: async (): Promise<Engagement> => {
+      const bos: Engagement = { likes: 0, bookmarks: 0, myLikes: [], myBookmarks: [], comments: [] }
+      if (!BASE || !articleId) return bos
+      const res = await fetch(`${BASE}/api/engagement?article=${encodeURIComponent(articleId)}`, {
+        headers: authHeaders(),
+      })
+      if (!res.ok) return bos
+      return { ...bos, ...((await res.json()) as Engagement) }
+    },
+    enabled: Boolean(articleId) && Boolean(BASE),
+    staleTime: 15_000,
+  })
+}
+
+/** Beğeniyi aç/kapat. Sunucu gerçek sayacı döner. */
+export async function setLike(articleId: string, on: boolean): Promise<number> {
+  if (!BASE) return 0
+  const res = await fetch(`${BASE}/api/like`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', ...authHeaders() },
+    body: JSON.stringify({ article: articleId, on }),
+  })
+  if (!res.ok) throw new Error('Beğeni kaydedilemedi')
+  const data = (await res.json()) as { likes: number }
+  return data.likes
+}
+
+/** Kaydetmeyi aç/kapat. */
+export async function setBookmark(articleId: string, on: boolean): Promise<void> {
+  if (!BASE) return
+  const res = await fetch(`${BASE}/api/bookmark`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', ...authHeaders() },
+    body: JSON.stringify({ article: articleId, on }),
+  })
+  if (!res.ok) throw new Error('Kaydedilemedi')
+}
+
+/** Yorum gönderir. */
+export async function postComment(
+  articleId: string,
+  body: string,
+  parentId?: string | null,
+): Promise<Comment> {
+  if (!BASE) throw new Error('Sunucuya bağlanılamadı')
+  const res = await fetch(`${BASE}/api/comment`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', ...authHeaders() },
+    body: JSON.stringify({ article: articleId, body, parentId: parentId ?? null }),
+  })
+  if (!res.ok) throw new Error('Yorum gönderilemedi')
+  const data = (await res.json()) as { comment: Comment }
+  return data.comment
 }
 
 export function useRelated(item: NewsItem | undefined) {

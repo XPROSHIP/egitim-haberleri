@@ -19,6 +19,7 @@ import { fetchFeed, googleNewsRssUrl } from './rss.js'
 import { fetchSectionLinks } from './section.js'
 import { dedupeKey, similarity, slugify, hash, normalizeTitleCase, foldWord } from './text.js'
 import { scoreItem, detectCategory, detectProvince, detectExtraTags } from './classify.js'
+import { collectForeign } from './foreign.js'
 import { createGemini, enrichWithGemini } from './gemini.js'
 import { fetchArticle } from './article.js'
 
@@ -104,6 +105,7 @@ export async function collect({
     withImage: 0,
     withFullText: 0,
     noImage: 0,
+    foreign: 0,
     errors: [],
   }
 
@@ -322,8 +324,23 @@ export async function collect({
       dedupeKey: cluster.key,
       rawTitle: cluster.title,
       status: cluster.score >= autoPublishScore ? 'published' : 'review',
+      lang: 'tr',
     }
   })
+
+  // 10) Yabancı dilde eğitim haberleri (İngilizce kaynaklar, Türkçeye çevrilir)
+  let foreignItems = []
+  if (enrich) {
+    try {
+      foreignItems = await collectForeign({ keys, logger, saveImage, knownUrls: knownUrls })
+    } catch (err) {
+      run.errors.push(`foreign: ${String(err?.message ?? err).slice(0, 90)}`)
+    }
+  }
+  if (foreignItems.length) {
+    items.push(...foreignItems)
+    run.foreign = foreignItems.length
+  }
 
   const result = await store.upsert(items)
   run.inserted = result.inserted

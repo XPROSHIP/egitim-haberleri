@@ -49,6 +49,8 @@ export type NewsItem = {
   province?: string
   /** metin kaynaktan mı alındı, yoksa özet mi */
   fullText?: boolean
+  /** Haberin kaynak dili. 'en' ise Türkçeye çevrilmiş yabancı kaynak haberidir. */
+  lang?: 'tr' | 'en'
 }
 
 export type User = {

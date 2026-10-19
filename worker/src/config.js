@@ -140,6 +140,41 @@ export const MESEM_TERMS = [
   'iş gücü',
 ]
 
+/**
+ * Yabancı dilde eğitim haberi kaynakları.
+ * "Yabancı Eğitim" kategorisi bu kaynaklardan beslenir; haberler hızlı modelle
+ * Türkçeye çevrilerek yayınlanır. Okuma, sınav, üniversite, politika gibi
+ * eğitim gündemini kapsayan yayınlar seçildi.
+ */
+export const FOREIGN_FEEDS = [
+  { name: 'The Guardian', url: 'https://www.theguardian.com/education/rss', weight: 4 },
+  { name: 'The Guardian Dünya', url: 'https://www.theguardian.com/world/education/rss', weight: 3 },
+  { name: 'Education Dive', url: 'https://www.educationdive.com/feeds/news/', weight: 4 },
+  { name: 'K-12 Dive', url: 'https://www.k12dive.com/feeds/news/', weight: 4 },
+  { name: 'EdSurge', url: 'https://www.edsurge.com/articles_rss', weight: 4 },
+  { name: 'Inside Higher Ed', url: 'https://www.insidehighered.com/rss.xml', weight: 4 },
+  { name: 'NPR Education', url: 'https://feeds.npr.org/1013/rss.xml', weight: 3 },
+  { name: 'eCampus News', url: 'https://www.ecampusnews.com/feed/', weight: 3 },
+  { name: 'The Conversation', url: 'https://theconversation.com/us/education/articles.atom', weight: 4 },
+  { name: 'Hechinger Report', url: 'https://hechingerreport.org/feed/', weight: 4 },
+  { name: 'Education Next', url: 'https://www.educationnext.org/feed/', weight: 3 },
+]
+
+/** İngilizce başlıklarda eğitim haberi ayırt etmek için kullanılan terimler. */
+export const FOREIGN_EDU_TERMS = [
+  'school', 'student', 'teacher', 'education', 'college', 'university', 'classroom',
+  'curriculum', 'learning', 'district', 'enrollment', 'degree', 'preschool', 'kindergarten',
+  'academic', 'scholarship', 'tuition', 'principal', 'educator', 'literacy', 'graduation',
+  'campus', 'teaching', 'class', 'pupil', 'headteacher', 'chancellor', 'tests',
+  'boarding', 'vocational', 'apprentice', 'college', 'campus', 'undergraduate',
+]
+
+/** Çeviri için kullanılan hızlı model. */
+export const TRANSLATE_MODEL = 'gemini-3.5-flash-lite'
+
+/** Bir turda kaç yabancı haber çevrilsin. */
+export const MAX_FOREIGN_PER_RUN = 6
+
 /** Kategori tespiti: hangi başlık hangi kategoriye gider. */
 export const CATEGORY_RULES = [
   {

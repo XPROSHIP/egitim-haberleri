@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
 import type { Comment, NewsItem } from '../types'
-import { useComments } from '../lib/api'
+import { useComments, useEngagement, postComment, setLike as setLikeRemote, setBookmark as setBookmarkRemote } from '../lib/api'
 import { useStore } from '../lib/store'
 import { relativeTime } from '../lib/format'
 import { shareUrl } from '../lib/share'
@@ -73,16 +73,16 @@ function CommentRow({ c, replies }: { c: Comment; replies: Comment[] }) {
 export function CommentSection({ item }: { item: NewsItem }) {
   const { t } = useTranslation()
   const { signedIn } = useStore()
-  const { data } = useComments(item.id)
-  const [local, setLocal] = useState<Comment[]>([])
+  const { data, refetch } = useComments(item.id)
   const [text, setText] = useState('')
   const [error, setError] = useState('')
+  const [sending, setSending] = useState(false)
 
-  const all = [...local, ...(data ?? [])]
+  const all = data ?? []
   const roots = all.filter((c) => !c.parentId)
   const repliesOf = (id: string) => all.filter((c) => c.parentId === id)
 
-  const submit = () => {
+  const submit = async () => {
     if (!signedIn) {
       bus.emit(EVENTS.openLogin)
       return
@@ -94,20 +94,16 @@ export function CommentSection({ item }: { item: NewsItem }) {
       return
     }
     setError('')
-    setLocal((l) => [
-      ...l,
-      {
-        id: `local-${Date.now()}`,
-        articleId: item.id,
-        authorId: 'me',
-        authorName: 'Sen',
-        authorAvatarColor: '',
-        body,
-        createdAt: new Date().toISOString(),
-        likes: 0,
-      },
-    ])
-    setText('')
+    setSending(true)
+    try {
+      await postComment(item.id, body)
+      setText('')
+      await refetch()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Yorum gönderilemedi.')
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -135,7 +131,7 @@ export function CommentSection({ item }: { item: NewsItem }) {
               <button
                 type="button"
                 onClick={submit}
-                disabled={!text.trim()}
+                disabled={!text.trim() || sending}
                 className="rounded-full bg-fg px-4 py-1.5 text-[13px] font-semibold text-bg transition hover:opacity-90 disabled:opacity-40"
               >
                 {t('comments.submit')}
@@ -170,27 +166,60 @@ export function CommentSection({ item }: { item: NewsItem }) {
 export function EngagementBar({ item }: { item: NewsItem }) {
   const { t } = useTranslation()
   const { likes, bookmarks, toggleLike, toggleBookmark } = useStore()
+  const { data } = useEngagement(item.id)
   const [copied, setCopied] = useState(false)
-  const liked = likes.includes(item.id)
-  const saved = bookmarks.includes(item.id)
+  const [busy, setBusy] = useState(false)
+
+  // Sunucudaki gerçek veri öncelikli; giriş yoksa yerel liste kullanılır.
+  const liked = data?.myLikes?.includes(item.id) ?? likes.includes(item.id)
+  const saved = data?.myBookmarks?.includes(item.id) ?? bookmarks.includes(item.id)
+  const likeCount = data?.likes ?? item.likes
 
   const btn =
     'flex items-center gap-1.5 rounded-full border border-line px-3.5 py-1.5 text-[12.5px] font-medium text-muted transition hover:bg-surface-2 hover:text-fg'
+
+  const onLike = async () => {
+    if (!signedInGuard()) return
+    toggleLike(item.id)
+    setBusy(true)
+    try {
+      await setLikeRemote(item.id, !liked)
+    } catch {
+      toggleLike(item.id) // geri al
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const onBookmark = async () => {
+    if (!signedInGuard()) return
+    toggleBookmark(item.id)
+    setBusy(true)
+    try {
+      await setBookmarkRemote(item.id, !saved)
+    } catch {
+      toggleBookmark(item.id)
+    } finally {
+      setBusy(false)
+    }
+  }
 
   return (
     <div className="flex flex-wrap items-center gap-2">
       <button
         type="button"
-        onClick={() => toggleLike(item.id)}
+        onClick={onLike}
+        disabled={busy}
         className={clsx(btn, liked && 'border-accent/50 text-accent')}
       >
         <Icon name="Heart" size={15} fill={liked ? 'currentColor' : 'none'} />
         {liked ? t('news.liked') : t('news.like')}
-        <span className="tnum text-faint">{item.likes + (liked ? 1 : 0)}</span>
+        <span className="tnum text-faint">{likeCount}</span>
       </button>
       <button
         type="button"
-        onClick={() => toggleBookmark(item.id)}
+        onClick={onBookmark}
+        disabled={busy}
         className={clsx(btn, saved && 'border-primary/50 text-primary')}
       >
         <Icon name="Bookmark" size={15} fill={saved ? 'currentColor' : 'none'} />
@@ -211,4 +240,15 @@ export function EngagementBar({ item }: { item: NewsItem }) {
       </button>
     </div>
   )
+}
+
+/** Giriş yoksa giriş penceresini açar ve false döner. */
+function signedInGuard(): boolean {
+  const raw = localStorage.getItem('eh.supabase.auth')
+  const has = Boolean(raw && raw.length > 40)
+  if (!has) {
+    bus.emit(EVENTS.openLogin)
+    return false
+  }
+  return true
 }

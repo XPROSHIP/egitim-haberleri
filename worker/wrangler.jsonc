@@ -20,7 +20,10 @@
   ],
 
   "vars": {
-    "SITE_URL": "https://egitim-haberleri.omerzen.workers.dev"
+    "SITE_URL": "https://egitim-haberleri.omerzen.workers.dev",
+    // Oturum jetonunu doğrulamak için gerekir (jeton Supabase imzalıdır).
+    "SUPABASE_URL": "https://jbcwqlymikipgsuvineb.supabase.co",
+    "SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpiY3dxbHltaWtpcGdzdXZpbmViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIzODM4MjIsImV4cCI6MjEwNzk1OTgyMn0.ZlJpgeOf51-Wset59bLYRBdnmO3bi5xYWU7eKyYEnaU"
   }
   // Secrets (wrangler secret put ile girilir, koda yazılmaz):
   //   GEMINI_API_KEYS   → üç anahtarı virgülle ayırarak

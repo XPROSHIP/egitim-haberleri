@@ -77,13 +77,14 @@ export function createD1Store(db) {
       const stmt = db.prepare(`
         INSERT INTO news (id, slug, title, excerpt, body, category, tags, source_name, source_url,
                           source_image, published_at, views, likes, featured, province, score,
-                          dedupe_key, status, raw_title, full_text)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                          dedupe_key, status, raw_title, full_text, lang)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
         ON CONFLICT(dedupe_key) DO UPDATE SET
           title=excluded.title, excerpt=excluded.excerpt, body=excluded.body,
           category=excluded.category, tags=excluded.tags, source_image=excluded.source_image,
           featured=excluded.featured, province=excluded.province, score=excluded.score,
-          status=excluded.status, raw_title=excluded.raw_title, full_text=excluded.full_text
+          status=excluded.status, raw_title=excluded.raw_title, full_text=excluded.full_text,
+          lang=excluded.lang
       `)
       const bound = items.map((i) =>
         stmt.bind(
@@ -107,6 +108,7 @@ export function createD1Store(db) {
           i.status ?? 'published',
           i.rawTitle ?? null,
           i.fullText ? 1 : 0,
+          i.lang ?? 'tr',
         ),
       )
       const result = await db.batch(bound)
@@ -225,6 +227,7 @@ export function fromRow(r) {
     featured: !!r.featured,
     province: r.province ?? undefined,
     fullText: !!r.full_text,
+    lang: r.lang ?? 'tr',
   }
 }
 

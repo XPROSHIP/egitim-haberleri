@@ -64,8 +64,31 @@ function toBytes(value) {
   return null
 }
 
-export default {
-  async fetch(request, env) {
+/**
+ * Supabase oturum jetonundan kullanıcı kimliğini dogrular.
+ * Jeton Supabase tarafindan imzalanir; istemcinin gonderdigi id'ye guvenilmez.
+ */
+async function currentUser(request, env) {
+  const auth = request.headers.get('authorization')
+  if (!auth?.startsWith('Bearer ')) return null
+  const token = auth.slice(7)
+  const base = (env.SUPABASE_URL ?? '').replace(/\/$/, '')
+  if (!base) return null
+  try {
+    const res = await fetch(`${base}/auth/v1/user`, {
+      headers: { apikey: env.SUPABASE_ANON_KEY ?? '', Authorization: `Bearer ${token}` },
+    })
+    if (!res.ok) return null
+    const user = await res.json()
+    return user?.id
+      ? { id: user.id, name: user.user_metadata?.full_name ?? user.email ?? 'Kullanıcı' }
+      : null
+  } catch {
+    return null
+  }
+}
+
+export default {  async fetch(request, env) {
     const url = new URL(request.url)
 
     if (request.method === 'OPTIONS') return new Response(null, { headers: CORS })
@@ -109,8 +132,120 @@ export default {
       return json({ ok: true, key, bytes: data.length })
     }
 
-    if (url.pathname === '/api/news') {
-      const items = await store(env).all(Math.min(Number(url.searchParams.get('limit') ?? 500), 500))
+    // --- Etkileşim: beğeni, kaydetme, yorum (gerçek kullanıcı verisi) ---
+
+    if (url.pathname === '/api/engagement' && request.method === 'GET') {
+      const article = url.searchParams.get('article') ?? ''
+      const user = await currentUser(request, env)
+      if (!article) return json({ error: 'missing_article' }, 400)
+
+      const [likes, bookmarks, comments] = await Promise.all([
+        env.DB.prepare('SELECT article_id FROM news_likes WHERE article_id = ?').bind(article).all(),
+        env.DB.prepare('SELECT article_id FROM news_bookmarks WHERE article_id = ?').bind(article).all(),
+        env.DB.prepare(
+          'SELECT id, article_id, user_id, author_name, body, parent_id, likes, created_at FROM news_comments WHERE article_id = ? ORDER BY created_at ASC LIMIT 300',
+        ).bind(article).all(),
+      ])
+
+      const myLikes = new Set(
+        user
+          ? (
+              await env.DB.prepare('SELECT article_id FROM news_likes WHERE user_id = ?').bind(user.id).all()
+            ).results.map((r) => r.article_id)
+          : [],
+      )
+      const myBookmarks = new Set(
+        user
+          ? (
+              await env.DB.prepare('SELECT article_id FROM news_bookmarks WHERE user_id = ?').bind(user.id).all()
+            ).results.map((r) => r.article_id)
+          : [],
+      )
+
+      return json({
+        likes: likes.results.length,
+        bookmarks: bookmarks.results.length,
+        myLikes: [...myLikes],
+        myBookmarks: [...myBookmarks],
+        comments: comments.results.map((c) => ({
+          id: c.id,
+          articleId: c.article_id,
+          authorId: c.user_id,
+          authorName: c.author_name,
+          body: c.body,
+          parentId: c.parent_id ?? null,
+          likes: c.likes,
+          createdAt: c.created_at,
+        })),
+      })
+    }
+
+    if (url.pathname === '/api/like' && request.method === 'POST') {
+      const user = await currentUser(request, env)
+      if (!user) return json({ error: 'unauthorized' }, 401)
+      const { article, on } = await request.json().catch(() => ({}))
+      if (!article) return json({ error: 'missing_article' }, 400)
+      if (on) {
+        await env.DB.prepare('INSERT OR IGNORE INTO news_likes (article_id, user_id) VALUES (?,?)')
+          .bind(article, user.id)
+          .run()
+      } else {
+        await env.DB.prepare('DELETE FROM news_likes WHERE article_id = ? AND user_id = ?')
+          .bind(article, user.id)
+          .run()
+      }
+      const { results } = await env.DB.prepare('SELECT COUNT(*) AS n FROM news_likes WHERE article_id = ?')
+        .bind(article)
+        .all()
+      return json({ ok: true, likes: results[0]?.n ?? 0, liked: Boolean(on) })
+    }
+
+    if (url.pathname === '/api/bookmark' && request.method === 'POST') {
+      const user = await currentUser(request, env)
+      if (!user) return json({ error: 'unauthorized' }, 401)
+      const { article, on } = await request.json().catch(() => ({}))
+      if (!article) return json({ error: 'missing_article' }, 400)
+      if (on) {
+        await env.DB.prepare('INSERT OR IGNORE INTO news_bookmarks (article_id, user_id) VALUES (?,?)')
+          .bind(article, user.id)
+          .run()
+      } else {
+        await env.DB.prepare('DELETE FROM news_bookmarks WHERE article_id = ? AND user_id = ?')
+          .bind(article, user.id)
+          .run()
+      }
+      return json({ ok: true, bookmarked: Boolean(on) })
+    }
+
+    if (url.pathname === '/api/comment' && request.method === 'POST') {
+      const user = await currentUser(request, env)
+      if (!user) return json({ error: 'unauthorized' }, 401)
+      const { article, body, parentId } = await request.json().catch(() => ({}))
+      const text = String(body ?? '').trim()
+      if (!article || !text) return json({ error: 'missing_fields' }, 400)
+      if (text.length > 1000) return json({ error: 'too_long' }, 413)
+      const id = `c_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`
+      await env.DB.prepare(
+        'INSERT INTO news_comments (id, article_id, user_id, author_name, body, parent_id) VALUES (?,?,?,?,?,?)',
+      )
+        .bind(id, article, user.id, user.name, text, parentId ?? null)
+        .run()
+      return json({
+        ok: true,
+        comment: {
+          id,
+          articleId: article,
+          authorId: user.id,
+          authorName: user.name,
+          body: text,
+          parentId: parentId ?? null,
+          likes: 0,
+          createdAt: new Date().toISOString(),
+        },
+      })
+    }
+
+    if (url.pathname === '/api/news') {      const items = await store(env).all(Math.min(Number(url.searchParams.get('limit') ?? 500), 500))
       return json(
         { items, count: items.length },
         200,
