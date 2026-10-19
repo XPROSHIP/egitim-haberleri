@@ -1797,6 +1797,40 @@
     "status": "published"
   },
   {
+    "id": "f_32yaot_mvfuxprz",
+    "slug": "yabanci-arastirma-cocuk-koruma-hizmetleriyle-temasi-olan-ogrencileri-32yaot",
+    "title": "Araştırma: Çocuk Koruma Hizmetleriyle Teması Olan Öğrencilerin Okul Devamsızlığı Daha Yüksek",
+    "excerpt": "Yeni bir araştırma, çocuk koruma hizmetleriyle temas kuran öğrencilerin hem mazeretli hem de mazeretsiz devamsızlık oranlarının daha yüksek olduğunu ortaya koyuyor. Uzmanlar, okula bağlılık hissinin ve hedefe yönelik desteklerin bu öğrencileri sınıfta tutabileceğini vurguluyor.",
+    "body": [
+      "Children and Youth Services Review dergisinde yayımlanan araştırmaya göre, 15 yaşına kadar Çocuk Koruma Hizmetleri (CPS) ile teması bulunan öğrencilerin devamsızlık riski taşımayan akranlarına kıyasla belirgin şekilde daha yüksek. ABD'de çocukların üçte birinden fazlasının 18 yaşına kadar bir CPS soruşturması geçirdiği tahmin ediliyor.",
+      "Çalışma, CPS teması olan gençlerin neden daha fazla devamsızlık yaptığını tam olarak açıklamasa da ek araştırmalara ihtiyaç olduğunu belirtiyor. Ohio State Üniversitesi'nden Doçent Arya Ansari, devamsızlığın çocukların çok farklı nedenlerle okula gidemediği karmaşık bir sorun olduğunu ifade ediyor.",
+      "Araştırmacılar, okula aidiyet duygusunun CPS geçmişi ile yüksek devamsızlık arasındaki bağı hafifletip hafifletmediğini inceliyor. Elde edilen bulgular, kırılgan durumdaki öğrencilerin okula devamını artırmak için destekleyici okul ortamlarının kritik rol oynadığını gösteriyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "DEVAMSIZLIK",
+      "ÇOCUK KORUMA",
+      "EĞİTİM ARAŞTIRMALARI"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/child-protective-services-contact-linked-to-higher-absenteeism-study-finds",
+      "image": "/img/child-protective-services-contact-linked-to-higher-absenteei-1o450k.jpg"
+    },
+    "publishedAt": "2026-10-14T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:32yaot",
+    "rawTitle": "Child Protective Services Contact Linked to Higher Absenteeism, Study Finds",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "f_19zour3_mvfuuj3e",
     "slug": "yabanci-siniflarda-teknoloji-bagimliligiyla-mucadele-eden-egitimcile-19zour",
     "title": "Sınıflarda Teknoloji Bağımlılığıyla Mücadele Eden Eğitimciler Uyarı İşaretlerine Dikkat Çekiyor",
@@ -2603,6 +2637,40 @@
     "dedupeKey": "1mk68by",
     "rawTitle": "KPSS lisans sonuçları açıklandı",
     "status": "published"
+  },
+  {
+    "id": "f_d47a4v_mvfuxps0",
+    "slug": "yabanci-kucuk-ve-kirsal-okul-bolgeleri-devamsizlikla-mucadelede-buyu-d47a4v",
+    "title": "Küçük ve Kırsal Okul Bölgeleri Devamsızlıkla Mücadelede Büyük Şehirlere Fark Atıyor",
+    "excerpt": "Yeni bir çalışma, küçük ve kırsal okul bölgelerinin kronik devamsızlıkla mücadelede kentsel ve banliyö bölgelerine kıyasla çok daha hızlı toparlandığını gösteriyor.",
+    "body": [
+      "The GRAD Partnership, Everyone Graduates Center ve Partnership for Student Success ortaklığında yürütülen yeni bir çalışma, ülke genelindeki devamsızlık verilerini inceledi. Araştırma, küçük ve kırsal okul bölgelerinin okula devam oranlarını büyük kentsel bölgelere göre çok daha hızlı toparladığını belirledi.",
+      "Rapora göre, 1.000'den az öğrencisi olan kırsal bölgeler, 2024-25 eğitim-öğretim yılı itibarıyla kronik devamsızlık oranlarını pandemi öncesi seviyelerin yüzde 2 yakınına getirmeyi başardı. Bu toparlanma oranı, 50.000'den fazla öğrencisi olan kentsel bölgelere kıyasla yaklaşık iki kat daha yüksek gerçekleşti.",
+      "Bazı kırsal bölgeler hızlı bir geri dönüş yakalasa da ülke çapında birçok bölgenin pandemi öncesi devamlılık seviyelerine ulaşmak için hâlâ katetmesi gereken uzun bir yol bulunuyor. Eğitim uzmanları, bu başarının arkasındaki yöntemleri anlamak amacıyla yerel idarecilerin ve danışmanların uyguladığı destek mekanizmalarını araştırıyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "KIRSAL EĞİTİM",
+      "KRONİK DEVAMSIZLIK",
+      "OKULA DEVAM"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/how-some-small-rural-districts-are-winning-the-attendance-struggle",
+      "image": "/img/how-some-small-rural-districts-are-winning-the-attendance-st-1fmofb.jpg"
+    },
+    "publishedAt": "2026-10-07T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:d47a4v",
+    "rawTitle": "How Some Small, Rural Districts Are Winning the Attendance Struggle",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "f_rg4wmn_mvfraztz",
