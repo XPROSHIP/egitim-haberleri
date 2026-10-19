@@ -1797,6 +1797,72 @@
     "status": "published"
   },
   {
+    "id": "f_19zour3_mvfuuj3e",
+    "slug": "yabanci-siniflarda-teknoloji-bagimliligiyla-mucadele-eden-egitimcile-19zour",
+    "title": "Sınıflarda Teknoloji Bağımlılığıyla Mücadele Eden Eğitimciler Uyarı İşaretlerine Dikkat Çekiyor",
+    "excerpt": "Eğitimcilerin teknoloji bağımlılığının uyarı işaretlerini fark ederek sınıfta ve evde dürüst diyaloglar kurması gerekiyor. Uzmanlar ekran kullanımının öğrenciler üzerindeki etkilerinin ciddiyetle ele alınması gerektiğini belirtiyor.",
+    "body": [
+      "Bir eğitimci, yedinci sınıftaki parlak ve yetenekli öğrencisi Billie'nin Chromebook'tan uzak kaldığında giderek dikkatsizleştiğini ve içine kapandığını aktardı. Cihaz başındayken odaklanma ve özdenetim becerilerinin neredeyse tamamen kaybolduğu gözlemlendi.",
+      "Öğrencinin ders dışı konuları aradığı, sürekli sekmeler arasında geçiş yaptığı ve oyun oynayarak görevlerinden uzaklaştığı belirtildi. Yetişkinler genellikle çocukların ekranlara bağımlı olduğunu söylese de bu durumun gerçek anlamı yeterince irdelenmiyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "TEKNOLOJİ BAĞIMLILIĞI",
+      "DİJİTAL EĞİTİM",
+      "ÖĞRENCİ GELİŞİMİ"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/tech-addiction-was-a-problem-for-my-student-and-myself",
+      "image": "/img/tech-addiction-was-a-problem-for-my-student-and-myself-18xdav.jpg"
+    },
+    "publishedAt": "2026-10-14T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:19zour3",
+    "rawTitle": "Tech Addiction Was a Problem for My Student — and Myself",
+    "status": "published",
+    "lang": "en"
+  },
+  {
+    "id": "f_llpf11_mvfuuj3e",
+    "slug": "yabanci-k-12-siniflari-icin-yapay-zeka-altyapisini-kim-insa-ediyor-s-llpf11",
+    "title": "K-12 Sınıfları İçin Yapay Zeka Altyapısını Kim İnşa Ediyor Sorusu Gündemde",
+    "excerpt": "Chan Zuckerberg Initiative destekli Learning Commons, K-12 düzeyinde yapay zeka içeriklerini standartlarla buluşturacak yeni bir açık platform kurdu. Girişim, eğitim teknolojisi şirketleri ile okulların teknolojiyi daha güvenilir biçimde uygulamasına yardımcı olmayı hedefliyor.",
+    "body": [
+      "Yapay zeka araçları saniyeler içinde ders planları hazırlayabilse de öğretmenler üretilen içeriklerin resmi standartlara veya öğrenme araştırmalarına uygunluğunu doğrulamakta zorlanıyor. Kâr amacı gütmeyen Learning Commons, geliştirdiği yeni açık platformla bu eksikliği gidermeyi amaçlıyor.",
+      "Aralarında OpenAI ve Anthropic'in de bulunduğu 70'ten fazla iş ortağı projeye katılım sağladı. Daha önce Google, Facebook ve Quora'da ürün ekipleri yöneten Learning Commons Başkanı Sandra Liu Huang, açık bilgi grafiklerinin sürece nasıl katkı sunduğunu aktardı."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "YAPAY ZEKA",
+      "K-12 EĞİTİMİ",
+      "EĞİTİM TEKNOLOJİSİ"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/who-is-building-the-ai-foundation-for-k-12-classrooms",
+      "image": "/img/who-s-building-the-a-foundation-for-k-12-classrooms-nikvfw.jpg"
+    },
+    "publishedAt": "2026-10-14T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:llpf11",
+    "rawTitle": "Who Is Building the AI Foundation for K-12 Classrooms?",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "f_13rpl05_mvfnucog",
     "slug": "yabanci-lise-ogrencileri-hsc-sinavinda-insan-gucu-ve-kirilganligi-ko-13rpl0",
     "title": "Lise öğrencileri HSC sınavında insan gücü ve kırılganlığı konularını ele aldı",
