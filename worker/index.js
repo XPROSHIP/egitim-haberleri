@@ -99,7 +99,42 @@ async function currentUser(request, env) {
   }
 }
 
-export default {  async fetch(request, env) {
+export default {
+  /**
+   * Zamanlayıcı: GitHub iş akışını tetikler.
+   *
+   * Neden Worker cron'u: GitHub'ın kendi zamanlayıcısı yeni oluşturulan
+   * depolarda saatlerce (bazen hiç) tetiklenmiyor. Cloudflare'ın cron'u
+   * güvenilir ve tek bir HTTP çağrısı yaptığı için CPU limitinin çok altında.
+   * Ağır iş yine GitHub Actions'ta (2.000 dk/ay) yapılır.
+   */
+  async scheduled(controller, env) {
+    controller.noRetry()
+    if (!env.GITHUB_TOKEN || !env.GITHUB_REPO) {
+      console.warn('[worker] GITHUB_TOKEN/GITHUB_REPO tanimli degil, tetiklenmedi')
+      return
+    }
+    try {
+      const res = await fetch(
+        `https://api.github.com/repos/${env.GITHUB_REPO}/actions/workflows/collect.yml/dispatches`,
+        {
+          method: 'POST',
+          headers: {
+            authorization: `Bearer ${env.GITHUB_TOKEN}`,
+            accept: 'application/vnd.github+json',
+            'x-github-api-version': '2022-11-28',
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({ ref: 'main' }),
+        },
+      )
+      console.log(`[worker] tetikleme istegi -> HTTP ${res.status}`)
+    } catch (err) {
+      console.error('[worker] tetikleme hatasi', String(err?.message ?? err).slice(0, 120))
+    }
+  },
+
+  async fetch(request, env) {
     const url = new URL(request.url)
     const cors = corsFor(request)
     /** Bu isteğe ait CORS başlıklarıyla JSON döndürür. */

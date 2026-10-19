@@ -5,7 +5,7 @@ name: Haber topla
 on:
   schedule:
     # dakikada 0, 3, 6, 9, 12, 15, 18, 21 saatlerinde çalışır (UTC)
-    - cron: '*/5 * * * *'
+    - cron: '0 */3 * * *'
   workflow_dispatch:
 
 concurrency:

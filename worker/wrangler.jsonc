@@ -5,10 +5,14 @@
   "compatibility_date": "2026-09-01",
   "compatibility_flags": ["nodejs_compat"],
 
-  // Zamanlayıcı YOK: Workers Free kademesinde cron başına yalnızca 10 ms CPU
-  // tanınıyor, toplayıcı ise tek turda ~200 ms harcıyor. Ağır toplama işi
-  // GitHub Actions'ta çalışır, sonucu POST /api/collect ile buraya yollar.
-  // Bu Worker yalnızca hafif veri servisi olarak görev yapar.
+  // Ağır toplama işi GitHub Actions'ta çalışır, sonucu POST /api/collect ile
+  // buraya yollar. Workers Free'da cron başına 10 ms CPU tanınıyor, toplayıcı
+  // ise ~200 ms harcıyor; bu yüzden Worker toplamaz, yalnızca tetikler.
+  // 3 saatte bir GitHub iş akışını tetikleriz: GitHub'ın kendi zamanlayıcısı
+  // yeni depolarda güvenilir olmadığı için tetiklemeyi biz yapıyoruz.
+  "triggers": {
+    "crons": ["0 */3 * * *"]
+  },
 
   "d1_databases": [
     {
