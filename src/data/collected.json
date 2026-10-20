@@ -170,6 +170,39 @@
     "lang": "tr"
   },
   {
+    "id": "f_xvyrel_mvha2xnw",
+    "slug": "yabanci-universite-yasam-maliyeti-tahminleri-kurumlar-arasinda-buyuk-xvyrel",
+    "title": "Üniversite Yaşam Maliyeti Tahminleri Kurumlar Arasında Büyük Farklılık Gösteriyor",
+    "excerpt": "Beş binin üzerinde üniversiteyi kapsayan yeni bir çalışma, kurumların öğrenim maliyetini tahmin etme biçimlerindeki büyük farklılıkları ortaya koyuyor.",
+    "body": [
+      "Barınma, yemek, ulaşım ve diğer günlük masraflar, öğrencilerin üniversite planı yaparken göz önünde bulundurması gereken maliyetler arasında yer alıyor. Öğrenciler yüksek öğrenimin değerini sorgularken, bir derece kazanmanın tam maliyetini anlamak ekonomikluk tartışmasının önemli bir parçası haline geldi.",
+      "Federal yasalar, kampüste yaşayanlar dahil olmak üzere üniversitelerin tahmini barınma, yemek ve ulaşım masraflarını yayınlanan maliyetlerine dahil etmesini gerektiriyor. Bu ödenekler genellikle kurumun dikkatlice hesaplanmış ücretlerinden ziyade tahminlere dayanmaktadır."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Üniversite Maliyeti",
+      "Finansal Yardım",
+      "Yüksek Öğretim"
+    ],
+    "source": {
+      "name": "Inside Higher Ed",
+      "url": "https://www.insidehighered.com/news/student-success/college-experience/2026/10/20/college-living-cost-estimates-vary-widely",
+      "image": "/img/college-living-cost-estimates-vary-widely-u6dk7l.jpg"
+    },
+    "publishedAt": "2026-10-20T07:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:xvyrel",
+    "rawTitle": "College Living Cost Estimates Vary Widely",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "n_xu0foh_mvg6i4em",
     "slug": "yok-baskani-ozvar-in-coktan-secmeli-sinav-elestirisine-akademiden-genis--1i0j12",
     "title": "YÖK başkanı özvar'ın çoktan seçmeli sınav eleştirisine akademiden geniş destek geldi",
@@ -2061,6 +2094,39 @@
     "audioDuration": 17.98
   },
   {
+    "id": "n_5tas33_mvha2myu",
+    "slug": "osym-2026-kpss-ortaogretim-sinavi-giris-belgelerinin-yayimlanmasi-icin-t-1rzdxz",
+    "title": "ÖSYM 2026 KPSS Ortaöğretim Sınavı giriş belgelerinin yayımlanması için takip ediliyor",
+    "excerpt": "KPSS Ortaöğretim oturumuna girecek lise mezunu adaylar sınav merkezlerinin ilan edilmesini bekliyor. Belgeler ÖSYM'nin resmi sistemi üzerinden adayların erişimine sunulacak.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "2026 KPSS ortaöğretim sınavına hazırlanan adaylar, ekim ayında yapılacak sınavın giriş belgelerine ilişkin ÖSYM'den gelecek duyuruları takip ediyor. Peki, 2026-KPSS Ortaöğretim Sınavı giriş belgeleri yayımlandı mı? KPSS Ortaöğretim Sınavı giriş belgesi nasıl ve nereden alınır? İşte ayrıntılar...",
+      "Adaylar, 25 Ekim 2026'da yapılacak KPSS Ortaöğretim Sınavı'na girecekleri yeri gösteren sınav giriş belgelerine, T.C. kimlik numaraları ve aday şifreleriyle ÖSYM Aday İşlemleri Sistemi üzerinden ulaşabilecek."
+    ],
+    "category": "sinav",
+    "tags": [
+      "KPSS",
+      "ORTAÖĞRETİM",
+      "SINAV GİRİŞ BELGESİ"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-kpss-ortaogretim-sinavi-giris-belgeleri-yayimlandi-mi-kpss-ortaogretim-sinavi-giris-belgesi-nasil-ve-nereden-alinir-2546694",
+      "image": "/img/2026-kpss-orta-retim-s-nav-giri-belgeleri-yay-mland-m-kpss-o-jgv885.jpg"
+    },
+    "publishedAt": "2026-10-14T12:08:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "1rzdxzw",
+    "rawTitle": "2026-KPSS Ortaöğretim Sınavı giriş belgeleri yayımlandı mı? KPSS Ortaöğretim Sınavı giriş belgesi nasıl ve nereden alınır?",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_11q0d8n_mvei314a",
     "slug": "osym-2026-kpss-ortaogretim-sinava-giris-belgelerini-adaylarin-erisimine--d7kf1e",
     "title": "ÖSYM tarafından 2026 KPSS ortaöğretim sınava giriş belgeleri adayların erişime açıldı",
@@ -2094,6 +2160,79 @@
     "status": "published",
     "audioId": "n_11q0d8n_mvei314a",
     "audioDuration": 22.74
+  },
+  {
+    "id": "n_1mi61y1_mvha2myd",
+    "slug": "ataturk-universitesi-acik-ve-uzaktan-ogretim-fakultesi-guz-donemi-sinav--26balg",
+    "title": "Atatürk Üniversitesi açık ve uzaktan öğretim fakültesi Güz Dönemi sınav takvimini açıkladı",
+    "excerpt": "Atatürk Üniversitesi Açık ve Uzaktan Öğretim Fakültesi'nin akademik takvimi paylaşıldı. Öğrenciler güz dönemi ara sınav giriş belgelerinin erişim durumunu takip ediyor.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "ATA AÖF 2026-2027 eğitim öğretim yılı güz yarıyılı, 5 Ekim 2026-8 Ocak 2027 tarihleri arasında tamamlanacak. Bu süreçte öğrenciler güz dönemi vize ve final sınavlarına katılacak. Peki, ATA AÖF sınav yerleri belli oldu mu? 2026-2027  ATA AÖF Güz Dönemi ara sınav giriş belgesi nasıl alınır? İşte ayrıntılar...",
+      "ATA AÖF sınav yerleri henüz belli olmadı. Konuyla ilgili resmi açıklama geldiğinde haberimiz güncellenecektir.",
+      "ATA AÖF Ara (Vize) Sınav Giriş Belgenizi almak için https://obs.atauni.edu.tr/ adresini ziyaret edebilirsiniz. Sayfada yer alan \"Duyurular\" kısmından giriş belgenize ulaşabilirsiniz. Ayrıca belgenizi ÖYS'den (Öğrenme Yönetim Sistemi) de alabilirsiniz.",
+      "ATA AÖF 2026-2027 eğitim öğretim yılı güz dönemi ara sınavları, 21-22 Kasım 2026 tarihlerinde yapılacak."
+    ],
+    "category": "universite",
+    "tags": [
+      "ATA AÖF",
+      "SINAV TAKVİMİ",
+      "AÇIKÖĞRETİM"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/ata-aof-sinav-yerleri-belli-oldu-mu-2026-2027-ata-aof-guz-donemi-ara-sinav-giris-belgesi-nasil-alinir-2546677",
+      "image": "/img/ata-a-f-s-nav-yerleri-belli-oldu-mu-2026-2027-ata-a-f-g-z-d--jpjogm.jpg"
+    },
+    "publishedAt": "2026-10-14T11:10:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "province": "Erzurum",
+    "fullText": true,
+    "score": 6.8,
+    "dedupeKey": "26balg",
+    "rawTitle": "ATA AÖF sınav yerleri belli oldu mu? 2026-2027 ATA AÖF Güz Dönemi ara sınav giriş belgesi nasıl alınır?",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
+    "id": "n_d6h1ca_mvha2myt",
+    "slug": "adaylar-2026-kpss-din-hizmetleri-alan-bilgisi-testi-sinav-giris-yerlerin-64m9h9",
+    "title": "Adaylar 2026 KPSS din hizmetleri alan bilgisi testi sınav giriş yerlerini bekliyor",
+    "excerpt": "Diyanet İşleri Başkanlığında görev almak isteyen adaylar KPSS DHBT sınav bilgilerine odaklandı. ÖSYM'nin yapacağı duyuru ile giriş yerleri erişime açılacak.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "KPSS lise sınavı için geri sayım devam ederken gözler ÖSYM Aday İşlemleri Sistemi'ne çevrildi. Peki, KPSS ortaöğretim sınav yerleri açıklandı mı? ÖSYM sınava giriş belgelerini ne zaman açıklayacak?",
+      "2026 KPSS ortaöğretim sınavına katılacak adaylar, sınav giriş belgelerinin yayımlanmasını bekliyor. ÖSYM tarafından sınav yerlerine ilişkin henüz resmi bir duyuru yapılmadı. Adaylar, sınava girecekleri okul, bina, salon ve sıra bilgilerini sınav giriş belgeleri üzerinden öğrenebilecek.",
+      "Sınav yerleri açıklandığında adaylar, ÖSYM Aday İşlemleri Sistemi (AİS) üzerinden T.C. kimlik numaraları ve şifreleriyle belgelerine erişebilecek.",
+      "ÖSYM'nin sınav uygulama esaslarına göre KPSS ortaöğretim sınav giriş belgeleri, sınav tarihinden yaklaşık 10 gün önce adayların erişimine açılacak.",
+      "ÖSYM'nin 2026 sınav takvimine göre KPSS ortaöğretim sınavı 25 Ekim 2026 Pazar günü gerçekleştirilecek.",
+      "Lise mezunları ve ilgili başvuru koşullarını taşıyan adayların katılacağı sınav için başvurular 27 Ağustos-8 Eylül tarihleri arasında alınmış, geç başvurular ise 15-16 Eylül'de tamamlanmıştı."
+    ],
+    "category": "sinav",
+    "tags": [
+      "KPSS",
+      "DHBT",
+      "ÖSYM"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-kpss-ortaogretim-sinav-yerleri-aciklandi-mi-osym-sinava-giris-belgelerini-ne-zaman-aciklayacak-2546557",
+      "image": "/img/2026-kpss-orta-retim-s-nav-yerleri-a-kland-m-sym-s-nava-giri-jgv885.jpg"
+    },
+    "publishedAt": "2026-10-14T06:45:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "64m9h9",
+    "rawTitle": "2026 KPSS ortaöğretim sınav yerleri açıklandı mı? ÖSYM sınava giriş belgelerini ne zaman açıklayacak?",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "n_aoppmf_mvg6i4er",
@@ -2296,6 +2435,43 @@
     "rawTitle": "Who Is Building the AI Foundation for K-12 Classrooms?",
     "status": "published",
     "lang": "en"
+  },
+  {
+    "id": "n_8bqtbd_mvha2myi",
+    "slug": "yok-baskani-erol-ozvar-en-az-iki-turk-universitesinin-ilk-100-e-girmesin-l7j113",
+    "title": "YÖK başkanı erol özvar en az iki türk Üniversitesinin ilk 100'e girmesini hedefliyor",
+    "excerpt": "Yükseköğretim Kurulu Başkanı Erol Özvar, en az iki Türk üniversitesinin dünya sıralamasında ilk 100'e girmesi gerektiğini söyledi. Özvar, güçlü araştırma ortamlarının önemini vurguladı.",
+    "body": [
+      "YÖK Başkanı Erol Özvar, Yıldız Teknik Üniversitesi’nin (YTÜ) 2026-2027 Akademik Açılış Töreni’ne katıldı. Törende yaptığı konuşmada, üniversitelerden lisans eğitiminde müfredat ve ders yapılarını sadeleştirmelerini beklediklerini hatırlatarak, düzenlemelerin öğrenme kazanımlarını belirginleştirmesi, içerik tekrarlarını azaltması ve öğrencilerin derinlemesine öğrenmesine imkan sağlaması gerektiğini söyledi. Yüksek lisans ve doktora için de bu konuda bazı önlemlerin alındığına dikkat çeken YÖK Başkanı Özvar, şunları söyledi:",
+      "BİLİMSEL ORTAKLIKLARI DESTEKLEMEYE DEVAM EDECEĞİZ “Eğitimde hayata geçirdiğimiz yeniliklere, bilimsel üretim kapasitemizdeki ilerleme de eşlik ediyor. Türkiye, makale ve derleme türündeki yayın sayısında dünyada 15’inci sıraya yükseldi. Bu sonuç, araştırma politikalarımızda niteliği merkeze alan yaklaşımın karşılığını gösteriyor. Önümüzdeki hedef, bu ilerlemeyi daha yüksek bilimsel etkiye ve özgün araştırmalara dönüştürmek. Üniversitelerimizin uluslararası sıralamalardaki konumlarını ileriye taşımalarını ve en az iki üniversitemizin dünyanın ilk 100 üniversitesi arasında yer almasını istiyoruz. Bu doğrultuda nitelikli akademik insan kaynağını, güçlü araştırma ortamlarını ve uluslararası bilimsel ortaklıkları desteklemeyi sürdüreceğiz.",
+      "‘TÜRKİYE STRATEJİK İNSAN KAYNAĞI PROGRAMI’NI BAŞLATTIK Üniversitelerimizin ürettikleri bilgiyi patentlere, yenilikçi ürünlere ve teknolojik çözümlere dönüştürme kapasitesi de artıyor. Stratejik alanlarda bu ilerlemenin sürekliliğini sağlamak amacıyla, Türkiye Stratejik Teknoloji İnsan Kaynağı Programını başlattık. Yapay zekâ, bilişim teknolojileri, siber güvenlik ve donanım alanlarında yetişecek genç araştırmacılarımız, yeni araştırma ekiplerinin ve uzun vadeli bilimsel çalışmaların temelini oluşturacaktır. Araştırma üniversitelerimizin birikimiyle yetişecek bu insan kaynağının, ülkemizin bilimsel ve teknolojik kabiliyetlerini ileriye taşıyacağına inanıyorum.",
+      "DİJİTAL YÜKSEKÖĞRETİM PLATFORMU Üniversitelerimizin akademik birikimini daha geniş kesimlere ulaştırmayı amaçlayan girişimlerden biri de Veri Analizi Okulu. YÖK himayesinde, Marmara Üniversitesi Nüfus ve Sosyal Araştırmalar Enstitüsü koordinasyonunda başlatılan bu çalışmaya ODTÜ, İTÜ ve Boğaziçi Üniversitesi gibi araştırma üniversitelerimiz de destek veriyor. Geçtiğimiz yıl yaklaşık 30 bin kişinin aktif katılım gösterdiği program, farklı üniversitelerden ve disiplinlerden araştırmacıları ortak bir öğrenme ortamında buluşturdu. Temel istatistikten panel veri analizine, psikometriden hesaplamalı sosyal bilimlere uzanan eğitimler, araştırmacılarımıza ve öğrencilerimize veriye dayalı düşünme becerileri kazandırıyor. Yeni modüller ve Yıldız Teknik Üniversitemiz tarafından hazırlanan Sürdürülebilirlik Okulu ile bu tecrübeyi daha kapsamlı bir Dijital Yükseköğretim Platformuna taşımayı hedefliyoruz. Böylece disiplinler arasında bilgi paylaşımını artıracak, dijital yetkinlikleri yaygınlaştıracak ve sürekli öğrenme imkânlarını genişleteceğiz.",
+      "LİSANSÜSTÜ EĞİTİMDE ULUSLARARASI ÖĞRENCİ ÇAĞRISI YÖK Başkanı Erol Özvar , Türkiye’nin farklı ülkelerin üniversiteleriyle yakın ilişkiler kuran, ortak araştırmalar yürüten ve akademik tecrübe paylaşımını teşvik eden etkili bir bölgesel aktör olduğunu belirterek, “Hedefimiz, bu birikimi daha ileriye taşıyarak ülkemizin yükseköğretimdeki küresel rolünü genişletmek. Uluslararası öğrenci politikamızda nicelik ile niteliği birlikte değerlendiriyoruz. Araştırma üniversitelerimizin lisansüstü eğitimde, özellikle doktora düzeyinde, daha görünür ve cazip merkezler hâline gelmesi için yeni önlemler alıyoruz. Nitelikli doktora öğrencilerinin ve genç araştırmacıların ülkemize gelmesi, araştırma ortamlarımızı çeşitlendirecek ve bilimsel üretim kapasitemizi genişletecektir” dedi.",
+      "Yıldız Teknik Üniversitesi Rektörü Prof. Dr. Eyüp Debik ise konuşmasında Gazze'de eğitim kurumlarının yıkımına dikkat çekerek, \"Öğrencilerimizi güven içinde sınıflarımıza davet ederken, Gazze’de aynı yaşlardaki gençler üniversitelerin yıkıntıları arasında eğitimlerini sürdürmenin yollarını arıyor. Hedef alınan eğitim kurumlarında bir toplumun hafızası ve geleceği de enkaz altında” dedi.",
+      "Türkiye'den ve Dünya’dan son dakika haberleri, köşe yazıları, magazinden siyasete, spordan seyahate bütün konuların tek adresi Hurriyet.com.tr haber içerikleri izin alınmadan, kaynak gösterilerek dahi iktibas edilemez. Kanuna aykırı ve izinsiz olarak kopyalanamaz, başka yerde yayınlanamaz."
+    ],
+    "category": "universite",
+    "tags": [
+      "YÖK",
+      "EROL ÖZVAR",
+      "ÜNİVERSİTE SIRALAMASI"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/en-az-iki-universitemiz-dunyada-ilk-100de-olmali-43340353",
+      "image": "/img/en-az-iki-niversitemiz-d-nyada-ilk-100-de-olmal-1bbrtw.jpg"
+    },
+    "publishedAt": "2026-10-13T14:21:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": true,
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "l7j113",
+    "rawTitle": "‘En az iki üniversitemiz dünyada ilk 100’de olmalı’",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "f_13rpl05_mvfnucog",
@@ -2793,6 +2969,40 @@
     "status": "review"
   },
   {
+    "id": "n_vcfde0_mvha2my6",
+    "slug": "milli-egitim-bakani-yusuf-tekin-izmir-e-uc-yilda-120-okul-kazandirildigi-1up7k1",
+    "title": "Milli Eğitim Bakanı Yusuf Tekin izmir'e üç yılda 120 okul kazandırıldığını söyledi",
+    "excerpt": "Dikili'de Bayburtlu Hasan Şentürk Mesleki ve Teknik Anadolu Lisesi'nin açılışını yapan Yusuf Tekin, İzmir'e son üç yılda 120 okul yapıldığını duyurdu.",
+    "body": [
+      "Milli Eğitim Bakanı Yusuf Tekin, Dikili ilçesinde Bayburtlu Hasan Şentürk Mesleki ve Teknik Anadolu Lisesi binasının açılış törenine katıldı.",
+      "Bakan Tekin, törende yaptığı açıklamada İzmir genelinde son üç yıl içerisinde toplam 120 okulun eğitim öğretime kazandırıldığını ifade etti."
+    ],
+    "category": "mesem",
+    "tags": [
+      "İZMİR",
+      "YUSUF TEKİN",
+      "OKUL AÇILIŞI",
+      "mesem"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/yerel-haberler/izmir/milli-egitim-bakani-yusuf-tekin-izmire-son-uc-yilda-120-okul-kazandirdik-43336690",
+      "image": "/img/milli-e-itim-bakan-yusuf-tekin-izmir-e-son-y-lda-120-okul-ka-6rs3j5.jpg"
+    },
+    "publishedAt": "2026-10-10T11:46:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "province": "İzmir",
+    "fullText": false,
+    "score": 8,
+    "dedupeKey": "1up7k16",
+    "rawTitle": "Milli Eğitim Bakanı Yusuf Tekin \"İzmir’e son üç yılda 120 okul kazandırdık\"",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_ztmmno_mvg6i4ev",
     "slug": "kamu-personel-secme-sinavi-on-lisans-oturumu-sonuc-tarihi-heyecanla-bekl-y9rk5w",
     "title": "Kamu personel seçme sınavı Ön Lisans oturumu sonuç tarihi heyecanla bekleniyor",
@@ -3036,6 +3246,107 @@
     "audioDuration": 27.16
   },
   {
+    "id": "n_1y7eg9r_mvha2my9",
+    "slug": "milli-egitim-bakanligi-ile-sifir-atik-vakfi-cevre-odakli-uluslararasi-ya-14oe18",
+    "title": "Milli Eğitim Bakanlığı ile sıfır atık vakfı çevre odaklı uluslararası yarışma düzenliyor",
+    "excerpt": "MEB ve Sıfır Atık Vakfı iş birliğinde öğrencilerin çevre projelerine yönelik uluslararası yarışma organize ediliyor. Üç kategoride yapılacak yarışma için başvurular 15 Ocak 2027 tarihine kadar sürecek.",
+    "body": [
+      "Öğrenciler atık malzemelerden sanat eserleri üretecek, çevre sorunlarını görsel tasarımlarla anlatacak; okullar ise bahçelerinde sürdürülebilir yaşam alanları geliştirecek. Milli Eğitim Bakanlığı ile Sıfır Atık Vakfı iş birliğinde düzenlenecek “SAS2027 Uluslararası Sıfır Atık ve Sürdürülebilirlik Yarışması” ile çevre bilincinin güçlendirilmesi ve öğrencilerin çevre sorunlarına özgün çözümler üretmesi hedefleniyor.",
+      "ÜÇ KATEGORİDE KATILIM “Atıktan Sanata” kategorisine Türkiye’deki okullarda öğrenim gören tüm kademelerdeki öğrenciler katılabilecek. Öğrenciler, atıkları yeniden değerlendirerek sanatsal çalışmalar hazırlayacak. “Görsel Tasarım” kategorisi, yurt içi ve yurt dışındaki ortaokul ve lise öğrencilerine açık olacak. Katılımcılar, çevre ve sürdürülebilirlikle ilgili düşüncelerini görsel çalışmalarla ifade edecek.",
+      "“Yaşayan Okul Bahçeleri ” kategorisine ise yurt içi ve yurt dışındaki okullar kurumsal olarak başvurabilecek. Okullardan doğayla bütünleşen, sürdürülebilir ve başka okullarda da uygulanabilecek çalışmalar geliştirmeleri bekleniyor.",
+      "Türkçe ve İngilizce yürütülecek yarışmaya uluslararası katılım, yurt dışındaki eğitim temsilcilikleri, Türkiye Maarif Vakfı ve kardeş okullar aracılığıyla sağlanacak. Son başvuru tarihi 15 Ocak 2027.",
+      "Türkiye'den ve Dünya’dan son dakika haberleri, köşe yazıları, magazinden siyasete, spordan seyahate bütün konuların tek adresi Hurriyet.com.tr haber içerikleri izin alınmadan, kaynak gösterilerek dahi iktibas edilemez. Kanuna aykırı ve izinsiz olarak kopyalanamaz, başka yerde yayınlanamaz."
+    ],
+    "category": "meb",
+    "tags": [
+      "SIFIR ATIK",
+      "MEB",
+      "ÇEVRE PROJESİ"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/atiklar-sanata-okul-bahceleri-yasam-alanina-donusecek-43334232",
+      "image": "/img/at-klar-sanata-okul-bah-eleri-ya-am-alan-na-d-n-ecek-hp6qd9.jpg"
+    },
+    "publishedAt": "2026-10-08T12:58:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 6.8,
+    "dedupeKey": "14oe18t",
+    "rawTitle": "Atıklar sanata, okul bahçeleri yaşam alanına dönüşecek",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
+    "id": "n_zck8i6_mvha2myj",
+    "slug": "yok-tarafindan-acilan-dijital-universite-platformu-ucretsiz-egitimler-ic-1q51r4",
+    "title": "YÖK tarafından açılan dijital Üniversite platformu ücretsiz eğitimler için başvuruları kabul ediyor",
+    "excerpt": "YÖK Veri Analizi Okulu, yapay zekâ ve sürdürülebilirlik konularının eklenmesiyle Dijital Üniversite Platformu'na dönüştü. Ön koşulsuz ücretsiz eğitim başvuruları 14-20 Ekim tarihlerinde yapılacak.",
+    "body": [
+      "Yükseköğretim Kurulu (YÖK), geçen yıl başlattığı Veri Analizi Okulu’nun kapsamını genişletiyor. 2026-2027 akademik yılında Dijital Üniversite Platformu adıyla eğitim verecek program, üniversitelerin akademik birikimini farklı disiplinlerden ve mesleklerden katılımcılarla buluşturacak. Herkese açık ve ücretsiz platformda üç okul bünyesinde toplam 16 eğitim modülü sunulacak. Marmara Üniversitesi Nüfus ve Sosyal Araştırmalar Enstitüsü ile Yıldız Teknik Üniversitesi yürütücülüğündeki programa Boğaziçi Üniversitesi, İstanbul Teknik Üniversitesi ve Orta Doğu Teknik Üniversitesi de akademik katkı sağlayacak. ÜÇ ALANDA 16 MODÜL Yapay Zekâ Okulu’nda makine öğrenmesi, kolaylaştırıcı araçlar ve modern yazılım geliştirme eğitimleri verilecek. Veri Analizi Okulu’nda temel istatistik, panel veri, hesaplamalı sosyal bilimler, dijital beşeri bilimler, psikometri, biyoistatistik ve veri analitiği modülleri yer alacak. Yeşil Dönüşüm ve Sürdürülebilirlik Okulu’nda ise iklim değişikliği, kurumsal ve çevresel sürdürülebilirlik, döngüsel ekonomi ve sürdürülebilir finans, sosyal sürdürülebilirlik ile temiz enerji teknolojileri ele alınacak. DERSLER HAFTADA ÜÇ SAAT Çevrim içi eğitimlerde ortak temel derslerin ardından alan odaklı modüllere geçilecek. Dersler haftada bir gün, üç saat yapılacak. Program, 3 Kasım Salı günü saat 14.00-17.00 arasında bütün modüllerin katılımına açık ortak açılış dersiyle başlayacak. Başvurular 14-20 Ekim tarihleri arasında yapılabilecek. Başvuru ve eğitim programına ilişkin ayrıntılar, YÖK ile Marmara Üniversitesi Nüfus ve Sosyal Araştırmalar Enstitüsünün kurumsal sosyal medya hesaplarından duyurulacak. YÖK Başkanı Prof. Dr. Erol Özvar, geçen yıl Veri Analizi Okulu’na yaklaşık 30 bin kişinin aktif katıldığını belirterek bu deneyimi yeni eğitim alanlarıyla genişlettiklerini söyledi.",
+      "Türkiye'den ve Dünya’dan son dakika haberleri, köşe yazıları, magazinden siyasete, spordan seyahate bütün konuların tek adresi Hurriyet.com.tr haber içerikleri izin alınmadan, kaynak gösterilerek dahi iktibas edilemez. Kanuna aykırı ve izinsiz olarak kopyalanamaz, başka yerde yayınlanamaz."
+    ],
+    "category": "universite",
+    "tags": [
+      "YÖK",
+      "DİJİTAL ÜNİVERSİTE",
+      "ÜCRETSİZ EĞİTİM"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/dijital-universite-platformunda-ucretsiz-egitim-43334103",
+      "image": "/img/dijital-niversite-platformu-nda-cretsiz-e-itim-mfp2sf.jpg"
+    },
+    "publishedAt": "2026-10-08T11:41:33.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "1q51r49",
+    "rawTitle": "‘Dijital Üniversite Platformu’nda ücretsiz eğitim",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
+    "id": "n_nw18e_mvha2myn",
+    "slug": "mamak-ta-mesleki-ve-teknik-egitim-ile-is-dunyasi-is-birligi-calismalari--16t6cx",
+    "title": "Mamak'ta Mesleki ve Teknik eğitim ile iş dünyası iş birliği çalışmaları sürüyor",
+    "excerpt": "Mamak ilçesinde iş dünyası ile mesleki eğitim kurumları arasındaki iş birliği kuvvetlendiriliyor. Öğrencilerin uygulamalı süreçlerine doğrudan katkı sunuluyor.",
+    "body": [
+      "Ankara'nın Mamak ilçesinde mesleki ve teknik eğitim ile sanayi sektörü arasındaki koordinasyon yeni projelerle güçlendiriliyor.",
+      "İş dünyasından sağlanan doğrudan desteklerle öğrencilerin atölye ve mesleki yeterlilik süreçlerinin geliştirilmesi amaçlanıyor."
+    ],
+    "category": "mesem",
+    "tags": [
+      "MAMAK",
+      "MESLEKİ EĞİTİM",
+      "İŞ DÜNYASI",
+      "mesem"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/yerel-haberler/ankara/egitim-ve-is-dunyasi-el-ele-43334005",
+      "image": "/img/e-itim-ve-i-d-nyas-el-ele-1c4ee5.jpg"
+    },
+    "publishedAt": "2026-10-08T10:49:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "province": "Ankara",
+    "fullText": false,
+    "score": 5.7,
+    "dedupeKey": "16t6cx1",
+    "rawTitle": "Eğitim ve iş dünyası el ele",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_4zo7lx_mvevprmq",
     "slug": "milli-egitim-akademisi-daire-baskani-sakar-corum-da-maarif-arsivini-ince-8hb7qj",
     "title": "Milli Eğitim akademisi daire başkanı şakar Çorum'da yürütülen Maarif arşivini inceledi",
@@ -3070,6 +3381,38 @@
     "status": "published",
     "audioId": "n_4zo7lx_mvevprmq",
     "audioDuration": 20.54
+  },
+  {
+    "id": "n_10cdeax_mvha2myk",
+    "slug": "kredi-ve-yurtlar-kurumu-yurt-basvurulari-icin-ek-kontenjan-basvuru-surec-saggg3",
+    "title": "Kredi ve yurtlar kurumu yurt başvuruları için ek kontenjan başvuru sürecini başlattı",
+    "excerpt": "KYK yurtları için ek kontenjan başvuruları e-Devlet üzerinden erişime açıldı. Öğrenciler başvurularını 9 Ekim saat 23.59'a kadar iletebilecek.",
+    "body": [
+      "Kredi ve Yurtlar Genel Müdürlüğü (KYK), 2026-2027 eğitim-öğretim dönemi ek kontenjan yurt başvurularının başladığını duyurdu. Genel Müdürlük tarafından yapılan açıklamada, öğrencilerin yurt başvurularını kadar e-Devlet üzerinden gerçekleştirebileceği belirtildi. Başvurular için son tarih ise 9 Ekim 2026 saat 23.59 olarak açıklandı.",
+      "Türkiye'den ve Dünya’dan son dakika haberleri, köşe yazıları, magazinden siyasete, spordan seyahate bütün konuların tek adresi Hurriyet.com.tr haber içerikleri izin alınmadan, kaynak gösterilerek dahi iktibas edilemez. Kanuna aykırı ve izinsiz olarak kopyalanamaz, başka yerde yayınlanamaz."
+    ],
+    "category": "universite",
+    "tags": [
+      "KYK",
+      "YURT BAŞVURUSU",
+      "EK KONTENJAN"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/kyk-yurt-basvurularinda-ek-kontenjan-acildi-43332409",
+      "image": "/img/kyk-yurt-ba-vurular-nda-ek-kontenjan-a-ld-13c9k0.jpg"
+    },
+    "publishedAt": "2026-10-07T08:23:11.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "saggg3",
+    "rawTitle": "KYK yurt başvurularında ek kontenjan açıldı",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "n_1jrsc5b_mvew35tu",
@@ -3314,6 +3657,80 @@
     "audioDuration": 22.38
   },
   {
+    "id": "n_8ksn21_mvha2myb",
+    "slug": "bakan-tekin-turkiye-nin-pisa-ve-oecd-alanlarinda-ortalamasini-yukselttig-1b7rqv",
+    "title": "Bakan Tekin türkiye'nin pısa ve oecd alanlarında ortalamasını yükselttiğini açıkladı",
+    "excerpt": "Milli Eğitim Bakanı Yusuf Tekin, Türkiye'nin matematik, fen bilimleri ve okuma becerilerinde ortalamasını yükselten tek OECD ülkesi olduğunu bildirdi.",
+    "body": [
+      "Milli Eğitim Bakanı Yusuf Tekin , çeşitli temaslarda bulunmak üzere geldiği Hakkari’de İl Eğitim Değerlendirme Toplantısı’na katıldı. Hakkari Yeni Mahalle’de bulunan Fatih Kışlası’na helikopterle gelen Bakan Tekin, buradan karayoluyla Hakkari Valiliğine geçti. Tekin, Vali İbrahim Taşyapan, Vali yardımcıları Burak Gürbüz, Bilal Çelik ve Murat Güneş, AK Parti Hakkari İl Başkanı Zeydin Kaya, MHP Hakkari İl Başkanı Fatih Öztepe, İl Milli Eğitim Müdürü Nurettin Yılmaz ve kurum müdürleri tarafından karşılandı. Öğrencilerin çiçeklerle karşıladığı Bakan Tekin, Valilik Şeref Defteri’ni imzaladıktan sonra basına kapalı gerçekleştirilen İl Eğitim Değerlendirme Toplantısı’na katıldı.",
+      "\"HAKKARİ’NİN EĞİTİM DURUMUNU DEĞERLENDİRDİK\" Toplantının ardından gazetecilere açıklamalarda bulunan Bakan Tekin, Hakkari’ye öğretmenler ve il yöneticileriyle değerlendirme toplantıları yapmak üzere geldiklerini belirtti. Bakanlık merkez teşkilatındaki birim amirleriyle birlikte Hakkari’ye geldiklerini ifade eden Tekin, genel müdürlerin ilçelerde incelemelerde bulunduğunu söyledi. Tekin, \"Bugün Hakkari ilçelerine giden genel müdürlerimizin, İl Milli Eğitim Müdürlüğümüz yöneticilerinin ve ilçe milli eğitim müdürlerimizin katıldığı toplantımızı şimdi bitirdik. İlçeleri ziyaret eden genel müdürlerimiz oradaki problemleri çözdüler. İl Milli Eğitim Müdürümüz sunumunu yaptı, ilçe müdürlerimizi dinledik ve Hakkari ile ilgili değerlendirmelerimizi yaptık\" dedi.",
+      "\"HAKKARİ’DE ÖĞRETMEN SAYISI YAKLAŞIK ÜÇ KAT ARTTI\" Eğitim yöneticileri, öğretmenler, sivil toplum kuruluşları, siyasi partiler ve mülki idare amirlerine teşekkür eden Tekin, Hakkari’de eğitim alanındaki gelişmelere dikkat çekti. Türkiye genelinde 2002 yılından bu yana eğitimde fiziki kapasite, insan kaynağı ve teknolojik altyapı açısından önemli yatırımlar gerçekleştirildiğini belirten Bakan Tekin, Hakkari’deki öğretmen sayısındaki artışı örnek gösterdi. Tekin, \"2002 yılında Hakkari’de bin 527 öğretmenimiz varmış. Şu anda 4 bin 176 öğretmenimiz var. Öğrenci sayısına baktığımızda 2002 yılında 58 bin 457 öğrencimiz varmış, şu anda 61 bin öğrencimiz var. Öğrenci sayısı yaklaşık yüzde 3 artmasına rağmen öğretmen sayımız yaklaşık üç katına çıkmış durumda\" diye konuştu.",
+      "\"HAKKARİ’DE 2 BİN 139 İLAVE SINIF YAPTIK\" Sınıf sayısında da önemli bir artış yaşandığını belirten Bakan Tekin, 2002 yılında Hakkari genelinde bin 148 sınıf bulunduğunu, bugün ise bu sayının 2 bin 916’ya ulaştığını söyledi. Tekin, \"Bu süreçte 2 bin 139 ilave sınıf yaptık. Şu anda Hakkari’de 2 bin 916 sınıfımız var. Sınıf başına düşen öğrenci sayımız ve sınıf sayımız açısından önemli bir noktaya geldik. Sadece sınıflar için harcadığımız kaynağın yatırım karşılığı 18 milyar Türk Lirası\" ifadelerini kullandı.",
+      "\"BİLİM SANAT MERKEZLERİ VE LABORATUVARLAR ARTTI\" Hakkari’de eğitim altyapısının farklı alanlarda da güçlendirildiğini belirten Tekin, 2002 yılında kentte bilim sanat merkezi bulunmadığını, bugün ise 3 bilim sanat merkezinin hizmet verdiğini kaydetti. Tekin, 2002 yılında 9 okulda spor salonu bulunduğunu, bugün bu sayının 31’e yükseldiğini belirterek, \"2002’de 52 laboratuvarımız varken, bugün 190 laboratuvarımız var. 2002 yılında 39 okul tuvaletimiz varken, şu anda 170 tane okul tuvaletimiz var. Bunlar her açıdan önemli göstergeler\" dedi.",
+      "\"TÜRKİYE OECD ÜLKELERİ ARASINDA ÖNEMLİ BİR NOKTAYA GELDİ\" Türkiye’nin eğitim alanında uluslararası göstergelerde önemli bir seviyeye ulaştığını belirten Bakan Tekin, OECD’nin 2025 Eğitim Raporu’na dikkat çekti. Tekin, Türkiye’nin sınıf ve öğretmen başına düşen öğrenci sayısı bakımından OECD ülkeleri arasında önemli bir noktaya geldiğini ifade ederek, insan kaynağı açısından da Türkiye’nin en az eksiği bulunan ülkelerden biri olduğunu söyledi. Akademik başarı konusunda da önemli ilerlemeler kaydedildiğini belirten Tekin, PISA sonuçlarına ilişkin değerlendirmelerde bulundu. Tekin, \"OECD’nin ölçtüğü her alanda, PISA’nın ölçtüğü her alanda; matematik, okuma becerileri ve fen bilimlerinde ortalamasını yükselten tek OECD ülkesi Türkiye. 2003 sınavlarında 38 OECD ülkesi arasında ilk 30’a giremezken, şu anda 91 ülke arasında ilk 15’in içerisindeyiz\" ifadelerini kullandı.",
+      "\"DEĞERLERİMİZİ GELECEK KUŞAKLARA TAŞIYACAK BİR EĞİTİM VERMELİYİZ\" Eğitimin yalnızca akademik başarıdan ibaret olmadığını belirten Tekin, çocukların milli ve manevi değerlerle yetişmesinin önemine vurgu yaptı. Tekin, Türkiye’nin eğitimden beklentisinin akademik başarının yanı sıra toplumsal değerlere, devlet ve millet geleneğine, birlik ve beraberlik duygusuna sahip çıkan nesiller yetiştirmek olduğunu söyledi. Türkiye Yüzyılı Maarif Modeli kapsamında bu doğrultuda çalışmalar yürüttüklerini belirten Tekin, bütün derslerin içerisine milli ve manevi değerleri, toplumsal dayanışmayı, adaleti, insan haklarını, demokrasiyi ve merhameti yerleştiren bir müfredat oluşturduklarını ifade etti.",
+      "\"TÜRKİYE’NİN BİRLİK VE BERABERLİĞİNİ GÜÇLENDİRECEK HER ADIMIN PARÇASI OLACAĞIZ\" Türkiye’nin birlik ve beraberliğinin güçlendirilmesine yönelik çalışmaların önemine dikkat çeken Bakan Tekin, bu sürecin ekonomik ve sosyal kalkınmaya da katkı sağlayacağını belirtti. Tekin, \"Türkiye’nin birliğini ve beraberliğini güçlendirecek her adımın parçası olacağız\" dedi. Türkiye Yüzyılı Maarif Modeli ile insan haklarına, kardeşliğe, demokrasiye, temel hürriyetlere ve anayasal haklara vurgu yapan, hukuk devletini ve anayasal düzeni önemseyen bir kuşak yetiştirmeyi hedeflediklerini ifade eden Tekin, bu sürece katkı sunan siyasetçilere, sivil toplum kuruluşlarına, akademisyenlere ve eğitim camiasına teşekkür etti. Bakan Tekin, valilikteki programının ardından AK Parti Hakkari İl Başkanlığını ziyaret etti. Tekin, daha sonra Gençlik Buluşması programına katılmak üzere tarihi Meydan Medresesi’ne geçti.",
+      "Türkiye'den ve Dünya’dan son dakika haberleri, köşe yazıları, magazinden siyasete, spordan seyahate bütün konuların tek adresi Hurriyet.com.tr haber içerikleri izin alınmadan, kaynak gösterilerek dahi iktibas edilemez. Kanuna aykırı ve izinsiz olarak kopyalanamaz, başka yerde yayınlanamaz."
+    ],
+    "category": "meb",
+    "tags": [
+      "YUSUF TEKİN",
+      "OECD",
+      "PISA",
+      "EĞİTİM"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/milli-egitim-bakani-tekin-turkiye-egitimde-onemli-noktaya-geldi-43330734",
+      "image": "/img/milli-e-itim-bakan-tekin-t-rkiye-e-itimde-nemli-noktaya-geld-1jo467.jpg"
+    },
+    "publishedAt": "2026-10-05T17:56:36.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": true,
+    "fullText": true,
+    "score": 6.8,
+    "dedupeKey": "1b7rqv7",
+    "rawTitle": "Milli Eğitim Bakanı Tekin: Türkiye eğitimde önemli noktaya geldi",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
+    "id": "n_1awq62z_mvha2myl",
+    "slug": "buyukcekmece-de-lise-ogrencileri-bilim-senliginde-iyilik-temali-teknoloj-126lxe",
+    "title": "Büyükçekmece'de lise öğrencileri bilim şenliğinde iyilik temalı teknolojik projelerini tanıttı",
+    "excerpt": "Büyükçekmece İlçe Milli Eğitim Müdürlüğü bilim şenliği düzenledi. Liseliler hareket sağlayan oyunlardan ambulans trafik ışığı simülasyonuna kadar pek çok proje sergiledi.",
+    "body": [
+      "Büyükçekmece İlçe Milli Eğitim Müdürlüğü tarafından organize edilen bilim şenliğinde lise öğrencileri projelerini sundu.",
+      "Şenlikte öğrenciler bilgisayar başında hareketi artıran oyunların yanı sıra acil durum ambulansları için trafik ışıklarını düzenleyen sistem simülasyonları geliştirdi."
+    ],
+    "category": "mesem",
+    "tags": [
+      "BÜYÜKÇEKMECE",
+      "BİLİM ŞENLİĞİ",
+      "ÖĞRENCİ PROJELERİ",
+      "mesem"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/liseliler-bilim-ve-iyilik-icin-bulustu-43330394",
+      "image": "/img/liseliler-bilim-ve-iyilik-i-in-bulu-tu-dygxd6.jpg"
+    },
+    "publishedAt": "2026-10-05T12:31:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "province": "İstanbul",
+    "fullText": false,
+    "score": 5.7,
+    "dedupeKey": "126lxef",
+    "rawTitle": "Liseliler bilim ve iyilik için buluştu",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "f_1ukuxaq_mvfx4puu",
     "slug": "yabanci-luks-ogrenci-yurdu-saglayicilarinin-iflasi-ogrencileri-soke--1ukuxa",
     "title": "Lüks Öğrenci Yurdu Sağlayıcılarının İflası Öğrencileri Şoke Etti",
@@ -3451,6 +3868,40 @@
     "lang": "en",
     "audioId": "f_1k1h7bv_mvfy5qkr",
     "audioDuration": 40.32
+  },
+  {
+    "id": "n_1815v24_mvha2myn",
+    "slug": "turkiye-ile-gurcistan-arasinda-karsilikli-egitim-is-birligi-ve-denklik-a-2t8e4l",
+    "title": "Türkiye ile Gürcistan arasında karşılıklı eğitim iş birliği ve denklik anlaşması imzalandı",
+    "excerpt": "Türkiye ve Gürcistan eğitim alanında kapsamlı bir iş birliği protokolü imzaladı. Anlaşma okul açılışı, diploma denkliği ve dil eğitiminin desteklenmesini hedefliyor.",
+    "body": [
+      "Millî Eğitim Bakanı Yusuf Tekin, resmî temaslar için ziyaret ettiği Gürcistan’ın başkenti Tiflis’te, Gürcistan Eğitim, Bilim ve Gençlik Bakanı Givi Mikanadze ile bir araya geldi. Bakanlık binasında yaklaşık bir saat süren görüşmenin ardından iki bakan, eğitim alanında iş birliği anlaşmasını imzaladı. Görüşmeye Türkiye’nin Tiflis Büyükelçisi Mustafa Türker Arı da katıldı. DİPLOMA DENKLİĞİ VE DİL ÖĞRETİMİ Anlaşmayla, iki ülke arasında karşılıklılık temelinde eğitim kurumları açılması, diploma ve öğrenim belgelerinin denkliğine yönelik çalışmalar yürütülmesi planlanıyor. Türkçe ve Gürcücenin öğretiminin teşvik edilmesi, eğitim alanında bilgi ve deneyim paylaşımının artırılması da anlaşmanın başlıkları arasında bulunuyor. İmza töreninin ardından konuşan Tekin, mesleki eğitimden eğitim öğretimdeki fiziki ve teknolojik altyapıya, öğretmen yetiştirme sürecine kadar çeşitli alanlarda iş birliğini anlaşmayla kayıt altına aldıklarını söyledi. Tekin, anlaşmanın bir an önce hayata geçirilmesi konusunda mutabık kaldıklarını belirtti. ‘EĞİTİM, İŞ BİRLİĞİNİN VAZGEÇİLMEZ BOYUTU’ Türkiye’nin komşu ülkelerle ilişkilerini geliştirerek gelecek kuşaklara daha güçlü dostluk bağları bırakmayı amaçladığını ifade eden Tekin, eğitim iş birliğinin bölgesel barış, insan hakları ve demokrasi açısından önemine dikkat çekti. Tekin, “Bunun en olmazsa olmaz boyutlarından biri de eğitim” dedi.",
+      "Gürcistan Eğitim, Bilim ve Gençlik Bakanı Mikanadze ise son birkaç ay içinde Tekin’le üç kez bir araya geldiklerini belirterek, uzun süredir üzerinde çalışılan anlaşmanın iki tarafın yoğun çalışmasıyla tamamlandığını söyledi. Mikanadze, anlaşmanın iki ülke arasında eğitim ilişkilerinin geliştirilmesi için yasal zemin oluşturduğunu belirtti.",
+      "Türkiye'den ve Dünya’dan son dakika haberleri, köşe yazıları, magazinden siyasete, spordan seyahate bütün konuların tek adresi Hurriyet.com.tr haber içerikleri izin alınmadan, kaynak gösterilerek dahi iktibas edilemez. Kanuna aykırı ve izinsiz olarak kopyalanamaz, başka yerde yayınlanamaz."
+    ],
+    "category": "mesem",
+    "tags": [
+      "GÜRCİSTAN",
+      "EĞİTİM ANLAŞMASI",
+      "DİPLOMA DENKLİĞİ",
+      "mesem"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/turkiye-ile-gurcistan-arasinda-egitim-anlasmasi-43327474",
+      "image": "/img/t-rkiye-ile-g-rcistan-aras-nda-e-itim-anla-mas-1eprq5.jpg"
+    },
+    "publishedAt": "2026-10-02T13:32:18.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": true,
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "2t8e4l",
+    "rawTitle": "Türkiye ile Gürcistan arasında eğitim anlaşması",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "n_1elrde5_mvei1j37",
@@ -3737,6 +4188,44 @@
     "audioDuration": 23.98
   },
   {
+    "id": "n_a2k80o_mvha2myp",
+    "slug": "milli-egitim-bakanligi-yurt-disinda-burslu-ogrenim-goren-ogrencilerin-bu-1yk47w",
+    "title": "Milli Eğitim Bakanlığı yurt dışında burslu öğrenim gören öğrencilerin burs ücretlerini güncelledi",
+    "excerpt": "MEB, 1416 sayılı Kanun kapsamındaki yurt dışı bursiyerlerinin ödeme usullerini düzenledi. Yurt içi aylık lisans bursu 4 bin, lisansüstü bursu 8 bin liraya yükseltildi.",
+    "body": [
+      "Millî Eğitim Bakanlığı ile Hazine ve Maliye Bakanlığı tarafından hazırlanan “1416 Sayılı Kanun ve Buna Bağlı Yönetmelik Uyarınca Yurt Dışında Lisans ve Lisansüstü Öğrenim Gören Öğrencilere Yapılacak Ödemeler Hakkında Tebliğ”, Resmî Gazete’de yayımlandı. Resmî burslu öğrencilere ödenecek aylık yurt içi bursu lisans öğrencileri için 4 bin TL, lisansüstü öğrenciler için 8 bin TL olarak belirlendi. Eski ücretler lisans öğrencileri için 3 bin, yüksek lisans öğrencileri için 6 bin TL’ydi.",
+      "Yurt dışında burslu lisans öğrenimi yapmaya hak kazanan ancak gönderilinceye kadar Türkiye’deki bir üniversiteye devam eden öğrencilere de bir öğretim yılını aşmamak şartıyla lisans seviyesinde yurt içi bursu ödenecek. Yurt dışında öğrenime başlayacak ve talepte bulunacak öğrenciler, ilk iki aylık burslarını peşin alabilecek. Öğrencilere kitap, defter ve kırtasiye gibi giderlerin karşılanması amacıyla aylık burs tutarının 12’de biri kadar ek ödenek de verilecek.",
+      "İNGİLTERE’DE 1.520 STERLİN, ABD’DE 2 BİN 240 DOLAR Yurt dışı burs tutarları ülkelere ve öğrenim seviyelerine göre ayrı ayrı düzenlendi. Lisansüstü öğrenim gören öğrencilere aylık olarak İngiltere’de 1.520 sterlin, ABD’de 2 bin 240 dolar, Almanya ve Fransa’da 1.840 avro, Kanada’da 2 bin 130 Kanada doları ödenecek. Lisans öğrencileri için ise aylık burs İngiltere’de 1.370 sterlin, ABD’de 2 bin 10 dolar, Almanya ve Fransa’da 1.650 avro, Kanada’da 1.920 Kanada doları olacak. Japonya’da lisans öğrencilerine 226 bin 800, lisansüstü öğrencilere 252 bin Japon yeni verilecek.",
+      "ULAŞIM VE OKUL GİDERLERİ KARŞILANACAK Her öğrenim seviyesinde bir defaya mahsus olmak üzere öğrencilerin yurt dışına gidiş ve öğrenimlerini tamamladıktan sonra Türkiye’ye dönüş için kullanacakları ekonomi sınıfı uçak, tren veya otobüs bileti ücretleri karşılanacak. Öğrenim ülkesi ya da şehri değiştirilen öğrencilerin yeni öğrenim yerine ulaşım giderleri de belirlenen şartlarla ödenecek. Yurt dışındaki okulların gerekli gördüğü ve Bakanlığın onay verdiği öğrenim giderleri öğrencinin bağlı bulunduğu bakanlık veya kurum tarafından karşılanacak. Ancak park, ulaşım, konaklama ve gecikme faizi okul ücreti kapsamında ödenmeyecek.",
+      "DÖRT SINAV VE DÖRT ÜNİVERSİTE BAŞVURUSU Öğrencilerin gireceği TOEFL benzeri yabancı dil sınavları ile GRE, GMAT ve SAT gibi yetenek ve mesleki yeterlik sınavlarından en fazla dördünün ücreti karşılanacak. Ödeme yapılabilmesi için ödeme belgesiyle birlikte sınav sonuç belgesinin de sunulması gerekecek. Öğrencilerin bütün öğrenim seviyeleri boyunca en fazla dört üniversiteye yapacakları başvurunun ücreti ödenecek. Diploma, transkript ve garanti belgesi gibi evrakların gönderilmesine ilişkin dört gönderim ücreti de karşılanacak.",
+      "SAĞLIK SİGORTASI ZORUNLU Resmî burslu öğrencilerin yurt dışında sağlık sigortası yaptırması zorunlu olacak. Sigorta bedeli, öğrencinin bir aylık yurt dışı bursunun iki katını geçemeyecek. Sağlık sigortası veya bulunulan ülkedeki ödeme imkânları tarafından karşılanmayan belirli sağlık giderleri de öğrencinin bağlı bulunduğu kurum tarafından ödenecek. Vize harçları, ABD için zorunlu SEVIS ücreti, vize randevusu ve posta giderleri ile oturum izni ve polis kayıt ücreti gibi zorunlu ödemeler de karşılanacak. Öğrencilerin yurt dışına ilk çıkışlarında ödedikleri pasaport cüzdan bedeli de ödeme kapsamına alındı.",
+      "YURT DIŞINDAKİ SÜRENİN İKİ KATI MECBURİ HİZMET Yurt içinde burs ve okul ödemesi yapılan öğrencilerin mecburi hizmet süresi, ödeme yapılan öğrenim süresi kadar olacak. Yurt dışında ise okul veya burs ödemesi yapılan öğrenim süresinin iki katı kadar mecburi hizmet hesaplanacak. Öğrencilerin yaptıkları harcamaların iadesini, harcama tarihinden itibaren en geç altı ay içinde talep etmesi gerekecek. Bu sürenin ardından yapılan başvurular dikkate alınmayacak.",
+      "Türkiye'den ve Dünya’dan son dakika haberleri, köşe yazıları, magazinden siyasete, spordan seyahate bütün konuların tek adresi Hurriyet.com.tr haber içerikleri izin alınmadan, kaynak gösterilerek dahi iktibas edilemez. Kanuna aykırı ve izinsiz olarak kopyalanamaz, başka yerde yayınlanamaz."
+    ],
+    "category": "meb",
+    "tags": [
+      "MEB",
+      "YURT DIŞI BURS",
+      "1416 BURSU"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/yurt-disinda-ogrenim-goren-burslu-ogrencilerin-odemeleri-artti-43324170",
+      "image": "/img/yurt-d-nda-renim-g-ren-burslu-rencilerin-demeleri-artt-3qx9m5.jpg"
+    },
+    "publishedAt": "2026-09-30T09:08:09.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": true,
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "1yk47wv",
+    "rawTitle": "Yurt dışında öğrenim gören burslu öğrencilerin ödemeleri arttı",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "f_msj089_mvfx4puu",
     "slug": "yabanci-sydney-de-elektrikli-bisiklet-carpmasi-sonucu-bes-yasindaki--msj089",
     "title": "Sydney'de Elektrikli Bisiklet Çarpması Sonucu Beş Yaşındaki Çocuk Yaralandı",
@@ -4015,6 +4504,76 @@
     "rawTitle": "Study: Edtech Is Rushing AI Integration Before Proving It Works",
     "status": "published",
     "lang": "en"
+  },
+  {
+    "id": "n_1o613ue_mvha2my8",
+    "slug": "bagcilar-mesleki-ve-teknik-anadolu-lisesi-ogrencisi-guney-kore-de-boya-k-1m5k5z",
+    "title": "Bağcılar Mesleki ve Teknik Anadolu Lisesi öğrencisi Güney kore'de boya kaporta eğitimi alacak",
+    "excerpt": "Bağcılar Mesleki ve Teknik Anadolu Lisesi öğrencisi İsmet Efe Yücetepe, Hyundai merkezine davet edildi. Öğrenci bir hafta süresince kaporta-boya ve elektrikli araçlar eğitimine katılacak.",
+    "body": [
+      "İstanbul'daki Bağcılar Mesleki ve Teknik Anadolu Lisesi 11'inci sınıf öğrencisi İsmet Efe Yücetepe, Hyundai tarafından firmanın Güney Kore'deki genel merkezine davet edildi.",
+      "Yücetepe, Hyundai atölyelerinde bir hafta sürecek program kapsamında elektrikli araç teknolojilerini inceleyecek ve kaporta-boya alanındaki uygulamalı çalışmalarda yer alacak."
+    ],
+    "category": "mesem",
+    "tags": [
+      "İSTANBUL",
+      "MESLEK LİSESİ",
+      "GÜNEY KORE",
+      "OTOMOTİV EĞİTİMİ",
+      "mesem"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/bagcilardan-guney-koreye-hyundai-merkezinde-boya-kaporta-egitimi-43322644",
+      "image": "/img/ba-c-lar-dan-g-ney-kore-ye-hyundai-merkezinde-boya-kaporta-e-1y8b4c.jpg"
+    },
+    "publishedAt": "2026-09-28T14:53:32.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "province": "İstanbul",
+    "fullText": false,
+    "score": 8,
+    "dedupeKey": "1m5k5zr",
+    "rawTitle": "Bağcılar’dan Güney Kore’ye... Hyundai merkezinde boya kaporta eğitimi",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
+    "id": "n_rfvii0_mvha2myv",
+    "slug": "anadolu-universitesi-acikogretim-fakultesi-2026-2027-guz-donemi-vize-tak-15cq9n",
+    "title": "Anadolu Üniversitesi açıköğretim fakültesi 2026-2027 Güz Dönemi vize takvimi bekleniyor",
+    "excerpt": "Anadolu Üniversitesi Açıköğretim Fakültesi öğrencileri güz dönemi vize sınav tarihlerini inceliyor. Yeni eğitim yılı sınav takvimi araştırmalara konu oluyor.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "Anadolu Üniversitesi Açık ve Uzaktan Eğitim Fakültesi'nde öğrenim gören öğrenciler, AÖF sınav tarihlerini araştırıyor. Sınav hazırlıklarını planlamak isteyen öğrencilerin gündeminde, güz dönemi sınav takvimi yer alıyor. Peki, 2026-2027 AÖF Güz Dönemi vize sınavları ne zaman? AÖF sınav takvimi belli oldu mu? İşte ayrıntılar...",
+      "AÖF sınav takvimine göre güz dönemi dönem sonu sınavı 16-17 Ocak 2027, bahar dönemi ara sınavı 10-11 Nisan 2027 tarihlerinde gerçekleştirilecek.",
+      "Bahar dönemi dönem sonu sınavı 29-30 Mayıs 2027, yaz okulu sınavı ise 21 Ağustos 2027 tarihinde uygulanacak."
+    ],
+    "category": "universite",
+    "tags": [
+      "AÖF",
+      "ANADOLU ÜNİVERSİTESİ",
+      "VİZE SINAVI"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-2027-aof-guz-donemi-vize-sinavlari-ne-zaman-aof-sinav-takvimi-belli-oldu-mu-2541824",
+      "image": "/img/2026-2027-a-f-g-z-d-nemi-vize-s-navlar-ne-zaman-a-f-s-nav-ta-1hysy8.jpg"
+    },
+    "publishedAt": "2026-09-28T13:22:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "province": "Eskişehir",
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "15cq9n",
+    "rawTitle": "2026-2027 AÖF Güz Dönemi vize sınavları ne zaman? AÖF sınav takvimi belli oldu mu?",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "n_c93sxw_mvevury4",
@@ -4373,6 +4932,40 @@
     "audioDuration": 19.18
   },
   {
+    "id": "n_1j1zi7j_mvha2my5",
+    "slug": "batman-da-meslek-lisesi-ogrencileri-koy-okullarindaki-cocuklar-icin-okul-udt14x",
+    "title": "Batman'da Meslek Lisesi öğrencileri köy okullarındaki çocuklar için okul forması dikti",
+    "excerpt": "Batman'da meslek lisesi Moda Tasarım Bölümü öğrencileri, 13 köy okulundaki 250 öğrenciye forma hazırladı. Dikilen formaları hediye eden öğrenciler, köy okullarını ziyaret ederek çeşitli etkinlikler gerçekleştirdi.",
+    "body": [
+      "Batman'da yürütülen 'Üreten ellerden, gülen yüzlere' projesi kapsamında meslek lisesi Moda Tasarım Bölümü öğrencileri anlamlı bir çalışmaya imza attı. Öğrenciler, 13 farklı köy okulunda eğitim alan 250 çocuk için özel olarak okul forması dikti.",
+      "Hazırlanan formaları teslim etmek amacıyla köy okullarını ziyaret eden liseliler, kıyafetleri minik öğrencilere hediye etti. Ziyaret sırasında çocuklar için çeşitli sosyal etkinlikler de düzenlendi."
+    ],
+    "category": "mesem",
+    "tags": [
+      "BATMAN",
+      "MESLEK LİSESİ",
+      "SOSYAL SORUMLULUK",
+      "mesem"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/meslek-lisesi-ogrencileri-koy-ogrencilerine-forma-dikti-43320030",
+      "image": "/img/meslek-lisesi-rencileri-k-y-rencilerine-forma-dikti-1pr0sk.jpg"
+    },
+    "publishedAt": "2026-09-26T06:32:50.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "province": "Batman",
+    "fullText": false,
+    "score": 8.2,
+    "dedupeKey": "udt14x",
+    "rawTitle": "Meslek lisesi öğrencileri köy öğrencilerine forma dikti",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_er34wb_mvei8kif",
     "slug": "okullarda-guvenlik-personeli-aliminda-hane-halki-gelir-kriteri-uygulandi-zb7vp1",
     "title": "Okullarda güvenlik personeli alımlarında hane halkı gelir kriteri uygulamaya konuldu",
@@ -4406,6 +4999,44 @@
     "status": "published",
     "audioId": "n_er34wb_mvei8kif",
     "audioDuration": 17.5
+  },
+  {
+    "id": "n_1fompk0_mvha2my3",
+    "slug": "milli-egitim-bakani-yusuf-tekin-meslek-liselerine-yonelimin-arttigini-ac-1euz49",
+    "title": "Milli Eğitim bakanı yusuf Tekin meslek liselerine yönelimin arttığını açıkladı",
+    "excerpt": "Milli Eğitim Bakanı Yusuf Tekin, ortaokulu bitiren öğrencilerin yüzde 45'inin meslek liselerine yöneldiğini açıkladı. Mesleki ve teknik eğitimdeki toplam ortalamanın ise yüzde 43 seviyesine ulaştığı bildirildi.",
+    "body": [
+      "Milli Eğitim Bakanı Yusuf Tekin, İstanbul’daki programları kapsamında Şile Belediyesi’ni ziyaret etti. Şile Belediye Başkan Vekili Sacit Terzi ve belediye personelinden yürütülen çalışmalar hakkında bilgi alan Tekin, ardından Şile Ayet Azar Aran Savunma Sanayi Mesleki ve Teknik Anadolu Lisesi’nin açılış törenine katıldı. Bakan Tekin, açılışta yaptığı konuşmada şunları söyledi:",
+      "İSTANBUL’DA AÇILIŞ BEKLEYEN 200’E YAKIN OKUL VAR “İstanbul’da resmî açılışını yapmamızı bekleyen 200’e yakın okulumuz var. En son rakam 180 küsurdu. Sayın Cumhurbaşkanımızın programının uygun olduğu bir zamanda bu okullarımızın açılışlarını yapacağız.",
+      "Dönemin Başbakanı Sayın Bülent Ecevit bir proje başlatıyor ve ‘Cumhuriyet’in 100’üncü yılına mektup yazalım. Herkes, nasıl bir Türkiye Cumhuriyeti hayal ettiğini anlatsın’ diyor. PTT’nin yürüttüğü bu kampanyada eğitimle ilgili yazılan mektuplar, 29 Ekim 2023’te Milli Eğitim Bakanı olarak şahsıma ulaştırıldı. Bu mektupları tek tek okuduk. 2002 öncesi Türkiye’yle ilgili o mektuplarda çok enteresan anekdotlar var. Türkiye Cumhuriyeti Devleti’ne ve genç nesline yakışmayan bir eğitim ortamı söz konusu. Fiziki kapasite açısından baktığımızda bir öğretmenimiz, ‘İnşallah Cumhuriyet’in 100’üncü yılında 45-50 kişilik sınıflarda ders yapabiliriz’ diyor. Öğretmenimiz 45-50 kişilik sınıflarda ders yapmayı hayal ediyor. Demek ki o tarihte 70-80 kişilik sınıflarda ders yapıyor. Bir başka öğretmenimiz ise ‘İnşallah Cumhuriyet’in 100’üncü yılında çocuklarımızın tuvalet ihtiyaçlarını giderebilecekleri okullarımız olur’ diyor. Bu ifadeler, o dönemde okul binalarımızın hangi fiziki koşullara sahip olduğunu gösteriyor.",
+      "TÜRKİYE SON 20 YILDA EĞİTİMDE GELİŞME YAŞADI Ülkelerin eğitim altyapılarını uluslararası alanda hem fiziki kapasite hem insan kaynağı hem de akademik nitelik açısından değerlendiren ve herkesin üzerinde ittifak ettiği bir yapı var: OECD bünyesindeki PISA değerlendirme mekanizması.",
+      "Türkiye, ilk kez katıldığı 2003 PISA döngüsünde 38 OECD üyesi ülke arasında hiçbir alanda ilk 30’un içerisine giremiyor. Bugünün Türkiye’sine baktığımızda ise farklı bir tablo görüyoruz. Bundan 10 gün önce Bratislava’da OECD’nin 2025 değerlendirme toplantısı yapıldı. Orada OECD ve PISA yöneticileri, ‘Türkiye son 20 yılda olağanüstü bir eğitim devrimi yaşadı’ ifadelerini kullandılar. Bu çok önemli. Hem fiziki yapılarımızın niteliği hem öğretmen başına düşen öğrenci sayısı hem de insan kaynağı açısından böyle bir gelişme yaşandı.",
+      "STANDART MESLEK LİSELERİNİ DEĞİŞTİRDİK 2013’ten itibaren Türkiye’de mesleki ve teknik eğitimde gerçekten devrim niteliğinde işler yaptık. 2013’ten önce tematik meslek liseleri yoktu. Liselerimizin tamamı standart mesleki ve teknik eğitim liseleriydi. Bir meslek lisesi düşünün; bir tarafta gastronomi, yanında muhasebe, onun yanında mobilya ve dekorasyon bölümü var. Karman çorman bir yapı söz konusuydu. 2013’ten itibaren mesleki ve teknik eğitimin itibarını yükseltmek ve bu okullarda eğitim alan öğrencilerin yaşadığı mağduriyetleri gidermek için çok önemli adımlar attık. Ben de o dönemde Milli Eğitim Bakanlığı Müsteşarı olarak bu sürecin bizzat içerisindeydim. Bugün geldiğimiz noktada bu yıl ortaokulu bitiren her 100 öğrenciden 45’i meslek lisesine gitti. Mesleki ve teknik eğitimde toplam ortalamamız da yüzde 43’e ulaştı. Bu çok önemli.”",
+      "Türkiye'den ve Dünya’dan son dakika haberleri, köşe yazıları, magazinden siyasete, spordan seyahate bütün konuların tek adresi Hurriyet.com.tr haber içerikleri izin alınmadan, kaynak gösterilerek dahi iktibas edilemez. Kanuna aykırı ve izinsiz olarak kopyalanamaz, başka yerde yayınlanamaz."
+    ],
+    "category": "mesem",
+    "tags": [
+      "MESLEK LİSESİ",
+      "YUSUF TEKİN",
+      "MESLEKİ EĞİTİM",
+      "mesem"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/bakan-tekin-her-100-ogrenciden-45i-meslek-lisesini-secti-43319482",
+      "image": "/img/bakan-tekin-her-100-renciden-45-i-meslek-lisesini-se-ti-wh7d5o.jpg"
+    },
+    "publishedAt": "2026-09-25T12:42:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": true,
+    "fullText": true,
+    "score": 8.5,
+    "dedupeKey": "1euz49o",
+    "rawTitle": "Bakan Tekin: Her 100 öğrenciden 45’i meslek lisesini seçti",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "n_zyvvjw_mvei8kif",
@@ -4579,6 +5210,41 @@
     "status": "review"
   },
   {
+    "id": "n_gbzr1f_mvha2myw",
+    "slug": "vakiflar-genel-mudurlugu-2026-2027-donemi-burs-takvimini-kamuoyu-ile-pay-1nfx5u",
+    "title": "Vakıflar genel müdürlüğü 2026-2027 dönemi burs takvimini kamuoyu ile paylaşmaya başladı",
+    "excerpt": "VGM, 2026-2027 eğitim yılı burs başvurusu sürecine dair bilgilendirme duyurularını yayımlıyor. Öğrenciler burs başvuru günlerini yakından izliyor.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "İlkokul, ortaokul, lise ve üniversite öğrencilerinin gündemindeki VGM burs başvuruları için yeni takvim netleşiyor. Peki, 2026-2027 VGM burs başvurusu başladı mı? 2026-2027 VGM burs başvuru ne zaman?",
+      "Vakıflar Genel Müdürlüğü, 2026-2027 eğitim öğretim yılı ortaöğrenim eğitim yardımı başvuru tarihlerini açıkladı.",
+      "Buna göre ortaöğrenim burs başvuruları 6 Ekim 2026 tarihinde başlayacak ve 20 Ekim 2026 tarihinde sona erecek. Başvurular VGM'nin resmi internet sitesi üzerinden elektronik ortamda gerçekleştirilecek.",
+      "Üniversite öğrencileri için verilen VGM yükseköğrenim bursunun 2026-2027 başvuru tarihleri henüz kesinleşmedi.Üniversite öğrencileri için verilen VGM yükseköğrenim bursunun 2026-2027 başvuru tarihleri henüz kesinleşmedi."
+    ],
+    "category": "sinav",
+    "tags": [
+      "VGM",
+      "BURS TAKVİMİ",
+      "EĞİTİM BURSU"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-2027-vgm-burs-basvurusu-basladi-mi-2026-2027-vgm-burs-basvuru-ne-zaman-2540514",
+      "image": "/img/2026-2027-vgm-burs-ba-vurusu-ba-lad-m-2026-2027-vgm-burs-ba--lbcdex.jpg"
+    },
+    "publishedAt": "2026-09-24T06:21:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "1nfx5uw",
+    "rawTitle": "2026-2027 VGM burs başvurusu başladı mı? 2026-2027 VGM burs başvuru ne zaman?",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_1trw4lm_mveiblan",
     "slug": "ziraat-bankasi-kpss-sarti-aramadan-150-uzman-yardimcisi-alimi-yapacak-jxwljl",
     "title": "Ziraat Bankası KPSS şartı aramadan yüz elli uzman Yardımcısı İstihdam edeceğini duyurdu",
@@ -4681,6 +5347,41 @@
     "status": "published",
     "audioId": "n_2i0sle_mvevury5",
     "audioDuration": 17.65
+  },
+  {
+    "id": "n_rwf5dm_mvha2myx",
+    "slug": "yks-ile-universiteye-yerlesen-kayit-yaptirmayan-adaylar-ogrenci-affindan-1iy9aw",
+    "title": "YKS ile üniversiteye yerleşen kayıt yaptırmayan adaylar öğrenci affından yararlanabilecek",
+    "excerpt": "2026-YKS ile yerleştiği halde kayıt yaptırmayan ya da ilişiği kesilen öğrencilere af hakkı tanındı. Hak sahipleri 9 Aralık 2026 tarihine kadar başvurabilecek.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "2026 Yükseköğretim Kurumları Sınavı (2026-YKS) ile üniversitelere yerleşen öğrencilerden kayıt yaptırmayan veya kayıt yaptırdıktan sonra 9 Aralık 2026 tarihine kadar kendi isteğiyle ilişiğini kesenler de öğrenci affından yararlanabilecek.",
+      "7592 sayılı Kanun ile öğrenci affına yönelik düzenlemeler yürürlüğe girmiş ve aftan yararlanmak isteyenler için son başvuru süresi 9 Aralık 2026 olarak belirlenmişti.",
+      "Bu kapsamda, 2026 YKS ile kayıt hakkı elde ettiği halde kayıt yaptırmayan veya 2026 YKS ile kayıt yaptırıp 9 Aralık 2026 tarihinden önce kendi isteğiyle ilişiğini kesen öğrencilerin söz konusu kanun hükümlerinden yararlanıp yararlanamayacağı hususu Yükseköğretim Kurulu Hukuk Müşavirliği tarafından değerlendirildi.",
+      "Hukuk Müşavirliğinin görüşünde, söz konusu öğrencilerin kanun hükümlerinden yararlanmaları gerektiği belirtildi. Yükseköğretim Yürütme Kurulu tarafından yapılan değerlendirme sonucunda, 2026 YKS ile kayıt hakkı elde ettiği halde kayıt yaptırmayanların veya 2026 YKS ile kayıt yaptırıp 9 Aralık 2026 tarihinden önce kendi isteğiyle ilişiğini kesen öğrencilerin de af hükümlerinden yararlanmaları uygun görüldü."
+    ],
+    "category": "universite",
+    "tags": [
+      "ÖĞRENCİ AFFI",
+      "YKS",
+      "ÜNİVERSİTE KAYIT"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-yks-ile-universitelere-yerlesenler-de-ogrenci-affindan-yararlanabilecek-2540312",
+      "image": "/img/2026-yks-ile-niversitelere-yerle-enler-de-renci-aff-ndan-yar-p3mhoi.jpg"
+    },
+    "publishedAt": "2026-09-23T12:27:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": true,
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "1iy9awk",
+    "rawTitle": "2026-YKS ile üniversitelere yerleşenler de öğrenci affından yararlanabilecek",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "n_1n6d9v1_mvevprmq",
@@ -4817,6 +5518,47 @@
     "rawTitle": "The Cost of Unchecked Assumptions: Fewer Male Teachers, More Baby Slop",
     "status": "published",
     "lang": "en"
+  },
+  {
+    "id": "n_1z0lcsn_mvha2mye",
+    "slug": "genclik-ve-spor-bakanligi-kyk-burs-ve-ogrenim-kredisi-basvuru-surecini-b-1fpgrg",
+    "title": "Gençlik ve spor Bakanlığı KYK burs ve öğrenim kredisi başvuru sürecini başlatıyor",
+    "excerpt": "Üniversiteye yeni kayıt yaptıran ve ara sınıflardaki öğrenciler Gençlik ve Spor Bakanlığı'nın burs açıklamalarını inceliyor. 2026-2027 dönemi KYK burs ve kredi başvuru şartları merakla bekleniyor.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "YKS yerleştirme süreçlerinin t amamlanması, ek tercihlerin yapılması ve üniversitelerde ders zillerinin çalmasıyla birlikte öğrencilerin en önemli gündem maddelerinden biri finansal destekler oluyor. Gençlik ve Spor Bakanlığı (GSB) Kredi ve Yurtlar Genel Müdürlüğü tarafından sağlanan KYK burs ve öğrenim kredisi, her yıl yüz binlerce üniversite öğrencisinin bütçesine ekleniyor. Peki, 2026 dönemi KYK burs başvuruları ne zaman başlayacak, başvuru ekranı açıldı mı? İşte ayrıntılar...",
+      "Gençlik ve Spor Bakanlığı tarafından KYK burs ve kredi başvurularının başlangıç tarihi henüz resmi olarak açıklanmadı. Ancak geçmiş yıllardaki takvimler göz önünde bulundurulduğunda; YKS yerleştirme ve kayıt süreçlerinin ardından, genellikle Ekim ayının sonu ile Kasım ayının ilk haftası arasında başvuruların e-Devlet üzerinden erişime açılması bekleniyor.",
+      "Başvuru dönemi resmi olarak başladığında adaylar işlemlerini tamamen dijital ortamda gerçekleştirecektir. İzlenecek adımlar şunlar:",
+      "e-Devlet Girişi: Başvurular yalnızca e-Devlet kapısı (turkiye.gov.tr) üzerinden alınır. T.C. kimlik numaranız ve e-Devlet şifrenizle sisteme giriş yapmalısınız.",
+      "Hizmet Arama: Arama çubuğuna \"Gençlik ve Spor Bakanlığı - Burs/Öğrenim Kredisi Başvurusu\" yazarak ilgili hizmet sayfasına ulaşabilirsiniz.",
+      "Bilgi Güncelleme: Başvuru ekranında sizden istenen ekonomik, sosyal ve akademik bilgileri eksiksiz ve hatasız bir şekilde doldurmanız gerekmektedir. Beyan edilen bilgilerin doğruluğu kamu kurumlarının veri tabanlarından otomatik olarak teyit edilir.",
+      "Burs almaya hak kazanan öğrenciler, Bakanlık tarafından belirlenen kriterlere göre tespit edilir. Değerlendirme sürecinde öncelikli olan gruplar şunlardır:",
+      "Lise ve dengi okullarını devlet korumasında yatılı olarak okuyanlar veya darülaceze/çocuk yuvaları kökenliler,",
+      "Diğer öğrenciler ise ailenin maddi durumu, gayrimenkul ve gelir durumuna göre yapılan puanlama sistemiyle burs veya öğrenim kredisi almaya hak kazanır.",
+      "Öğrenim Kredisi: Öğrenim süresi boyunca her ay ödenen, ancak okul bittikten sonra alınan toplam tutarın (enflasyon farkı/TEFE-TÜFE oranlarıyla güncellenerek) devlet tarafından geri tahsil edildiği borçlanma türüdür. Öğrenciler isterlerse sadece burs, sadece öğrenim kredisi veya her ikisi için birden başvuru yapabilirler."
+    ],
+    "category": "universite",
+    "tags": [
+      "KYK",
+      "BURS",
+      "ÖĞRENİM KREDİSİ"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-kyk-burs-ve-kredi-basvurulari-ne-zaman-baslayacak-gsb-basvuru-tarihleri-sartlari-ve-e-devlet-adimlari-2539762",
+      "image": "/img/2026-kyk-burs-ve-kredi-ba-vurular-ne-zaman-ba-layacak-gsb-ba-3klo4m.jpg"
+    },
+    "publishedAt": "2026-09-22T06:29:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 6.8,
+    "dedupeKey": "1fpgrge",
+    "rawTitle": "2026 KYK burs ve kredi başvuruları ne zaman başlayacak? GSB başvuru tarihleri, şartları ve e-devlet adımları",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "f_55zs3a_mvgwoz8v",
@@ -5069,6 +5811,41 @@
     "lang": "en"
   },
   {
+    "id": "n_ayeh14_mvha2myf",
+    "slug": "milli-egitim-bakanligi-2026-2027-yks-ve-lgs-mebi-deneme-sinavi-takvimini-fe3yek",
+    "title": "Milli Eğitim Bakanlığı 2026-2027 YKS ve LGS mebi deneme sınavı takvimini belirledi",
+    "excerpt": "MEBİ bünyesinde düzenlenecek YKS ve LGS deneme sınavlarının uygulanacağı tarihler netleşti. Adaylar belirlenen takvim doğrultusunda deneme sınavlarına katılım sağlayabilecek.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "Millî Eğitim Bakanlığının bireysel öğrenme platformu MEBİ, 2026-2027 eğitim öğretim yılına ilişkin YKS ve LGS deneme sınavı takvimini açıkladı. Peki, 2026-2027 YKS ve LGS deneme sınavları ne zaman? MEBİ 2026-2027 deneme takvimi...",
+      "Takvime göre ilk YKS deneme sınavı 21-27 Eylül 2026 tarihleri arasında erişime açılacak. Liselere Geçiş Sistemi (LGS) kapsamında sınava hazırlanan 8. sınıf öğrencileri için ilk MEBİ LGS deneme sınavı ise 2-8 Kasım 2026 tarihleri arasında uygulanacak.",
+      "Eğitimde fırsat eşitliğini desteklemek amacıyla hazırlanan MEBİ deneme sınavlarına, mebi.eba.gov.tr adresi veya MEBİ mobil uygulaması üzerinden katılım sağlanabilecek."
+    ],
+    "category": "sinav",
+    "tags": [
+      "MEBİ",
+      "YKS",
+      "LGS",
+      "DENEME SINAVI"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-2027-yks-ve-lgs-deneme-sinavlari-ne-zaman-mebi-2026-2027-deneme-takvimi-2538463",
+      "image": "/img/2026-2027-yks-ve-lgs-deneme-s-navlar-ne-zaman-mebi-2026-2027-cmnp06.jpg"
+    },
+    "publishedAt": "2026-09-17T11:46:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 6.8,
+    "dedupeKey": "fe3yek",
+    "rawTitle": "2026-2027 YKS ve LGS deneme sınavları ne zaman? MEBİ 2026-2027 deneme takvimi...",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_ew8ass_mvevury5",
     "slug": "liselerde-saglik-sorunlarina-yol-acan-yuksek-kafeinli-enerji-iceceklerin-1fr4th",
     "title": "Liselerde sağlık sorunlarına yol açan yüksek kafeinli enerji içeceklerine karşı önlem alındı",
@@ -5214,6 +5991,42 @@
     "audioDuration": 18.18
   },
   {
+    "id": "n_lwpl0n_mvha2myq",
+    "slug": "milli-egitim-bakani-yusuf-tekin-yalova-da-ortaokul-ziyareti-gerceklestir-1pf1uf",
+    "title": "Milli Eğitim bakanı yusuf tekin yalova'da ortaokul ziyareti gerçekleştirdi",
+    "excerpt": "Bakan Yusuf Tekin, Yalova Abdülhamid Han Ortaokulunda öğrenci ve öğretmenlerle buluştu. Vefat eden öğretmen İlhan Algınkaplan'ın mesai arkadaşlarına başsağlığı iletti.",
+    "body": [
+      "Bakan Tekin, Yalova 'daki programları öncesinde, Yalova Abdülhamid Han Ortaokulunu ziyaret etti. Okula girişi sırasında bahçede beden eğitim dersinde olan öğrencilerle sohbet eden Bakan Tekin, daha sonra sınıfları gezdi. Tekin, sorularını yanıtladığı öğrencilere yeni eğitim öğretim yılı için tavsiyelerde bulundu.",
+      "VEFAT EDEN MATEMATİK ÖĞRETMENİNİN MESAİ ARKADAŞLARINA TAZİYE Bakan Tekin, daha sonra öğretmenler odasında eğitimcilerle bir araya geldi. Tekin, eğitim öğretim yılının ilk günü okuldan çıktıktan sonra gittiği İznik Gölü'nde cansız bedeni bulunan Abdülhamid Han Ortaokulu matematik öğretmeni İlhan Algınkaplan'ın vefatından derin bir üzüntü duyduğunu dile getirerek mesai arkadaşlarına taziye dileğinde bulundu.",
+      "Öğretmenler Odası Buluşması'nda öğretmenlerle yeni eğitim öğretim yılını da değerlendiren Bakan Tekin, 90'dan fazla ülkenin katıldığı PISA araştırmasında Türkiye'nin elde ettiği başarıya ilişkin çok güzel cümleler duyduklarını söyledi. Alınan sonucun mutluluk verici olduğunu vurgulayan Bakan Tekin, \"Bu cümleleri sizler hak ediyorsunuz. Bu başarı sizlerin, bizlerin, hepimizin başarısı. Allah razı olsun, teşekkür ediyorum\" dedi.",
+      "Öğretmenler de Türkiye Yüzyılı Maarif Modeli için Bakan Tekin'e teşekkür etti, uygulanan bu başarılı program sayesinde sorgulayan, kendini ifade edebilen, çözüm üretebilen öğrenciler yetişeceğini belirtti.",
+      "Türkiye'den ve Dünya’dan son dakika haberleri, köşe yazıları, magazinden siyasete, spordan seyahate bütün konuların tek adresi Hurriyet.com.tr haber içerikleri izin alınmadan, kaynak gösterilerek dahi iktibas edilemez. Kanuna aykırı ve izinsiz olarak kopyalanamaz, başka yerde yayınlanamaz."
+    ],
+    "category": "meb",
+    "tags": [
+      "YALOVA",
+      "YUSUF TEKİN",
+      "OKUL ZİYARETİ"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/bakan-tekinden-yalovada-okul-ziyareti-43308195",
+      "image": "/img/bakan-tekin-den-yalova-da-okul-ziyareti-1ghxs0.jpg"
+    },
+    "publishedAt": "2026-09-16T08:10:59.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "province": "Yalova",
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "1pf1ufo",
+    "rawTitle": "Bakan Tekin'den Yalova'da okul ziyareti",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "f_137tikb_mvh6wzk2",
     "slug": "yabanci-ilkokul-sonrasinda-okuma-guclugu-ceken-ortaokul-ogrencileri--137tik",
     "title": "İlkokul sonrasında okuma güçlüğü çeken ortaokul öğrencileri neden geride kalmaya devam ediyor?",
@@ -5349,6 +6162,43 @@
     "audioDuration": 14.65
   },
   {
+    "id": "n_rvgdbr_mvha2mys",
+    "slug": "vodafone-vakfi-ile-toplum-gonulluleri-vakfi-cocuklara-yonelik-dijital-eg-znsti8",
+    "title": "Vodafone vakfı ile toplum gönüllüleri vakfı çocuklara yönelik dijital eğitim başlattı",
+    "excerpt": "Vodafone Vakfı ve TEGV ortaklığında Dijital Dostum projesi hayata geçirildi. 8-14 yaş grubu öğrencilerin güvenli teknoloji kullanımı desteklenecek.",
+    "body": [
+      "Toplum Gönüllüleri Vakfı (TOG) işbirliğiyle hayata geçirilen yeni proje kapsamında 8-9 yaş ilkokul ve 10-14 yaş arası ortaokul öğrencilerinin dijital teknolojileri daha güvenli, bilinçli ve dengeli bir şekilde kullanmalarını desteklemek amacıyla eğitimler verilecek. Projenin okul uygulamaları, gerekli eğitimlerden geçen Toplum Gönüllüsü gençlerin kolaylaştırıcılığında gerçekleştirilecek. Bu gençler, çocuklarla etkileşimli atölyeler gerçekleştirerek proje içeriklerinin çocuklara ulaştırılmasında rol üstlenecek. Dijital Dostum projesinin ilk yılında 7 ilde 5 bin öğrenciye ulaşılması hedefleniyor.",
+      "Proje, Türkiye Vodafone Vakfı Başkanı Hasan Süel, TOG Genel Müdürü Seçkin Karataş ve Bahçeşehir Üniversitesi Eğitim Bilimleri Fakültesi Dekanı Prof. Dr. Yavuz Samur’un katılımıyla düzenlenen basın toplantısıyla tanıtıldı.",
+      "Hasan Süel, şunları söyledi: “Araştırmalar günümüzde çocuk ve gençlerin bir bağlantı çağında büyüdüğünü aynı zamanda dijital risk ve etkilerle karşı karşıya kaldığını gösteriyor. Global Vodafone Vakfı’nın Save The Children işbirliği ile 9 Avrupa ülkesinde yaptığı araştırmaya göre her 4 çocuk ve gençten sadece biri dijital yaşam kalitesini iyi olarak değerlendirirken, her 4 çocuktan 3’ü uyku bozuklukları, yüksek stres seviyeleri veya çevrim içi ve çevrim dışı yaşamları arasında denge kurma zorluklarıyla mücadele ediyor. Dijital okur-yazarlığı güçlendirmek ve dijital dengeyi kolaylaştıracak kalıcı önlemler almak, dijital yaşam kalitesini artırmak açısından önem taşıyor. Bu konuda alınabilecek önlemlerden biri de dijital yaşam kalitesinin eğitime entegre edilmesi.",
+      "Dijital Dostum projesini Vodafone Grup Vakfı’nın SkillsuploadJr. programı kapsamında tam da bu noktadan hareketle hayata geçirdik. Projemizin temel hedefleri arasında çocukların dijital dünyada karşılaşabilecekleri riskleri erken yaşta tanımaları, doğru ve güvenilir bilgiye ulaşmayı öğrenmeleri, kişisel sınırlarını ve başkalarının haklarını gözetmeleri ve teknolojinin günlük yaşamları üzerindeki etkisini sağlıklı şekilde yönetebilmeleri yer alıyor. Toplum Gönüllüsü gençlerin kolaylaştırıcılığında gerçekleştirilecek etkileşimli okul uygulamalarıyla çocukların yalnızca bilgi edinmelerini değil; düşünmelerini, deneyimlemelerini, soru sormalarını ve günlük yaşamlarında kullanabilecekleri güvenli dijital davranışlar geliştirmelerini amaçlıyoruz. Hedefimiz, bir yılda 5 bin öğrenciye ulaşmak. Bu projede bizimle el ele veren Toplum Gönüllüleri Vakfı ’na ve proje elçimiz Prof. Dr. Yavuz Samur’a teşekkür ederiz.”",
+      "Seçkin Karataş, şöyle konuştu: “Dijital Dostum projesinde çocukların aktif katılımını esas alan, onların kendi deneyimleri üzerinden düşünmelerine ve soru sormalarına alan açan bir öğrenme yaklaşımı benimsiyoruz. Bu yaklaşımın bir parçasını ise Toplum Gönüllüsü gençler oluşturuyor. Gerekli eğitimlerden geçen gençlerimiz, okul uygulamalarında çocukların öğrenme süreçlerine kolaylaştırıcı olarak eşlik edecek ve akran öğrenmesini destekleyecek. Böylece çocukların dijital dünyada güvenli ve bilinçli davranışlar geliştirmelerine katkı sunarken, gençlerimizin de toplumsal fayda üretme ve kolaylaştırıcılık becerilerini güçlendirmelerini sağlayacağız. Projenin farklı şehir ve okullarda uygulanabilecek, sahadan elde edilen deneyimlerle gelişebilecek ve gençlerin aktif katkısıyla sürdürülebilecek bir model oluşturmasını hedefliyoruz.”",
+      "Yavuz Samur ise şunları kaydetti: “Çocuklarımız dikkat ekonomisinin kurallarıyla işleyen bir dijital evrenin merkezinde büyüyorlar. Dijital platformların mimarisi, kullanıcıyı ekranda daha uzun süre tutmak üzerine kurgulanmış durumda. Çocuklarımızın bu dijital kurgular karşısında savunmasız kalmaması için onlara dijital yaşam kalitesi kavramını, dijital okuryazarlığı ve bilinçli tüketim alışkanlıklarını çok erken yaşlardan itibaren kazandırmalıyız. Çocuklarımıza yalnızca neyi yapmamaları gerektiğini dikte etmek yerine teknolojiyi nasıl bilinçli, dengeli ve kendi kişisel sınırlarını koruyarak kullanabileceklerini deneyimleterek göstermeliyiz. Dijital Dostum projesi çocukların dijital dünyadaki varoluşlarını oyun temelli öğrenme yaklaşımları, etkileşimli senaryolar ve akran dayanışması ile güçlendirmeyi hedefleyen bir adım. Bu proje sayesinde çocuklar karşılarına çıkan şüpheli bir içeriği eleştirel bir süzgeçten geçirmeyi, siber zorbalıkla başa çıkma stratejilerini ve ekran karşısında geçirdikleri süre ile fiziksel dünyadaki sorumlulukları arasındaki dengeyi kurmayı öğrenecekler. Eğitimlerin didaktik bir formattan ziyade aktif katılıma dayalı olması, çocukların dijital ayak izlerinin farkına varmalarını ve siber dünyada karşılaştıkları riskleri kendi iradeleriyle yönetebilmelerini sağlayacak.”",
+      "Proje kapsamında Bitlis, İzmir, Ankara, Hatay, İstanbul, Samsun ve Diyarbakır’da 105 Toplum Gönüllüsü gencin katkısıyla gerçekleştirilecek ilkokul ve ortaokul uygulamalarıyla ise 5 bin öğrenciye ulaşılması hedefleniyor. Toplum Gönüllüsü gençlerin kolaylaştırıcılığında yürütülecek akran öğrenmesi yaklaşımı sayesinde farklı şehir ve okullarda uygulanabilecek, yaygınlaştırılabilir ve sürdürülebilir bir yapı sunmaktadır."
+    ],
+    "category": "ilkogretim",
+    "tags": [
+      "DİJİTAL DOSTUM",
+      "VODAFONE VAKFI",
+      "TEKNOLOJİ EĞİTİMİ"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/teknoloji/cocuklara-dijital-yasam-kalitesi-egitimi-verilecek-43307907",
+      "image": "/img/ocuklara-dijital-ya-am-kalitesi-e-itimi-verilecek-1jr30z.jpg"
+    },
+    "publishedAt": "2026-09-15T14:52:53.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "znsti8",
+    "rawTitle": "Çocuklara dijital yaşam kalitesi eğitimi verilecek",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_6l2ml2_mvevprmo",
     "slug": "milletvekili-yusuf-ahlatci-corum-i-l-milli-egitim-muduru-caglar-i-ziyare-13mhc8",
     "title": "Milletvekili Yusuf ahlatcı Çorum il Milli Eğitim müdürü Çağlar'ı Ziyaret etti",
@@ -5383,6 +6233,42 @@
     "audioDuration": 23.14
   },
   {
+    "id": "n_obxy5y_mvha2myg",
+    "slug": "ogrenciler-2026-2027-donemi-vgm-burs-basvuru-tarihlerini-ve-sartlarini-a-35y7jk",
+    "title": "Öğrenciler 2026-2027 dönemi vgm burs başvuru tarihlerini ve şartlarını araştırıyor",
+    "excerpt": "Yeni eğitim yılıyla birlikte Vakıflar Genel Müdürlüğü burs başvuru süreci gündeme geldi. Öğrenciler ve veliler VGM burs tarihlerini ve şartlarını takip ediyor.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "İstanbul Büyükşehir Belediyesi (İBB) tarafından “Genç Üniversiteli Desteği” kapsamında ön lisans, lisans ve doktora öğrencilerine sağlanan burs için başvuru süreci yakından takip ediliyor. İBB burs ödemelerinin yapılacağı tarihler de öğrenciler tarafından merak ediliyor. Peki, 2026-2027 İBB burs başvuruları ne zaman? İBB burs başvuruları nasıl yapılır, şartları neler? İşte ayrıntılar...",
+      "2026-2027 dönemi İBB burs başvuru tarihleri henüz açıklanmadı. Geçtiğimiz yıl başvurular 23 Eylül'de başlamıştı. Bu nedenle bu yıl da başvuruların aynı tarihlerde başlaması bekleniyor. İBB tarafından resmi bir açıklama geldiğinde haberimiz güncellenecektir.",
+      "Başvuru ve evrak yükleme işlemleri tamamen dijital ortamda gerçekleştirilecek. Adaylar başvurularını gencuniversiteli.ibb.istanbul internet adresi veya İstanbul Senin mobil uygulaması üzerinden yapabilecek. Başvurular, beyan edilen evraklar ve net gelir bilgileri üzerinden değerlendirilecek.",
+      "Ön lisans ve lisans öğrencilerinin 30 yaşından, yüksek lisans ve doktora öğrencilerinin ise 40 yaşından büyük olmaması.",
+      "Ara ve son sınıf öğrencilerinin genel not ortalamasının en az 2,00/4,00 veya 53/100 olması."
+    ],
+    "category": "sinav",
+    "tags": [
+      "VGM",
+      "BURS BAŞVURUSU",
+      "ÖĞRENCİ BURSU"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-2027-ibb-burs-basvurulari-ne-zaman-ibb-burs-basvurulari-nasil-yapilir-sartlari-neler-2537747",
+      "image": "/img/2026-2027-ibb-burs-ba-vurular-ne-zaman-ibb-burs-ba-vurular-n-1wzy29.jpg"
+    },
+    "publishedAt": "2026-09-15T11:19:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 6.7,
+    "dedupeKey": "35y7jk",
+    "rawTitle": "2026-2027 İBB burs başvuruları ne zaman? İBB burs başvuruları nasıl yapılır, şartları neler?",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "f_1qkdsxs_mvh6wzk2",
     "slug": "yabanci-yeni-egitim-yilinda-ogretmenleri-bekleyen-ekim-ayi-tukenmisl-1qkdsx",
     "title": "Yeni eğitim yılında öğretmenleri bekleyen ekim ayı tükenmişliğiyle nasıl başa çıkılabilir?",
@@ -5412,6 +6298,39 @@
     "score": 4,
     "dedupeKey": "foreign:1qkdsxs",
     "rawTitle": "The “October Blues” Are Coming. Here’s How Teachers Can Beat Them.",
+    "status": "published",
+    "lang": "en"
+  },
+  {
+    "id": "f_6s34wq_mvha2xnw",
+    "slug": "yabanci-new-york-ve-los-angeles-ogrenciler-icin-yapay-zekayi-yasakla-6s34wq",
+    "title": "New York ve Los Angeles Öğrenciler İçin Yapay Zekayı Yasakladı",
+    "excerpt": "Yasaklar, yeni bir APA raporuyla birlikte hızlı yapay zeka benimsemeden daha bilinçli bir değerlendirmeye geçişin sinyalini veriyor.",
+    "body": [
+      "Eylül ayının ilk üç günü içinde genç öğrencilerin üretken yapay zekaya erişimiyle ilgili üç duyuru ulusal manşetlerde yer aldı. New York City, 2 Eylül'de devlet ilkokulu ve ortaokul öğrencilerinin üretken yapay zeka kullanımına yönelik bir yıllık bir moratoryum açıkladı.",
+      "Günün ilerleyen saatlerinde Los Angeles Birleşik Okul Bölgesi, 2026-27 eğitim öğretim yılı için tüm sınıflarda öğrenci cihazlarındaki üretken yapay zeka araçlarına erişimi kısıtlayan kendi moratoryumunu duyurdu. Ertesi gün Amerikan Psikolojik Derneği, eğitim teknolojisi araçlarının güvenliğini sağlamak için kapsamlı analizler öneren bir rapor yayınladı."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Yapay Zeka",
+      "Eğitim Teknolojisi",
+      "Okul Politikaları"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/new-york-and-los-angeles-ban-student-facing-ai-for-now-should-other-schools-follow",
+      "image": "/img/new-york-and-los-angeles-ban-student-facing-a-for-now-should-kr5d1k.jpg"
+    },
+    "publishedAt": "2026-09-14T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:6s34wq",
+    "rawTitle": "New York and Los Angeles Ban Student-Facing AI (For Now). Should Other Schools Follow?",
     "status": "published",
     "lang": "en"
   },
@@ -5533,6 +6452,72 @@
     "status": "published",
     "audioId": "n_z3wqwo_mvei1j38",
     "audioDuration": 17.98
+  },
+  {
+    "id": "f_188wlt3_mvha2xnw",
+    "slug": "yabanci-veliler-bireysellestirilmis-egitim-programi-toplantilarina-y-188wlt",
+    "title": "Veliler Bireyselleştirilmiş Eğitim Programı Toplantılarına Yapay Zeka Getiriyor",
+    "excerpt": "Yapay zekayı bu toplantılarda kullanmak, doğru yapıldığında hem velilere hem de öğretmenlere fayda sağlayabilir.",
+    "body": [
+      "Bireyselleştirilmiş eğitim programı süreci, velilerin anlamayabileceği terminolojiyle dolu büyük bir kağıt yığını üretir. Buna karşılık bazı veliler, bu programları daha iyi anlamak ve öğretmen toplantılarına hazırlanmak için yapay zeka kullanmaya başladı.",
+      "Unlocking Children's Potential of Central Florida'da erken çocukluk öğrenimini destekleyen müfredat uzmanı Kimberly Morris, velilerin evde hedef oluşturmak için yapay zeka kullandığını bizzat gözlemlediğini belirtiyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Özel Eğitim",
+      "Yapay Zeka",
+      "Veliler"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/parents-are-bringing-ai-to-the-iep-meeting-heres-how-teachers-should-respond",
+      "image": "/img/parents-are-bringing-a-to-the-ep-meeting-how-should-teachers-37qpbx.jpg"
+    },
+    "publishedAt": "2026-09-11T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:188wlt3",
+    "rawTitle": "Parents Are Bringing AI to the IEP Meeting. How Should Teachers Respond?",
+    "status": "published",
+    "lang": "en"
+  },
+  {
+    "id": "f_1listba_mvha2xnw",
+    "slug": "yabanci-gelecegi-dokumak-kutsal-bir-emanet-olarak-teknoloji-1listb",
+    "title": "Geleceği Dokumak: Kutsal Bir Emanet Olarak Teknoloji",
+    "excerpt": "Dijital stratejimizi atalarımızla aynı değerler üzerine kurarak, teknolojinin okul topluluğumuzu tüketmesini engelleyebiliriz.",
+    "body": [
+      "Yapay zekanın insan kültürünü arşivlemeyi vadettiği bir çağda yerli topluluklar hayati bir soruyla karşı karşıya kalıyor: Kutsal bilgiyse sahip olma, şekillendirme ve dijitalleştirme hakkı kime ait? Yapay zeka eğitimde manşet haline gelmeden çok önce bu soru, Indian Community School'daki teknoloji koordinatörlüğü çalışmalarımı şekillendirdi.",
+      "Topluluğumuzun dijital geleceğini korumayı anlamak bir laboratuvarda değil, Wisconsin'deki sakin bir vadi ile büyükannemin bitmemiş yorganında başladı."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Yerli Topluluklar",
+      "Dijital Strateji",
+      "Kültürel Miras"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/stitching-the-future-technology-as-a-sacred-trust",
+      "image": "/img/stitching-the-future-technology-as-a-sacred-trust-1na47n.jpg"
+    },
+    "publishedAt": "2026-09-09T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1listba",
+    "rawTitle": "Stitching the Future: Technology as a Sacred Trust",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "n_1wy5697_mvei8kif",
