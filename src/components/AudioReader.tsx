@@ -206,7 +206,9 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
           <p className="truncate text-[0.6875rem] text-faint">
             {mode === 'audio'
               ? `Sentezlenmiş Türkçe ses${durationLabel ? ` · ${durationLabel}` : ''}`
-              : (voices[voiceIdx]?.name ?? (supported ? 'Türkçe ses bulunamadı' : 'Desteklenmiyor'))}
+              : audioUrl
+                ? (voices[voiceIdx]?.name ?? (supported ? 'Türkçe ses bulunamadı' : 'Desteklenmiyor'))
+                : 'Tarayıcı sesi · hazırlanan ses bir sonraki turda gelir'}
           </p>
           <div className="mt-1.5 h-[3px] overflow-hidden rounded-full bg-surface-3">
             <div
