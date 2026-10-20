@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { X, Send, Loader2, Sparkles, User, Globe } from 'lucide-react'
 import { useStore } from '../lib/store'
-import { askAssistant, useAssistantHistory, type AssistantQuota } from '../lib/api'
+import { askAssistant, useAssistantHistory, type AssistantQuota, type AssistantSource } from '../lib/api'
 import { bus, EVENTS } from '../lib/bus'
 
 const QUOTA = 20
 
-type Msg = { role: 'user' | 'assistant'; text: string; sources?: string[] }
+type Msg = { role: 'user' | 'assistant'; text: string; sources?: AssistantSource[] }
 
 const EXAMPLES_TR = [
   'Çorum\'da açılan mesleki eğitim laboratuvarları kaç tane?',
@@ -183,17 +184,27 @@ export function AssistantPanel({ open, onClose }: { open: boolean; onClose: () =
                           {t('assistant.sources')} · {m.sources.length}
                         </summary>
                         <ul className="mt-1.5 space-y-1">
-                          {m.sources.map((s) => (
-                            <li key={s} className="flex items-start gap-1.5">
+                          {m.sources.map((s, k) => (
+                            <li key={k} className="flex items-start gap-1.5">
                               <Globe size={11} className="mt-1 shrink-0 text-faint" />
-                              <a
-                                href={s}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="truncate text-[0.6875rem] text-muted underline-offset-2 hover:text-fg hover:underline"
-                              >
-                                {s}
-                              </a>
+                              {s.type === 'news' ? (
+                                <Link
+                                  to={`/haber/${s.slug}`}
+                                  onClick={onClose}
+                                  className="line-clamp-1 text-[0.6875rem] text-muted underline-offset-2 hover:text-fg hover:underline"
+                                >
+                                  {s.title}
+                                </Link>
+                              ) : (
+                                <a
+                                  href={s.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="truncate text-[0.6875rem] text-muted underline-offset-2 hover:text-fg hover:underline"
+                                >
+                                  {s.url}
+                                </a>
+                              )}
                             </li>
                           ))}
                         </ul>

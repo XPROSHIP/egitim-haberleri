@@ -24,11 +24,11 @@ const SYSTEM = `Sen "ZEN Eğitim Asistanı"sin. Türkiye eğitim basınının ed
 
 GÖREV:
 - Kullanıcının sorusuna Türkçe, kısa ve doğrudan yanıt ver.
-- Güncel bilgi gerekiyorsa (son duyurular, atama takvimleri, sınav sonuçları, yeni programlar) mutlaka web araması kullan ve güncel kaynaklara dayan.
-- Arşivdeki (bu sitede yayımlanan) haberlerden bilinen bir şey varsa onu da belirt.
-- Uydurma bilgi, sayı, tarih veya kurum adı verme. Emin değilsen "doğrulanamadı" de.
+- Önce sana verilen HABER ARŞİVİ'ni kullan: soruyla ilgili kayıtları bul ve onlardan özetle.
+- Güncel bilgi gerekiyorsa ve web araması kullanılabiliyorsa güncel kaynaklara dayan.
+- Arşivde ve kaynaklarda olmayan bilgiyi uydurma. Emin değilsen "kaynaklarda doğrulanamadı" de.
 - Yanıt en fazla 3-4 paragraf olsun; gerekiyorsa kısa maddeler halinde yaz.
-- Kaynak bağlantılarını en sonda "Kaynaklar:" başlığı altında tam URL olarak listele.
+- Cevabın sonunda "Kaynaklar:" başlığı altında kullandığın haberlerin başlıklarını yaz.
 - Ton: sakin, profesyonel, günlük dil. Emoji kullanma.`
 
 function keys(env) {
@@ -126,48 +126,133 @@ function buildContents(history, question) {
   return contents
 }
 
+/** Türkçe karakterleri indirger; arşivde arama için kullanılır. */
+function fold(s = '') {
+  return s
+    .toLocaleLowerCase('tr')
+    .replace(/[çğıöşü]/g, (c) => ({ ç: 'c', ğ: 'g', ı: 'i', ö: 'o', ş: 's', ü: 'u' })[c])
+    .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 /**
- * Soruyu yanıtlar. Web araması (grounding) açıktır.
- * @returns {Promise<{text:string, sources:string[], error?:string}>}
+ * Sitede yayımlanmış haberlerden soruyla ilgili kayıtları bulur.
+ * Web araması ücretsiz kademede kapalı olabildiği için asistanın bilgi
+ * kaynağı bu arşivdir.
  */
-export async function answer(env, question, history = []) {
+export async function searchNews(env, question, limit = 6) {
+  try {
+    const { results } = await env.DB.prepare(
+      `SELECT slug, title, excerpt, category, source_name, published_at
+       FROM news WHERE status = 'published' ORDER BY published_at DESC LIMIT 300`,
+    ).all()
+    const terms = fold(question)
+      .split(' ')
+      .filter((w) => w.length > 2)
+      .slice(0, 12)
+    if (!terms.length) return results.slice(0, limit).map(toSource)
+    const scored = results
+      .map((r) => {
+        const text = fold(`${r.title} ${r.excerpt ?? ''}`)
+        let score = 0
+        for (const t of terms) if (text.includes(t)) score += 1
+        if (score > 0) score += 2
+        return { r, score }
+      })
+      .filter((x) => x.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, limit)
+    return (scored.length ? scored : results.slice(0, limit)).map((x) => toSource(x.r ?? x))
+  } catch {
+    return []
+  }
+}
+
+function toSource(r) {
+  return {
+    slug: r.slug,
+    title: r.title,
+    excerpt: r.excerpt,
+    category: r.category,
+    source: r.source_name,
+    publishedAt: r.published_at,
+  }
+}
+
+/** Arşiv bağlamını modele verilecek metne çevirir. */
+function archiveContext(list) {
+  if (!list.length) return ''
+  const lines = list.map(
+    (n, i) =>
+      `${i + 1}. ${n.title}\n   Kategori: ${n.category} · Kaynak: ${n.source}\n   Özet: ${String(n.excerpt ?? '').slice(0, 320)}`,
+  )
+  return `HABER ARŞİVİ (sitede yayımlanan gerçek haberler):\n${lines.join('\n')}\n\n`
+}
+
+/**
+ * Soruyu yanıtlar.
+ *
+ * Önce web araması (grounding) denenir; ücretsiz kademede bu araç kapalıysa
+ * (429) sitedeki haber arşivine dayanarak cevap üretilir.
+ *
+ * @returns {Promise<{text:string, sources:Array, error?:string}>}
+ */
+export async function answer(env, question, history = [], archive = []) {
   const list = keys(env)
   if (list.length === 0) return { text: '', sources: [], error: 'model_yok' }
 
-  const payload = {
-    systemInstruction: { parts: [{ text: SYSTEM }] },
-    contents: buildContents(history, question),
-    tools: [{ googleSearch: {} }],
-    generationConfig: { temperature: 0.35, maxOutputTokens: 4096 },
-  }
+  const context = archiveContext(archive)
+  const questionText = context ? `${context}SORU: ${question}` : question
+
+  const attempts = [
+    // 1) Web aramalı (en iyi sonuç, ücretli kademede çalışır)
+    { tools: [{ googleSearch: {} }] },
+    // 2) Arşive dayalı yedek
+    { tools: undefined },
+  ]
 
   let lastError = 'bilinmeyen_hata'
-  for (const model of ASSISTANT_MODELS) {
-    for (const key of list) {
-      try {
-        const res = await fetch(ENDPOINT(model, key), {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify(payload),
-        })
-        if (!res.ok) {
-          const detail = (await res.text()).slice(0, 180)
-          lastError = `model_${model}: ${detail}`
-          // 4xx: anahtar/model değişikliği işe yaramaz, sonraki modele geç.
-          if (res.status === 429 || res.status >= 500) continue
-          break
+  for (const attempt of attempts) {
+    const payload = {
+      systemInstruction: { parts: [{ text: SYSTEM }] },
+      contents: buildContents(history, questionText),
+      generationConfig: { temperature: 0.35, maxOutputTokens: 4096 },
+    }
+    if (attempt.tools) payload.tools = attempt.tools
+
+    for (const model of ASSISTANT_MODELS) {
+      for (const key of list) {
+        try {
+          const res = await fetch(ENDPOINT(model, key), {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(payload),
+          })
+          if (!res.ok) {
+            const detail = (await res.text()).slice(0, 180)
+            lastError = `model_${model}: ${detail}`
+            // 4xx'te anahtar/model değişikliği işe yaramaz, sonraki modele geç.
+            if (res.status === 429 || res.status >= 500) continue
+            break
+          }
+          const json = await res.json()
+          const part = json?.candidates?.[0]?.content?.parts?.find((p) => p.text)?.text ?? ''
+          if (!part) continue
+          const grounding = json?.candidates?.[0]?.groundingMetadata?.groundingChunks ?? []
+          const webSources = []
+          for (const g of grounding) {
+            const url = g?.web?.uri
+            if (url && !webSources.includes(url)) webSources.push(url)
+          }
+          // Kaynak varsa önce web, yoksa arşiv kayıtları.
+          const sources = webSources.length
+            ? webSources.slice(0, 8).map((u) => ({ type: 'web', url: u }))
+            : archive.slice(0, 6).map((n) => ({ type: 'news', slug: n.slug, title: n.title }))
+          return { text: part.trim(), sources }
+        } catch (err) {
+          lastError = String(err?.message ?? err).slice(0, 180)
         }
-        const json = await res.json()
-        const part = json?.candidates?.[0]?.content?.parts?.find((p) => p.text)?.text ?? ''
-        const grounding = json?.candidates?.[0]?.groundingMetadata?.groundingChunks ?? []
-        const sources = []
-        for (const g of grounding) {
-          const url = g?.web?.uri
-          if (url && !sources.includes(url)) sources.push(url)
-        }
-        return { text: part.trim(), sources: sources.slice(0, 8) }
-      } catch (err) {
-        lastError = String(err?.message ?? err).slice(0, 180)
       }
     }
   }

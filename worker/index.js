@@ -22,6 +22,7 @@ import {
   listMessages,
   quotaOf,
   saveMessage,
+  searchNews,
 } from './src/assistant.js'
 
 /**
@@ -456,7 +457,8 @@ export default {
       if (quota.remaining <= 0) return reply({ error: 'quota', quota }, 429)
 
       const history = await listMessages(env, user.id)
-      const result = await answer(env, question, history)
+      const archive = await searchNews(env, question)
+      const result = await answer(env, question, history, archive)
       if (!result.text) {
         console.error('[assistant] yanit alinamadi:', String(result.error ?? '').slice(0, 160))
         return reply({ error: 'model_hatasi' }, 502)

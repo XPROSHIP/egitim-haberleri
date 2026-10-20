@@ -256,11 +256,16 @@ export async function setCommentLike(commentId: string, on: boolean): Promise<nu
 
 export type AssistantQuota = { used: number; limit: number; remaining: number }
 
+/** Web kaynağı ya da sitedeki bir haber. */
+export type AssistantSource =
+  | { type: 'web'; url: string }
+  | { type: 'news'; slug: string; title: string }
+
 export type AssistantMessage = {
   id: string
   role: 'user' | 'assistant'
   text: string
-  sources: string[]
+  sources: AssistantSource[]
   createdAt: string
 }
 
@@ -282,7 +287,7 @@ export function useAssistantHistory(enabled: boolean) {
 /** Asistana soru sorar. */
 export async function askAssistant(
   question: string,
-): Promise<{ text: string; sources: string[]; quota: AssistantQuota }> {
+): Promise<{ text: string; sources: AssistantSource[]; quota: AssistantQuota }> {
   if (!BASE) throw new Error('Sunucuya bağlanılamadı')
   const res = await fetch(`${BASE}/api/assistant`, {
     method: 'POST',
