@@ -67,7 +67,7 @@ def main():
         for it in items
         if it.get("id")
         and not it.get("hasAudio")
-        and len(it.get("body") or []) >= 2
+        and len(it.get("body") or []) >= 1
     ]
     if not todo:
         log("sesi olmayan haber yok")
