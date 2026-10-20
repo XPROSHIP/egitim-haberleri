@@ -86,14 +86,14 @@ export function StoryBar({ items }: { items: NewsItem[] }) {
               <CategoryMark mark={cat.mark} size={24} strokeWidth={2} />
               {!empty && (
                 <span
-                  className="tnum absolute -top-0.5 -right-0.5 grid min-w-[19px] place-items-center rounded-full px-1 text-[10px] font-bold text-white"
+                  className="tnum absolute -top-0.5 -right-0.5 grid min-w-[19px] place-items-center rounded-full px-1 text-[0.625rem] font-bold text-white"
                   style={{ background: cat.color }}
                 >
                   {count}
                 </span>
               )}
             </span>
-            <span className="line-clamp-2x text-center text-[11px] leading-tight font-medium text-muted group-hover:text-fg">
+            <span className="line-clamp-2x text-center text-[0.6875rem] leading-tight font-medium text-muted group-hover:text-fg">
               {cat.name}
             </span>
           </button>

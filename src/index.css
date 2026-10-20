@@ -23,20 +23,21 @@
 }
 
 .light {
-  --bg: #ffffff;
-  --surface: #ffffff;
-  --surface-2: #f6f6f7;
-  --surface-3: #ebebee;
-  --line: #e4e4e7;
-  --line-soft: #f0f0f2;
-  --fg: #08080a;
-  --muted: #6a6a73;
-  --faint: #9b9ba3;
-  --accent: #d5001f;
-  --accent-soft: #fdeaec;
+  /* Krem / vintage kâğıt tonu — saf beyaz göz yorar, editoryal his zayıflar. */
+  --bg: #faf7f0;
+  --surface: #fffdf8;
+  --surface-2: #f4efe4;
+  --surface-3: #eae2d3;
+  --line: #e0d6c3;
+  --line-soft: #efe8da;
+  --fg: #1b1710;
+  --muted: #6c6252;
+  --faint: #9b9081;
+  --accent: #c8102e;
+  --accent-soft: #fbe6e9;
   --primary: #1f5ae0;
   --primary-fg: #ffffff;
-  --ring: rgba(0, 0, 0, 0.1);
+  --ring: rgba(27, 23, 16, 0.12);
 }
 
 @theme inline {
@@ -94,6 +95,33 @@ h3,
 /* Sayısal veriler hizalı görünsün (görüntülenme, tarih, etiket sayıları) */
 .tnum {
   font-variant-numeric: tabular-nums;
+}
+
+/**
+ * Haber metni.
+ *
+ * İki yana yaslı + Türkçe hece kurallarına uygun tireli bölme: satır
+ * sonunda kelimelerin bölünmesi metni düzensiz gösteriyordu. `hyphens: auto`
+ * tarayıcının Türkçe sözlüğünü kullanır; `lang="tr"` şart.
+ */
+.article-prose p {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: color-mix(in srgb, var(--fg) 90%, transparent);
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphenate-limit-chars: 8 4 4;
+  orphans: 2;
+  widows: 2;
+}
+
+@media (min-width: 640px) {
+  .article-prose p {
+    font-size: 1.0625rem;
+    line-height: 1.85;
+  }
 }
 
 /* Üst çubuk ve çizgi gibi öğelerde ince, keskin sınırlar */
@@ -184,6 +212,95 @@ h3,
 @keyframes eh-shimmer {
   100% {
     transform: translateX(100%);
+  }
+}
+
+/* ── Etkileşim efektleri ─────────────────────────────────────────────────── */
+
+/* Beğeni düğmesi: kalp atışı + hafif büyüme */
+@keyframes eh-heart-pop {
+  0% {
+    transform: scale(1);
+  }
+  22% {
+    transform: scale(1.45);
+  }
+  42% {
+    transform: scale(0.92);
+  }
+  62% {
+    transform: scale(1.18);
+  }
+  82% {
+    transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.eh-heart-pop {
+  animation: eh-heart-pop 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Beğeni düğmesinden dışa yayılan halka */
+@keyframes eh-ring {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+.eh-ring {
+  animation: eh-ring 620ms ease-out forwards;
+}
+
+/* Kaydetme düğmesi: kısa "pop" */
+@keyframes eh-pop {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.eh-pop {
+  animation: eh-pop 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Logo başlığında "Haberleri" kelimesinin renk döngüsü */
+@keyframes eh-chroma {
+  0%,
+  100% {
+    color: #e4002b;
+  }
+  25% {
+    color: #f59e0b;
+  }
+  50% {
+    color: #2f6bff;
+  }
+  75% {
+    color: #10b981;
+  }
+}
+.eh-chroma {
+  animation: eh-chroma 7s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eh-chroma,
+  .eh-heart-pop,
+  .eh-pop {
+    animation: none;
+  }
+  .eh-ring {
+    animation: none;
   }
 }
 

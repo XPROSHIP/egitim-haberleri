@@ -12,6 +12,9 @@ export function createMemoryStore(initial = []) {
     async listUrls() {
       return new Set(rows.map(itemUrl).filter(Boolean))
     },
+    async listTitles() {
+      return rows.flatMap((r) => [r.title, r.rawTitle].filter(Boolean))
+    },
     async upsert(items) {
       const known = new Set(rows.map((r) => r.dedupeKey).filter(Boolean))
       const fresh = items.filter((i) => !known.has(i.dedupeKey))
@@ -36,6 +39,9 @@ export function createJsonStore(path) {
     },
     async listUrls() {
       return new Set((await readJson(path)).map(itemUrl).filter(Boolean))
+    },
+    async listTitles() {
+      return (await readJson(path)).flatMap((r) => [r.title, r.rawTitle].filter(Boolean))
     },
     async upsert(items) {
       const rows = await readJson(path)
@@ -71,6 +77,22 @@ export function createD1Store(db) {
         .prepare('SELECT source_url FROM news WHERE source_url IS NOT NULL LIMIT 20000')
         .all()
       return new Set(results.map((r) => r.source_url).filter(Boolean))
+    },
+    /**
+     * Son yayınlanan haberlerin başlıkları.
+     * Aynı haberin farklı varyasyonlarının tekrar yayınlanmasını engellemek
+     * için başlık benzerliği karşılaştırmasında kullanılır.
+     */
+    async listTitles(limit = 500) {
+      const { results } = await db
+        .prepare(
+          `SELECT title, raw_title FROM news
+           WHERE published_at > datetime('now', '-21 days')
+           ORDER BY published_at DESC LIMIT ?`,
+        )
+        .bind(limit)
+        .all()
+      return results.flatMap((r) => [r.title, r.raw_title].filter(Boolean))
     },
     async upsert(items) {
       if (items.length === 0) return { inserted: 0, skipped: 0, items: [] }
@@ -228,6 +250,7 @@ export function fromRow(r) {
     province: r.province ?? undefined,
     fullText: !!r.full_text,
     lang: r.lang ?? 'tr',
+    rawTitle: r.raw_title ?? undefined,
     hasAudio: !!r.audio_id,
     audioDuration: r.audio_duration ?? undefined,
   }

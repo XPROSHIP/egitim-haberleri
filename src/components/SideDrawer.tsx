@@ -98,7 +98,7 @@ export function SideDrawer({
             </NavLink>
           ))}
 
-          <div className="mt-4 px-3 text-[11px] font-semibold tracking-wide text-faint uppercase">
+          <div className="mt-4 px-3 text-[0.6875rem] font-semibold tracking-wide text-faint uppercase">
             {t('nav.categories')}
           </div>
           <div className="mt-1">
@@ -148,13 +148,13 @@ export function SideDrawer({
               {t('nav.signIn')}
             </button>
           )}
-          <p className="mt-3 text-center text-[11px] text-faint">
+          <p className="mt-3 text-center text-[0.6875rem] text-faint">
             {t('legal.preparedBy')} <span className="font-semibold">OMERZEN</span> © 2026
           </p>
           <Link
             to="/kvkk"
             onClick={onClose}
-            className="mt-1 block text-center text-[11px] text-faint underline-offset-2 hover:underline"
+            className="mt-1 block text-center text-[0.6875rem] text-faint underline-offset-2 hover:underline"
           >
             {t('legal.kvkk')}
           </Link>

@@ -25,7 +25,8 @@ function rankVoices(voices: Voice[]): Voice[] {
   return [...voices].filter((v) => v.lang.toLowerCase().startsWith('tr')).sort((a, b) => score(b) - score(a))
 }
 
-const RATES = [0.9, 1, 1.25, 1.5]
+/** Okuma hızları. 0,9 çok ağırdı; en hızlı seçenek 2×. */
+const RATES = [1, 1.25, 1.5, 2]
 
 /**
  * Haber seslendirici.
@@ -67,12 +68,16 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
     }
   }, [])
 
-  // Haber değişince durdur
+  // Haber değişince durdur: aynı anda iki ses çalmamalı.
   useEffect(() => {
     cancelRef.current = true
     setState('idle')
     setProgress(0)
-    audioRef.current?.pause()
+    window.speechSynthesis?.cancel()
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
+    }
   }, [item.id])
 
   const stop = useCallback(() => {
@@ -195,10 +200,10 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
         </button>
 
         <div className="min-w-0 flex-1">
-          <p className="text-[13px] font-semibold text-fg">
+          <p className="text-[0.8125rem] font-semibold text-fg">
             {state === 'idle' ? 'Haberi dinle' : state === 'playing' ? 'Okunuyor…' : 'Duraklatıldı'}
           </p>
-          <p className="truncate text-[11px] text-faint">
+          <p className="truncate text-[0.6875rem] text-faint">
             {mode === 'audio'
               ? `Sentezlenmiş Türkçe ses${durationLabel ? ` · ${durationLabel}` : ''}`
               : (voices[voiceIdx]?.name ?? (supported ? 'Türkçe ses bulunamadı' : 'Desteklenmiyor'))}
@@ -231,7 +236,7 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
                 setRate(RATES[(i + 1) % RATES.length])
                 if (state !== 'idle') setTimeout(speak, 60)
               }}
-              className="rounded-full border border-line px-2.5 py-1 text-[11px] font-semibold text-muted transition hover:text-fg"
+              className="rounded-full border border-line px-2.5 py-1 text-[0.6875rem] font-semibold text-muted transition hover:text-fg"
             >
               {rate}×
             </button>
@@ -251,10 +256,11 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
             type="button"
             onClick={() => {
               const i = RATES.indexOf(rate)
-              setRate(RATES[(i + 1) % RATES.length])
-              if (audioRef.current) audioRef.current.playbackRate = rate
+              const next = RATES[(i + 1) % RATES.length]
+              setRate(next)
+              if (audioRef.current) audioRef.current.playbackRate = next
             }}
-            className="rounded-full border border-line px-2.5 py-1 text-[11px] font-semibold text-muted transition hover:text-fg"
+            className="rounded-full border border-line px-2.5 py-1 text-[0.6875rem] font-semibold text-muted transition hover:text-fg"
           >
             {rate}×
           </button>
@@ -265,7 +271,7 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
             onClick={() => {
               if (playAudio()) setState('playing')
             }}
-            className="rounded-full border border-line px-2.5 py-1 text-[11px] font-medium text-muted transition hover:text-fg"
+            className="rounded-full border border-line px-2.5 py-1 text-[0.6875rem] font-medium text-muted transition hover:text-fg"
           >
             Sentezlenmiş sesi dene
           </button>
@@ -274,7 +280,7 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
           <button
             type="button"
             onClick={stop}
-            className="ml-auto rounded-full border border-line px-2.5 py-1 text-[11px] font-medium text-muted transition hover:text-fg"
+            className="ml-auto rounded-full border border-line px-2.5 py-1 text-[0.6875rem] font-medium text-muted transition hover:text-fg"
           >
             Durdur
           </button>

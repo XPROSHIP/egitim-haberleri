@@ -13,6 +13,8 @@ export const RSS_FEEDS = [
   { name: 'Çorum İl MEB', url: 'https://corum.meb.gov.tr/meb_iys_dosyalar/xml/rss_duyurular.xml', weight: 4, province: 'Çorum', category: 'corum' },  { name: 'Anadolu Ajansı', url: 'https://www.aa.com.tr/tr/rss/default?cat=egitim', weight: 4 },
   { name: 'Anadolu Ajansı', url: 'https://www.aa.com.tr/tr/rss/default?cat=guncel', weight: 1 },
   { name: 'Sözcü', url: 'https://www.sozcu.com.tr/feeds-rss-category-egitim', weight: 3 },
+  { name: 'Hürriyet', url: 'https://www.hurriyet.com.tr/rss/egitim', weight: 4 },
+  { name: 'Cumhuriyet', url: 'https://www.cumhuriyet.com.tr/rss/egitim', weight: 4 },
   { name: 'KPSS Haber', url: 'https://www.kpsshaber.com/rss', weight: 3 },
   { name: 'Habertürk', url: 'https://www.haberturk.com/rss', weight: 1 },
   { name: 'Dünya', url: 'https://www.dunya.com/rss', weight: 1 },
@@ -82,7 +84,7 @@ export const SECTION_PAGES = [
 export const GOOGLE_NEWS_QUERIES = [
   { q: 'mesleki eğitim when:2d', cat: 'mesleki', w: 3 },
   { q: 'MESEM çıraklık when:3d', cat: 'mesem', w: 3 },
-  { q: 'mesleki ve teknik anadolu lisesi when:5d', cat: 'liseler', w: 3 },
+  { q: 'mesleki ve teknik anadolu lisesi when:5d', cat: 'ortaogretim', w: 3 },
   { q: 'Milli Eğitim Bakanlığı MEB when:1d', cat: 'meb', w: 3 },
   { q: 'Çorum okul öğretmen when:3d', cat: 'corum', w: 4 },
   { q: 'Çorum Milli Eğitim Müdürlüğü when:5d', cat: 'corum', w: 4 },
@@ -90,7 +92,7 @@ export const GOOGLE_NEWS_QUERIES = [
   { q: 'Maarif Modeli when:7d', cat: 'maarif', w: 4 },
   { q: 'YKS KPSS sınav when:3d', cat: 'sinav', w: 3 },
   { q: 'okul öncesi eğitim when:7d', cat: 'ilkogretim', w: 2 },
-  { q: 'fen lisesi anadolu lisesi when:5d', cat: 'liseler', w: 3 },
+  { q: 'fen lisesi anadolu lisesi when:5d', cat: 'ortaogretim', w: 3 },
 ]
 
 /** Yayıncı olarak işe yaramayan kaynaklar. */
@@ -173,7 +175,10 @@ export const FOREIGN_EDU_TERMS = [
 export const TRANSLATE_MODEL = 'gemini-3.5-flash-lite'
 
 /** Bir turda kaç yabancı haber çevrilsin. */
-export const MAX_FOREIGN_PER_RUN = 6
+export const MAX_FOREIGN_PER_RUN = 10
+
+/** Yabancı kaynaktan kaynak başına alınabilecek en fazla haber. */
+export const MAX_FOREIGN_PER_SOURCE = 3
 
 /** Kategori tespiti: hangi başlık hangi kategoriye gider. */
 export const CATEGORY_RULES = [
@@ -211,19 +216,19 @@ export const CATEGORY_RULES = [
     terms: ['üniversite', 'yükseköğretim', 'rektörlük', 'öğrenci yurdu', 'burs', 'kyk'],
   },
   {
-    slug: 'liseler',
+    // Lise haberleri "Ortaöğretim" kategorisinde; ayrı bir "Liseler"
+    // kategorisi siteyi gereksiz bölüyordu.
+    slug: 'ortaogretim',
     weight: 6,
-    terms: ['anadolu lisesi', 'fen lisesi', 'mesleki anadolu', 'lise öğrencisi', 'proje yarışması', 'lgs'],
+    terms: [
+      'anadolu lisesi', 'fen lisesi', 'mesleki anadolu', 'lise öğrencisi', 'proje yarışması', 'lgs',
+      'ortaöğretim', 'ortaokul', 'ders programı', 'eğitim öğretim yılı', 'karne', 'devamsızlık', 'pansiyon',
+    ],
   },
   {
     slug: 'ilkogretim',
     weight: 5,
     terms: ['ilkokul', 'ilköğretim', 'okul öncesi', 'ana sınıfı', 'sınıf öğretmeni', 'sınıf öğretmenleri'],
-  },
-  {
-    slug: 'ortaogretim',
-    weight: 4,
-    terms: ['ortaöğretim', 'ortaokul', 'ders programı', 'eğitim öğretim yılı', 'karne', 'devamsızlık', 'pansiyon'],
   },
   {
     slug: 'meb',
@@ -281,5 +286,5 @@ export const GEMINI_MODELS = [
   'gemini-3.5-flash',
   'gemini-flash-latest',
 ]
-export const MAX_AI_PER_RUN = 18
+export const MAX_AI_PER_RUN = 24
 export const AUTO_PUBLISH_SCORE = 4

@@ -79,28 +79,57 @@ export function TopBar({
         <Logo />
 
         {searchOpen ? (
-          <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              if (q.trim()) navigate(`/ara?q=${encodeURIComponent(q.trim())}`)
-              setSearchOpen(false)
-            }}
-            className="mx-auto flex w-full max-w-md items-center gap-2"
-          >
-            <div className="flex w-full items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-2">
-              <Icon name="Search" size={16} className="shrink-0 text-faint" />
-              <input
-                ref={inputRef}
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder={t('common.searchPlaceholder')}
-                className="w-full bg-transparent text-sm text-fg outline-none placeholder:text-faint"
-              />
-              <button type="button" onClick={() => setSearchOpen(false)} aria-label={t('common.close')}>
-                <Icon name="X" size={16} className="text-faint transition hover:text-fg" />
-              </button>
+          <>
+            {/* Masaüstü: arama çubuğu başlık satırının yerini alır */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault()
+                if (q.trim()) navigate(`/ara?q=${encodeURIComponent(q.trim())}`)
+                setSearchOpen(false)
+              }}
+              className="mx-auto hidden w-full max-w-md items-center gap-2 lg:flex"
+            >
+              <div className="flex w-full items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-2">
+                <Icon name="Search" size={16} className="shrink-0 text-faint" />
+                <input
+                  ref={inputRef}
+                  value={q}
+                  onChange={(e) => setQ(e.target.value)}
+                  placeholder={t('common.searchPlaceholder')}
+                  className="w-full bg-transparent text-sm text-fg outline-none placeholder:text-faint"
+                />
+                <button type="button" onClick={() => setSearchOpen(false)} aria-label={t('common.close')}>
+                  <Icon name="X" size={16} className="text-faint transition hover:text-fg" />
+                </button>
+              </div>
+            </form>
+
+            {/* Mobil: başlığın altında açılan küçük panel (üst çubuk dar ekrana sığmıyor) */}
+            <div className="absolute inset-x-0 top-full z-50 border-b border-line bg-bg/97 px-3 py-2.5 backdrop-blur-xl lg:hidden">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  if (q.trim()) navigate(`/ara?q=${encodeURIComponent(q.trim())}`)
+                  setSearchOpen(false)
+                }}
+                className="flex items-center gap-2"
+              >
+                <div className="flex w-full items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-2">
+                  <Icon name="Search" size={16} className="shrink-0 text-faint" />
+                  <input
+                    ref={inputRef}
+                    value={q}
+                    onChange={(e) => setQ(e.target.value)}
+                    placeholder={t('common.searchPlaceholder')}
+                    className="w-full bg-transparent text-sm text-fg outline-none placeholder:text-faint"
+                  />
+                  <button type="button" onClick={() => setSearchOpen(false)} aria-label={t('common.close')}>
+                    <Icon name="X" size={16} className="text-faint transition hover:text-fg" />
+                  </button>
+                </div>
+              </form>
             </div>
-          </form>
+          </>
         ) : (
           <>
             {/* Akış modu — seçili olan yuvarlatılmış beyaz dikdörtgen */}
@@ -109,7 +138,7 @@ export function TopBar({
                 type="button"
                 onClick={() => setModeOpen((v) => !v)}
                 className={clsx(
-                  'flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-medium transition',
+                  'flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[0.8125rem] font-medium transition',
                   feedMode === 'latest'
                     ? 'bg-fg text-bg'
                     : 'text-muted hover:bg-surface-2 hover:text-fg',
@@ -170,7 +199,7 @@ export function TopBar({
                   to={`/kategori/${c.slug}`}
                   className={({ isActive }) =>
                     clsx(
-                      'flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-[13px] whitespace-nowrap transition',
+                      'flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-[0.8125rem] whitespace-nowrap transition',
                       isActive
                         ? 'bg-fg font-medium text-bg'
                         : 'text-muted hover:bg-surface-2 hover:text-fg',
@@ -184,7 +213,7 @@ export function TopBar({
                 to="/kategoriler"
                 className={({ isActive }) =>
                   clsx(
-                    'flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1.5 text-[13px] transition',
+                    'flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1.5 text-[0.8125rem] transition',
                     isActive ? 'bg-fg font-medium text-bg' : 'text-muted hover:text-fg',
                   )
                 }
@@ -283,11 +312,11 @@ export function TopBar({
                   referrerPolicy="no-referrer"
                 />
               ) : (
-                <span className="grid size-7 place-items-center rounded-full bg-fg text-[11px] font-semibold text-bg">
+                <span className="grid size-7 place-items-center rounded-full bg-fg text-[0.6875rem] font-semibold text-bg">
                   {(user?.name || user?.email || '?').trim().charAt(0).toLocaleUpperCase('tr')}
                 </span>
               )}
-              <span className="hidden max-w-[110px] truncate text-[13px] font-semibold text-fg lg:inline">
+              <span className="hidden max-w-[110px] truncate text-[0.8125rem] font-semibold text-fg lg:inline">
                 {user?.name || user?.email || 'Profil'}
               </span>
             </Link>
@@ -296,10 +325,10 @@ export function TopBar({
               type="button"
               onClick={onOpenLogin}
               aria-label={t('nav.signIn')}
-              className="ml-1.5 rounded-full bg-fg px-3.5 py-1.5 text-[13px] font-semibold text-bg transition hover:opacity-90 max-lg:grid max-lg:size-9 max-lg:place-items-center max-lg:p-0"
+              className="ml-1.5 rounded-full bg-fg px-3.5 py-1.5 text-[0.8125rem] font-semibold text-bg transition hover:opacity-90 max-lg:grid max-lg:size-9 max-lg:place-items-center max-lg:p-0"
             >
               <span className="max-lg:hidden">{t('nav.signIn')}</span>
-              <span className="max-lg:inline max-lg:text-[11px] max-lg:font-bold">G</span>
+              <span className="hidden max-lg:inline max-lg:text-[0.6875rem] max-lg:font-bold">G</span>
             </button>
           )}
         </div>
@@ -314,7 +343,7 @@ export function TopBar({
               to={`/kategori/${c.slug}`}
               className={({ isActive }) =>
                 clsx(
-                  'flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1 text-[12.5px] whitespace-nowrap transition',
+                  'flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1 text-[0.78125rem] whitespace-nowrap transition',
                   isActive ? 'bg-fg font-medium text-bg' : 'text-muted',
                 )
               }

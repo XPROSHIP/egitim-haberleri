@@ -65,6 +65,50 @@ function cleanText(s) {
 }
 
 /**
+ * Haber gövdesini içeren kapsayıcıyı seçer.
+ *
+ * Yayıncılar gövdeyi farklı sarmalayıcılara koyar. Eski yaklaşım ilk
+ * "article" sınıflı <div>'e kilitlenip hemen kapanıyordu; sonuç: haber
+ * metni iki cümlelik özete düşüyordu. Burada aday bölgeler ölçülür ve
+ * içinde en çok paragraf metni bulunan seçilir.
+ */
+function pickBodyScope(html) {
+  const candidates = []
+
+  // 1) Semantik etiketler
+  for (const m of html.matchAll(/<(article|main)\b[^>]*>([\s\S]*?)<\/\1>/gi)) {
+    candidates.push(m[2])
+  }
+
+  // 2) itemprop / class / id ile gövde kutusu
+  const boxRe =
+    /<(?:div|section)\b[^>]*(?:itemprop|class|id)\s*=\s*["'][^"']*(?:article-?body|articleBody|post-?body|entry-?content|post-?content|story-?body|news-?content|text-?content|haber|icerik|content)[^"']*["'][^>]*>([\s\S]*?)<\/(?:div|section)>/gi
+  for (const m of html.matchAll(boxRe)) {
+    candidates.push(m[1])
+  }
+
+  // 3) <body> her zaman aday
+  const body = html.match(/<body\b[^>]*>([\s\S]*?)<\/body>/i)
+  if (body) candidates.push(body[1])
+
+  let best = ''
+  let bestChars = 0
+  for (const c of candidates) {
+    // Yalnızca <p> içindeki gerçek metni say.
+    let chars = 0
+    for (const p of c.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)) {
+      const t = cleanText(p[1])
+      if (t.split(' ').length > 12) chars += t.length
+    }
+    if (chars > bestChars) {
+      bestChars = chars
+      best = c
+    }
+  }
+  return best || html
+}
+
+/**
  * Haber sayfasını okur.
  * @returns {{image:string|null, paragraphs:string[], description:string|null, siteName:string|null}}
  */
@@ -116,21 +160,22 @@ export async function fetchArticle(url, { timeoutMs = 15000 } = {}) {
     )
     const published = publishedRaw ? new Date(publishedRaw) : null
 
-    const scope =
-      html.match(/<article[\s\S]*?<\/article>/i)?.[0] ??
-      html.match(/<div[^>]+(?:itemprop|class)=["'][^"']*article[^"']*["'][\s\S]*?<\/div>/i)?.[0] ??
-      html
+    // Gövde bulunurken en çok paragraf metni içeren kapsayıcı seçilir.
+    // (Eski hâli ilk "article" sınıflı <div>'e kilitleniyor ve içerik
+    // iki cümlelik özete düşüyordu.)
+    const scope = pickBodyScope(html)
 
-    const paragraphs = [...scope.matchAll(/<p[^>]*>([\s\S]{60,1200}?)<\/p>/gi)]
+    const paragraphs = [...scope.matchAll(/<p\b[^>]*>([\s\S]{40,4000}?)<\/p>/gi)]
       .map((m) => cleanText(m[1]))
       .filter(
         (p) =>
-          p.split(' ').length > 14 &&
-          !/^(İçindekiler|Editör|Abone ol|©|Photo|Fotoğraf|REKLAM|Bu haber|Kaynakça)/i.test(p) &&
+          p.length >= 80 &&
+          p.split(' ').length > 12 &&
+          !/^(İçindekiler|Editör|Abone ol|©|Photo|Fotoğraf|REKLAM|Bu haber|Kaynakça|Linki Kopyala|Kaynak:|Bu içerik|Bu haber |İşte |Bunlar )/i.test(p) &&
           !p.includes('©'),
       )
       .filter((p, i, arr) => arr.indexOf(p) === i)
-      .slice(0, 24)
+      .slice(0, 30)
 
     // MEB il müdürlüklerinde gövde <p> değil og:description içindedir
     if (paragraphs.length < 2 && description && description.length > 200) {
@@ -155,7 +200,8 @@ export async function fetchArticle(url, { timeoutMs = 15000 } = {}) {
       siteName,
       publishedAt: published && !Number.isNaN(+published) ? published.toISOString() : null,
     }
-  } catch {
+  } catch (err) {
+    console.warn('[article] okunamadı:', url, String(err?.message ?? err).slice(0, 160))
     return { image: null, paragraphs: [], description: null, siteName: null, title: null }
   } finally {
     clearTimeout(timer)

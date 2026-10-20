@@ -78,7 +78,7 @@ export function HomePage() {
                   setLimit(PAGE_SIZE)
                 }}
                 className={clsx(
-                  'rounded-full px-3 py-1.5 text-[13px] font-medium whitespace-nowrap transition',
+                  'rounded-full px-3 py-1.5 text-[0.8125rem] font-medium whitespace-nowrap transition',
                   feedMode === m ? 'bg-fg text-bg' : 'text-muted hover:text-fg',
                 )}
               >
@@ -90,7 +90,7 @@ export function HomePage() {
             type="button"
             onClick={() => setHideRead(!hideRead)}
             className={clsx(
-              'flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] transition',
+              'flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-[0.75rem] transition',
               hideRead
                 ? 'border-primary/50 bg-primary/10 text-primary'
                 : 'border-line text-muted hover:text-fg',
@@ -99,7 +99,7 @@ export function HomePage() {
             <Icon name="Check" size={13} />
             {t('feed.hideRead')}
           </button>
-          <div className="ml-auto flex shrink-0 items-center gap-4 text-[12px] text-muted">
+          <div className="ml-auto flex shrink-0 items-center gap-4 text-[0.75rem] text-muted">
             <span className="hidden items-center gap-1.5 sm:flex">
               <Icon name="TrendingUp" size={14} />
               {feed.length} {t('nav.all').toLocaleLowerCase('tr')}
@@ -147,7 +147,7 @@ export function HomePage() {
                     <span className="w-5 shrink-0 text-center text-lg font-black text-faint/50">
                       {i + 1}
                     </span>
-                    <span className="line-clamp-2x text-[13px] leading-snug text-muted hover:text-fg">
+                    <span className="line-clamp-2x text-[0.8125rem] leading-snug text-muted hover:text-fg">
                       {n.title}
                     </span>
                   </Link>
@@ -169,7 +169,7 @@ export function HomePage() {
                 </h2>
                 <Link
                   to="/kategoriler"
-                  className="text-[12px] text-muted transition hover:text-fg"
+                  className="text-[0.75rem] text-muted transition hover:text-fg"
                 >
                   {t('common.all')} →
                 </Link>
@@ -178,7 +178,7 @@ export function HomePage() {
               {grouped.map(([day, items]) => (
                 <div key={day}>
                   <div className="sticky top-[108px] z-20 -mx-3 mb-1 bg-bg/90 px-3 py-2 backdrop-blur sm:-mx-4 sm:px-4">
-                    <h3 className="text-[11px] font-bold tracking-[0.12em] text-faint uppercase">
+                    <h3 className="text-[0.6875rem] font-bold tracking-[0.12em] text-faint uppercase">
                       {day}
                     </h3>
                   </div>
@@ -199,7 +199,7 @@ export function HomePage() {
                   >
                     Daha fazla göster
                   </button>
-                  <span className="text-[11.5px] text-faint">
+                  <span className="text-[0.71875rem] text-faint">
                     {remaining} haber daha var
                   </span>
                 </div>

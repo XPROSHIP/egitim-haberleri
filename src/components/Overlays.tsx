@@ -77,7 +77,7 @@ export function LoginModal({ open, onClose }: { open: boolean; onClose: () => vo
         </button>
 
         <h2 className="text-lg font-bold tracking-tight text-fg">{t('auth.title')}</h2>
-        <p className="mt-1.5 text-[13px] leading-relaxed text-muted">{t('auth.subtitle')}</p>
+        <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-muted">{t('auth.subtitle')}</p>
 
         {isConfigured ? (
           <button
@@ -96,13 +96,13 @@ export function LoginModal({ open, onClose }: { open: boolean; onClose: () => vo
           </button>
         ) : (
           <div className="mt-5 rounded-lg border border-line bg-surface-2 p-3.5">
-            <p className="text-[12.5px] leading-relaxed text-muted">
+            <p className="text-[0.78125rem] leading-relaxed text-muted">
               Google girişi için hesap yönetimi gerekiyor. Supabase projesi ve
-              <code className="mx-1 rounded bg-surface-3 px-1 py-0.5 text-[11px]">
+              <code className="mx-1 rounded bg-surface-3 px-1 py-0.5 text-[0.6875rem]">
                 VITE_SUPABASE_URL
               </code>
               /
-              <code className="ml-1 rounded bg-surface-3 px-1 py-0.5 text-[11px]">
+              <code className="ml-1 rounded bg-surface-3 px-1 py-0.5 text-[0.6875rem]">
                 VITE_SUPABASE_ANON_KEY
               </code>
               değerleri tanımlanınca bu düğme kendiliğinden çalışır.
@@ -111,12 +111,12 @@ export function LoginModal({ open, onClose }: { open: boolean; onClose: () => vo
         )}
 
         {(error || authError) && (
-          <p className="mt-3 rounded-lg bg-surface-2 p-2.5 text-[12px] leading-relaxed text-accent">
+          <p className="mt-3 rounded-lg bg-surface-2 p-2.5 text-[0.75rem] leading-relaxed text-accent">
             {error || authError}
           </p>
         )}
 
-        <div className="my-4 flex items-center gap-3 text-[11px] text-faint">
+        <div className="my-4 flex items-center gap-3 text-[0.6875rem] text-faint">
           <span className="h-px flex-1 bg-line" />
           veya
           <span className="h-px flex-1 bg-line" />
@@ -132,7 +132,7 @@ export function LoginModal({ open, onClose }: { open: boolean; onClose: () => vo
         >
           {t('auth.devMode')}
         </button>
-        <p className="mt-2 text-center text-[11px] leading-relaxed text-faint">
+        <p className="mt-2 text-center text-[0.6875rem] leading-relaxed text-faint">
           {t('auth.devModeDesc')}
         </p>
       </div>

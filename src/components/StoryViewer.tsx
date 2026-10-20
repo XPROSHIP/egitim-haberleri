@@ -171,18 +171,19 @@ export function StoryViewer({
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/80" />
         </div>
 
-        {/* Ekranın sol/sağ yarısı: önceki / sonraki haber */}
+        {/* Ekranın sol/sağ yarısı: önceki / sonraki haber.
+            Dikkat: "resize" imleçleri ekranın ortasında çizgi bırakıyordu. */}
         <button
           type="button"
           aria-label="Önceki haber"
           onClick={() => step(-1)}
-          className="absolute inset-y-0 left-0 z-20 w-1/2 cursor-w-resize"
+          className="absolute inset-y-0 left-0 z-20 w-1/2 cursor-pointer"
         />
         <button
           type="button"
           aria-label="Sonraki haber"
           onClick={() => step(1)}
-          className="absolute inset-y-0 right-0 z-20 w-1/2 cursor-e-resize"
+          className="absolute inset-y-0 right-0 z-20 w-1/2 cursor-pointer"
         />
 
         {/* Üst bar: kategori adı, sayaç, ilerleme çubukları, kapatma */}
@@ -195,9 +196,9 @@ export function StoryViewer({
               <Icon name="Newspaper" size={14} className="text-white" />
             </span>
 
-            <span className="truncate text-[13px] font-semibold text-white">{cat.name}</span>
+            <span className="truncate text-[0.8125rem] font-semibold text-white">{cat.name}</span>
 
-            <span className="tnum ml-auto shrink-0 text-[12px] font-medium text-white/60">
+            <span className="tnum ml-auto shrink-0 text-[0.75rem] font-medium text-white/60">
               {index + 1} / {items.length}
             </span>
 
@@ -233,15 +234,15 @@ export function StoryViewer({
         >
           <CategoryBadge slug={item.category} size="sm" />
 
-          <h2 className="mt-3 text-[26px] leading-[1.18] font-extrabold tracking-tight text-white">
+          <h2 className="mt-3 text-[1.625rem] leading-[1.18] font-extrabold tracking-tight text-white">
             {item.title}
           </h2>
 
-          <p className="mt-2.5 line-clamp-3 text-[13.5px] leading-relaxed text-white/75">
+          <p className="mt-2.5 line-clamp-3 text-[0.84375rem] leading-relaxed text-white/75">
             {item.excerpt}
           </p>
 
-          <p className="tnum mt-3 flex flex-wrap items-center gap-1.5 text-[11px] text-white/50">
+          <p className="tnum mt-3 flex flex-wrap items-center gap-1.5 text-[0.6875rem] text-white/50">
             <span className="truncate">{item.source.name}</span>
             <span>·</span>
             <span>{formatDate(item.publishedAt, 'tr')}</span>
@@ -251,14 +252,14 @@ export function StoryViewer({
             <Link
               to={`/haber/${item.slug}`}
               onClick={onClose}
-              className="rounded-full bg-white px-4 py-2 text-[13px] font-semibold text-black transition hover:bg-white/90"
+              className="rounded-full bg-white px-4 py-2 text-[0.8125rem] font-semibold text-black transition hover:bg-white/90"
             >
               Habere Git
             </Link>
             <button
               type="button"
               onClick={() => step(1)}
-              className="rounded-full border border-white/25 px-4 py-2 text-[13px] font-semibold text-white/85 transition hover:bg-white/10"
+              className="rounded-full border border-white/25 px-4 py-2 text-[0.8125rem] font-semibold text-white/85 transition hover:bg-white/10"
             >
               Sonraki
             </button>

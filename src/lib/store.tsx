@@ -45,9 +45,23 @@ const defaults: Persisted = {
   // Analitik kullanmadigimiz icin izin varsayilan olarak verilir; bildirim gosterilmez.
   consent: 'essential',
   feedMode: 'latest',
-  hideRead: false,
+  // Okunanlar varsayilan olarak gizli: kullanici her giriste ayni ekrani gormesin.
+  hideRead: true,
   user: null,
   demoUser: false,
+}
+
+/**
+ * Yazı boyutu ölçeği.
+ *
+ * Metin boyutları rem'e çevrildiği için kök font-size büyütmek bütün
+ * yazıyı büyütür. Değerler bilinçli olarak yumuşak: tasarımı bozmadan
+ * "bir tık" büyütüyor.
+ */
+const FONT_SCALE_PCT: Record<FontScale, number> = {
+  '1': 100,
+  '1.25': 106,
+  '1.5': 112,
 }
 
 function load(): Persisted {
@@ -103,7 +117,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   }, [resolvedTheme])
 
   useEffect(() => {
-    document.documentElement.style.fontSize = state.fontScale === '1' ? '' : `${Number(state.fontScale) * 100}%`
+    document.documentElement.style.fontSize = `${FONT_SCALE_PCT[state.fontScale] ?? 100}%`
   }, [state.fontScale])
 
   useEffect(() => {

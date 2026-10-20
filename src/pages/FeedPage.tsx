@@ -38,7 +38,7 @@ function FeedCard({ item }: { item: NewsItem }) {
   const likeCount = item.likes + (liked ? 1 : 0)
 
   const actionBtn =
-    'flex items-center gap-1.5 rounded-full px-2 py-1 text-[12px] transition hover:bg-surface-3'
+    'flex items-center gap-1.5 rounded-full px-2 py-1 text-[0.75rem] transition hover:bg-surface-3'
 
   return (
     <Link
@@ -57,16 +57,16 @@ function FeedCard({ item }: { item: NewsItem }) {
         </div>
       </div>
 
-      <h3 className="mt-3 line-clamp-3x text-[15px] leading-snug font-semibold text-fg transition-colors group-hover:text-primary">
+      <h3 className="mt-3 line-clamp-3x text-[0.9375rem] leading-snug font-semibold text-fg transition-colors group-hover:text-primary">
         {item.title}
       </h3>
-      <p className="mt-1.5 line-clamp-2x text-[12.5px] leading-relaxed text-muted">
+      <p className="mt-1.5 line-clamp-2x text-[0.78125rem] leading-relaxed text-muted">
         {item.excerpt}
       </p>
 
       <div className="mt-3 flex items-center justify-between gap-2">
         <div className="flex items-center gap-1">
-          <span className="tnum flex items-center gap-1.5 rounded-full px-2 py-1 text-[12px] text-muted">
+          <span className="tnum flex items-center gap-1.5 rounded-full px-2 py-1 text-[0.75rem] text-muted">
             <Icon name="MessageCircle" size={15} />
             {formatCount(item.commentsCount, lang)}
           </span>
@@ -100,7 +100,7 @@ function FeedCard({ item }: { item: NewsItem }) {
           </button>
         </div>
 
-        <div className="tnum flex shrink-0 items-center gap-2 text-[11px] text-faint">
+        <div className="tnum flex shrink-0 items-center gap-2 text-[0.6875rem] text-faint">
           {item.likes > 0 && <span>{formatCount(item.likes, lang)} beğeni</span>}
           <span>{shortRelative(item.publishedAt, lang)}</span>
         </div>
@@ -133,7 +133,7 @@ export function FeedPage() {
       <div className="grid lg:grid-cols-[260px_minmax(0,1fr)_320px]">
         {/* Sol kolon — gezinme */}
         <aside className="sticky top-14 hidden self-start px-0 py-5 lg:block">
-          <h2 className="mb-2 px-3 text-[11px] font-bold tracking-[0.14em] text-faint uppercase">
+          <h2 className="mb-2 px-3 text-[0.6875rem] font-bold tracking-[0.14em] text-faint uppercase">
             Menü
           </h2>
           <nav className="space-y-0.5">
@@ -155,7 +155,7 @@ export function FeedPage() {
             ))}
           </nav>
 
-          <h2 className="mt-6 mb-2 px-3 text-[11px] font-bold tracking-[0.14em] text-faint uppercase">
+          <h2 className="mt-6 mb-2 px-3 text-[0.6875rem] font-bold tracking-[0.14em] text-faint uppercase">
             Kategoriler
           </h2>
           <nav className="space-y-0.5">
@@ -172,12 +172,12 @@ export function FeedPage() {
               >
                 <CategoryMark mark={c.mark} color={c.color} size={16} />
                 <span className="min-w-0 flex-1 truncate">{c.name}</span>
-                <span className="tnum text-[11px] text-faint">{counts.get(c.slug) ?? 0}</span>
+                <span className="tnum text-[0.6875rem] text-faint">{counts.get(c.slug) ?? 0}</span>
               </NavLink>
             ))}
           </nav>
 
-          <p className="mt-8 px-3 text-[11px] text-faint">
+          <p className="mt-8 px-3 text-[0.6875rem] text-faint">
             <span className="font-semibold tracking-wide">OMERZEN</span> © 2026
           </p>
         </aside>
@@ -186,8 +186,8 @@ export function FeedPage() {
         <main className="min-w-0 border-x border-line">
           <div className="sticky top-14 z-20 border-b border-line bg-bg/90 px-4 py-3 backdrop-blur-xl">
             <div className="flex items-center justify-between gap-3">
-              <h1 className="text-[17px] font-extrabold tracking-tight text-fg">Akış</h1>
-              <span className="tnum text-[12px] text-muted">{feed.length} haber</span>
+              <h1 className="text-[1.0625rem] font-extrabold tracking-tight text-fg">Akış</h1>
+              <span className="tnum text-[0.75rem] text-muted">{feed.length} haber</span>
             </div>
 
             <div className="no-scrollbar mt-3 flex items-center gap-1 overflow-x-auto">
@@ -197,7 +197,7 @@ export function FeedPage() {
                   type="button"
                   onClick={() => setFeedMode(m.key)}
                   className={clsx(
-                    'shrink-0 rounded-full px-3 py-1.5 text-[13px] font-medium whitespace-nowrap transition',
+                    'shrink-0 rounded-full px-3 py-1.5 text-[0.8125rem] font-medium whitespace-nowrap transition',
                     feedMode === m.key
                       ? 'bg-fg text-bg'
                       : 'text-muted hover:bg-surface-2 hover:text-fg',
@@ -229,13 +229,13 @@ export function FeedPage() {
           ) : feed.length === 0 ? (
             <div className="px-6 py-24 text-center">
               <Icon name="Newspaper" size={28} className="mx-auto text-faint" />
-              <p className="mt-4 text-[15px] font-semibold text-fg">Bu modda haber yok</p>
-              <p className="mt-2 text-[13px] text-muted">
+              <p className="mt-4 text-[0.9375rem] font-semibold text-fg">Bu modda haber yok</p>
+              <p className="mt-2 text-[0.8125rem] text-muted">
                 Farklı bir akış modu seçebilir ya da kategorilere göz atabilirsin.
               </p>
               <Link
                 to="/kategoriler"
-                className="mt-5 inline-block rounded-full bg-primary px-5 py-2.5 text-[13px] font-semibold text-primary-fg transition hover:opacity-90"
+                className="mt-5 inline-block rounded-full bg-primary px-5 py-2.5 text-[0.8125rem] font-semibold text-primary-fg transition hover:opacity-90"
               >
                 Kategorilere git
               </Link>
@@ -250,12 +250,12 @@ export function FeedPage() {
 
               <div className="flex items-center gap-3 px-4 py-6">
                 <span className="h-px flex-1 bg-line" />
-                <span className="tnum text-[11px] text-faint">
+                <span className="tnum text-[0.6875rem] text-faint">
                   Daha fazla yüklendi · {feed.length} haber
                 </span>
                 <span className="h-px flex-1 bg-line" />
               </div>
-              <p className="pb-10 text-center text-[11px] text-faint">
+              <p className="pb-10 text-center text-[0.6875rem] text-faint">
                 Yeni haberler geldiğinde yukarıda
               </p>
             </>
@@ -266,7 +266,7 @@ export function FeedPage() {
         <aside className="sticky top-14 hidden self-start px-0 py-5 xl:block">
           <div className="space-y-6">
             <section className="rounded-xl border border-line bg-surface p-4">
-              <h2 className="mb-3 flex items-center gap-2 text-[13px] font-bold text-fg">
+              <h2 className="mb-3 flex items-center gap-2 text-[0.8125rem] font-bold text-fg">
                 <Icon name="Flame" size={15} className="text-accent" />
                 Gündem
               </h2>
@@ -280,7 +280,7 @@ export function FeedPage() {
                     <span className="w-5 shrink-0 text-center text-lg leading-none font-black text-faint/40">
                       {i + 1}
                     </span>
-                    <span className="line-clamp-2x text-[13px] leading-snug text-muted transition-colors group-hover:text-fg">
+                    <span className="line-clamp-2x text-[0.8125rem] leading-snug text-muted transition-colors group-hover:text-fg">
                       {n.title}
                     </span>
                   </Link>
@@ -289,7 +289,7 @@ export function FeedPage() {
             </section>
 
             <section className="rounded-xl border border-line bg-surface p-4">
-              <h2 className="mb-3 flex items-center gap-2 text-[13px] font-bold text-fg">
+              <h2 className="mb-3 flex items-center gap-2 text-[0.8125rem] font-bold text-fg">
                 <Icon name="Bookmark" size={15} className="text-primary" />
                 Takip edilenler
               </h2>
@@ -306,7 +306,7 @@ export function FeedPage() {
                       <CategoryMark mark={c.mark} color={c.color} size={14} />
                       <span
                         className={clsx(
-                          'min-w-0 flex-1 truncate text-[12.5px]',
+                          'min-w-0 flex-1 truncate text-[0.78125rem]',
                           on ? 'font-medium text-fg' : 'text-muted',
                         )}
                       >
@@ -324,7 +324,7 @@ export function FeedPage() {
             </section>
 
             <section className="rounded-xl border border-line bg-surface p-4">
-              <h2 className="mb-3 flex items-center gap-2 text-[13px] font-bold text-fg">
+              <h2 className="mb-3 flex items-center gap-2 text-[0.8125rem] font-bold text-fg">
                 <Icon name="Hash" size={15} className="text-muted" />
                 Etiketler
               </h2>
@@ -333,7 +333,7 @@ export function FeedPage() {
                   <Link
                     key={tag}
                     to={`/etiket/${encodeURIComponent(tag)}`}
-                    className="rounded-full border border-line px-2.5 py-1 text-[11px] text-muted transition hover:border-faint/40 hover:text-fg"
+                    className="rounded-full border border-line px-2.5 py-1 text-[0.6875rem] text-muted transition hover:border-faint/40 hover:text-fg"
                   >
                     #{tag}
                     <span className="tnum ml-1 text-faint">{count}</span>

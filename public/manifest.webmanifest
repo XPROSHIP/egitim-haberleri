@@ -1,13 +1,17 @@
 {
-  "name": "Eğitim Haberleri",
-  "short_name": "Eğitim Haberleri",
-  "description": "Mesleki Eğitim, MEB ve Çorum Eğitim gündemi — yapay zekâ destekli haber platformu",
+  "name": "ZEN Eğitim Haberleri",
+  "short_name": "ZEN Eğitim Haber",
+  "description": "Mesleki eğitim, MESEM, MEB, Çorum eğitim ve yabancı eğitim gündeminden güncel haberler.",
+  "id": "/",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
+  "background_color": "#0b0b0c",
+  "theme_color": "#0b0b0c",
   "orientation": "portrait-primary",
   "lang": "tr",
+  "dir": "ltr",
+  "categories": ["news", "education"],
   "icons": [
     {
       "src": "/icon-192.png",
@@ -20,6 +24,29 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "MESEM",
+      "short_name": "MESEM",
+      "url": "/kategori/mesem"
+    },
+    {
+      "name": "Mesleki Eğitim",
+      "short_name": "Mesleki",
+      "url": "/kategori/mesleki"
+    },
+    {
+      "name": "Yabancı Eğitim",
+      "short_name": "Yabancı",
+      "url": "/kategori/yabanci"
     }
   ]
 }

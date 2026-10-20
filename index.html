@@ -6,7 +6,10 @@
     <script>
       (function () {
         try {
-          var t = localStorage.getItem('theme');
+          // Ayarlar "eh.state.v1" altında tek JSON olarak tutuluyor.
+          var raw = localStorage.getItem('eh.state.v1');
+          var s = raw ? JSON.parse(raw) : {};
+          var t = s.theme || 'system';
           if (t === 'system') {
             t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
           }
@@ -14,28 +17,27 @@
             document.documentElement.classList.remove('dark');
             document.documentElement.classList.add('light');
           }
-          var fs = localStorage.getItem('font_scale');
-          if (fs === '1.25' || fs === '1.5') {
-            document.documentElement.style.fontSize = (parseFloat(fs) * 100) + '%';
-          }
-          var c = localStorage.getItem('consent');
-          if (c) document.documentElement.dataset.consent = c;
+          // Yazı boyutu ölçeği (rem tabanlı metinler büyür).
+          var pct = { '1': 100, '1.25': 106, '1.5': 112 }[s.fontScale] || 100;
+          if (pct !== 100) document.documentElement.style.fontSize = pct + '%';
         } catch (e) {}
       })();
     </script>
     <title>Eğitim Haberleri — Mesleki Eğitim, MEB ve Çorum Eğitim Gündemi</title>
-    <meta name="description" content="Mesleki Eğitim, MESEM, MEB, Çorum Eğitim, Anadolu Liseleri, Fen Liseleri, Maarif Modeli ve eğitim gündeminden yapay zekâ destekli güncel haberler." />
+    <meta name="description" content="Mesleki Eğitim, MESEM, MEB, Çorum Eğitim, Ortaöğretim, Maarif Modeli ve yabancı eğitim gündeminden güncel haberler." />
     <link rel="manifest" href="/manifest.webmanifest" />
-    <meta name="theme-color" content="#000000" />
+    <link rel="icon" href="/app-icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icon-180.png" />
+    <meta name="theme-color" content="#0b0b0c" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="apple-mobile-web-app-title" content="Eğitim Haberleri" />
+    <meta name="apple-mobile-web-app-title" content="ZEN Eğitim Haber" />
     <meta property="og:locale" content="tr_TR" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Eğitim Haberleri" />
     <meta property="og:title" content="Eğitim Haberleri — Mesleki Eğitim ve MEB Gündemi" />
-    <meta property="og:description" content="Yapay zekâ destekli, güvenilir kaynaklardan derlenen eğitim haberleri." />
+    <meta property="og:description" content="Güvenilir kaynaklardan derlenen güncel eğitim haberleri." />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <script type="application/ld+json">

@@ -23,7 +23,7 @@ import { collectForeign } from './foreign.js'
 import { createGemini, enrichWithGemini } from './gemini.js'
 import { fetchArticle } from './article.js'
 
-const MAX_SECTION_FETCH = 30 // tur başına açılacak en fazla bölüm bağlantısı
+const MAX_SECTION_FETCH = 45 // tur başına açılacak en fazla bölüm bağlantısı
 
 /** Aynı konudaki farklı kaynak kopyalarını tek kayda indirger. */
 function clusterItems(items, threshold = 0.42) {
@@ -91,6 +91,7 @@ export async function collect({
   minScore = 3.5,
   enrich = true,
   saveImage = null,
+  knownTitles: knownTitlesArg = null,
 } = {}) {
   const startedAt = new Date().toISOString()
   const run = {
@@ -227,7 +228,26 @@ export async function collect({
 
   // 5) Zaten yayınlanmış olanları ele
   const knownKeys = await store.listKeys()
-  const fresh = scored.filter((i) => !knownKeys.has(i.key))
+  let fresh = scored.filter((i) => !knownKeys.has(i.key))
+
+  // 5b) Aynı haberin benzer varyasyonlarını ele.
+  // Anahtar (hash) birebir başlık eşleşmesini yakalar; ama aynı olay farklı
+  // yayıncılarda farklı başlıklarla anlatılabiliyor. Son 3 haftanın
+  // başlıklarıyla karşılaştırıp benzer olanı eliyoruz.
+  const knownTitles = knownTitlesArg ?? (await store.listTitles?.()) ?? []
+  if (knownTitles.length) {
+    const before = fresh.length
+    fresh = fresh.filter(
+      (i) =>
+        !knownTitles.some(
+          (t) => similarity(t, i.title) >= 0.6 || similarity(t, i.description ?? '') >= 0.72,
+        ),
+    )
+    const dropped = before - fresh.length
+    if (dropped > 0) {
+      logger.log(`[collect] ${dropped} benzer varyasyon elendi (tekrar koruması)`)
+    }
+  }
   logger.log(`[collect] ${fresh.length} yeni aday (${knownKeys.size} kayıtla karşılaştırıldı)`)
 
   // 6) Kümelendir — doğrudan kaynak öncelikli

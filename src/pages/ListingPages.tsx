@@ -39,7 +39,7 @@ function PageHeader({
         )}
         <div className="min-w-0 flex-1">
           <h1 className="text-2xl font-bold tracking-tight text-fg sm:text-3xl">{title}</h1>
-          {subtitle && <p className="tnum mt-1 text-[13px] text-muted">{subtitle}</p>}
+          {subtitle && <p className="tnum mt-1 text-[0.8125rem] text-muted">{subtitle}</p>}
         </div>
       </div>
       {children}
@@ -61,7 +61,7 @@ function Feed({ items, lang }: { items: import('../types').NewsItem[]; lang: 'tr
     <div>
       {grouped.map(([day, list]) => (
         <div key={day}>
-          <h2 className="sticky top-14 z-20 -mx-3 bg-bg/90 px-3 py-2.5 text-[11px] font-bold tracking-[0.12em] text-faint uppercase backdrop-blur sm:-mx-4 sm:px-4">
+          <h2 className="sticky top-14 z-20 -mx-3 bg-bg/90 px-3 py-2.5 text-[0.6875rem] font-bold tracking-[0.12em] text-faint uppercase backdrop-blur sm:-mx-4 sm:px-4">
             {day}
           </h2>
           <div className="space-y-1 pb-4">
@@ -101,7 +101,7 @@ export function CategoryPage() {
             type="button"
             onClick={() => toggleFollow(cat.slug)}
             className={clsx(
-              'flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition',
+              'flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-[0.8125rem] font-medium transition',
               on ? 'border-primary/50 bg-primary/10 text-primary' : 'border-line text-muted hover:text-fg',
             )}
           >
@@ -115,7 +115,7 @@ export function CategoryPage() {
               <Link
                 key={c.slug}
                 to={`/kategori/${c.slug}`}
-                className="flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-[12px] text-muted transition hover:bg-surface-2 hover:text-fg"
+                className="flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-[0.75rem] text-muted transition hover:bg-surface-2 hover:text-fg"
               >
                 <CategoryMark mark={c.mark} color={c.color} size={12} strokeWidth={1.8} />
                 {c.name}
@@ -185,7 +185,7 @@ export function SearchPage() {
               <Link
                 key={tag}
                 to={`/etiket/${encodeURIComponent(tag)}`}
-                className="rounded-full border border-line px-3 py-1.5 text-[12px] text-muted transition hover:bg-surface-2 hover:text-fg"
+                className="rounded-full border border-line px-3 py-1.5 text-[0.75rem] text-muted transition hover:bg-surface-2 hover:text-fg"
               >
                 #{tag} <span className="text-faint">({count})</span>
               </Link>
@@ -269,7 +269,7 @@ export function CategoriesPage() {
               </Link>
               <Link to={`/kategori/${c.slug}`} className="min-w-0 flex-1">
                 <span className="block text-sm font-semibold text-fg">{c.name}</span>
-                <span className="tnum block text-[11px] text-faint">{count} haber</span>
+                <span className="tnum block text-[0.6875rem] text-faint">{count} haber</span>
               </Link>
               <button
                 type="button"
@@ -298,7 +298,7 @@ export function CategoriesPage() {
               <Link
                 key={p}
                 to={`/il/${encodeURIComponent(p)}`}
-                className="rounded-full border border-line px-3.5 py-1.5 text-[13px] text-muted transition hover:bg-surface-2 hover:text-fg"
+                className="rounded-full border border-line px-3.5 py-1.5 text-[0.8125rem] text-muted transition hover:bg-surface-2 hover:text-fg"
               >
                 {p} <span className="text-faint">({count})</span>
               </Link>

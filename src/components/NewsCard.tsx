@@ -25,7 +25,7 @@ export function CategoryBadge({
     <span
       className={clsx(
         'inline-flex w-fit items-center self-start rounded-full font-semibold whitespace-nowrap',
-        size === 'sm' ? 'gap-1 px-2 py-[3px] text-[10px]' : 'gap-1.5 px-2.5 py-1 text-[11px]',
+        size === 'sm' ? 'gap-1 px-2 py-[3px] text-[0.625rem]' : 'gap-1.5 px-2.5 py-1 text-[0.6875rem]',
         overlay
           ? 'bg-black/55 text-white backdrop-blur-md ring-1 ring-white/15'
           : 'text-white',
@@ -41,7 +41,7 @@ export function CategoryBadge({
 
 function Meta({ item, lang, className }: { item: NewsItem; lang: Lang; className?: string }) {
   return (
-    <div className={clsx('tnum flex flex-wrap items-center gap-1.5 text-[11px] text-faint', className)}>
+    <div className={clsx('tnum flex flex-wrap items-center gap-1.5 text-[0.6875rem] text-faint', className)}>
       <span>{shortRelative(item.publishedAt, lang)}</span>
       {item.views > 0 && (
         <>
@@ -156,14 +156,14 @@ export function NewsCard({
               className={clsx(
                 'mt-2.5 font-bold tracking-tight text-white',
                 isHero
-                  ? 'text-xl leading-[1.2] sm:text-[28px]'
-                  : 'line-clamp-3x text-[15px] leading-[1.28]',
+                  ? 'text-xl leading-[1.2] sm:text-[1.75rem]'
+                  : 'line-clamp-3x text-[0.9375rem] leading-[1.28]',
               )}
             >
               {item.title}
             </h2>
             {showExcerpt && isHero && (
-              <p className="mt-2.5 line-clamp-2x max-w-2xl text-[13.5px] leading-relaxed text-white/70">
+              <p className="mt-2.5 line-clamp-2x max-w-2xl text-[0.84375rem] leading-relaxed text-white/70">
                 {item.excerpt}
               </p>
             )}
@@ -195,11 +195,11 @@ export function NewsCard({
           </div>
         </div>
         <div className="flex flex-1 flex-col gap-2 p-3.5">
-          <h3 className="line-clamp-3x text-[15px] leading-[1.32] font-semibold text-fg">
+          <h3 className="line-clamp-3x text-[0.9375rem] leading-[1.32] font-semibold text-fg">
             {item.title}
           </h3>
           {showExcerpt && (
-            <p className="line-clamp-2x text-[12.5px] leading-relaxed text-muted">{item.excerpt}</p>
+            <p className="line-clamp-2x text-[0.78125rem] leading-relaxed text-muted">{item.excerpt}</p>
           )}
           <Meta item={item} lang={lang} className="mt-auto pt-1.5" />
         </div>
@@ -223,10 +223,10 @@ export function NewsCard({
           />
         </div>
         <div className="min-w-0 flex-1">
-          <h4 className="line-clamp-2x text-[13px] leading-snug font-medium text-fg group-hover:text-primary">
+          <h4 className="line-clamp-2x text-[0.8125rem] leading-snug font-medium text-fg group-hover:text-primary">
             {item.title}
           </h4>
-          <div className="tnum mt-1 flex items-center gap-1.5 text-[10.5px] text-faint">
+          <div className="tnum mt-1 flex items-center gap-1.5 text-[0.65625rem] text-faint">
             <span style={{ color: cat.color }}>{cat.name}</span>
             <span>·</span>
             <span>{shortRelative(item.publishedAt, lang)}</span>
@@ -243,15 +243,15 @@ export function NewsCard({
     >
       <div className="min-w-0 flex-1">
         <CategoryBadge slug={item.category} size="sm" className="mb-2" />
-        <h3 className="line-clamp-2x text-[16px] leading-snug font-semibold text-fg group-hover:text-primary">
+        <h3 className="line-clamp-2x text-[1rem] leading-snug font-semibold text-fg group-hover:text-primary">
           {item.title}
         </h3>
         {showExcerpt && (
-          <p className="mt-1.5 line-clamp-2x text-[13px] leading-relaxed text-muted">{item.excerpt}</p>
+          <p className="mt-1.5 line-clamp-2x text-[0.8125rem] leading-relaxed text-muted">{item.excerpt}</p>
         )}
         <div className="mt-2 flex items-center gap-3">
           <Meta item={item} lang={lang} />
-          <span className="text-[11px] text-faint">· {readMinutes(item)} dk okuma</span>
+          <span className="text-[0.6875rem] text-faint">· {readMinutes(item)} dk okuma</span>
         </div>
       </div>
       <div className="hidden aspect-[4/3] w-44 shrink-0 overflow-hidden rounded-xl sm:block">

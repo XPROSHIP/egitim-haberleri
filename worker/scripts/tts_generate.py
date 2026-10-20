@@ -20,7 +20,10 @@ from pathlib import Path
 API = os.environ.get("VITE_API_URL", "").rstrip("/")
 SECRET = os.environ.get("COLLECT_SECRET", "")
 SAMPLE_RATE = 24000
-MAX_CHARS = 2600
+# Uzun metinler de okunabilsin: eski sınır (2600) haberin gövdesini yarıda kesiyordu.
+MAX_CHARS = 6000
+# İş akışının zaman aşımına uğramaması için dakika cinsinden süre bütçesi.
+BUDGET_MIN = float(os.environ.get("TTS_BUDGET_MIN", "32"))
 
 if not API or not SECRET:
     print("VITE_API_URL / COLLECT_SECRET eksik", file=sys.stderr)
@@ -90,7 +93,11 @@ def main():
 
     ok = 0
     fail = 0
+    deadline = time.time() + BUDGET_MIN * 60
     for i, it in enumerate(todo, 1):
+        if time.time() > deadline:
+            log(f"zaman butcesi doldu · {len(todo) - i + 1} haber sonraki kosuda")
+            break
         body = " ".join(it.get("body") or [])
         text = f"{it['title']}. {body}"
         if len(text) > MAX_CHARS:
@@ -112,6 +119,9 @@ def main():
             log(f"  [{i}/{len(todo)}] HATA: {str(exc)[:90]}")
 
     log(f"tamam · {ok} ses · {fail} hata")
+    kalan = len(todo) - ok - fail
+    if kalan > 0:
+        log(f"{kalan} haberin sesi sonraki kosuda uretilecek")
 
 
 if __name__ == "__main__":

@@ -81,8 +81,8 @@ export function LegalPage() {
             to={`/${k}`}
             className={
               k === key
-                ? 'shrink-0 rounded-full bg-fg px-3.5 py-1.5 text-[12px] font-semibold text-bg'
-                : 'shrink-0 rounded-full border border-line px-3.5 py-1.5 text-[12px] text-muted transition hover:bg-surface-2 hover:text-fg'
+                ? 'shrink-0 rounded-full bg-fg px-3.5 py-1.5 text-[0.75rem] font-semibold text-bg'
+                : 'shrink-0 rounded-full border border-line px-3.5 py-1.5 text-[0.75rem] text-muted transition hover:bg-surface-2 hover:text-fg'
             }
           >
             {v.title}
@@ -93,10 +93,10 @@ export function LegalPage() {
       {doc ? (
         <>
           <h1 className="text-2xl font-extrabold tracking-tight text-fg sm:text-3xl">{doc.title}</h1>
-          <p className="mt-1.5 text-[12px] text-faint">Son güncelleme: {doc.updated}</p>
+          <p className="mt-1.5 text-[0.75rem] text-faint">Son güncelleme: {doc.updated}</p>
           <div className="mt-6 space-y-4">
             {doc.body.map((p, i) => (
-              <p key={i} className="text-[14px] leading-[1.85] text-fg/85">
+              <p key={i} className="text-[0.875rem] leading-[1.85] text-fg/85">
                 {p}
               </p>
             ))}
@@ -112,14 +112,14 @@ export function LegalPage() {
             <Link
               key={c.slug}
               to={`/kategori/${c.slug}`}
-              className="flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-[12px] text-muted transition hover:bg-surface-2 hover:text-fg"
+              className="flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-[0.75rem] text-muted transition hover:bg-surface-2 hover:text-fg"
             >
               <CategoryMark mark={c.mark} color={c.color} size={13} strokeWidth={1.8} />
               {c.name}
             </Link>
           ))}
         </div>
-        <p className="mt-6 text-center text-[11px] text-faint">
+        <p className="mt-6 text-center text-[0.6875rem] text-faint">
           © 2026 Eğitim Haberleri · {t('legal.preparedBy')} <span className="font-semibold">OMERZEN</span> ·{' '}
           {t('legal.rights')}
         </p>
@@ -173,7 +173,7 @@ export function LoginPage({ onOpen }: { onOpen: () => void }) {
         <Icon name="User" size={26} />
       </span>
       <h1 className="mt-5 text-xl font-bold text-fg">{t('auth.title')}</h1>
-      <p className="mt-2 text-[13px] leading-relaxed text-muted">{t('auth.subtitle')}</p>
+      <p className="mt-2 text-[0.8125rem] leading-relaxed text-muted">{t('auth.subtitle')}</p>
       <button
         type="button"
         onClick={onOpen}

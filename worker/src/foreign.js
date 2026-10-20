@@ -12,6 +12,7 @@ import {
   FOREIGN_EDU_TERMS,
   FOREIGN_FEEDS,
   MAX_FOREIGN_PER_RUN,
+  MAX_FOREIGN_PER_SOURCE,
   TRANSLATE_MODEL,
 } from './config.js'
 
@@ -77,7 +78,7 @@ export async function collectForeign({
     if (!isEducation(`${i.title} ${i.description ?? ''}`)) continue
     if (knownUrls.has(i.link)) continue
     const n = perSource.get(i.sourceName) ?? 0
-    if (n >= 2) continue
+    if (n >= MAX_FOREIGN_PER_SOURCE) continue
     perSource.set(i.sourceName, n + 1)
     candidates.push(i)
     if (candidates.length >= max * 2) break

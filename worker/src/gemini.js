@@ -5,7 +5,7 @@ const ENDPOINT = (model, key) =>
   `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`
 
 const CATEGORY_ENUM = [
-  'mesleki', 'mesem', 'meb', 'corum', 'liseler', 'ortaogretim',
+  'mesleki', 'mesem', 'meb', 'corum', 'ortaogretim',
   'ilkogretim', 'maarif', 'universite', 'sinav', 'yabanci', 'gundem',
 ]
 

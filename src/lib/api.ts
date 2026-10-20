@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import type { Comment, NewsItem } from '../types'
-import { categories } from '../data/categories'
+import { categories, resolveCategory } from '../data/categories'
 import collectedRaw from '../data/collected.json'
 import { authHeaders } from './auth'
 import { decodeItem } from './entities'
@@ -85,9 +85,12 @@ export function selectNews(items: NewsItem[], f: FeedFilters): NewsItem[] {
   }
   // Kategori filtresi etiketleri de kapsar: bir haberin ana kategorisi Çorum
   // olsa bile "mesem" etiketi taşıyorsa MESEM kategorisinde de görünür.
+  // Birleşen kategoriler (liseler → ortaöğretim) çözümlenir.
   if (f.category) {
     const cat = f.category
-    list = list.filter((n) => n.category === cat || n.tags.includes(cat))
+    list = list.filter(
+      (n) => resolveCategory(n.category) === cat || n.tags.includes(cat) || n.tags.includes('liseler'),
+    )
   }
   if (f.tag) list = list.filter((n) => n.tags.includes(f.tag!))
   if (f.province) list = list.filter((n) => n.province === f.province)
@@ -166,6 +169,7 @@ export type Engagement = {
   bookmarks: number
   myLikes: string[]
   myBookmarks: string[]
+  myCommentLikes: string[]
   comments: Comment[]
 }
 
@@ -174,7 +178,14 @@ export function useEngagement(articleId: string | undefined) {
   return useQuery({
     queryKey: ['engagement', articleId],
     queryFn: async (): Promise<Engagement> => {
-      const bos: Engagement = { likes: 0, bookmarks: 0, myLikes: [], myBookmarks: [], comments: [] }
+      const bos: Engagement = {
+        likes: 0,
+        bookmarks: 0,
+        myLikes: [],
+        myBookmarks: [],
+        myCommentLikes: [],
+        comments: [],
+      }
       if (!BASE || !articleId) return bos
       const res = await fetch(`${BASE}/api/engagement?article=${encodeURIComponent(articleId)}`, {
         headers: authHeaders(),
@@ -226,6 +237,62 @@ export async function postComment(
   if (!res.ok) throw new Error('Yorum gönderilemedi')
   const data = (await res.json()) as { comment: Comment }
   return data.comment
+}
+
+/** Yorum beğenisi — veritabanına yazılır. */
+export async function setCommentLike(commentId: string, on: boolean): Promise<number> {
+  if (!BASE) return 0
+  const res = await fetch(`${BASE}/api/comment-like`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', ...authHeaders() },
+    body: JSON.stringify({ comment: commentId, on }),
+  })
+  if (!res.ok) throw new Error('Beğeni kaydedilemedi')
+  const data = (await res.json()) as { likes: number }
+  return data.likes
+}
+
+/* ── ZEN Asistan ──────────────────────────────────────────────────────────── */
+
+export type AssistantQuota = { used: number; limit: number; remaining: number }
+
+export type AssistantMessage = {
+  id: string
+  role: 'user' | 'assistant'
+  text: string
+  sources: string[]
+  createdAt: string
+}
+
+/** Asistan sohbet geçmişi (sunucuda saklanır). */
+export function useAssistantHistory(enabled: boolean) {
+  return useQuery({
+    queryKey: ['assistant', 'history'],
+    queryFn: async (): Promise<{ messages: AssistantMessage[]; quota: AssistantQuota }> => {
+      if (!BASE) return { messages: [], quota: { used: 0, limit: 20, remaining: 20 } }
+      const res = await fetch(`${BASE}/api/assistant/history`, { headers: authHeaders() })
+      if (!res.ok) return { messages: [], quota: { used: 0, limit: 20, remaining: 20 } }
+      return await res.json()
+    },
+    enabled: enabled && Boolean(BASE),
+    staleTime: 60_000,
+  })
+}
+
+/** Asistana soru sorar. */
+export async function askAssistant(
+  question: string,
+): Promise<{ text: string; sources: string[]; quota: AssistantQuota }> {
+  if (!BASE) throw new Error('Sunucuya bağlanılamadı')
+  const res = await fetch(`${BASE}/api/assistant`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', ...authHeaders() },
+    body: JSON.stringify({ question }),
+  })
+  if (res.status === 401) throw new Error('Giriş yapmalısın.')
+  if (res.status === 429) throw new Error('Günlük soru hakkın doldu.')
+  if (!res.ok) throw new Error('Asistan şu an yanıt veremiyor.')
+  return await res.json()
 }
 
 export function useRelated(item: NewsItem | undefined) {

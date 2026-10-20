@@ -73,7 +73,27 @@ function slug(s) {
 }
 
 const store = createJsonStore(outFile)
-const { run, items } = await collect({ keys, store, saveImage })
+
+/**
+ * Yayınlanan başlıkları canlı veritabanından çeker.
+ * Tekrar koruması yerel JSON'a göre değil gerçek veritabanına göre yapılmalı:
+ * yerel dosya D1'in bir kopyasından ibaret.
+ */
+async function publishedTitles() {
+  try {
+    const res = await fetch(`${API}/api/news?limit=500`)
+    if (!res.ok) return []
+    const data = await res.json()
+    return (data.items ?? []).flatMap((i) => [i.title, i.rawTitle].filter(Boolean))
+  } catch {
+    return []
+  }
+}
+
+const knownTitles = await publishedTitles()
+console.log(`Yayınlanan başlık: ${knownTitles.length} (tekrar koruması için)`)
+
+const { run, items } = await collect({ keys, store, saveImage, knownTitles })
 
 console.log('\n--- Özet ---')
 console.log(`Ham kayıt     : ${run.fetched}`)

@@ -45,22 +45,15 @@ export const categories: Category[] = [
     order: 4,
   },
   {
-    slug: 'liseler',
-    name: 'Liseler',
-    nameEn: 'High Schools',
-    mark: 'school',
-    color: '#8b5cf6',
-    gradient: ['#8b5cf6', '#4c1d95'],
-    order: 5,
-  },
-  {
+    // "Ortaöğretim" ve "Liseler" tek kategoride birleştirildi: ikisi de lise
+    // eğitimini kapsıyor, ayrı ayrı tutmak siteyi gereksiz bölüyordu.
     slug: 'ortaogretim',
     name: 'Ortaöğretim',
     nameEn: 'Secondary',
     mark: 'steps',
     color: '#6366f1',
     gradient: ['#6366f1', '#312e81'],
-    order: 6,
+    order: 5,
   },
   {
     slug: 'ilkogretim',
@@ -122,12 +115,26 @@ export const categoryMap: Record<string, Category> = Object.fromEntries(
   categories.map((c) => [c.slug, c]),
 )
 
+/**
+ * Birleştirilen kategorilerin eski adları.
+ * "Liseler" artık "Ortaöğretim" içinde; eski kayıtlar da yeni başlığa bağlanır.
+ */
+export const CATEGORY_ALIASES: Record<string, string> = {
+  liseler: 'ortaogretim',
+}
+
+/** Kategori adını güncel karşılığına çevirir. */
+export function resolveCategory(slug: string): string {
+  return CATEGORY_ALIASES[slug] ?? slug
+}
+
 export function getCategory(slug: string): Category {
+  const key = resolveCategory(slug)
   return (
-    categoryMap[slug] ?? {
-      slug,
-      name: slug,
-      nameEn: slug,
+    categoryMap[key] ?? {
+      slug: key,
+      name: key,
+      nameEn: key,
       mark: 'headlines',
       color: '#64748b',
       gradient: ['#334155', '#0f172a'],

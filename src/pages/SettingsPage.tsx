@@ -23,11 +23,11 @@ function Group({
 }) {
   return (
     <section className="mb-7">
-      <h2 className="mb-2 px-3 text-[11px] font-semibold tracking-[0.07em] text-faint uppercase">
+      <h2 className="mb-2 px-3 text-[0.6875rem] font-semibold tracking-[0.07em] text-faint uppercase">
         {title}
       </h2>
       <div className="overflow-hidden rounded-xl border border-line bg-surface">{children}</div>
-      {footer && <p className="mt-2 px-3 text-[11.5px] leading-relaxed text-faint">{footer}</p>}
+      {footer && <p className="mt-2 px-3 text-[0.71875rem] leading-relaxed text-faint">{footer}</p>}
     </section>
   )
 }
@@ -80,8 +80,8 @@ function NavRow({
             <Icon name={icon} size={15} />
           </span>
         )}
-        <span className="min-w-0 flex-1 text-[14px] text-fg">{label}</span>
-        {value && <span className="shrink-0 text-[13px] text-faint">{value}</span>}
+        <span className="min-w-0 flex-1 text-[0.875rem] text-fg">{label}</span>
+        {value && <span className="shrink-0 text-[0.8125rem] text-faint">{value}</span>}
         <Icon name="ChevronRight" size={15} className="shrink-0 text-faint" />
       </RowShell>
     </Link>
@@ -110,7 +110,7 @@ function ActionRow({
         >
           <Icon name={icon} size={15} />
         </span>
-        <span className={clsx('min-w-0 flex-1 text-[14px]', danger ? 'text-accent' : 'text-fg')}>
+        <span className={clsx('min-w-0 flex-1 text-[0.875rem]', danger ? 'text-accent' : 'text-fg')}>
           {label}
         </span>
         <Icon name="ChevronRight" size={15} className="shrink-0 text-faint" />
@@ -134,15 +134,14 @@ function ToggleRow({
     <div className="border-b border-line-soft last:border-b-0">
       <RowShell onClick={() => onChange(!on)}>
         <span className="min-w-0 flex-1">
-          <span className="block text-[14px] text-fg">{label}</span>
-          {desc && <span className="mt-0.5 block text-[11.5px] text-faint">{desc}</span>}
+          <span className="block text-[0.875rem] text-fg">{label}</span>
+          {desc && <span className="mt-0.5 block text-[0.71875rem] text-faint">{desc}</span>}
         </span>
         <span
           className={clsx(
             'relative h-[26px] w-[46px] shrink-0 rounded-full transition-colors duration-200',
             on ? 'bg-[#30d158]' : 'bg-surface-3',
           )}
-          onClick={(e) => e.stopPropagation()}
         >
           <span
             className={clsx(
@@ -175,7 +174,7 @@ function Segmented<T extends string>({
           type="button"
           onClick={() => onChange(o.key)}
           className={clsx(
-            'flex flex-1 items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-[12.5px] font-medium transition',
+            'flex flex-1 items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-[0.78125rem] font-medium transition',
             value === o.key ? 'bg-fg text-bg' : 'text-muted hover:text-fg',
           )}
           style={preview ? { fontSize: `${(o.size ?? 13)}px` } : undefined}
@@ -202,9 +201,9 @@ export function SettingsPage() {
     { key: 'system', label: t('settings.themeAuto'), icon: 'Settings' },
   ]
   const scales: { key: FontScale; label: string; size: number }[] = [
-    { key: '1', label: 'A', size: 12 },
-    { key: '1.25', label: 'A', size: 15 },
-    { key: '1.5', label: 'A', size: 18 },
+    { key: '1', label: 'A', size: 13 },
+    { key: '1.25', label: 'A', size: 14 },
+    { key: '1.5', label: 'A', size: 15 },
   ]
 
   const exportData = () => {
@@ -225,7 +224,7 @@ export function SettingsPage() {
       <Group title="Görünüm">
         <div className="space-y-4 p-4">
           <div>
-            <p className="mb-2 text-[12px] text-muted">{t('settings.theme')}</p>
+            <p className="mb-2 text-[0.75rem] text-muted">{t('settings.theme')}</p>
             <Segmented
               value={store.theme}
               options={themes}
@@ -233,19 +232,19 @@ export function SettingsPage() {
             />
           </div>
           <div>
-            <p className="mb-2 text-[12px] text-muted">{t('settings.font')}</p>
+            <p className="mb-2 text-[0.75rem] text-muted">{t('settings.font')}</p>
             <Segmented
               value={store.fontScale}
               options={scales}
               onChange={store.setFontScale}
               preview
             />
-            <p className="mt-1.5 text-[11px] text-faint">{t('settings.fontHint')}</p>
+            <p className="mt-1.5 text-[0.6875rem] text-faint">{t('settings.fontHint')}</p>
           </div>
         </div>
         <div className="border-t border-line-soft p-4">
-          <p className="text-[15px] font-semibold text-fg">{t('settings.previewTitle')}</p>
-          <p className="mt-1 text-[13px] text-muted">{t('settings.previewBody')}</p>
+          <p className="text-[0.9375rem] font-semibold text-fg">{t('settings.previewTitle')}</p>
+          <p className="mt-1 text-[0.8125rem] text-muted">{t('settings.previewBody')}</p>
         </div>
       </Group>
 
@@ -279,14 +278,13 @@ export function SettingsPage() {
                 >
                   <CategoryMark mark={c.mark} size={15} strokeWidth={1.9} />
                 </span>
-                <span className="min-w-0 flex-1 text-[14px] text-fg">{c.name}</span>
-                <span className="tnum shrink-0 text-[12px] text-faint">{count}</span>
+                <span className="min-w-0 flex-1 text-[0.875rem] text-fg">{c.name}</span>
+                <span className="tnum shrink-0 text-[0.75rem] text-faint">{count}</span>
                 <span
                   className={clsx(
                     'relative h-[26px] w-[46px] shrink-0 rounded-full transition-colors duration-200',
                     store.followed.includes(c.slug) ? 'bg-[#30d158]' : 'bg-surface-3',
                   )}
-                  onClick={(e) => e.stopPropagation()}
                 >
                   <span
                     className={clsx(
@@ -312,16 +310,16 @@ export function SettingsPage() {
                   className="size-8 shrink-0 rounded-full"
                 />
               ) : (
-                <span className="grid size-8 shrink-0 place-items-center rounded-full bg-fg text-[13px] font-bold text-bg">
+                <span className="grid size-8 shrink-0 place-items-center rounded-full bg-fg text-[0.8125rem] font-bold text-bg">
                   {(store.user.name || '?').charAt(0).toLocaleUpperCase('tr')}
                 </span>
               )}
               <span className="min-w-0 flex-1">
-                <span className="block truncate text-[14px] text-fg">{store.user.name}</span>
-                <span className="block truncate text-[11.5px] text-faint">{store.user.email}</span>
+                <span className="block truncate text-[0.875rem] text-fg">{store.user.name}</span>
+                <span className="block truncate text-[0.71875rem] text-faint">{store.user.email}</span>
               </span>
               {store.demoUser && (
-                <span className="shrink-0 rounded-full bg-surface-3 px-2 py-0.5 text-[10px] text-faint">
+                <span className="shrink-0 rounded-full bg-surface-3 px-2 py-0.5 text-[0.625rem] text-faint">
                   demo
                 </span>
               )}
@@ -341,7 +339,7 @@ export function SettingsPage() {
             <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-surface-3 text-muted">
               <Icon name="User" size={15} />
             </span>
-            <span className="min-w-0 flex-1 text-[14px] text-fg">{t('nav.signIn')}</span>
+            <span className="min-w-0 flex-1 text-[0.875rem] text-fg">{t('nav.signIn')}</span>
             <Icon name="ChevronRight" size={15} className="shrink-0 text-faint" />
           </RowShell>
         )}
@@ -373,17 +371,17 @@ export function SettingsPage() {
       <Group title={t('settings.about')}>
         <NavRow to="/hakkimizda" icon="Newspaper" label={t('legal.about')} />
         <RowShell>
-          <span className="min-w-0 flex-1 text-[14px] text-fg">{t('settings.version')}</span>
-          <span className="tnum text-[13px] text-faint">1.0.0</span>
+          <span className="min-w-0 flex-1 text-[0.875rem] text-fg">{t('settings.version')}</span>
+          <span className="tnum text-[0.8125rem] text-faint">1.0.0</span>
         </RowShell>
         <RowShell>
-          <span className="min-w-0 flex-1 text-[14px] text-fg">{t('legal.preparedBy')}</span>
-          <span className="text-[13px] font-semibold text-faint">OMERZEN</span>
+          <span className="min-w-0 flex-1 text-[0.875rem] text-fg">{t('legal.preparedBy')}</span>
+          <span className="text-[0.8125rem] font-semibold text-faint">OMERZEN</span>
         </RowShell>
       </Group>
 
       {toast && (
-        <p className="fixed bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-fg px-4 py-2 text-[12px] font-medium text-bg">
+        <p className="fixed bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-fg px-4 py-2 text-[0.75rem] font-medium text-bg">
           {toast}
         </p>
       )}

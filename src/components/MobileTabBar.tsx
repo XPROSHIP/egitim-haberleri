@@ -38,7 +38,7 @@ export function MobileTabBar() {
               end={tab.end}
               className={({ isActive }) =>
                 clsx(
-                  'flex flex-col items-center gap-0.5 rounded-lg px-0.5 py-1 text-[10px] transition',
+                  'flex flex-col items-center gap-0.5 rounded-lg px-0.5 py-1 text-[0.625rem] transition',
                   isActive ? 'text-fg' : 'text-faint hover:text-muted',
                 )
               }
@@ -54,7 +54,7 @@ export function MobileTabBar() {
           {signedIn ? (
             <NavLink
               to="/profil"
-              className="flex flex-col items-center gap-0.5 rounded-lg px-0.5 py-1 text-[10px] text-faint transition hover:text-muted"
+              className="flex flex-col items-center gap-0.5 rounded-lg px-0.5 py-1 text-[0.625rem] text-faint transition hover:text-muted"
             >
               {user?.avatarUrl ? (
                 <img
@@ -64,7 +64,7 @@ export function MobileTabBar() {
                   referrerPolicy="no-referrer"
                 />
               ) : (
-                <span className="grid size-[18px] place-items-center rounded-full bg-fg text-[9px] font-bold text-bg">
+                <span className="grid size-[18px] place-items-center rounded-full bg-fg text-[0.5625rem] font-bold text-bg">
                   {(user?.name || user?.email || '?').trim().charAt(0).toLocaleUpperCase('tr')}
                 </span>
               )}
@@ -74,7 +74,7 @@ export function MobileTabBar() {
             <button
               type="button"
               onClick={() => bus.emit(EVENTS.openLogin)}
-              className="flex w-full flex-col items-center gap-0.5 rounded-lg px-0.5 py-1 text-[10px] text-faint transition hover:text-muted"
+              className="flex w-full flex-col items-center gap-0.5 rounded-lg px-0.5 py-1 text-[0.625rem] text-faint transition hover:text-muted"
             >
               <Icon name="User" size={18} />
               <span className="max-w-full truncate">Giriş</span>

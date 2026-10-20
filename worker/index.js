@@ -17,6 +17,12 @@
  * kredi kartı istiyor, D1 ise istemiyor ve çıkış trafiği ücreti almıyor.
  */
 import { createD1Store, createMemoryStore, fromRow } from './src/store.js'
+import {
+  answer,
+  listMessages,
+  quotaOf,
+  saveMessage,
+} from './src/assistant.js'
 
 /**
  * CORS basliklari istege gore uretilir.
@@ -309,11 +315,22 @@ export default {
           : [],
       )
 
+      const myCommentLikes = user
+        ? (
+            await env.DB.prepare(
+              'SELECT comment_id FROM news_comment_likes WHERE user_id = ? AND comment_id IN (SELECT id FROM news_comments WHERE article_id = ?)',
+            )
+              .bind(user.id, article)
+              .all()
+          ).results.map((r) => r.comment_id)
+        : []
+
       return reply({
         likes: likes.results.length,
         bookmarks: bookmarks.results.length,
         myLikes: [...myLikes],
         myBookmarks: [...myBookmarks],
+        myCommentLikes,
         comments: comments.results.map((c) => ({
           id: c.id,
           articleId: c.article_id,
@@ -390,6 +407,86 @@ export default {
           createdAt: new Date().toISOString(),
         },
       })
+    }
+
+    if (url.pathname === '/api/comment-like' && request.method === 'POST') {
+      const user = await currentUser(request, env)
+      if (!user) return reply({ error: 'unauthorized' }, 401)
+      const { comment, on } = await request.json().catch(() => ({}))
+      if (!comment) return reply({ error: 'missing_comment' }, 400)
+      if (on) {
+        await env.DB.prepare('INSERT OR IGNORE INTO news_comment_likes (comment_id, user_id) VALUES (?,?)')
+          .bind(comment, user.id)
+          .run()
+      } else {
+        await env.DB.prepare('DELETE FROM news_comment_likes WHERE comment_id = ? AND user_id = ?')
+          .bind(comment, user.id)
+          .run()
+      }
+      // Sayaç gerçek beğeni kayıtlarından yeniden hesaplanır.
+      const { results } = await env.DB.prepare(
+        'SELECT COUNT(*) AS n FROM news_comment_likes WHERE comment_id = ?',
+      )
+        .bind(comment)
+        .all()
+      const likes = results?.[0]?.n ?? 0
+      await env.DB.prepare('UPDATE news_comments SET likes = ? WHERE id = ?').bind(likes, comment).run()
+      return reply({ ok: true, likes, liked: Boolean(on) })
+    }
+
+    /* ── ZEN Asistan ────────────────────────────────────────────────────── */
+    if (url.pathname === '/api/assistant/history' && request.method === 'GET') {
+      const user = await currentUser(request, env)
+      if (!user) return reply({ error: 'unauthorized' }, 401)
+      const [messages, quota] = await Promise.all([
+        listMessages(env, user.id),
+        quotaOf(env, user.id),
+      ])
+      return reply({ messages, quota })
+    }
+
+    if (url.pathname === '/api/assistant' && request.method === 'POST') {
+      const user = await currentUser(request, env)
+      if (!user) return reply({ error: 'unauthorized' }, 401)
+      const payload = await request.json().catch(() => ({}))
+      const question = String(payload?.question ?? '').trim()
+      if (!question) return reply({ error: 'missing_question' }, 400)
+
+      const quota = await quotaOf(env, user.id)
+      if (quota.remaining <= 0) return reply({ error: 'quota', quota }, 429)
+
+      const history = await listMessages(env, user.id)
+      const result = await answer(env, question, history)
+      if (!result.text) {
+        console.error('[assistant] yanit alinamadi:', String(result.error ?? '').slice(0, 160))
+        return reply({ error: 'model_hatasi' }, 502)
+      }
+      await bumpQuota(env, user.id)
+      await saveMessage(env, user.id, 'user', question)
+      await saveMessage(env, user.id, 'assistant', result.text, result.sources)
+      const after = await quotaOf(env, user.id)
+      return reply({ text: result.text, sources: result.sources, quota: after })
+    }
+
+    // Geriye dönük metin doldurma: eski haberlerin kısa gövdesi kaynak
+    // sayfadan yeniden çekilip tam metinle değiştirilir.
+    if (url.pathname === '/api/refill' && request.method === 'POST') {
+      if (!authorized(request, env)) return reply({ error: 'unauthorized' }, 401)
+      const payload = await request.json().catch(() => ({}))
+      const items = Array.isArray(payload?.items) ? payload.items : []
+      if (items.length === 0) return reply({ ok: true, updated: 0 })
+      let updated = 0
+      for (const it of items.slice(0, 100)) {
+        const body = Array.isArray(it.body) ? it.body.filter((p) => typeof p === 'string') : []
+        if (!it.slug || body.length === 0) continue
+        const res = await env.DB.prepare(
+          'UPDATE news SET body = ?, full_text = ?, excerpt = COALESCE(?, excerpt) WHERE slug = ?',
+        )
+          .bind(JSON.stringify(body), body.length >= 2 ? 1 : 0, it.excerpt ?? null, it.slug)
+          .run()
+        updated += res?.meta?.changes ?? 0
+      }
+      return reply({ ok: true, updated })
     }
 
     // Tetikleme testi / elle tetikleme (COLLECT_SECRET korumalı)
