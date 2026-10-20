@@ -846,6 +846,73 @@
     "audioDuration": 19.62
   },
   {
+    "id": "n_10r2to2_mvfygevh",
+    "slug": "yilin-ucuncu-ales-sinavi-icin-gec-basvuru-takvimi-ve-islem-detaylari-duy-a92ifb",
+    "title": "Yılın üçüncü ALES sınavı için geç başvuru takvimi ve işlem detayları duyuruldu",
+    "excerpt": "Yılın üçüncü ALES sınavı için standart başvuru süreci tamamlanırken başvuru tarihini kaçıran adaylar için geç başvuru günü duyuruldu.",
+    "body": [
+      "ALES/3 geç başvuruları yalnızca bir gün sürecek. Sınav, 29 Kasım 2026 tarihinde yapılacak. Peki, 2026 ALES/3 geç başvuruları başladı mı? ALES/3 geç başvuruları nereden ve nasıl yapılır? İşte ayrıntılar...",
+      "ALES/3 başvurularını kaçıran adaylar, 21 Ekim’de saat 10.00 ile 23.59 arasında geç başvuru yapabilecek. Sınav ise 29 Kasım 2026’da gerçekleştirilecek.",
+      "Adaylar başvurularını ÖSYM Başvuru Merkezleri üzerinden gerçekleştirebilecek. Başvurular ayrıca ÖSYM Aday İşlemleri Sistemi (AİS) ve ÖSYM Aday İşlemleri Mobil Uygulaması üzerinden de yapılabilecek."
+    ],
+    "category": "sinav",
+    "tags": [
+      "ALES",
+      "GEÇ BAŞVURU",
+      "ÖSYM SINAVLARI"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-ales-3-gec-basvurulari-basladi-mi-ales-3-gec-basvurulari-nereden-ve-nasil-yapilir-2548059",
+      "image": "/img/2026-ales-3-ge-ba-vurular-ba-lad-m-ales-3-ge-ba-vurular-nere-1akcsh.jpg"
+    },
+    "publishedAt": "2026-10-19T06:32:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 6.1,
+    "dedupeKey": "a92ifb",
+    "rawTitle": "2026 ALES/3 geç başvuruları başladı mı? ALES/3 geç başvuruları nereden ve nasıl yapılır?",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
+    "id": "f_1mprh8d_mvfygpqp",
+    "slug": "yabanci-ingiltere-egitim-bakani-lucy-powell-tum-ogrencilere-etkili-k-1mprh8",
+    "title": "İngiltere Eğitim Bakanı Lucy Powell tüm öğrencilere etkili konuşma becerisi kazandırılmasını savundu",
+    "excerpt": "Birleşik Krallık Eğitim Bakanı Lucy Powell, akıcı ve özgüvenli konuşma eğitiminin yalnızca özel okul öğrencilerine değil tüm çocuklara sunulması gerektiğini belirtti. Powell, bu adımın eğitim standartlarını düşürmek değil, fırsat eşitliği sağlamak olduğunu vurguladı.",
+    "body": [
+      "Birleşik Krallık Eğitim Bakanı ve İşçi Partisi Genel Başkan Yardımcısı Lucy Powell, özel okulların münazara, hitabet ve mülakat hazırlığı gibi iletişim becerilerini müfredatlarının merkezine aldığını ifade etti. Velilerin bu yetkinliklerin kapıları açtığını bildiğini söyleyen Powell, aynı imkanların hangi okulda olursa olsun her genç için geçerli olması gerektiğini savundu.",
+      "Sosyal medya ve yapay zekanın dünyayı köklü biçimde dönüştürdüğünü belirten Powell, gençlerin her zamankinden daha bağlantılı olmalarına rağmen kendilerini yalnız ve duyulmamış hissettiklerini dile getirdi. Bakan, algoritmaların ve ekranların hâkim olduğu bu çağda insan iletişiminin öneminin daha da arttığına dikkat çekti."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "EĞİTİM POLİTİKASI",
+      "İNGİLTERE",
+      "FIRSAT EŞİTLİĞİ",
+      "İLETİŞİM BECERİLERİ"
+    ],
+    "source": {
+      "name": "The Guardian",
+      "url": "https://www.theguardian.com/commentisfree/2026/oct/19/young-people-speak-fluently-oracy-skills-pupils-schools",
+      "image": "/img/my-critics-think-speaking-fluently-is-vital-for-fee-paying-p-1ug53l.jpg"
+    },
+    "publishedAt": "2026-10-19T06:00:23.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1mprh8d",
+    "rawTitle": "My critics think speaking fluently is vital for fee-paying pupils, but not for anyone else. Here’s why I reject that | Lucy Powell",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "n_r9btf0_mveiblan",
     "slug": "kpss-on-lisans-sinavi-sonuclari-icin-adaylarin-heyecanli-bekleyisi-suruy-1r8bgj",
     "title": "ÖSYM tarafından düzenlenen KPSS ön Lisans sınavının sonuçları için adayların heyecanlı bekleyişi sürüyor",
@@ -3143,6 +3210,40 @@
     "lang": "en",
     "audioId": "f_j2st5x_mvfx4puu",
     "audioDuration": 41.69
+  },
+  {
+    "id": "f_1d4olt4_mvfygpqp",
+    "slug": "yabanci-st-andrews-universitesinde-sinifsal-ayrimcilik-tartismasi-og-1d4olt",
+    "title": "St Andrews Üniversitesinde sınıfsal ayrımcılık tartışması öğrencilerin tepkisini çekmeye devam ediyor",
+    "excerpt": "İskoçya'daki St Andrews Üniversitesinde düşük gelirli öğrenciler ile varlıklı ABD'li lisans öğrencileri arasındaki sınıfsal gerilim sosyal medyada geniş yankı buldu. Bir öğrencinin kampüsteki ayrımcılığı anlatan paylaşımı yüzlerce kişi tarafından desteklendi.",
+    "body": [
+      "St Andrews Üniversitesinde karşılaştığı sınıfsal ayrımcılık nedeniyle bu akademik yılda okula dönmeyeceğini açıklayan Sophie Rose Jenkins, LinkedIn üzerinden deneyimlerini paylaştı. Karşılaştırmalı edebiyat ve klasik çalışmalar eski öğrencisi olan Jenkins, işçi sınıfından gelen öğrencilerin aile yaşantılarından utandırıldığını belirtti.",
+      "İki hafta önce yayımlanan bu hikâye yüzlerce öğrencinin benzer deneyimlerini dile getirmesine yol açtı. Kampüsteki gruplaşmalara dikkat çeken öğrenciler, İngilizlerin ve Amerikalıların çoğunlukla kendi aralarında vakit geçirdiğini ifade etti."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "YÜKSEKÖĞRETİM",
+      "SINIFSAL AYRIMCILIK",
+      "İSKOÇYA",
+      "ÖĞRENCİ YAŞAMI"
+    ],
+    "source": {
+      "name": "The Guardian",
+      "url": "https://www.theguardian.com/education/2026/sep/27/st-andrews-university-class-divide-american-students",
+      "image": "/img/t-s-like-the-scottish-upper-east-side-shame-and-snobbery-as--pe8pmt.jpg"
+    },
+    "publishedAt": "2026-09-27T07:00:59.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1d4olt4",
+    "rawTitle": "‘It’s like the Scottish Upper East Side’: shame and snobbery as American students blamed for St Andrews classism",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "f_939714_mvfy5qkr",
