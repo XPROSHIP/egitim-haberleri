@@ -1,5 +1,39 @@
 [
   {
+    "id": "f_s40ai7_mvh66cae",
+    "slug": "yabanci-ingiltere-deki-okullarin-antisemitizmi-ayri-bir-zarar-katego-s40ai7",
+    "title": "İngiltere'deki okulların antisemitizmi ayrı bir zarar kategorisi olarak tanıması gerektiği bildirildi",
+    "excerpt": "İngiltere'deki okullarda her beş Yahudi öğrenciden üçünün önyargıya maruz kaldığını ortaya koyan yeni bir raporun ardından hükümetin harekete geçmesi bekleniyor. Bağımsız inceleme, antisemitizmin eğitim kurumlarında ayrı bir zarar kategorisi olarak tanınmasını tavsiye ediyor.",
+    "body": [
+      "İngiltere'deki okul ve kolejlerin, Yahudi öğrencilerin beşte üçünün önyargıdan etkilendiğini ortaya koyan bir raporun ardından antisemitizme karşı daha sert bir tutum takınması bekleniyor. Hükümet tarafından görevlendirilen eski Ofsted Başmüfettişi Sir David Bell'in hazırladığı bağımsız inceleme raporundaki tavsiyelerin kabul edileceği öngörülüyor.",
+      "İncelemeyi yürüten Bell, öğrenciler ve öğretmenler tarafından bildirilmeyen veya müdahale edilmeyen pek çok vaka tespit edildiğini ifade etti. Sky News'e değerlendirmede bulunan Bell, ırkçılık veya nefretle mücadeleye yönelik genel taahhütlerin sorunu gerektiği gibi ele almada yetersiz kaldığını vurguladı."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "İNGİLTERE EĞİTİM",
+      "ANTİSEMİTİZM",
+      "OFSTED",
+      "OKUL GÜVENLİĞİ"
+    ],
+    "source": {
+      "name": "The Guardian",
+      "url": "https://www.theguardian.com/news/2026/oct/20/schools-in-england-must-recognise-antisemitism-as-distinct-category-of-harm-report-says",
+      "image": "/img/schools-in-england-must-recognise-antisemitism-as-distinct-c-17vvkr.jpg"
+    },
+    "publishedAt": "2026-10-20T20:42:47.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:s40ai7",
+    "rawTitle": "Schools in England must recognise antisemitism as distinct category of harm, report says",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "n_p9wdb_mvgzthk2",
     "slug": "i-bb-genc-universiteli-egitim-destegi-basvurularinda-sona-yaklasilirken--bqnrvk",
     "title": "İBB genç üniversiteli eğitim desteği başvurularında sona yaklaşılırken gözler sonuç tarihine çevrildi",
@@ -5178,6 +5212,39 @@
     "status": "published",
     "audioId": "n_1m0ss9y_mvevprmq",
     "audioDuration": 18.18
+  },
+  {
+    "id": "f_1ypctfg_mvh66caf",
+    "slug": "yabanci-siniflari-birer-ekosistem-olarak-gormek-yapay-zeka-tartismal-1ypctf",
+    "title": "Sınıfları birer ekosistem olarak görmek yapay zeka tartışmalarını daha derin bir boyuta taşıyor",
+    "excerpt": "Sınıfları birbirine bağlı ekosistemler olarak değerlendirmek, eğitimcilerin yüzeysel teknoloji tartışmalarının ötesine geçmesini sağlıyor. Bu yaklaşım muhakeme, merak ve empati becerilerini geliştirmeye odaklanılmasına zemin hazırlıyor.",
+    "body": [
+      "Sınıfları birbirine bağlı ekosistemler olarak görmek, salt teknoloji tartışmalarının ötesine geçip muhakeme, merak ve empatiyi geliştirmeye odaklanmayı mümkün kılıyor. Son iki yılda öğretmenler, veliler, öğrenciler ve yöneticilerle yapılan görüşmelerde yapay zekaya ilişkin benzer endişeler öne çıkıyor.",
+      "Okulların nasıl yaklaşım sergileyeceği ve anında yanıtların alındığı bir dünyada özgün öğrenmenin nasıl korunacağı temel sorular arasında yer alıyor. Ancak bu tartışmalar kısa sürede teknolojinin ötesine geçerek bir makinenin makale yazabildiği çağda düşünme becerisi ve öğrenmenin gerçek amacı üzerine yoğunlaşıyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "YAPAY ZEKA",
+      "EĞİTİM TEKNOLOJİLERİ",
+      "ÖĞRENME SÜREÇLERİ"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/what-yellowstone-rwanda-and-ai-taught-me-about-change",
+      "image": "/img/what-yellowstone-rwanda-and-a-taught-me-about-change-10bbax.jpg"
+    },
+    "publishedAt": "2026-09-16T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1ypctfg",
+    "rawTitle": "What Yellowstone, Rwanda and AI Taught Me About Change",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "f_1sslolp_mvgztyoh",
