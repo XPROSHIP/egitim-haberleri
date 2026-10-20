@@ -2865,6 +2865,72 @@
     "audioDuration": 24.98
   },
   {
+    "id": "f_onocff_mvggiayk",
+    "slug": "yabanci-ogretmenlerin-ekim-ayinda-yasadigi-mesleki-tukenmislikle-muc-onocff",
+    "title": "Öğretmenlerin ekim ayında yaşadığı mesleki tükenmişlikle mücadele etmenin yolları masaya yatırıldı",
+    "excerpt": "Yazar ve eğitim danışmanı Mike Anderson, öğretmenlerin sonbaharda sıklıkla karşılaştığı ekim ayı çöküşüyle nasıl mücadele edebileceğini anlattı. Uzmanlar, bu dönemin özellikle mesleğe yeni başlayan öğretmenleri derinden etkilediğine dikkat çekiyor.",
+    "body": [
+      "Her sonbaharda yeni eğitim öğretim yılına büyük bir enerjiyle başlayan öğretmenler, bir süre sonra bu enerjinin tükendiğini hissediyor. Eğitimcilerin 'ekim ayı hüznü' olarak adlandırdığı bu ani düşüş, özellikle mesleğe yeni adım atanların mesleklerini sorgulamalarına yol açabiliyor.",
+      "'Rekindle Your Professional Fire' kitabının yazarı ve eski bir sınıf öğretmeni olan Mike Anderson, bu durgunluğu bizzat kendi deneyimlerinden biliyor. Anderson, 22 yaşındayken dördüncü sınıflara ders verirken aynı zamanda iki yüzme takımına koçluk yapmış ve haftada 100 saatten fazla çalışmıştı."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "ÖĞRETMEN TÜKENMİŞLİĞİ",
+      "EĞİTİMDE MOTİVASYON",
+      "ÖĞRETMEN GELİŞİMİ"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/why-do-so-many-teachers-crash-in-october",
+      "image": "/img/why-do-so-many-teachers-crash-in-october-1839lw.jpg"
+    },
+    "publishedAt": "2026-10-07T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:onocff",
+    "rawTitle": "Why Do So Many Teachers Crash in October?",
+    "status": "published",
+    "lang": "en"
+  },
+  {
+    "id": "f_o926e5_mvggiayl",
+    "slug": "yabanci-teknoloji-egitimine-tarihi-toplumsal-hareketlerin-dahil-edil-o926e5",
+    "title": "Teknoloji eğitimine tarihi toplumsal hareketlerin dahil edilmesi öğrencilerin sivil katılımını nasıl güçlendiriyor?",
+    "excerpt": "Teknoloji eğitimine tarihi toplumsal hareketlerin entegre edilmesi, öğrencilerin geleceği şekillendirmeye yönelik ilgisini ve sivil katılımını artırıyor. Bu yaklaşım, teknolojiyi soyut bir kavram olmaktan çıkarıp toplumsal dinamiklerle buluşturuyor.",
+    "body": [
+      "Tarihi toplumsal hareketlerden edinilen kazanımların teknoloji eğitimine dahil edilmesi, öğrencilerin geleceği inşa etme arzusunu tetikliyor. Geleneksel sınıf materyalleriyle ezbere dayalı bir tarih öğrenimi yerine, teknolojinin kültürel ve tarihi bağlamla buluşturulması gerekiyor.",
+      "Yazar, Illinois eyaletinin Joliet kentinde edindiği pasif öğrenme deneyiminin ardından 2002 yılında Alabama'daki Miles College'a giderek sivil haklar mücadelesini yakından tanıdı. Birmingham'da eğitime adanan yıllardan sonra, Institute for Common Power bünyesindeki 2025 yılı öğrenme turunda bu alanda köklü bir değişim yaşandı."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "KODLAMA EĞİTİMİ",
+      "SİVİL KATILIM",
+      "EĞİTİM TEKNOLOJİSİ"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/how-coding-can-cultivate-deep-civic-engagement",
+      "image": "/img/how-coding-can-cultivate-deep-civic-engagement-1yfuph.jpg"
+    },
+    "publishedAt": "2026-10-07T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:o926e5",
+    "rawTitle": "How Coding Can Cultivate Deep Civic Engagement",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "f_d47a4v_mvga1tx8",
     "slug": "yabanci-kucuk-ve-kirsal-okul-bolgeleri-kronik-devamsizlikla-mucadele-d47a4v",
     "title": "Küçük ve kırsal okul bölgeleri kronik devamsızlıkla mücadelede başarı sağlıyor",
