@@ -159,6 +159,9 @@ export function LoginPage({ onOpen }: { onOpen: () => void }) {
       navigate(next && next.startsWith('/') ? next : '/', { replace: true })
       return
     }
+    // Dönüşte "?code=" varsa sayfadan ayrılma: kod değişimi tamamlanmadan
+    // adres çubuğu temizlenirse oturum açılamaz.
+    if (params.get('code')) return
     onOpen()
     const timer = setTimeout(() => navigate('/', { replace: true }), 50)
     return () => clearTimeout(timer)

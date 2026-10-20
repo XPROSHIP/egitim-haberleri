@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import clsx from 'clsx'
 import { categories } from '../data/categories'
 import { dataSource } from '../lib/api'
 import { CategoryMark } from './CategoryMark'
@@ -15,6 +16,37 @@ const sourceLabel: Record<string, string> = {
 
 export function Footer() {
   const { t } = useTranslation()
+  // Otomasyon durumu: erişim anahtarı bozulursa site kendisi uyarır,
+  // böylece hatırlamaya gerek kalmaz.
+  const [automationOk, setAutomationOk] = useState(true)
+
+  useEffect(() => {
+    let alive = true
+    const BASE = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '')
+    if (!BASE) return
+    const check = async () => {
+      try {
+        const res = await fetch(`${BASE}/api/health`)
+        if (!res.ok) return
+        const data = (await res.json()) as {
+          automation?: { dispatch?: { ok?: boolean } | null }
+        }
+        if (!alive) return
+        const d = data.automation?.dispatch
+        // Hiç kayıt yoksa (ilk kurulum) uyarı göstermeyelim.
+        if (d && d.ok === false) setAutomationOk(false)
+      } catch {
+        /* ağ hatası: mevcut durumu koru */
+      }
+    }
+    void check()
+    const timer = setInterval(check, 10 * 60_000)
+    return () => {
+      alive = false
+      clearInterval(timer)
+    }
+  }, [])
+
   return (
     <footer className="mt-16 border-t border-line bg-surface">
       <div className="mx-auto max-w-[1400px] px-4 py-10">
@@ -90,8 +122,13 @@ export function Footer() {
         <div className="mt-10 flex flex-col items-center gap-2 border-t border-line pt-6 text-center">
           <p className="flex flex-wrap items-center justify-center gap-2 text-[11px] text-faint">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-line px-2.5 py-1">
-              <span className="size-1.5 rounded-full bg-emerald-500" />
-              {sourceLabel[dataSource]}
+              <span
+                className={clsx(
+                  'size-1.5 rounded-full',
+                  automationOk ? 'bg-emerald-500' : 'bg-amber-500',
+                )}
+              />
+              {automationOk ? sourceLabel[dataSource] : 'Güncelleme bekliyor — otomasyon durakladı'}
             </span>
             <span>
               © 2026 Eğitim Haberleri — {t('legal.preparedBy')}{' '}

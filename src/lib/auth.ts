@@ -50,7 +50,8 @@ function getClient(): Promise<SbClient | null> {
           flowType: 'pkce',
           persistSession: true,
           autoRefreshToken: true,
-          detectSessionInUrl: true,
+          // Kod değişimini elle yapıyoruz: hata mesajını görebilmek için.
+          detectSessionInUrl: false,
           storageKey: 'eh.supabase.auth',
         },
       }),
@@ -148,13 +149,26 @@ export async function signInWithGoogle(): Promise<void> {
 
 /**
  * Dönüşten sonraki oturumu verir.
- * Adres çubuğundaki kodu istemci zaten işlediği için burada yalnızca beklenir.
+ * Kod değişimi elle yapılır ki hata mesajı görülebilir.
  */
-export async function completeSignIn(_code?: string): Promise<Session | null> {
+export async function completeSignIn(code?: string): Promise<Session | null> {
   const client = await getClient()
   if (!client) return null
-  // İstemci kodu sayfa yüklenirken işler; hemen erişilemezse kısa süre bekleriz.
-  for (let i = 0; i < 20; i++) {
+
+  if (code) {
+    const { data, error } = await client.auth.exchangeCodeForSession(code)
+    if (error) {
+      setAuthError(`Oturum açılamadı: ${error.message}`)
+      return null
+    }
+    if (data.session) {
+      current = toSession(data.session)
+      return current
+    }
+  }
+
+  // Kod yoksa ya da değişim sessizce başarısız olduysa kayıtlı oturuma bak.
+  for (let i = 0; i < 10; i++) {
     const { data, error } = await client.auth.getSession()
     if (data.session) {
       current = toSession(data.session)
@@ -164,11 +178,12 @@ export async function completeSignIn(_code?: string): Promise<Session | null> {
       setAuthError(`Oturum açılamadı: ${error.message}`)
       return null
     }
-    await new Promise((r) => setTimeout(r, 150))
+    await new Promise((r) => setTimeout(r, 200))
   }
+
   setAuthError(
-    'Oturum açılamadı. Google girişini aynı sekmede başlatıp ' +
-      'tarayıcı önbelleğini temizleyerek tekrar deneyin.',
+    'Google girişi tamamlanamadı. Bu genellikle aynı sekmede başlatılmayan bir ' +
+      'girişten kaynaklanır; "Google ile devam et" düğmesine doğrudan basın.',
   )
   return null
 }

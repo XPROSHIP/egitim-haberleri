@@ -99,6 +99,32 @@ async function currentUser(request, env) {
   }
 }
 
+/** Sistemin durumunu D1'de tutar: tetikleme basarisi, son toplama zamani.
+    Boylece token bozulursa hatirlamak yerine site uyariyor. */
+async function recordState(env, key, value) {
+  try {
+    await env.DB.prepare(
+      `INSERT INTO system_state (key, value, updated_at) VALUES (?,?,datetime('now'))
+       ON CONFLICT(key) DO UPDATE SET value=excluded.value, updated_at=datetime('now')`,
+    )
+      .bind(key, JSON.stringify(value))
+      .run()
+  } catch (err) {
+    console.error('[worker] durum yazilamadi', String(err?.message ?? err).slice(0, 100))
+  }
+}
+
+async function readState(env, key) {
+  try {
+    const row = await env.DB.prepare('SELECT value, updated_at FROM system_state WHERE key = ?')
+      .bind(key)
+      .first()
+    if (!row) return null
+    return { ...JSON.parse(row.value), updatedAt: row.updated_at }
+  } catch {
+    return null
+  }
+}
 /** GitHub iş akışını tetikler. Hata ayrıntısını döndürür. */
 async function dispatchCollect(env) {
   if (!env.GITHUB_TOKEN || !env.GITHUB_REPO) {
@@ -123,6 +149,12 @@ async function dispatchCollect(env) {
     )
     const detail = res.status === 204 ? '' : (await res.text()).slice(0, 300)
     console.log(`[worker] tetikleme -> HTTP ${res.status} ${detail}`)
+    await recordState(env, 'dispatch', {
+      ok: res.status === 204,
+      status: res.status,
+      error: detail || undefined,
+      at: new Date().toISOString(),
+    })
     return {
       ok: res.status === 204,
       status: res.status,
@@ -131,6 +163,7 @@ async function dispatchCollect(env) {
   } catch (err) {
     const message = String(err?.message ?? err).slice(0, 200)
     console.error('[worker] tetikleme hatasi', message)
+    await recordState(env, 'dispatch', { ok: false, error: message, at: new Date().toISOString() })
     return { ok: false, error: message }
   }
 }
@@ -404,16 +437,26 @@ export default {
         skipped += result.skipped
       }
       console.log(`[worker] ${inserted} yeni, ${skipped} tekrar`)
+      await recordState(env, 'collect', {
+        ok: true,
+        inserted,
+        skipped,
+        at: new Date().toISOString(),
+      })
       return reply({ ok: true, inserted, skipped })
     }
 
     if (url.pathname === '/api/health') {
       const news = await env.DB?.prepare('SELECT COUNT(*) AS n FROM news').all()
       const images = await env.DB?.prepare('SELECT COUNT(*) AS n FROM images').all()
+      const dispatch = await readState(env, 'dispatch')
+      const collect = await readState(env, 'collect')
       return reply({
         ok: true,
         news: news?.results?.[0]?.n ?? 0,
         images: images?.results?.[0]?.n ?? 0,
+        // Otomasyon durumu: erişim anahtarı bozulursa site bunu gösterir.
+        automation: { dispatch, collect },
         time: new Date().toISOString(),
       })
     }
