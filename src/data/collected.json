@@ -181,6 +181,39 @@
     "lang": "tr"
   },
   {
+    "id": "f_rvsj9o_mvhauk4y",
+    "slug": "yabanci-egitimin-karsilanabilir-maliyette-olmasi-secmenlerin-en-onem-rvsj9o",
+    "title": "Eğitimin karşılanabilir maliyette olması seçmenlerin en önemli öncelikleri arasında bulunuyor",
+    "excerpt": "Jobs for the Future tarafından yapılan yeni bir anket, eğitim maliyetlerini düşürmeyi hedefleyen politikalara seçmenlerin çok güçlü destek verdiğini ortaya koydu.",
+    "body": [
+      "Eğitim ve istihdam odaklı sivil toplum kuruluşu Jobs for the Future tarafından gerçekleştirilen araştırmaya göre, ara seçimler öncesinde seçmenlerin öncelikli gündem maddesini eğitim maliyetleri oluşturuyor.",
+      "Ankete katılan 2.000 kayıtlı seçmenin yalnızca yüzde 43'ü bir üniversite programına kaydolacak maddi güce sahip olduğunu belirtiyor. Katılımcıların yüzde 66'sı ise eğitim ve mesleki eğitimi daha ekonomik hale getirmeye odaklanan adayları destekleyeceğini ifade ediyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "EĞİTİM MALİYETLERİ",
+      "YÜKSEKÖĞRETİM",
+      "KAMUOYU ARAŞTIRMASI"
+    ],
+    "source": {
+      "name": "Inside Higher Ed",
+      "url": "https://www.insidehighered.com/news/government/politics-elections/2026/10/20/education-affordability-priority-voters-survey-finds",
+      "image": "/img/education-affordability-a-priority-for-voters-wadi7b.jpg"
+    },
+    "publishedAt": "2026-10-20T07:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:rvsj9o",
+    "rawTitle": "Education Affordability a Priority for Voters",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "f_xvyrel_mvha2xnw",
     "slug": "yabanci-universite-yasam-maliyeti-tahminleri-kurumlar-arasinda-buyuk-xvyrel",
     "title": "Üniversite Yaşam Maliyeti Tahminleri Kurumlar Arasında Büyük Farklılık Gösteriyor",
@@ -518,6 +551,42 @@
     "lang": "tr",
     "rawTitle": "Yurtdışı eğitim hayali kuran gençler fuarlarda buluşuyor",
     "hasAudio": false
+  },
+  {
+    "id": "n_5oqayr_mvhatcr6",
+    "slug": "acik-ogretim-lisesi-birinci-donem-sinav-tarihleri-ve-giris-belgeleri-bek-1cmvu0",
+    "title": "Açık öğretim lisesi birinci dönem sınav tarihleri ve giriş belgeleri bekleniyor",
+    "excerpt": "Açık Öğretim Lisesi 1. dönem sınav takviminin açıklanmasıyla birlikte öğrenciler oturum tarihlerine ve sınav giriş belgelerine odaklandı.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "Açık Öğretim Lisesi 2026-2027 eğitim öğretim yılı 1. dönem yeni kayıt ve kayıt yenileme işlemlerinin 23 Ekim 2026 mesai bitimine kadar yapılabileceği duyurulurken, dönem sınavlarının tarihleri de açıklandı. Peki, 2026 AÖL 1. Dönem sınav giriş belgeleri yayımlandı mı? MEB AÖL Açık lise sınavları ne zaman? İşte ayrıntılar...",
+      "E-Sınav adayları, 2-16 Kasım 2026 tarihleri arasında randevu işlemlerini tamamladıktan sonra fotoğraflı sınav giriş belgelerine 25 Kasım 2026'dan itibaren ulaşabilecek. Yazılı sınava girecek adaylar ise sınav giriş belgelerini 15 Aralık 2026'dan itibaren alabilecek.",
+      "Adaylar, fotoğraflı sınav giriş belgelerini AÖL öğrenci giriş ekranı üzerinden öğrenci şifreleriyle sisteme giriş yaparak görüntüleyip yazdırabilecek.",
+      "Basılı evrakla yapılan sınavlar, 20 Aralık 2026 Pazar günü okullarda yüz yüze gerçekleştirilecek. E-sınav oturumları ise randevu alan adaylar için 28 Kasım 2026 ile 18 Ocak 2027 tarihleri arasında, belirlenen e-sınav merkezlerinde yapılacak."
+    ],
+    "category": "sinav",
+    "tags": [
+      "AÖL",
+      "MEB",
+      "AÇIK LİSE",
+      "SINAV TAKVİMİ"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-aol-1-donem-sinav-giris-belgeleri-yayimlandi-mi-meb-aol-acik-lise-sinavlari-ne-zaman-2548249",
+      "image": "/img/2026-a-l-1-d-nem-s-nav-giri-belgeleri-yay-mland-m-meb-a-l-a--9g0gc2.jpg"
+    },
+    "publishedAt": "2026-10-19T13:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 6.5,
+    "dedupeKey": "1cmvu0n",
+    "rawTitle": "2026 AÖL 1. Dönem sınav giriş belgeleri yayımlandı mı? MEB AÖL Açık lise sınavları ne zaman?",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "n_1bjb88j_mvfiiw1r",
@@ -2187,6 +2256,41 @@
     "audioDuration": 18.58
   },
   {
+    "id": "n_tnei3c_mvhatcr7",
+    "slug": "acik-ogretim-lisesi-birinci-donem-kayit-suresi-milli-egitim-bakanliginca-r5ntq9",
+    "title": "Açık öğretim lisesi birinci dönem kayıt süresi Milli Eğitim Bakanlığınca uzatıldı",
+    "excerpt": "Milli Eğitim Bakanlığı tarafından Açık Öğretim Lisesi kayıt süresinin uzatılmasının ardından başvuru takvimi netleşti.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "Açık Öğretim Lisesi kayıtlarını henüz tamamlayamayan öğrenciler, Milli Eğitim Bakanlığının kayıt süresinin uzatılmasına ilişkin yeni bir karar alıp almadığını merak ediyor. Peki, 2026-2027 AÖL Açık Lise kayıtları uzatıldı mı? Açık Lise kayıtları ne zaman bitiyor? İşte ayrıntılar...",
+      "Güncellenen AÖL kayıt takvimine göre yeni kayıt ve kayıt yenileme işlemleri, 23 Ekim 2026 Cuma günü mesai bitimine kadar devam edecek.",
+      "AÖL kayıt yenileme işlemleri, ücret ödeme ve ders seçimi olmak üzere iki aşamada tamamlanıyor. Öğrenciler, kayıt yenileme ücretini odeme.meb.gov.tr adresinden veya anlaşmalı bankaların (Ziraat Bankası, Halkbank ve VakıfBank) ATM ve mobil uygulamaları üzerinden yatırabiliyor. Ödeme bilgilerinin sisteme aktarılmasının ardından öğrenciler, AÖL öğrenci giriş ekranı üzerinden e-Devlet ya da T.C. kimlik numaralarıyla giriş yaparak “Ders Seçme İşlemleri” bölümünden ilgili dönemin zorunlu ve seçmeli derslerini seçip kayıt işlemlerini tamamlayabiliyor."
+    ],
+    "category": "ortaogretim",
+    "tags": [
+      "AÖL",
+      "MEB",
+      "AÇIK LİSE KAYIT",
+      "EĞİTİM"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-2027-aol-acik-lise-kayitlari-uzatildi-mi-acik-lise-kayitlari-ne-zaman-bitiyor-2547107",
+      "image": "/img/2026-2027-a-l-a-k-lise-kay-tlar-uzat-ld-m-a-k-lise-kay-tlar--9g0gc2.jpg"
+    },
+    "publishedAt": "2026-10-15T13:33:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "r5ntq9",
+    "rawTitle": "2026-2027 AÖL Açık Lise kayıtları uzatıldı mı? Açık Lise kayıtları ne zaman bitiyor?",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "f_11ha3sd_mvfsk51n",
     "slug": "yabanci-arastirmacilar-uyardi-cevrim-ici-reklamlar-casus-yazilim-yay-11ha3s",
     "title": "Araştırmacılar uyardı: Çevrim içi reklamlar casus yazılım yaymak amacıyla silaha dönüştürüldü",
@@ -2460,6 +2564,41 @@
     "status": "published",
     "audioId": "n_12wub2f_mvevprmq",
     "audioDuration": 20.18
+  },
+  {
+    "id": "n_1jnzusx_mvhatcrc",
+    "slug": "i-stanbul-da-yogun-yagis-sebebiyle-tum-egitim-kurumlarinda-egitime-bir-g-1ee05w",
+    "title": "İstanbul'da yoğun yağış sebebiyle tüm eğitim kurumlarında eğitime bir gün ara verildi",
+    "excerpt": "İstanbul Valiliği yoğun yağışın getirdiği olumsuzluklar nedeniyle il genelindeki okullarda ve üniversitelerde eğitime 15 Ekim'de ara verildiğini bildirdi.",
+    "body": [
+      "“İstanbul'daki olumsuz hava koşulları, ilimizde başta ulaşım olmak üzere hayatın birçok alanını etkilemektedir. İstanbul Valiliği olarak yoğun yağışın yarattığı olumsuzlukların, vatandaşlarımızın hayatını en az etkilemesi için bir dizi tedbir almış bulunmaktayız. Bu kararlar çerçevesinde; il genelinde resmî-özel tüm eğitim kurumlarında “yüz yüze eğitim” faaliyetlerine 15 Ekim 2026 Perşembe günü bir gün süreyle ara verilmiştir. Bununla birlikte kamu kurum ve kuruluşlarında çalışan engelli, hamile, Gazi, Malûl Gazi ve 8 yaşından küçük çocuğu bulunan kadın personel de idari izinli sayılacaktır. Ancak “8 yaşından küçük çocuğu bulunan kadın personel” grubu; sağlık, emniyet ve yağmurla mücadele alanında çalışma yürüten birimlerimizdeki kadın personeli kapsamamaktadır. 8 yaşın altında engelli çocuğu bulunan hangi meslek grubunda olursa olsun çalışan anneler de belirlenen tarihte idari izinli sayılacaktır. Motosiklet ve türevi iki tekerlekli tüm araçların trafiğe çıkışları 14.10.2026 Çarşamba Günü saat 21.00'dan itibaren, ikinci bir talimata kadar yasaklanmıştır.”",
+      "Kent genelinde devam eden olumsuz hava koşulları nedeniyle İstanbul , Boğaziçi, İstanbul Teknik, İstanbul Topkapı, Yeni Yüzyıl, İstanbul Üniversitesi Cerrahpaşa, Mimar Sinan Güzel Sanatlar ve Marmara Üniversitesi'nde 15 Ekim'de eğitime 1 gün süreyle ara verildi. İstanbul Ticaret, Yıldız Teknik, İstanbul Kültür, Medipol ve MEF Üniversitesi 15 Ekim'de, Türk Alman Üniversitesi ise 15-16 Ekim tarihlerinde derslerini çevrim içi gerçekleştirecek.",
+      "Türkiye'den ve Dünya’dan son dakika haberleri, köşe yazıları, magazinden siyasete, spordan seyahate bütün konuların tek adresi Hurriyet.com.tr haber içerikleri izin alınmadan, kaynak gösterilerek dahi iktibas edilemez. Kanuna aykırı ve izinsiz olarak kopyalanamaz, başka yerde yayınlanamaz."
+    ],
+    "category": "universite",
+    "tags": [
+      "İSTANBUL",
+      "İSTANBUL VALİLİĞİ",
+      "OKUL TATİLİ",
+      "ÜNİVERSİTE"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/istanbulda-egitim-ogretime-1-gun-ara-43341749",
+      "image": "/img/istanbul-da-e-itim-retime-1-g-n-ara-181gt3.jpg"
+    },
+    "publishedAt": "2026-10-14T15:51:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": true,
+    "province": "İstanbul",
+    "fullText": true,
+    "score": 5.6,
+    "dedupeKey": "1ee05wy",
+    "rawTitle": "İstanbul’da eğitim öğretime 1 gün ara",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "n_o7wjt6_mvei314a",
@@ -3834,6 +3973,40 @@
     "lang": "en"
   },
   {
+    "id": "n_1pvgp7w_mvhatcrg",
+    "slug": "ortaogretim-ogrencilerine-yonelik-81-ilde-tabiat-ve-yasanabilir-cevre-bi-nbd8jq",
+    "title": "Ortaöğretim öğrencilerine yönelik 81 ilde tabiat ve yaşanabilir çevre bilgi yarışması düzenleniyor",
+    "excerpt": "COP31 hazırlıkları kapsamında 81 il genelinde lise öğrencilerine yönelik çevre ve iklim temalı bilgi yarışması yapılacak.",
+    "body": [
+      "Birleşmiş Milletler İklim Değişikliği Çerçeve Sözleşmesi (BMİDÇS) kapsamında Türkiye'nin ev sahipliğinde 9-20 Kasım tarihleri arasında Antalya 'da gerçekleştirilecek 31. Taraflar Konferansı ( COP31 ) hazırlıkları çerçevesinde, ortaöğretim öğrencilerine yönelik \"Tabiat ve Yaşanabilir Çevre\" Bilgi Yarışması gerçekleştirilecek. Yarışmayla öğrencilerin iklim değişikliği ve sürdürülebilirlik konularındaki bilgi ve farkındalıklarının artırılması, çevre sorunlarına yönelik duyarlılıklarının geliştirilmesi hedefleniyor.",
+      "YARIŞMA ÜÇ AŞAMADAN OLUŞACAK 81 ilde gerçekleştirilecek yarışma; okul, ilçe ve il olmak üzere üç aşamadan oluşacak. Öğrenciler, farklı aşamalarda iklim, çevre ve sürdürülebilirliğe ilişkin bilgi ve becerilerini ortaya koyacak. Yarışmada tabiatın ve yaşanabilir çevrenin korunması, iklim değişikliği ve iklim eylemi, sürdürülebilir yaşam, biyoçeşitlilik, enerji kaynakları ve enerji verimliliği, su kaynaklarının korunması ve sürdürülebilir su yönetimi, atık yönetimi ve sıfır atık ile iklim politikaları konularından sorular yer alacak.",
+      "Türkiye'den ve Dünya’dan son dakika haberleri, köşe yazıları, magazinden siyasete, spordan seyahate bütün konuların tek adresi Hurriyet.com.tr haber içerikleri izin alınmadan, kaynak gösterilerek dahi iktibas edilemez. Kanuna aykırı ve izinsiz olarak kopyalanamaz, başka yerde yayınlanamaz."
+    ],
+    "category": "ortaogretim",
+    "tags": [
+      "COP31",
+      "ÇEVRE YARIŞMASI",
+      "ORTAÖĞRETİM",
+      "SÜRDÜRÜLEBİLİRLİK"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/ogrencilere-cevre-temali-bilgi-yarismasi-43336265",
+      "image": "/img/rencilere-evre-temal-bilgi-yar-mas-1y9s7t.jpg"
+    },
+    "publishedAt": "2026-10-10T09:35:56.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4.6,
+    "dedupeKey": "nbd8jq",
+    "rawTitle": "Öğrencilere çevre temalı bilgi yarışması",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_thzmwo_mvg6i4ek",
     "slug": "i-stanbul-buyuksehir-belediyesi-yuksekogrenim-burs-basvurulari-icin-sure-d9mjq0",
     "title": "İstanbul büyükşehir belediyesi yükseköğrenim burs başvuruları için süreç devam ediyor",
@@ -4232,6 +4405,41 @@
     "audioDuration": 20.54
   },
   {
+    "id": "n_arl0f9_mvhatcrj",
+    "slug": "akademik-personel-ve-lisansustu-egitimi-giris-sinavi-ucuncu-oturumu-basv-f6b53f",
+    "title": "Akademik personel ve lisansüstü eğitimi giriş sınavı üçüncü oturumu başvuru takvimi bekleniyor",
+    "excerpt": "2026 ALES/3 oturumuna katılarak lisansüstü eğitim almak isteyen adaylar başvuru sürecine odaklandı.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "Yüksek lisans, doktora ve akademik kariyer hedefleyen adayların katıldığı ALES'in yılın son oturumu için başvuruların başlayıp başlamadığı merak ediliyor. Peki, 2026 ALES/3 başvuruları ne zaman başlıyor? ALES/3 başvurusu nasıl ve nereden yapılır? İşte ayrıntılar...",
+      "ÖSYM'nin sınav takvimine göre 2026-ALES/3 başvuruları 7 Ekim 2026 Çarşamba günü başladı. Adaylar başvurularını 7-15 Ekim 2026 tarihleri arasında tamamlayabilecek. Başvuru süresini kaçıran adaylar için ise 21 Ekim 2026'da geç başvuru imkânı bulunuyor.",
+      "Adaylar, 7 Ekim 2026 saat 16.00'dan itibaren ALES/3 başvurularını ÖSYM Başvuru Merkezleri üzerinden gerçekleştirebilecek. Başvurular ayrıca ÖSYM Aday İşlemleri Sistemi (AİS) ve ÖSYM Aday İşlemleri Mobil Uygulaması üzerinden de yapılabilecek."
+    ],
+    "category": "sinav",
+    "tags": [
+      "ALES",
+      "ÖSYM",
+      "LİSANSÜSTÜ",
+      "AKADEMİK KADRO"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-ales-3-basvurulari-ne-zaman-basliyor-ales-3-basvurusu-nasil-ve-nereden-yapilir-2544614",
+      "image": "/img/2026-ales-3-ba-vurular-ne-zaman-ba-l-yor-ales-3-ba-vurusu-na-1xiolh.jpg"
+    },
+    "publishedAt": "2026-10-07T14:48:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4.6,
+    "dedupeKey": "f6b53f",
+    "rawTitle": "2026 ALES/3 başvuruları ne zaman başlıyor? ALES/3 başvurusu nasıl ve nereden yapılır?",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_10cdeax_mvha2myk",
     "slug": "kredi-ve-yurtlar-kurumu-yurt-basvurulari-icin-ek-kontenjan-basvuru-surec-saggg3",
     "title": "Kredi ve yurtlar kurumu yurt başvuruları için ek kontenjan başvuru sürecini başlattı",
@@ -4536,6 +4744,40 @@
     "audioDuration": 44.2
   },
   {
+    "id": "n_1ywr8se_mvhatcr8",
+    "slug": "ataturk-universitesi-acikogretim-fakultesi-guz-donemi-vize-sinav-takvimi-2vuv5s",
+    "title": "Atatürk Üniversitesi açıköğretim fakültesi Güz Dönemi vize sınav takvimi belli oldu",
+    "excerpt": "Atatürk Üniversitesi Açıköğretim Fakültesi 2026-2027 güz dönemi vize ve final sınavı tarihleri açıklandı.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "Atatürk Üniversitesi Açık ve Uzaktan Öğretim Fakültesi'nin bahar dönemi sınav tarihleri açıklanırken, öğrencilerin gözü şimdi 2026 güz dönemi vize ve final sınav takvimine çevrildi. Peki, 2026-2027 ATA AÖF Güz Dönemi vize sınav tarihleri belli oldu mu? Atatürk Üniversitesi AÖF sınav tarihleri...",
+      "Atatürk Üniversitesi Açık ve Uzaktan Öğretim Fakültesi'nin (ATA AÖF) 2026-2027 akademik takvimine göre güz dönemi sınav tarihleri şöyle:"
+    ],
+    "category": "universite",
+    "tags": [
+      "ATA AÖF",
+      "ATATÜRK ÜNİVERSİTESİ",
+      "VİZE SINAVLARI",
+      "AÇIKÖĞRETİM"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-2027-ata-aof-guz-donemi-vize-sinav-tarihleri-belli-oldu-mu-ataturk-universitesi-aof-sinav-tarihleri-2544254",
+      "image": "/img/2026-2027-ata-a-f-g-z-d-nemi-vize-s-nav-tarihleri-belli-oldu-16gj7p.jpg"
+    },
+    "publishedAt": "2026-10-06T13:19:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "2vuv5s",
+    "rawTitle": "2026-2027 ATA AÖF Güz Dönemi vize sınav tarihleri belli oldu mu? Atatürk Üniversitesi AÖF sınav tarihleri...",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_k0d7ug_mvevprmo",
     "slug": "milli-egitim-bakanligi-basmufettisi-mehmet-kiraz-ataturk-anadolu-lisesin-16wiza",
     "title": "MEB başmüfettişi mehmet kiraz Çorum atatürk Anadolu Lisesinde eğitim incelemelerinde bulundu",
@@ -4606,6 +4848,85 @@
     "status": "published",
     "audioId": "n_o3vota_mvei8kif",
     "audioDuration": 22.38
+  },
+  {
+    "id": "n_1k6uksy_mvhatcrk",
+    "slug": "darussafaka-egitim-kurumlari-uluslararasi-dunyanin-en-iyi-on-okulu-liste-b0r36x",
+    "title": "Darüşşafaka eğitim kurumları uluslararası dünyanın en iyi on okulu listesine adını yazdırdı",
+    "excerpt": "Darüşşafaka, T4 Education tarafından düzenlenen Dünyanın En İyi Okulu Ödüllerinde zorlukları aşma kategorisinde finalist oldu.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "Türkiye'nin eğitim alanındaki ilk sivil toplum kuruluşlarından biri olan ve 1863 yılından bu yana \"Eğitimde Fırsat Eşitliği\" misyonunu sürdüren Darüşşafaka Eğitim Kurumları, uluslararası alanda önemli bir başarıya imza attı.",
+      "İngiltere merkezli T4 Education platformu tarafından düzenlenen Dünyanın En İyi Okulu Ödülleri’nde (World’s Best School Prizes 2026), “Zorlukların Üstesinden Gelme” (Overcoming Adversity) kategorisinde dünyanın en iyi 10 okulu arasında yer alan Darüşşafaka, Türkiye'yi temsil etme gururunu yaşıyor.",
+      "2022 yılından bu yana dünya genelinde eğitimde başarı sağlayan ve hayatları dönüştüren okul uygulamalarını öne çıkaran T4 Education, akademik başarıların yanı sıra toplumsal etki ve kapsayıcı eğitim anlayışını da değerlendiriyor.",
+      "Yarışma kapsamında ana kategori kazananları uzman jüri tarafından belirlenirken, “Toplumun Seçimi Ödülü” (Community Choice Award) halkın oylarıyla sahibini bulacak. Darüşşafaka, 163 yıllık köklü geçmişi ve fırsat eşitliği misyonuyla yarıştığı bu kategoride tüm Türkiye'yi desteğe davet ediyor. Halk oylaması 29 Ekim 2026 tarihine kadar devam edecek.",
+      "Darüşşafaka Eğitim Kurumları Genel Müdürü Ebru Arpacı, elde edilen uluslararası başarı ve halk oylaması süreciyle ilgili yaptığı açıklamada şu ifadeleri kullandı:",
+      "\"Darüşşafaka olarak 163 yıldır her türlü imkânsızlığın karşısına eğitimi koyuyoruz. ‘Zorlukların Üstesinden Gelme’ kategorisinde dünyanın en iyi 10 okulu arasında yer almak, kuruluş felsefemizle doğrudan örtüşen ve bizleri çok gururlandıran bir başarı. Çünkü Darüşşafaka’da her çocuğun doğru imkânlar sunulduğunda kendi geleceğini değiştirebileceğine inanıyoruz. Bugün bu inancın ve 163 yıllık eğitim mirasımızın dünya çapında karşılık bulması bizim için çok kıymetli. Şimdi bu gururu Türkiye’nin desteğiyle daha da büyütmek istiyoruz. Herkesi 29 Ekim’e kadar Darüşşafaka’ya oy vermeye ve bu başarıya ortak olmaya davet ediyoruz.\"",
+      "Annesi ve/veya babası hayatta olmayan, maddi imkanları yetersiz ancak başarılı çocuklara tam burslu ve yatılı eğitim fırsatı tanıyan Darüşşafaka, İstanbul Maslak’taki kampüsünde 1000’den fazla öğrenciyi geleceğe hazırlıyor.",
+      "Darüşşafaka’nın temsil ettiği bu uluslararası başarıya katkı sunmak isteyenler, 29 Ekim 2026 tarihine kadar \"applications.worldsbestschool.org/public-vote-26/entry/4355\" adresi üzerinden oy kullanarak kuruma destek verebilecek."
+    ],
+    "category": "ortaogretim",
+    "tags": [
+      "DARÜŞŞAFAKA",
+      "T4 EDUCATION",
+      "DÜNYANIN EN İYİ OKULU",
+      "BAŞARI"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/turkiye-ye-uluslararasi-gurur-darussafaka-dunyanin-en-iyi-10-okulu-arasinda-2544122",
+      "image": "/img/t-rkiye-ye-uluslararas-gurur-dar-afaka-d-nyan-n-en-iyi-10-ok-1sem4a.jpg"
+    },
+    "publishedAt": "2026-10-06T08:14:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": true,
+    "fullText": true,
+    "score": 4.6,
+    "dedupeKey": "b0r36x",
+    "rawTitle": "Türkiye'ye uluslararası gurur: Darüşşafaka 'Dünyanın En İyi 10 Okulu' arasında!",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
+    "id": "n_c8xkoc_mvhatcrk",
+    "slug": "olcme-secme-ve-yerlestirme-merkezi-kamu-personeli-secme-sinavi-lisans-so-1jzfi4",
+    "title": "Ölçme seçme ve yerleştirme merkezi kamu personeli seçme sınavı lisans sonuçlarını açıklıyor",
+    "excerpt": "Yüz binlerce memur adayının katıldığı KPSS Lisans oturumlarına ait sonuçların ilan edilmesi bekleniyor.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "Memur olma hayali ve kariyer hedefiyle milyonlarca üniversite mezununun ter döktüğü 2026 KPSS Lisans maratonunda değerlendirme sürecinin sonuna gelindi. Ölçme, Seçme ve Yerleştirme Merkezi (ÖSYM) tarafından gerçekleştirilen sınavın ardından gözler puanların ilan edileceği tarihe çevrildi. Peki, 2026 KPSS sonuçları ne zaman, saat kaçta açıklanacak? İşte ayrıtılar...",
+      "Ölçme, Seçme ve Yerleştirme Merkezi (ÖSYM) tarafından yayımlanan sınav takvimi ve güncel duyurular doğrultusunda; 2026 KPSS Lisans sonuçları 7 Ekim 2026 Salı günü (yarın) adayların erişimine açılacak.",
+      "ÖSYM genellikle sınav sonuçlarını sabah saatlerinde ilan etme eğilimindedir. Ancak 7 Ekim 2026 tarihi için resmi kurum tarafından kesin bir saat bilgisi henüz duyurulmadı.",
+      "Adaylar sınav sonuçlarını fiziksel bir evrak veya posta yoluyla beklemeyecek olup, işlemler tamamen dijital ortamda gerçekleştirilecek:",
+      "ÖSYM AİS Adresi: Adaylar, T.C. kimlik numaraları ve ÖSYM şifreleriyle https://sonuc.osym.gov.tr adresine giriş yaparak sonuçlarını öğrenebilecekler.",
+      "e-Devlet Kapısı: Alternatif olarak e-Devlet kapısı üzerinden de ÖSYM'nin ilgili sonuç sorgulama sistemine yönlendirme yapılarak puanlar görüntülenebilecek.",
+      "Sonuç Belgesi: Açıklanan sayfada adayların doğru ve yanlış sayıları ile birlikte Genel Yetenek-Genel Kültür, Eğitim Bilimleri (varsa alan bilgisi) puanları detaylı olarak yer alacaktır."
+    ],
+    "category": "sinav",
+    "tags": [
+      "KPSS",
+      "KPSS LİSANS",
+      "ÖSYM",
+      "SONUÇ AÇIKLAMA"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/kpss-ne-zaman-aciklanacak-kpss-sonuclarina-nereden-ve-nasil-ulasilir-2544081",
+      "image": "/img/kpss-ne-zaman-a-klanacak-kpss-sonu-lar-na-nereden-ve-nas-l-u-nhdxv.jpg"
+    },
+    "publishedAt": "2026-10-06T06:51:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4.6,
+    "dedupeKey": "1jzfi43",
+    "rawTitle": "KPSS ne zaman açıklanacak? KPSS sonuçlarına nereden ve nasıl ulaşılır?",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "n_8ksn21_mvha2myb",
@@ -4688,6 +5009,40 @@
     "lang": "tr",
     "audioId": "n_1awq62z_mvha2myl",
     "audioDuration": 20.22
+  },
+  {
+    "id": "n_1voc718_mvhatcr8",
+    "slug": "kamu-personeli-secme-sinavi-ortaogretim-oturumu-oncesi-sinav-yerleri-bek-5ib6gd",
+    "title": "Kamu personeli seçme sınavı Ortaöğretim oturumu öncesi sınav yerleri bekleniyor",
+    "excerpt": "KPSS ortaöğretim oturumuna katılacak yüz binlerce aday sınav giriş belgelerinin yayımlanmasını bekliyor.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "KPSS Ortaöğretim sınav yerlerinin açıklanması için adayların bekleyişi sürüyor. Yüz binlerce aday, sınav giriş belgelerinin ne zaman yayımlanacağını merak ediyor. Peki, 2026 KPSS Ortaöğretim sınavı ne zaman? KPSS Ortaöğretim sınav giriş belgeleri ne zaman yayımlanacak? İşte ayrıntılar...",
+      "ÖSYM, KPSS Ortaöğretim sınav giriş belgelerinin ne zaman erişime açılacağına ilişkin henüz bir duyuru yayımlamadı. Belgeler yayımlandığında adaylar, ÖSYM Aday İşlemleri Sistemi (AİS) üzerinden T.C. kimlik numarası ve şifreleriyle giriş yaparak sınav merkezi, bina ve salon bilgilerini görüntüleyebilecek."
+    ],
+    "category": "sinav",
+    "tags": [
+      "KPSS",
+      "KPSS ORTAÖĞRETİM",
+      "ÖSYM",
+      "MEMUR ALIMI"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-kpss-ortaogretim-sinavi-ne-zaman-kpss-ortaogretim-sinav-giris-belgeleri-ne-zaman-yayimlanacak-2543800",
+      "image": "/img/2026-kpss-orta-retim-s-nav-ne-zaman-kpss-orta-retim-s-nav-gi-nhdxv.jpg"
+    },
+    "publishedAt": "2026-10-05T08:25:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "5ib6gd",
+    "rawTitle": "2026 KPSS Ortaöğretim sınavı ne zaman? KPSS Ortaöğretim sınav giriş belgeleri ne zaman yayımlanacak?",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "f_1ukuxaq_mvfx4puu",
@@ -4894,6 +5249,76 @@
     "hasAudio": false
   },
   {
+    "id": "n_1cjdw8b_mvhatcrh",
+    "slug": "olcme-secme-ve-yerlestirme-merkezi-kamu-personeli-secme-sinavi-on-lisans-1hvvpw",
+    "title": "Ölçme seçme ve yerleştirme merkezi kamu personeli seçme sınavı ön lisans oturumunu tamamladı",
+    "excerpt": "ÖSYM tarafından organize edilen 2026 Kamu Personeli Seçme Sınavı ön lisans oturumu 4 Ekim'de yapıldı.",
+    "body": [
+      "81 il ve Lefkoşa'daki 160 sınav merkezinde uygulanan sınav için 4 bin 443 bina ve 83 bin 465 salon kullanıldı. Saat 10.15'te başlayan sınavda adaylara, 120 sorudan oluşan genel yetenek-genel kültür testleri için 130 dakika cevaplama süresi verildi. Nüfus cüzdanı bulunmayan veya nüfus cüzdanında kimlik numarası ve fotoğraf olmayan adaylar için il ve ilçe nüfus müdürlükleri açık tutuldu.",
+      "SONUÇLAR 30 EKİM’DE Sınava 1 milyon 593 bin 19 aday başvurdu. 6 bin 59 engelli adayın katıldığı sınavda, 218 bin 455 görevli yer aldı. Sınav güvenliğinin sağlanması amacıyla 17 bin 726 emniyet mensubu da sahada görev yaptı. Sınav sonuçları, açıklandığı tarihten itibaren 2 yıl süreyle geçerli olacak. Yeni bir sınavın yapılamaması durumunda ise sınav sonuçları, bir sonraki sınav sonuçlarının açıklanmasına kadar geçerli olmaya devam edecek.",
+      "SORU KİTAPÇIKLARI ERİŞİEM AÇILDI KPSS Ön Lisans sınavının Temel Soru Kitapçığı ile Cevap Anahtarı'nın yüzde 10'u erişime açıldı. Sınava başvuran adaylar, sınav sorularının tamamına Temel Soru Kitapçığı diziliminde ÖSYM 'nin Aday İşlemleri Sistemi (AİS) üzerinden T.C. kimlik numaraları ve aday şifreleriyle erişebilecek. Adayların Temel Soru Kitapçığı'nı görüntüleme süreci 14 Ekim saat 23.59'da sona erecek. .",
+      "Türkiye'den ve Dünya’dan son dakika haberleri, köşe yazıları, magazinden siyasete, spordan seyahate bütün konuların tek adresi Hurriyet.com.tr haber içerikleri izin alınmadan, kaynak gösterilerek dahi iktibas edilemez. Kanuna aykırı ve izinsiz olarak kopyalanamaz, başka yerde yayınlanamaz."
+    ],
+    "category": "sinav",
+    "tags": [
+      "KPSS",
+      "ÖN LİSANS",
+      "ÖSYM",
+      "KAMU SINAVLARI"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/kpss-on-lisans-oturumu-yapildi-43329237",
+      "image": "/img/kpss-n-lisans-oturumu-yap-ld-1vdyjd.jpg"
+    },
+    "publishedAt": "2026-10-04T11:49:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4.6,
+    "dedupeKey": "1hvvpwt",
+    "rawTitle": "KPSS ön lisans oturumu yapıldı",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
+    "id": "n_1ao6evx_mvhatcrl",
+    "slug": "kamu-personeli-secme-sinavi-on-lisans-oturumu-oncesi-giris-belgeleri-eri-1g5k7k",
+    "title": "Kamu personeli seçme sınavı ön lisans oturumu öncesi giriş belgeleri erişime açıldı",
+    "excerpt": "KPSS ön lisans sınavına girecek adaylar sınav giriş belgelerini ÖSYM sistemi üzerinden alabiliyor.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "ÖSYM tarafından uygulanacak olan KPSS Önlisans sınavı sosyal medyada araştırılmaya devam ediyor. Peki, KPSS Önlisans sınavı ne zaman, saat kaçta? KPSS Önlisans sınava giriş belgesi nasıl alınır?",
+      "ÖSYM, KPSS Ön Lisans adaylarının sınava girecekleri bina, salon ve sıra bilgilerini gösteren Sınava Giriş Belgelerini 24 Eylül 2026 tarihi itibarıyla erişime açtı. ÖSYM AİS üzerinden sınav giriş belgesi alınabiliyor.",
+      "ÖSYM tarafından açıklanan sınav takvimine göre KPSS Ön Lisans oturumu, 4 Ekim 2026 Pazar günü düzenlenecek. Sınav saat 10.15'te başlayacak. 130 Dakika sürecek olan sınavda 120 soru sorulacak."
+    ],
+    "category": "sinav",
+    "tags": [
+      "KPSS",
+      "ÖN LİSANS",
+      "SINAV GİRİŞ BELGESİ",
+      "ÖSYM"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/kpss-onlisans-sinavi-ne-zaman-saat-kacta-kpss-onlisans-sinava-giris-belgesi-nasil-alinir-2543296",
+      "image": "/img/kpss-nlisans-s-nav-ne-zaman-saat-ka-ta-kpss-nlisans-s-nava-g-1lf9gd.jpg"
+    },
+    "publishedAt": "2026-10-03T07:56:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4.6,
+    "dedupeKey": "1g5k7kx",
+    "rawTitle": "KPSS Önlisans sınavı ne zaman, saat kaçta? KPSS Önlisans sınava giriş belgesi nasıl alınır?",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "f_1k1h7bv_mvfy5qkr",
     "slug": "yabanci-serebral-palsili-ogrenci-goz-izleme-teknolojisiyle-gcse-sina-1k1h7b",
     "title": "Serebral palsili öğrenci göz izleme teknolojisiyle GCSE sınavlarını başarıyla tamamladı",
@@ -4960,6 +5385,45 @@
     "lang": "en",
     "rawTitle": "‘Just like my big brothers’: boy with cerebral palsy passes GCSEs with eye-tracking technology",
     "hasAudio": false
+  },
+  {
+    "id": "n_1c4agtt_mvhatcri",
+    "slug": "yuksekogretim-kurulu-universitelerde-evlilik-oncesi-ve-aile-egitim-progr-jsbkas",
+    "title": "Yükseköğretim kurulu üniversitelerde evlilik öncesi ve aile eğitim programlarının yaygınlaştırılmasını istedi",
+    "excerpt": "YÖK tüm üniversitelere gönderdiği resmi yazıyla aile odaklı eğitim ve seminer programlarının artırılmasını talep etti.",
+    "body": [
+      "YÖK ve Aile ve Sosyal Hizmetler Bakanlığı arasında yürütülecek iş birliği çalışmaları kapsamında, yükseköğretim kurumlarında gerçekleştirilmesi planlanan eğitim, seminer ve bilgilendirme faaliyetlerine yönelik yazı gönderildi. Bu doğrultuda, öğrencilerin aile yaşamı, sağlıklı iletişim ve kişisel gelişim alanlarındaki bilgi ve becerilerinin desteklenmesi, Bakanlığın hizmet, program ve destek mekanizmalarına yönelik tanıtım ve farkındalık çalışmalarının yürütülmesi, “Aile ve Nüfus On Yılı” vizyonu doğrultusunda iletişim, problem çözme, karar verme, zaman yönetimi, stresle baş etme ve finansal planlama becerilerini içeren “Gençler İçin Yaşam Becerileri” dersinin müfredata eklenmesinin değerlendirilmesi öngörülüyor.",
+      "“Başkanlığımız ile Aile ve Sosyal Hizmetler Bakanlığı arasında imzalanan protokol kapsamında İl Müdürlükleri ve üniversitelerin iş birliğinde;",
+      "* Evlilik Öncesi Eğitim Programı kapsamında evlilik hazırlığında olan üniversite öğrencileri ve üniversite personeline yönelik eğitim, seminer ve bilgilendirme faaliyetlerinin gerçekleştirilmesi,",
+      "* Aile Eğitim Programı kapsamında eğitim-iletişim, sağlık, hukuk, medya ve iktisat olmak üzere 5 alan ve 28 modülden oluşan eğitim, seminer ve bilgilendirme faaliyetlerinin yaygınlaştırılması,",
+      "* Modüler Aile Eğitim Programı kapsamında anne ve babalara yönelik, en fazla 30 kişilik gruplarla 9-12 hafta süren kapalı grup eğitim uygulaması ve üniversite öğrencilerine yönelik aile yaşamı, sağlıklı iletişim ve kişisel gelişim alanlarında bilgi ve becerilerin desteklenmesi amacıyla açık grup eğitim uygulaması,",
+      "* Üniversite öğrencilerinin Bakanlık tarafından sunulan hizmet, program ve destek mekanizmaları hakkında bilgilendirilmesine yönelik tanıtım ve farkındalık faaliyetlerinin yürütülmesinin faydalı olacağı değerlendirilmiştir.",
+      "* Aile ve Nüfus On Yılı vizyonu doğrultusunda “Gençler İçin Yaşam Becerileri” teması çerçevesinde zorunlu veya seçmeli bir dersin müfredata eklenmesinin; öğrencilerin iletişim, problem çözme, karar verme, zaman yönetimi, stresle baş etme ve finansal planlama gibi becerilerine ilişkin bilgi ve farkındalıklarının artırılmasına katkı sağlayacağı ve uygun görülmesi halinde Bakanlık ile iş birliği içerisinde ortak bir çalışma yürütülebileceği bildirilmiştir.”",
+      "Türkiye'den ve Dünya’dan son dakika haberleri, köşe yazıları, magazinden siyasete, spordan seyahate bütün konuların tek adresi Hurriyet.com.tr haber içerikleri izin alınmadan, kaynak gösterilerek dahi iktibas edilemez. Kanuna aykırı ve izinsiz olarak kopyalanamaz, başka yerde yayınlanamaz."
+    ],
+    "category": "universite",
+    "tags": [
+      "YÖK",
+      "ÜNİVERSİTE",
+      "AİLE EĞİTİMİ",
+      "SEMİNER"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/universitelere-aile-egitim-programi-43327498",
+      "image": "/img/niversitelere-aile-e-itim-program-go8awl.jpg"
+    },
+    "publishedAt": "2026-10-02T13:47:07.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4.6,
+    "dedupeKey": "jsbkas",
+    "rawTitle": "Üniversitelere ‘Aile Eğitim Programı’",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "n_1815v24_mvha2myn",
@@ -5117,6 +5581,44 @@
     "lang": "en",
     "audioId": "f_1ycyhfj_mvfsk51n",
     "audioDuration": 50.69
+  },
+  {
+    "id": "n_127z7s_mvhatcre",
+    "slug": "egitim-i-s-sendikasi-gecici-gorevlendirme-onay-sisteminin-dersleri-bos-b-fd9k5z",
+    "title": "Eğitim-İş sendikası geçici görevlendirme onay sisteminin dersleri boş bıraktığını bildirdi",
+    "excerpt": "Eğitim-İş İstanbul 2 No'lu Şube Başkanı Kadir Toruş, öğretmen görevlendirmelerindeki bürokrasinin sınıfları öğretmensiz bıraktığını söyledi.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "Milli Eğitim Bakanlığı’nın (MEB) geçici öğretmen görevlendirmelerini merkezden denetlemek amacıyla devreye aldığı yeni sistem, okullarda krize yol açtı. Geçici görevlendirme için bakanlıktan “sistem izni” bekleyen öğretmenlerin sınıflara giremediği, bazı okullarda derslerin haftalardır boş geçtiği belirtildi. Cumhuriyet’e konuşan Eğitim-İş İstanbul 2 No’lu Şube Başkanı Kadir Toruş, “Öğrenciler öğretmenlerine, öğretmenler de öğrencilerine kavuşamıyor” dedi.",
+      "Kadir Toruş, yereldeki keyfi ve kayırmacı görevlendirmelerin önüne geçilmesi amacıyla kriter getirilmesini olumlu bulduklarını ancak sistemin aşırı merkezileştirilmesi nedeniyle işlemez hale geldiğini söyledi. Toruş, “Bakanlık süreci öyle merkezileştirdi ki bugün geçici görevlendirme onayları bir türlü okullara ulaşmıyor” dedi.",
+      "Personel genel müdürlüğüne yapılan başvurularda çok sayıda belge ve gerekçe istendiğini belirten Toruş, “Görev yerinden personel kadrosuna, asli görevin nasıl karşılanacağından diğer seçeneklerin neden yetersiz kaldığına kadar her şey merkeze gönderiliyor. Süreç bürokrasi içinde kilitlenmiş durumda” ifadelerini kullandı.",
+      "Krizin doğrudan öğrencileri etkilediğini belirten Toruş, “Okulda öğretmene ihtiyaç var, görevlendirilecek öğretmen de var ancak onay çıkmadığı için öğretmen sınıfa giremiyor” dedi. Toruş, “Haftalardır öğrenciler öğretmenlerine, öğretmenler de öğrencilerine kavuşamıyor. Dersler boş geçiyor. Öğretmen atıl şekilde bekletilirken öğrenciler eğitimden mahrum kalıyor” diye konuştu. Toruş, sistemin bu haliyle hem eğitim hakkını hem de kamu kaynaklarının etkin kullanımını olumsuz etkilediğini savundu.",
+      "Toruş, görevlendirme izinlerinin değerlendirilme sürecine ilişkin dikkat çeken bir iddiayı da aktardı. Bakanlığın “sistem izni” verirken öğretmenlerin sendikal tercihlerinin dikkate alındığı yönünde sahadan duyumlar aldıklarını belirten Toruş, iddiaların açıklığa kavuşturulması gerektiğini söyledi."
+    ],
+    "category": "meb",
+    "tags": [
+      "MEB",
+      "EĞİTİM İŞ",
+      "ÖĞRETMEN GÖREVLENDİRME",
+      "İSTANBUL"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/meb-in-gorevlendirme-sistemi-siniflari-bos-birakti-ogretmen-var-onay-yok-2542926",
+      "image": "/img/meb-in-g-revlendirme-sistemi-s-n-flar-bo-b-rakt-retmen-var-o-myoiqj.jpg"
+    },
+    "publishedAt": "2026-10-02T01:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "province": "İstanbul",
+    "fullText": true,
+    "score": 5.6,
+    "dedupeKey": "fd9k5z",
+    "rawTitle": "MEB’in görevlendirme sistemi sınıfları boş bıraktı: Öğretmen var, onay yok",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "n_18do9m6_mvevury5",
@@ -5593,6 +6095,40 @@
     "status": "published",
     "audioId": "n_183mh6r_mveiblan",
     "audioDuration": 20.74
+  },
+  {
+    "id": "n_o2sh1h_mvhatcrd",
+    "slug": "van-in-bahcesaray-ilcesindeki-koy-okulunda-umut-ogretmen-i-ki-kardes-ici-1ev70o",
+    "title": "Van'ın bahçesaray ilçesindeki köy okulunda umut öğretmen İki kardeş için ders veriyor",
+    "excerpt": "Van'ın Bahçesaray ilçesine bağlı kırsal Arvas Mahallesi'nde sınıf öğretmeni Umut Demir, okuldaki iki kardeşi geleceğe hazırlıyor.",
+    "body": [
+      "Van'ın Bahçesaray ilçesi Arvas Mahallesi'ne 1,5 yıl önce atanan sınıf öğretmeni Umut Demir, okulun tek öğrencileri olan iki kardeşin eğitimini kesintisiz sürdürüyor.",
+      "Başka öğrencisi bulunmayan okulda fedakarlıkla görev yapan öğretmen Demir, kardeşleri geleceğe taşımak adına çalışmalarına devam ediyor."
+    ],
+    "category": "ilkogretim",
+    "tags": [
+      "VAN",
+      "BAHÇESARAY",
+      "KÖY OKULU",
+      "ÖĞRETMEN"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/koca-okulda-baska-ogrenci-yok-umut-ogretmen-iki-kardesi-gelecegi-hazirliyor-43323425",
+      "image": "/img/koca-okulda-ba-ka-renci-yok-umut-retmen-iki-karde-i-gelece-i-nenv4e.jpg"
+    },
+    "publishedAt": "2026-09-29T10:04:01.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "province": "Van",
+    "fullText": false,
+    "score": 5.6,
+    "dedupeKey": "1ev70oj",
+    "rawTitle": "Koca okulda başka öğrenci yok... Umut öğretmen iki kardeşi geleceği hazırlıyor",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "n_1fo2p4s_mveiblan",
@@ -6668,6 +7204,42 @@
     "status": "review"
   },
   {
+    "id": "n_178xdis_mvhatcrl",
+    "slug": "milli-egitim-bakanligi-takvimine-gore-okullarda-birinci-ara-tatil-donemi-qvw3th",
+    "title": "Milli Eğitim Bakanlığı takvimine göre okullarda birinci ara tatil dönemi yaklaşıyor",
+    "excerpt": "Eğitim öğretim yılının başlamasının ardından öğrenci ve veliler ilk ara tatilin uygulanacağı tarihe odaklandı.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "Okulların 14 Eylül 2026'da açılmasıyla milyonlarca öğrenci için 2026-2027 eğitim öğretim yılı başladı. Ders başı yapan öğrenciler, sınav ve ders programlarının yanı sıra yıl içinde uygulanacak tatil tarihlerini de araştırıyor. Özellikle ilk ara tatilin ne zaman başlayacağı ve kasım ayında öğrencilerin kaç gün tatil yapacağı gündemde yer alıyor. Peki, 2026-2027 okullarda ilk ara tatil ne zaman başlayacak? İlk ara tatile kaç gün kaldı? İşte ayrıntılar...",
+      "2026-2027 eğitim ve öğretim yılının birinci dönem ara tatili, 16 Kasım 2026 Pazartesi günü başlayacak ve 20 Kasım 2026 Cuma günü sona erecek.",
+      "Yarıyıl tatili, 25 Ocak 2027 Pazartesi günü başlayacak ve 5 Şubat 2027 Cuma günü tamamlanacak. İkinci dönem ise 8 Şubat 2027 Pazartesi günü başlayacak.",
+      "İkinci dönemin ara tatili, 8 Mart 2027 Pazartesi günü başlayacak ve 12 Mart 2027 Cuma günü sona erecek."
+    ],
+    "category": "meb",
+    "tags": [
+      "MEB",
+      "ARA TATİL",
+      "EĞİTİM TAKVİMİ",
+      "OKULLAR"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-2027-okullarda-ilk-ara-tatil-ne-zaman-baslayacak-ilk-ara-tatile-kac-gun-kaldi-2540594",
+      "image": "/img/2026-2027-okullarda-ilk-ara-tatil-ne-zaman-ba-layacak-ilk-ar-nh67rn.jpg"
+    },
+    "publishedAt": "2026-09-24T09:13:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4.6,
+    "dedupeKey": "qvw3th",
+    "rawTitle": "2026-2027 okullarda ilk ara tatil ne zaman başlayacak? İlk ara tatile kaç gün kaldı?",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_gbzr1f_mvha2myw",
     "slug": "vakiflar-genel-mudurlugu-2026-2027-donemi-burs-takvimini-kamuoyu-ile-pay-1nfx5u",
     "title": "Vakıflar genel müdürlüğü 2026-2027 dönemi burs takvimini kamuoyu ile paylaşmaya başladı",
@@ -7058,6 +7630,43 @@
     "audioDuration": 142.96
   },
   {
+    "id": "n_1279l7i_mvhatcr9",
+    "slug": "yuksekogretim-kurumlari-sinavi-ek-yerlestirme-sonuclari-icin-heyecanli-b-1yhkim",
+    "title": "Yükseköğretim kurumları sınavı ek yerleştirme sonuçları için heyecanlı bekleyiş sürüyor",
+    "excerpt": "YKS ek yerleştirme sürecinin tamamlanmasının ardından adaylar ikinci yerleştirme sonuçlarının ilan edilmesini bekliyor.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "Üniversitelerde boş kalan kontenjanlar için gerçekleştirilen 2026 YKS ek tercihleri sona erdi. Peki, 2026 YKS ek tercih (2. yerleştirme) sonuçları ne zaman açıklanacak? Üniversite ikinci yerleştirme sonuçları belli oldu mu?",
+      "2026-YKS ek tercih sonuçlarının açıklanacağı tarihe ilişkin ÖSYM tarafından henüz resmi bir duyuru yapılmadı.",
+      "Ek yerleştirme işlemlerinin tamamlanmasının ardından adayların tercihleri ÖSYM tarafından değerlendirilecek. YKS ek tercih sonuçlarının önümüzdeki bir ay içerisinde açıklanması öngörülüyor. Ancak kesin sonuç tarihi, ÖSYM'nin yapacağı resmi açıklamayla belli olacak.",
+      "Adaylar, 2026 YKS ek yerleştirme sonuçlarını ÖSYM'nin Sonuç Açıklama Sistemi üzerinden T.C. kimlik numarası ve aday şifreleriyle sorgulayabilecek.",
+      "Sonuçların açıklanmasının ardından adaylara ayrıca basılı Yerleştirme Sonuç Belgesi gönderilmeyecek. Bu nedenle üniversiteye yerleşip yerleşmediğini öğrenmek isteyen adayların sonuçlarını çevrim içi olarak kontrol etmesi gerekecek."
+    ],
+    "category": "universite",
+    "tags": [
+      "YKS",
+      "EK TERCİH",
+      "ÖSYM",
+      "ÜNİVERSİTE"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-yks-ek-tercih-2-yerlestirme-sonuclari-ne-zaman-aciklanacak-universite-ikinci-yerlestirme-sonuclari-belli-oldu-mu-2539747",
+      "image": "/img/2026-yks-ek-tercih-2-yerle-tirme-sonu-lar-ne-zaman-a-klanaca-1usjk3.jpg"
+    },
+    "publishedAt": "2026-09-22T06:12:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "1yhkimf",
+    "rawTitle": "2026 YKS ek tercih (2. yerleştirme) sonuçları ne zaman açıklanacak? Üniversite ikinci yerleştirme sonuçları belli oldu mu?",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "f_55zs3a_mvgwoz8v",
     "slug": "yabanci-learning-commons-k-12-egitim-teknolojilerini-gelistirmek-ama-55zs3a",
     "title": "Learning Commons, K-12 eğitim teknolojilerini geliştirmek amacıyla yeni açık platformunu hizmete sundu",
@@ -7130,6 +7739,41 @@
     "audioDuration": 25.54
   },
   {
+    "id": "n_14jrkuh_mvhatcri",
+    "slug": "milli-egitim-bakanligi-veli-gorusmeleri-icin-okul-randevu-sistemine-tele-vp66n4",
+    "title": "Milli Eğitim Bakanlığı Veli görüşmeleri için okul randevu sistemine telefon kanalını ekledi",
+    "excerpt": "MEB velilerin okul yöneticileri ve öğretmenlerle düzenli iletişim kurması adına randevu sistemine telefonla başvuru imkanını dahil etti.",
+    "body": [
+      "MEB tarafından velilerin, öğrencilerinin eğitim ve gelişim durumları hakkında bilgi alabilmeleri, okul yönetimi ve eğitimcilerle daha etkin iletişim kurabilmeleri amacıyla \"Okul Randevu Sistemi\" hayata geçirildi. Veli görüşmeleri, ülke genelinde yalnızca \"Okul Randevu Sistemi\" üzerinden planlanarak yürütülüyor. Velilerin randevusuz ziyaretlerine ve öğrencinin velisi veya vasisi olmayan kişilerin okula girişine izin verilmiyor. Uygulama kapsamında veliler; okul idarecileri, öğretmenler ve rehber öğretmenlerle öğrencilerinin durumunu değerlendirmek, gelişimsel durumları hakkında bilgi edinmek, rehberlik hizmetlerinden yararlanmak, talep ve önerilerini iletmek amacıyla görüşme randevusu oluşturabiliyor.",
+      "MESJALA BİLGİLENDİRME Veliler için Okul Randevu Sistemi'ne MEBİM de dâhil edildi. MEBİM'in 444 0 632 hattı üzerinden 7 gün 24 saat hizmet alınabiliyor. İletişim Merkezi aracılığıyla okul yönetimi veya öğretmenle görüşmek isteyen veliler yeni randevu oluşturabildiği gibi daha önce oluşturdukları randevuları da iptal edebiliyor. MEBİM aracılığıyla oluşturulan randevular, ilgili okul tarafından değerlendiriliyor. Randevuyla ilgili değerlendirme sonucu hakkında veliye SMS veya e-posta yoluyla bilgilendirme yapılıyor.",
+      "FARKLI KANALLARDAN RANDEVU Öğretmen-veli görüşmelerinin daha güvenli ve planlı yürütülmesi amacıyla uygulanan Okul Randevu Sistemi, velilerin okul yönetimi ve eğitimcilerle iletişimini kolaylaştırmayı hedefliyor. Bu doğrultuda veliler \" okulrandevu. meb .gov.tr \" internet adresinin yanı sıra e-Okul Veli Bilgilendirme Sistemi (VBS) ve MEBİM 444 0 632 numaralı telefon hattı olmak üzere farklı kanallar üzerinden randevu sürecini başlatabiliyor.",
+      "Türkiye'den ve Dünya’dan son dakika haberleri, köşe yazıları, magazinden siyasete, spordan seyahate bütün konuların tek adresi Hurriyet.com.tr haber içerikleri izin alınmadan, kaynak gösterilerek dahi iktibas edilemez. Kanuna aykırı ve izinsiz olarak kopyalanamaz, başka yerde yayınlanamaz."
+    ],
+    "category": "meb",
+    "tags": [
+      "MEB",
+      "OKUL RANDEVU",
+      "VELİ İLETİŞİMİ",
+      "ÖĞRETMEN"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/velilere-telefonla-randevu-donemi-43314248",
+      "image": "/img/velilere-telefonla-randevu-d-nemi-z1jtyq.jpg"
+    },
+    "publishedAt": "2026-09-21T11:52:34.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4.6,
+    "dedupeKey": "vp66n4",
+    "rawTitle": "Velilere telefonla randevu dönemi",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_4l1b2p_mvei8kif",
     "slug": "milli-egitim-bakanligi-veliler-icin-okul-randevu-sistemi-uygulamasini-ba-log73x",
     "title": "Milli Eğitim Bakanlığı Veliler için okul randevu sistemi uygulamasını başlattı",
@@ -7168,6 +7812,43 @@
     "status": "published",
     "audioId": "n_4l1b2p_mvei8kif",
     "audioDuration": 142.16
+  },
+  {
+    "id": "n_2segtm_mvhatcra",
+    "slug": "yuksekogretim-kurumlari-sinavi-ek-tercih-surecinde-basvurularda-son-gunl-8zoqpo",
+    "title": "Yükseköğretim kurumları sınavı ek tercih sürecinde başvurularda son günlere girildi",
+    "excerpt": "Üniversiteye ek yerleştirme üzerinden kayıt hakkı kazanmak isteyen adaylar için ek tercih kılavuzu yayımlandı.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "2026 YKS ikinci yerleştirme başvurusunun ne zaman sona ereceği, ÖSYM tarafından yayımlanan ek tercih kılavuzuyla netleşti. Kılavuzda ek tercih tarihleri, boş kontenjanlar ve tercih işlemlerinin nasıl yapılacağına ilişkin bilgiler yer aldı. Peki, 2026 YKS ek tercihler son gün ne zaman? YKS ek yerleştirme başvuruları nasıl yapılır? İşte ayrıntılar...",
+      "YKS üniversite ek yerleştirme işlemlerine ilişkin ÖSYM'den beklenen açıklama geldi. Buna göre 2026 YKS sonuçlarına göre 2026-2027 eğitim öğretim yılı için yükseköğretim programlarına yapılacak ek yerleştirme işlemleri ÖSYM tarafından gerçekleştirilecek.",
+      "Adaylar, 2026-YKS Ek Yerleştirme tercihlerini 17-21 Eylül 2026 tarihleri arasında T.C. kimlik numarası ve aday şifresiyle ÖSYM'nin Aday İşlemleri Sistemi (AİS) üzerinden veya ÖSYM Aday İşlemleri Mobil Uygulaması aracılığıyla bireysel olarak yapabilecek.",
+      "Tercih işlemleri 17 Eylül 2026 tarihinde saat 16.00'da başlayacak ve 21 Eylül 2026 tarihinde saat 23.59'da sona erecek.",
+      "2026-YKS Ek Yerleştirme tercihleri, T.C. kimlik numarası ve aday şifresiyle ÖSYM'nin Aday İşlemleri Sistemi (AİS) üzerinden ais.osym.gov.tr adresinde bireysel olarak yapılacak."
+    ],
+    "category": "universite",
+    "tags": [
+      "YKS",
+      "EK TERCİH",
+      "ÖSYM",
+      "TERCİH KILAVUZU"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-yks-ek-tercihler-son-gun-ne-zaman-yks-ek-yerlestirme-basvurulari-nasil-yapilir-2539456",
+      "image": "/img/2026-yks-ek-tercihler-son-g-n-ne-zaman-yks-ek-yerle-tirme-ba-1usjk3.jpg"
+    },
+    "publishedAt": "2026-09-21T07:21:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "8zoqpo",
+    "rawTitle": "2026 YKS ek tercihler son gün ne zaman? YKS ek yerleştirme başvuruları nasıl yapılır?",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "f_1x6s9j9_mvgwoz8v",
@@ -7496,6 +8177,80 @@
     "audioDuration": 18.18
   },
   {
+    "id": "n_1kvvhht_mvhatcrf",
+    "slug": "ankara-daki-tarihi-abidinpasa-ilkokulu-guclendirme-gerekcesiyle-donem-ba-1eklrg",
+    "title": "Ankara'daki tarihi abidinpaşa ilkokulu güçlendirme gerekçesiyle dönem başladıktan sonra boşaltıldı",
+    "excerpt": "Ankara'da 73 yıllık Abidinpaşa İlkokulu eğitim dönemi açıldıktan sonra boşaltılırken veliler duruma tepki gösterdi.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "Ankara Mamak'ta yaklaşık 300 öğrencinin okuduğu Abidinpaşa İlkokulu, eğitim öğretim dönemi başlamasının ardından “binada güçlendirme ve onarma” denilerek boşaltıldı. 16 öğretmen norm fazlası durumuna düştü. Öğrencilerden bazıları başka okula yerleştirilirken, bazıları boşta kaldı. Eğitim Sen Ankara 1 No'lu Şube, boşaltılan 73 yıllık Mamak Abidinpaşa İlkokulu önünde velilerle birlikte açıklama yaptı. Öğrenci ve öğretmenlerin mağduriyetlerinin bir an evvel giderilmesi gerektiğini söyleyen şube başkanı Mehmet Aydoğdu, “Mamak'taki okul binaları kamu yararına uygun kullanılsın. Boş derslikler dururken çocukları dağıtmayın. Sorunu öğrencide değil plansızlıkta arayın” dedi.",
+      "“İlçe ve il milli eğitim müdürlüğünün, bakanlığın gözü kör mü kulağı sağır mı?” sorularını yönelten Aydoğdu, “Abidinpaşa İlkokulu'nda çocukların eğitim hakkı bürokratların insafına bırakılamaz. Bir binanın onarım ve güçlendirmeye ihtiyaç duyması, çocukların okullardan koparılmasını ve eğitim sisteminin parçalanmasını gerektirmez. Mevcut boş dersliklerin değerlendirilmesi mümkündür. Şu anda Nazım Belger İlkokulu buraya 600 metre uzaklıkta. Git oraya yerleştir. Bu kadar basit.  Ankara bir boş yer kalmadı. Bu öğretmenleri nereye göndereceksiniz?” ifadelerini kullandı.",
+      "Çocuklarının psikolojilerinin bozulduğunu ifade eden veliler ise, “Derdimiz, çocuklarımızın öğretmenlerinden ve sınıf arkadaşlarından ayrılmamasıydı. Bir öğrencinin aynı anda okulunun, arkadaşının ve öğretmeninin değişmesi pedagojik olarak ne kadar doğru? Okulun önemi yok. Çocuklarımızın arkadaşlarından ve öğretmenlerinden ayrılmasını istemiyoruz” diye konuştu.",
+      "Veliler, Ankara İl Milli Eğitim Müdürlüğü’ne de dilekçe sundu. Dilekçede veliler Nazım Berger İlkokulu ve Ahmet Hızal İlkokulu’ndaki boş sınıflarının tespitinin yapılarak Abidinpaşa İlkokulu öğrencilerinin ve öğretmenlerinin eğitim-öğretim faaliyetlerini birlikte sürdürebilmeleri amacıyla kullanılmasını, okulun geleceğine ilişkin öğrenci ve velilere açık bilgilendirme yapılmasını, süreç nedeniyle öğrencilerin eğitim hakkının ve öğretmenleriyle kurdukları bağın zarar görmemesi için gerekli tüm tedbirlerin alınmasını istedi."
+    ],
+    "category": "ilkogretim",
+    "tags": [
+      "ANKARA",
+      "ABİDİNPAŞA İLKOKULU",
+      "OKUL GÜÇLENDİRME",
+      "MEB"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/egitimde-yine-plansizlik-73-yillik-okul-bosaltildi-2538160",
+      "image": "/img/e-itimde-yine-plans-zl-k-73-y-ll-k-okul-bo-alt-ld-rcuwii.jpg"
+    },
+    "publishedAt": "2026-09-16T12:59:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "province": "Ankara",
+    "fullText": true,
+    "score": 5.6,
+    "dedupeKey": "1eklrgd",
+    "rawTitle": "Eğitimde yine plansızlık: 73 yıllık okul boşaltıldı",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
+    "id": "n_uxrmu1_mvhatcrg",
+    "slug": "sivas-ta-bir-ilkokul-kantininde-ihtiyac-sahibi-ogrenciler-icin-askida-to-14py1m",
+    "title": "Sivas'ta bir ilkokul kantininde ihtiyaç sahibi öğrenciler için askıda tost uygulaması yapılıyor",
+    "excerpt": "Sivas'ta bir ilkokul kantininde maddi imkanı yetersiz öğrencilere destek olmak amacıyla askıda tost uygulaması hayata geçirildi.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "Yeni eğitim-öğretim dönemi başlarken öğrencilerin başlıca sorunlarından biri haline gelen beslenme yetersizliği karşısında iktidarın adım atmaması, yurttaşları sorunu kendi yollarıyla çözmeye itiyor. Buna ilişkin örneklerden biri de Sivas'ta görüldü.",
+      "Sivas'ta kent merkezinde eğitim veren Dört Eylül Ortaokulu'nda kantin işletmeciliği yapan Ümit Alpan, ihtiyaç sahibi öğrenciler için \"Askıda Tost\" uygulaması yürütüyor.",
+      "3 yıldır devam eden uygulamada, ihtiyacı olan öğrencilerin kantin ücreti eğitim öğretim sezonu boyunca \"durumu iyi\" olanlar tarafından karşılanıyor. Okul yönetimi tarafından belirlenen öğrenciler okul dönemi boyunca ücretsiz öğünden faydalanıyor.",
+      "Kantin işletmecisi Ümit Alpan, \"Dünyadaki en güzel yer bir çocuğun kalbidir diyerek tam 2 yıldır bir çocuğun tebessümüne gölge düşmesin, hiçbir evladımız arkadaşına bakıp iç çekmesin diye böyle bir kampanya başlattım. Bugün dostlarımızın desteğiyle askıda tost kampanyamızın 3'ncü yılı oldu. 2 sene önce yaptığımızda neredeyse geçen senenin ilk yarısına kadar yetecek askıda tostlarımızı toplamıştık. Veren elin alan eli görmediği bu sessiz dayanışmayla çocukların yüzünü güldürmeye devam ediyoruz. Ben bu kampanyayı sosyal medya hesaplarımda paylaşıyorum. Eşimden, dostumdan, yurt dışındaki dostlarımızdan çok güzel bir destek var. Bizim askıda tost verdiğimiz öğrencilerimiz belli bu öğrencilerin velilerine bilgi veriyoruz. Öğrencimiz kimse görmeden herkes gibi gelip sıraya giriyor yiyeceğini alıyor\" dedi."
+    ],
+    "category": "ilkogretim",
+    "tags": [
+      "SİVAS",
+      "ASKIDA TOST",
+      "İLKOKUL",
+      "DAYANIŞMA"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/egitimden-aclik-manzaralari-okulda-yoksul-ogrenciler-icin-askida-tost-kampanyasi-baslattilar-2538133",
+      "image": "/img/e-itimden-a-l-k-manzaralar-okulda-yoksul-renciler-i-in-ask-d-11r7nk.jpg"
+    },
+    "publishedAt": "2026-09-16T12:19:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "province": "Sivas",
+    "fullText": true,
+    "score": 5.6,
+    "dedupeKey": "14py1mr",
+    "rawTitle": "Eğitimden açlık manzaraları: Okulda yoksul öğrenciler için 'askıda tost' kampanyası başlattılar",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_lwpl0n_mvha2myq",
     "slug": "milli-egitim-bakani-yusuf-tekin-yalova-da-ortaokul-ziyareti-gerceklestir-1pf1uf",
     "title": "Milli Eğitim bakanı yusuf tekin yalova'da ortaokul ziyareti gerçekleştirdi",
@@ -7532,6 +8287,76 @@
     "lang": "tr",
     "audioId": "n_lwpl0n_mvha2myq",
     "audioDuration": 97.86
+  },
+  {
+    "id": "n_1i1ky8t_mvhatcrb",
+    "slug": "milli-egitim-bakani-yusuf-tekin-ogretmenlere-ikinci-yer-degistirme-hakki-1jnut6",
+    "title": "Milli Eğitim bakanı yusuf tekin öğretmenlere ikinci yer değiştirme hakkını duyurdu",
+    "excerpt": "Milli Eğitim Bakanı Yusuf Tekin öğretmenlere ikinci kez iller arası isteğe bağlı yer değiştirme hakkı tanınacağını açıkladı.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "2026 Öğretmenlerin iller arası isteğe bağlı yer değiştirme sürecinde ikinci başvuru dönemi için hazırlıklar başladı. Peki, 2026 Öğretmen yer değiştirme başvurusu ne zaman başlayacak? Öğretmen yer değiştirme başvurusu nasıl yapılır?",
+      "MEB, 2026 yılı için öğretmenlere ikinci kez iller arası isteğe bağlı yer değiştirme hakkı tanıdı. Milli Eğitim Bakanı Yusuf Tekin'in duyurusuna göre tercihler 23-24 Eylül 2026 tarihlerinde alınacak. İki günlük tercih sürecinin ardından atama işlemleri gerçekleştirilecek.",
+      "MEB'in 2026'daki ilk iller arası isteğe bağlı yer değiştirme döneminde işlemler mebbis.meb.gov.tr ve personel.meb.gov.tr adreslerinde yer alan elektronik başvuru formu üzerinden alınmıştı. İkinci dönem için kullanılacak ekran ve başvuru adımları, yayımlanacak kılavuz ile kesinleşecek."
+    ],
+    "category": "meb",
+    "tags": [
+      "MEB",
+      "YUSUF TEKİN",
+      "ÖĞRETMEN ATAMA",
+      "YER DEĞİŞTİRME"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-ogretmen-yer-degistirme-basvurusu-ne-zaman-baslayacak-ogretmen-yer-degistirme-basvurusu-nasil-yapilir-2537965",
+      "image": "/img/2026-retmen-yer-de-i-tirme-ba-vurusu-ne-zaman-ba-layacak-ret-jyx2hv.jpg"
+    },
+    "publishedAt": "2026-09-16T06:26:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": true,
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "1jnut66",
+    "rawTitle": "2026 Öğretmen yer değiştirme başvurusu ne zaman başlayacak? Öğretmen yer değiştirme başvurusu nasıl yapılır?",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
+    "id": "n_rjhnjg_mvhatcrb",
+    "slug": "anadolu-universitesi-acikogretim-fakultesi-yeni-donem-kayit-yenileme-isl-8aahta",
+    "title": "Anadolu Üniversitesi açıköğretim Fakültesi yeni dönem kayıt yenileme işlemlerini başlattı",
+    "excerpt": "Anadolu Üniversitesi AÖF yeni dönem kayıt yenileme başvuruları ve harç ödeme süreci duyuruldu.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "Anadolu Üniversitesi Açıköğretim sisteminde güz dönemi hazırlıkları sürerken öğrencilerin ders seçimi ve ödeme adımlarını tamamlayacağı tarih aralığı da belli oldu. Peki, 2026-2027 AÖF kayıtları ne zaman, nasıl yapılır? Açık Öğretim Fakültesi (AÖF) kayıt ücreti nasıl ödenir?",
+      "Güz dönemi için beklenen kayıt yenileme süreci 5 Ekim Pazartesi günü başlıyor. Anadolu Üniversitesi'nin akademik takviminde işlemler için son gün 19 Ekim Pazartesi olarak yer alıyor. Bu tarihler arasında öğrencilerin ders seçimi ve ödeme adımlarının tamamlanması gerekecek.",
+      "Adaylar işlemlerini Anadolu Üniversitesi Açıköğretim Öğrenci Bilgi Sistemi üzerinden tamamlayacak. Sisteme öğrenci şifresi ya da e-Devlet bilgileriyle giriş yaptıktan sonra ders seçimi ekranına geçilecek. Seçimlerin onaylanmasıyla ödenecek tutar ekrana yansıyacak. Ücret yatırıldıktan sonra kaydın yenilenip yenilenmediği yine öğrenci sistemi üzerinden kontrol edilmesi gerekiyor."
+    ],
+    "category": "universite",
+    "tags": [
+      "AÖF",
+      "ANADOLU ÜNİVERSİTESİ",
+      "KAYIT YENİLEME",
+      "AÇIKÖĞRETİM"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-2027-aof-kayitlari-ne-zaman-nasil-yapilir-acik-ogretim-fakultesi-aof-kayit-ucreti-nasil-odenir-2537960",
+      "image": "/img/2026-2027-a-f-kay-tlar-ne-zaman-nas-l-yap-l-r-a-k-retim-fak--1kuyc3.jpg"
+    },
+    "publishedAt": "2026-09-16T06:21:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "8aahta",
+    "rawTitle": "2026-2027 AÖF kayıtları ne zaman, nasıl yapılır? Açık Öğretim Fakültesi (AÖF) kayıt ücreti nasıl ödenir?",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "f_137tikb_mvh6wzk2",
@@ -7745,6 +8570,40 @@
     "audioDuration": 23.14
   },
   {
+    "id": "n_1e3vprd_mvhatcrd",
+    "slug": "turkiye-nin-nufusa-kayitli-ilk-insansi-robotu-samsun-da-ogrencilerin-kar-1802v2",
+    "title": "Türkiye'nin nüfusa kayıtlı ilk insansı robotu Samsun'da öğrencilerin karşısına çıktı",
+    "excerpt": "Samsun'da yeni eğitim öğretim döneminde okullara konuk olan nüfusa kayıtlı insansı robot CANİKMAN büyük ilgi gördü.",
+    "body": [
+      "Samsun'da yeni eğitim öğretim yılında sınıflarda öğrencilerle buluşan CANİKMAN isimli insansı robot okul sıralarında yer aldı.",
+      "Türkiye'nin nüfusa kayıtlı ilk insansı robotu olma unvanını taşıyan robot, öğrenciler ve öğretmenler tarafından yoğun ilgiyle karşılandı."
+    ],
+    "category": "ortaogretim",
+    "tags": [
+      "SAMSUN",
+      "ROBOTİK",
+      "CANİKMAN",
+      "EĞİTİM"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/turkiyenin-nufusa-kayitli-ilk-insansi-robotu-ogrencileri-siralarda-karsiladi-43307742",
+      "image": "/img/t-rkiye-nin-n-fusa-kay-tl-ilk-insans-robotu-rencileri-s-rala-gk577i.jpg"
+    },
+    "publishedAt": "2026-09-15T14:19:30.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "province": "Samsun",
+    "fullText": false,
+    "score": 5.6,
+    "dedupeKey": "1802v2i",
+    "rawTitle": "Türkiye'nin nüfusa kayıtlı ilk insansı robotu öğrencileri sıralarda karşıladı",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_obxy5y_mvha2myg",
     "slug": "ogrenciler-2026-2027-donemi-vgm-burs-basvuru-tarihlerini-ve-sartlarini-a-35y7jk",
     "title": "Öğrenciler 2026-2027 dönemi vgm burs başvuru tarihlerini ve şartlarını araştırıyor",
@@ -7781,6 +8640,41 @@
     "lang": "tr",
     "audioId": "n_obxy5y_mvha2myg",
     "audioDuration": 92.82
+  },
+  {
+    "id": "n_xw577s_mvhatcrc",
+    "slug": "kamu-personeli-secme-sinavi-ortaogretim-gec-basvuru-sureci-gundeme-geldi-190byq",
+    "title": "Kamu personeli seçme sınavı Ortaöğretim geç başvuru süreci gündeme geldi",
+    "excerpt": "KPSS ortaöğretim başvurularını kaçıran adaylar için geç başvuru günü ve işlem şartları takip ediliyor.",
+    "body": [
+      "Kitap dünyasına açılan kapınızı aralayın! En sevdiğiniz kitapları indirimli fiyatlarla keşfedin ve hayal gücünüzü genişletin.",
+      "Memur olmak isteyen lise mezunlarının katılacağı KPSS Ortaöğretim oturumunun geç başvuru süreci bugün başladı. KPSS Ortaöğretim başvuruları 27 Ağustos-8 Eylül 2026 tarihleri arasında alınırken, başvuru süresini kaçıran adaylar geç başvuru tarihlerini araştırmaya başladı. Peki, 2026 KPSS Ortaöğretim geç başvuruları başladı mı? KPSS Ortaöğretim geç başvuru ücreti ne kadar? İşte ayrıntılar...",
+      "KPSS Ortaöğretim geç başvuruları 15-16 Eylül 2026 tarihlerinde alınacak. Geç başvuru süreci, 16 Eylül 2026 Çarşamba günü saat 23.59'da sona erecek.",
+      "Geç başvuru işlemleri, ÖSYM'nin Aday İşlemleri Sistemi (AİS) üzerinden gerçekleştirilecek. Başvurunun tamamlanabilmesi için adayların kişisel ve eğitim bilgilerini kontrol etmelerinin ardından sınav ücretini ödemeleri gerekiyor."
+    ],
+    "category": "sinav",
+    "tags": [
+      "KPSS",
+      "ORTAÖĞRETİM",
+      "GEÇ BAŞVURU",
+      "ÖSYM"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-kpss-ortaogretim-gec-basvurulari-basladi-mi-kpss-ortaogretim-gec-basvuru-ucreti-ne-kadar-2537737",
+      "image": "/img/2026-kpss-orta-retim-ge-ba-vurular-ba-lad-m-kpss-orta-retim--nhdxv.jpg"
+    },
+    "publishedAt": "2026-09-15T10:39:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 5.7,
+    "dedupeKey": "190byqo",
+    "rawTitle": "2026 KPSS Ortaöğretim geç başvuruları başladı mı? KPSS Ortaöğretim geç başvuru ücreti ne kadar?",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "f_1qkdsxs_mvh6wzk2",
@@ -8059,6 +8953,39 @@
     "audioDuration": 30.47
   },
   {
+    "id": "f_4ayfqw_mvhauk4x",
+    "slug": "yabanci-yapay-zeka-caginda-ogrenmenin-anlamini-sorgulayan-ogrenciler-4ayfqw",
+    "title": "Yapay zeka çağında öğrenmenin anlamını sorgulayan öğrenciler öğretmenleri derinden düşündürüyor",
+    "excerpt": "Öğrencilerin yapay zeka çağında öğrenmenin gerekliliğini sorgulaması üzerine iki öğretmen bu soruların ardındaki gerçek anlamı araştırmaya yöneldi.",
+    "body": [
+      "EdSurge Podcast yayınına katılan iki eğitimci, bir öğrencinin ilk bakışta tavır gibi görünen ancak çok daha derin bir anlama sahip sözlerinin ardından yaşananları anlattı. Biri ders sırasında diğeri ise yeni bir programın planlama toplantısında öğrencilerden benzer çıkışlar duydu.",
+      "Brooklyn'de on yılı aşkın süredir İngilizce ve özel eğitim öğretmenliği yapan Melinda Medina, bir öğrencinin metinle mücadele etmek yerine bu süreci tamamen atladığını fark etti. Medina için bu ayrım intihalden çok daha kritik bir mesele haline geldi."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "YAPAY ZEKA",
+      "ÖĞRENME",
+      "EĞİTİM"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/two-students-two-questions-that-wouldnt-let-go",
+      "image": "/img/two-students-two-questions-they-wouldn-t-let-go-1pxu13.jpg"
+    },
+    "publishedAt": "2026-09-09T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:4ayfqw",
+    "rawTitle": "Two Students, Two Questions They Wouldn’t Let Go",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "f_1listba_mvha2xnw",
     "slug": "yabanci-gelecegi-dokumak-kutsal-bir-emanet-olarak-teknoloji-1listb",
     "title": "Geleceği Dokumak: Kutsal Bir Emanet Olarak Teknoloji",
@@ -8092,6 +9019,39 @@
     "lang": "en",
     "audioId": "f_1listba_mvha2xnw",
     "audioDuration": 30.43
+  },
+  {
+    "id": "f_14ni34e_mvhauk4x",
+    "slug": "yabanci-yapay-zeka-uretimi-videolar-erken-cocukluk-egitimini-olumsuz-14ni34",
+    "title": "Yapay zeka üretimi videolar erken çocukluk eğitimini olumsuz etkiliyor",
+    "excerpt": "Okul öncesi çocuklara yönelik kalitesiz yapay zeka videolarının artışı, erken çocukluk dönemi eğitimcilerini medya eleştirmeni haline getirdi.",
+    "body": [
+      "İnternet ortamı son dönemde okul öncesi ve anaokulu çağındaki çocuklara hitap eden yapay zeka üretimi videolarla doldu. Yüz binlerce içeriğin yer aldığı bu akımda, 5 yaş altı çocukların dikkatini çekmek için bol ışık ve hareket kullanılsa da videoların derinlikten yoksun olduğu belirtiliyor.",
+      "Uzmanların bebek içeriği çöplüğü olarak nitelendirdiği bu yapımlar eğitimcileri endişelendiriyor. New York'taki Ossining Union Free Okul Bölgesi eğitim teknolojileri koordinatörü Allison Bacon, bu tür renkli ve hızlı içeriklerin hiçbir gerçek anlam taşımadığını ifade ediyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "ERKEN ÇOCUKLUK",
+      "YAPAY ZEKA",
+      "DİJİTAL MEDYA"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/ai-videos-are-warping-early-learning-teachers-say-heres-how-theyre-responding",
+      "image": "/img/a-videos-are-warping-early-learning-teachers-say-jpde0h.jpg"
+    },
+    "publishedAt": "2026-09-08T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:14ni34e",
+    "rawTitle": "AI Videos Are Warping Early Learning, Teachers Say",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "n_1wy5697_mvei8kif",
@@ -8323,6 +9283,39 @@
     "status": "published",
     "audioId": "n_x4g74a_mvevury5",
     "audioDuration": 19.34
+  },
+  {
+    "id": "f_jvx7d2_mvhauk4y",
+    "slug": "yabanci-okullar-farkinda-olmadan-ogrencilerin-stres-seviyesini-daha--jvx7d2",
+    "title": "Okullar farkında olmadan öğrencilerin stres seviyesini daha da artırıyor olabilir",
+    "excerpt": "Eğitim araştırmacısı Cathy Vatterott, okulların asıl soruna odaklanmak yerine sadece stres belirtilerini tedavi etmeye çalıştığını savunuyor.",
+    "body": [
+      "Öğrencilerin salgın öncesinde de artış gösteren ciddi bir ruh sağlığı kriziyle karşı karşıya kalması üzerine okullar sosyal-duygusal öğrenme ve iyi oluş programları başlattı. Ancak araştırmalar bu uygulamaların bazılarının öğrencilerin stresini daha da tetikleyebileceğini gösteriyor.",
+      "The Teens Are Not Alright kitabının yazarı Cathy Vatterott, gençlerin ruh sağlığını desteklemek için sadece müdahale programlarına odaklanmanın yetersiz olduğunu belirtiyor. Vatterott'a göre notlar, sınavlar, ödevler ve yoğun ders yükü lise öğrencilerinin en büyük stres kaynakları arasında yer alıyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "ÖĞRENCİ RUH SAĞLIĞI",
+      "OKUL STRESİ",
+      "EĞİTİM ARAŞTIRMALARI"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/are-schools-inadvertently-making-students-more-stressed",
+      "image": "/img/are-schools-nadvertently-making-students-more-stressed-1jm9zm.jpg"
+    },
+    "publishedAt": "2026-09-04T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:jvx7d2",
+    "rawTitle": "Are Schools Inadvertently Making Students More Stressed?",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "n_1kc481w_mvei314a",
