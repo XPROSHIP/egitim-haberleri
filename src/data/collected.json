@@ -1993,6 +1993,39 @@
     "audioDuration": 21.62
   },
   {
+    "id": "f_32yaot_mvga1tx8",
+    "slug": "yabanci-cocuk-koruma-hizmetleriyle-temas-eden-ogrencilerin-okul-deva-32yaot",
+    "title": "Çocuk koruma hizmetleriyle temas eden öğrencilerin okul devamsızlığı daha yüksek çıkıyor",
+    "excerpt": "Yeni bir araştırma, çocuk koruma hizmetleriyle temas geçmişi bulunan öğrencilerin okula devam oranlarının belirgin şekilde düştüğünü ortaya koydu. Uzmanlar, okula aidiyet duygusu ve hedefe yönelik desteklerin bu öğrencileri sınıfta tutabileceğini belirtiyor.",
+    "body": [
+      "Children and Youth Services Review dergisinde yayımlanan araştırmaya göre, 15 yaşına kadar Çocuk Koruma Hizmetleri (CPS) ile temas kurmuş öğrencilerin devamsızlık yapma riski diğer öğrencilere kıyasla çok daha yüksek. Bu devamsızlıkların hem sağlık gibi mazeretli nedenlerden hem de okuldan kaçma gibi mazeretsiz durumlardan kaynaklandığı bildirildi. ABD'deki çocukların üçte birinden fazlasının 18 yaşına kadar bir CPS soruşturması geçirdiği tahmin ediliyor.",
+      "Araştırma, bu gençlerin neden daha fazla devamsızlık yaptığını kesin olarak açıklamazken ek çalışmalara ihtiyaç duyulduğunu vurguladı. Ohio State Üniversitesi'nden doçent Arya Ansari, çocukların okula gelmeme sebeplerinin çok çeşitli ve karmaşık olduğunu, bu nedenle devamsızlığın çok boyutlu bir sorun teşkil ettiğini ifade etti. Çalışma ayrıca 'okula bağlılık' hissinin bu olumsuz etkiyi azaltıp azaltamayacağını da inceledi."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "OKUL DEVAMSIZLIĞI",
+      "ÇOCUK KORUMA",
+      "EĞİTİM ARAŞTIRMALARI"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/child-protective-services-contact-linked-to-higher-absenteeism-study-finds",
+      "image": "/img/child-protective-services-contact-linked-to-higher-absenteei-1o450k.jpg"
+    },
+    "publishedAt": "2026-10-14T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:32yaot",
+    "rawTitle": "Child Protective Services Contact Linked to Higher Absenteeism, Study Finds",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "f_19zour3_mvg6l5zz",
     "slug": "yabanci-teknoloji-bagimliligi-hem-ogrencim-hem-de-benim-icin-bir-sor-19zour",
     "title": "Teknoloji bağımlılığı hem öğrencim hem de benim için bir sorun haline geldi",
@@ -2830,6 +2863,39 @@
     "status": "published",
     "audioId": "n_1jrsc5b_mvew35tu",
     "audioDuration": 24.98
+  },
+  {
+    "id": "f_d47a4v_mvga1tx8",
+    "slug": "yabanci-kucuk-ve-kirsal-okul-bolgeleri-kronik-devamsizlikla-mucadele-d47a4v",
+    "title": "Küçük ve kırsal okul bölgeleri kronik devamsızlıkla mücadelede başarı sağlıyor",
+    "excerpt": "Yeni bir araştırma, küçük ve kırsal bölgelerdeki okulların devamsızlıkla mücadelede büyük şehirlere kıyasla daha hızlı toparlandığını ortaya koydu.",
+    "body": [
+      "The GRAD Partnership, Everyone Graduates Center ve Partnership for Student Success tarafından yürütülen yeni bir çalışma, küçük ve kırsal okul bölgelerinin devamsızlık oranlarını kentsel bölgelere göre daha çabuk düşürdüğünü gösterdi. 1.000'den az öğrencisi bulunan kırsal bölgeler, 2024-25 eğitim-öğretim yılı itibarıyla kronik devamsızlık oranlarını pandemi öncesi seviyelerin yüzde 2 yakınına getirmeyi başardı.",
+      "Bu toparlanma oranı, 50.000'den fazla öğrencisi olan kentsel okul bölgelerine kıyasla yaklaşık iki kat daha hızlı gerçekleşti. Küçük ve kırsal bölgelerdeki bu olumlu gelişmeye rağmen, ülke genelindeki birçok okul bölgesi pandemi öncesi katılım düzeylerine ulaşmak için henüz uzun bir yola sahip bulunuyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "KIRSAL EĞİTİM",
+      "DEVAMSIZLIK",
+      "OKUL YÖNETİMİ"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/how-some-small-rural-districts-are-winning-the-attendance-struggle",
+      "image": "/img/how-some-small-rural-districts-are-winning-the-attendance-st-1fmofb.jpg"
+    },
+    "publishedAt": "2026-10-07T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:d47a4v",
+    "rawTitle": "How Some Small, Rural Districts Are Winning the Attendance Struggle",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "f_rg4wmn_mvfraztz",
