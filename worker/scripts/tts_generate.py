@@ -23,7 +23,7 @@ SAMPLE_RATE = 24000
 # Uzun metinler de okunabilsin: eski sınır (2600) haberin gövdesini yarıda kesiyordu.
 MAX_CHARS = 6000
 # İş akışının zaman aşımına uğramaması için dakika cinsinden süre bütçesi.
-BUDGET_MIN = float(os.environ.get("TTS_BUDGET_MIN", "32"))
+BUDGET_MIN = float(os.environ.get("TTS_BUDGET_MIN", "38"))
 
 if not API or not SECRET:
     print("VITE_API_URL / COLLECT_SECRET eksik", file=sys.stderr)

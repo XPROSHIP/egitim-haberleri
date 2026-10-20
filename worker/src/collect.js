@@ -82,6 +82,27 @@ function pickCategory(text, aiCategory) {
   return rule
 }
 
+/**
+ * Kaynak sayfası okunamadığında (yayıncı 5xx/anti-bot) RSS özetinden gövde kurar.
+ * Gemini'nin 2-3 kısa paragrafına göre daha dolu bir metin verir.
+ */
+function bodyFromDescription(description, title) {
+  const text = String(description ?? '').trim()
+  if (!text || text.length < 120) return [title]
+  const sentences = text
+    .split(/(?<=[.!?…])\s+(?=[A-ZÇĞİÖŞÜ0-9"«])/)
+    .map((s) => s.trim())
+    .filter((s) => s.length > 40)
+  if (sentences.length < 2) return [text]
+  const groups = []
+  for (const s of sentences) {
+    const last = groups[groups.length - 1]
+    if (last && (last + ' ' + s).length < 700) groups[groups.length - 1] = last + ' ' + s
+    else groups.push(s)
+  }
+  return groups.slice(0, 6)
+}
+
 export async function collect({
   keys,
   store,
@@ -319,7 +340,11 @@ export async function collect({
       slug: `${slugify(title)}-${cluster.key.slice(0, 6)}`,
       title,
       excerpt: ai?.excerpt || cluster.description || title,
-      body: fullText ? cluster.paragraphs : (ai?.paragraphs ?? [title]),
+      body: fullText
+        ? cluster.paragraphs
+        : (ai?.paragraphs?.length
+            ? ai.paragraphs
+            : bodyFromDescription(cluster.description, title)),
       // Kategori önceliği: kural tabanlı tespit güçlü bir eşleşme bulduysa
       // (ör. MESEM terimleri) modelin seçiminden önce gelir. Model, terimi
       // bilmediği kategorileri "gundem" seçebiliyor ve MESEM hep boş kalıyordu.
