@@ -3672,6 +3672,40 @@
     "audioDuration": 35.09
   },
   {
+    "id": "f_19wlr3c_mvgmupb7",
+    "slug": "yabanci-geleneksel-mesleki-gelisim-seminerlerinden-sikilan-ogretmen--19wlr3",
+    "title": "Geleneksel mesleki gelişim seminerlerinden sıkılan öğretmen çareyi TikTok içerikleri üretmekte buldu",
+    "excerpt": "Mevzuata odaklı mesleki gelişim çalıştaylarından sıkılan bir öğretmen, okuryazarlık araştırmalarını sınıfta uygulanabilir pratik stratejilere dönüştürmek amacıyla TikTok platformunu kullanmaya başladı.",
+    "body": [
+      "Ülke genelindeki meslektaşları gibi yıllık mesleki gelişim oturumlarına katılan bir öğretmen, geleneksel programların zaman zaman tekrara düştüğünü ifade ediyor. Bu oturumların, eğitimcilerin halihazırda uzmanlaştığı stratejileri yeniden ele alarak beklentileri karşılamaktan uzak kaldığı belirtiliyor.",
+      "İyi niyetle hazırlansa da söz konusu çalıştaylar, öğretmenlere sınıfları için yenilikçi ve ilgi çekici yaklaşımlar geliştirme fırsatı sunmak yerine mevzuata odaklandığı için amacını ıskalayabiliyor. Kendisi de eğitimler tasarlamış olan öğretmen, herkese hitap eden verimli deneyimler üretmenin ne kadar zorlu bir süreç olduğuna dikkat çekiyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "MESLEKİ GELİŞİM",
+      "ÖĞRETMEN EĞİTİMİ",
+      "SOSYAL MEDYA",
+      "TİKTOK"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/traditional-pd-wasnt-enough-so-i-used-tiktok-to-create-an-engaging-alternative",
+      "image": "/img/traditional-pd-wasn-t-enough-so-used-tiktok-to-create-an-eng-1d7u9p.jpg"
+    },
+    "publishedAt": "2026-09-30T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:19wlr3c",
+    "rawTitle": "Traditional PD Wasn’t Enough. So I Used TikTok to Create an Engaging Alternative",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "f_10m122w_mvgl5q2m",
     "slug": "yabanci-okullar-egitim-teknolojisi-urunlerine-eklenen-yapay-zeka-oze-10m122",
     "title": "Okullar eğitim teknolojisi ürünlerine eklenen yapay zeka özelliklerine gerçekten güvenebilir mi?",
@@ -3846,6 +3880,40 @@
     "dedupeKey": "1fzns87",
     "rawTitle": "Öğrencilerin yüzde 88’i yapay zekâ kullanıyor",
     "status": "review"
+  },
+  {
+    "id": "f_w1gupx_mvgmupb7",
+    "slug": "yabanci-egitim-teknolojisi-sirketlerinin-yapay-zekayi-kanit-sunmadan-w1gupx",
+    "title": "Eğitim teknolojisi şirketlerinin yapay zekayı kanıt sunmadan müfredata eklediği ortaya çıktı",
+    "excerpt": "K-12 müfredatlarına hızla entegre edilen yapay zeka özelliklerinin, öğrencilerin öğrenme süreçlerini geliştirdiğine dair yeterli bilimsel kanıt bulunmadığı bildirildi.",
+    "body": [
+      "Öğretim materyallerini değerlendiren kâr amacı gütmeyen EdReports kuruluşunun yayımladığı rapora göre, eğitim teknolojisi sağlayıcıları yapay zekayı öğrenmeye katkısını kanıtlamadan materyallere hızla ekliyor. İncelemeye dahil edilen 10 sağlayıcıdan yalnızca birinin, entegre ettiği yapay zeka araçlarının eğitim çıktılarını artırdığını belgeleyen bağımsız kanıtlara sahip olduğu belirlendi.",
+      "EdReports Baş Akademik Sorumlusu Courtney Allison, araştırmada kanıt miktarının bu denli yetersiz çıkmasına şaşırdığını dile getirdi. Allison, arka planda yapılan yapay zeka güncellemelerinin okulların ürün etkinliğini denetlemesini zorlaştırdığını ve bu durumun giderek büyüyen bir soruna dönüştüğünü vurguladı."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "YAPAY ZEKA",
+      "EĞİTİM TEKNOLOJİSİ",
+      "EDREPORTS",
+      "MÜFREDAT"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/study-edtech-is-rushing-ai-integration-before-proving-it-works",
+      "image": "/img/study-edtech-s-rushing-a-ntegration-before-proving-t-works-157ruo.jpg"
+    },
+    "publishedAt": "2026-09-29T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:w1gupx",
+    "rawTitle": "Study: Edtech Is Rushing AI Integration Before Proving It Works",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "n_c93sxw_mvevury4",
