@@ -161,7 +161,8 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
       else window.speechSynthesis.resume()
       setState('playing')
     } else {
-      // Önce hazır sesi dene, olmazsa tarayıcı TTS'ine düş.
+      // Öncelik hazır sentezlenmiş ses: daha doğal ve tutarlı.
+      // Yoksa tarayıcının kendi Türkçe sesine düşülür.
       if (audioUrl && playAudio()) return
       speak()
     }

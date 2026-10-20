@@ -2,13 +2,15 @@ import { NavLink, useLocation } from 'react-router-dom'
 import clsx from 'clsx'
 import { Icon } from './Icon'
 import { useStore } from '../lib/store'
+import { bus, EVENTS } from '../lib/bus'
 
+// Beş düğme: profil ve giriş ayrı değil — giriş yapılmamışsa beşinci düğme
+// "Giriş" olur ve giriş penceresini açar.
 const TABS = [
   { to: '/', label: 'Haberler', icon: 'Newspaper' as const, end: true },
   { to: '/feed', label: 'Akış', icon: 'TrendingUp' as const, end: false },
   { to: '/kategoriler', label: 'Kategoriler', icon: 'Compass' as const, end: false },
   { to: '/ayarlar', label: 'Ayarlar', icon: 'Settings' as const, end: false },
-  { to: '/profil', label: 'Profil', icon: 'User' as const, end: false },
 ]
 
 /**
@@ -17,7 +19,7 @@ const TABS = [
  */
 export function MobileTabBar() {
   const { pathname } = useLocation()
-  const { signedIn } = useStore()
+  const { signedIn, user } = useStore()
 
   // Hikâye oynatıcı tam ekran olduğu için çubuk gizlenir
   if (pathname.startsWith('/hikaye')) return null
@@ -46,17 +48,39 @@ export function MobileTabBar() {
             </NavLink>
           </li>
         ))}
-        {!signedIn && (
-          <li className="min-w-0 flex-1">
+
+        {/* Beşinci düğme: giriş yapıldıysa profil, yapılmadıysa giriş */}
+        <li className="min-w-0 flex-1">
+          {signedIn ? (
             <NavLink
-              to="/giris"
+              to="/profil"
               className="flex flex-col items-center gap-0.5 rounded-lg px-0.5 py-1 text-[10px] text-faint transition hover:text-muted"
+            >
+              {user?.avatarUrl ? (
+                <img
+                  src={user.avatarUrl}
+                  alt=""
+                  className="size-[18px] rounded-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <span className="grid size-[18px] place-items-center rounded-full bg-fg text-[9px] font-bold text-bg">
+                  {(user?.name || user?.email || '?').trim().charAt(0).toLocaleUpperCase('tr')}
+                </span>
+              )}
+              <span className="max-w-full truncate">Profil</span>
+            </NavLink>
+          ) : (
+            <button
+              type="button"
+              onClick={() => bus.emit(EVENTS.openLogin)}
+              className="flex w-full flex-col items-center gap-0.5 rounded-lg px-0.5 py-1 text-[10px] text-faint transition hover:text-muted"
             >
               <Icon name="User" size={18} />
               <span className="max-w-full truncate">Giriş</span>
-            </NavLink>
-          </li>
-        )}
+            </button>
+          )}
+        </li>
       </ul>
     </nav>
   )

@@ -75,8 +75,10 @@ body {
   text-rendering: optimizeLegibility;
   overflow-wrap: break-word;
   /* Mobilde yatay kaydırma olmasın: sabit alt çubuk gibi geniş öğeler
-     dokunmatik kaydırmayı bozuyordu. */
+     dokunmatik kaydırmayı bozuyordu. Dikey kaydırma ve yakınlaştırma açık kalır
+     (erişilebilirlik için tam zoom engellenmez). */
   overflow-x: clip;
+  touch-action: pan-y;
   letter-spacing: -0.011em;
 }
 

@@ -136,13 +136,15 @@ export function StoryViewer({
     >
       {/* 9:16'ya yakın, ortalanmış hikâye karesi */}
       <div className="relative mx-auto h-full w-full max-w-[480px] overflow-hidden bg-black">
-        {/* Arka kart (önceki haber) — kart desteği efekti */}
+        {/* Arka kart (önceki haber) — kart desteği efekti.
+            Dikkat: burada eh-fade-up animasyonu kullanılmamalı; animasyon
+            bitişte opaklığı 1'e getirip mevcut kartın üstünü örtüyor. */}
         {prev && (
           <div
             key={`prev-${prev.id}`}
             aria-hidden="true"
-            className="animate-[eh-fade-up] absolute inset-0 origin-top scale-[0.94] opacity-0 transition-all duration-300"
-            style={{ ...fadeUp, transform: 'translateY(2.5%) scale(0.94)', opacity: 0.45 }}
+            className="absolute inset-0 origin-top transition-all duration-300"
+            style={{ transform: 'translateY(2.5%) scale(0.94)', opacity: 0.4 }}
           >
             <Cover
               id={prev.id}

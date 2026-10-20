@@ -232,12 +232,13 @@ export function TopBar({
           </button>
 
           {/* Profil, kaydedilenler, beğeniler ve ayarlar kısayolları.
-              Alt menüde de var; buradaki düğmeler hızlı erişim sağlar. */}
+              Masaüstünde görünür; mobilde yan menüde ve alt çubukta var —
+              aksi halde üst çubuk 390px ekrana sığmıyor ve sayfa yatay taşıyor. */}
           <Link
             to="/kaydedilenler"
             aria-label="Kaydedilenler"
             title="Kaydedilenler"
-            className="grid size-9 place-items-center rounded-full text-muted transition hover:text-fg"
+            className="hidden size-9 place-items-center rounded-full text-muted transition hover:text-fg lg:grid"
           >
             <Icon name="Bookmark" size={17} />
           </Link>
@@ -245,7 +246,7 @@ export function TopBar({
             to="/begeniler"
             aria-label="Beğenilerim"
             title="Beğenilerim"
-            className="grid size-9 place-items-center rounded-full text-muted transition hover:text-fg"
+            className="hidden size-9 place-items-center rounded-full text-muted transition hover:text-fg lg:grid"
           >
             <Icon name="Heart" size={17} />
           </Link>
@@ -253,7 +254,7 @@ export function TopBar({
             to="/profil"
             aria-label="Profil"
             title="Profil"
-            className="grid size-9 place-items-center rounded-full text-muted transition hover:text-fg"
+            className="hidden size-9 place-items-center rounded-full text-muted transition hover:text-fg lg:grid"
           >
             <Icon name="User" size={17} />
           </Link>
@@ -261,16 +262,17 @@ export function TopBar({
             to="/ayarlar"
             aria-label="Ayarlar"
             title="Ayarlar"
-            className="grid size-9 place-items-center rounded-full text-muted transition hover:text-fg"
+            className="hidden size-9 place-items-center rounded-full text-muted transition hover:text-fg lg:grid"
           >
             <Icon name="Settings" size={17} />
           </Link>
 
-          {/* Giriş durumu: girildiyse kullanıcı düğmesi, girilmediyse "Giriş Yap" */}
+          {/* Giriş durumu: girildiyse kullanıcı düğmesi, girilmediyse "Giriş Yap".
+              Mobilde düğme yalnızca daire; yazı yerine sığmayan yer var. */}
           {signedIn ? (
             <Link
               to="/profil"
-              className="ml-1.5 flex items-center gap-2 rounded-full border border-line py-1 pl-1 pr-3 transition hover:bg-surface-2"
+              className="ml-1.5 flex items-center gap-2 rounded-full border border-line py-1 pl-1 pr-3 transition hover:bg-surface-2 max-lg:size-9 max-lg:border-0 max-lg:p-0"
               title={user?.name ? `${user.name} · ${user.email}` : 'Profil'}
             >
               {user?.avatarUrl ? (
@@ -285,7 +287,7 @@ export function TopBar({
                   {(user?.name || user?.email || '?').trim().charAt(0).toLocaleUpperCase('tr')}
                 </span>
               )}
-              <span className="max-w-[110px] truncate text-[13px] font-semibold text-fg">
+              <span className="hidden max-w-[110px] truncate text-[13px] font-semibold text-fg lg:inline">
                 {user?.name || user?.email || 'Profil'}
               </span>
             </Link>
@@ -293,9 +295,11 @@ export function TopBar({
             <button
               type="button"
               onClick={onOpenLogin}
-              className="ml-1.5 rounded-full bg-fg px-3.5 py-1.5 text-[13px] font-semibold text-bg transition hover:opacity-90"
+              aria-label={t('nav.signIn')}
+              className="ml-1.5 rounded-full bg-fg px-3.5 py-1.5 text-[13px] font-semibold text-bg transition hover:opacity-90 max-lg:grid max-lg:size-9 max-lg:place-items-center max-lg:p-0"
             >
-              {t('nav.signIn')}
+              <span className="max-lg:hidden">{t('nav.signIn')}</span>
+              <span className="max-lg:inline max-lg:text-[11px] max-lg:font-bold">G</span>
             </button>
           )}
         </div>

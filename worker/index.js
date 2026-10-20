@@ -146,10 +146,17 @@ export default {
    */
   async scheduled(controller, env) {
     controller.noRetry()
-    if (!env.GITHUB_TOKEN || !env.GITHUB_REPO) {
-      console.warn('[worker] GITHUB_TOKEN/GITHUB_REPO tanimli degil, tetiklenmedi')
-      return
+
+    // Eski haberlerin sesleri depolama yerini kapmasin: 180 gunden eskisi silinir.
+    try {
+      const { meta } = await env.DB.prepare(
+        "DELETE FROM news_audio WHERE created_at < datetime('now', '-180 days')",
+      ).run()
+      if (meta?.changes) console.log(`[worker] ${meta.changes} eski ses silindi`)
+    } catch (err) {
+      console.error('[worker] ses temizleme hatasi', String(err?.message ?? err).slice(0, 100))
     }
+
     await dispatchCollect(env)
   },
 
