@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Bookmark, Heart, Share2 } from 'lucide-react'
 import clsx from 'clsx'
@@ -5,9 +6,22 @@ import type { NewsItem } from '../types'
 import { getCategory } from '../data/categories'
 import { formatCount, readMinutes, shortRelative, type Lang } from '../lib/format'
 import { useStore } from '../lib/store'
+import { setLike as setLikeRemote, setBookmark as setBookmarkRemote } from '../lib/api'
+import { playLike, playSave } from '../lib/sound'
+import { bus, EVENTS } from '../lib/bus'
 import { Cover } from './Cover'
 import { CategoryMark } from './CategoryMark'
 import { shareUrl } from '../lib/share'
+
+/** Giriş yoksa giriş penceresini açar ve false döner. */
+function signedInGuard(): boolean {
+  const raw = localStorage.getItem('eh.supabase.auth')
+  if (!(raw && raw.length > 40)) {
+    bus.emit(EVENTS.openLogin)
+    return false
+  }
+  return true
+}
 
 export function CategoryBadge({
   slug,
@@ -61,37 +75,71 @@ function Meta({ item, lang, className }: { item: NewsItem; lang: Lang; className
 
 function QuickActions({ item }: { item: NewsItem }) {
   const { bookmarks, likes, toggleBookmark, toggleLike } = useStore()
-  const saved = bookmarks.includes(item.id)
-  const liked = likes.includes(item.id)
+  const [liked, setLiked] = useState(likes.includes(item.id))
+  const [saved, setSaved] = useState(bookmarks.includes(item.id))
+  const [beat, setBeat] = useState(0)
+  const [pop, setPop] = useState(0)
 
   const btn =
     'grid size-8 place-items-center rounded-full bg-black/45 text-white ring-1 ring-white/15 backdrop-blur-md transition hover:bg-black/70'
+
+  const onLike = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (!signedInGuard()) return
+    const next = !liked
+    setLiked(next)
+    setBeat((b) => b + 1)
+    toggleLike(item.id)
+    if (next) playLike()
+    try {
+      await setLikeRemote(item.id, next)
+    } catch {
+      setLiked(!next)
+      toggleLike(item.id)
+    }
+  }
+
+  const onSave = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (!signedInGuard()) return
+    const next = !saved
+    setSaved(next)
+    setPop((p) => p + 1)
+    toggleBookmark(item.id)
+    if (next) playSave()
+    try {
+      await setBookmarkRemote(item.id, next)
+    } catch {
+      setSaved(!next)
+      toggleBookmark(item.id)
+    }
+  }
 
   return (
     <div className="flex items-center gap-1.5">
       <button
         type="button"
         aria-label="Beğen"
-        onClick={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          toggleLike(item.id)
-        }}
-        className={clsx(btn, liked && 'text-accent ring-accent/60')}
+        aria-pressed={liked}
+        onClick={onLike}
+        className={clsx(btn, liked && 'text-accent ring-accent/70 bg-accent/25')}
       >
-        <Heart size={14} fill={liked ? 'currentColor' : 'none'} />
+        <span key={beat} className={clsx('inline-flex', beat > 0 && 'eh-heart-pop')}>
+          <Heart size={14} fill={liked ? 'currentColor' : 'none'} />
+        </span>
       </button>
       <button
         type="button"
         aria-label="Kaydet"
-        onClick={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          toggleBookmark(item.id)
-        }}
-        className={clsx(btn, saved && 'text-primary ring-primary/60')}
+        aria-pressed={saved}
+        onClick={onSave}
+        className={clsx(btn, saved && 'text-primary ring-primary/70 bg-primary/25')}
       >
-        <Bookmark size={14} fill={saved ? 'currentColor' : 'none'} />
+        <span key={pop} className={clsx('inline-flex', pop > 0 && 'eh-pop')}>
+          <Bookmark size={14} fill={saved ? 'currentColor' : 'none'} />
+        </span>
       </button>
       <button
         type="button"

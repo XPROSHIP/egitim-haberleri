@@ -10,7 +10,7 @@ export function AssistantOrb({ onClick }: { onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      aria-label="Asistan"
+      aria-label="ZEN Asistan"
       className="fixed right-4 bottom-4 z-40 grid size-12 place-items-center rounded-full border border-line bg-surface/90 text-fg shadow-xl backdrop-blur transition hover:bg-surface-2 active:scale-95 sm:right-6 sm:bottom-6 sm:size-14"
     >
       <svg viewBox="0 0 24 24" className="relative size-6 sm:size-7" fill="none" aria-hidden="true">

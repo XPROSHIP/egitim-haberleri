@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import type { Comment, NewsItem } from '../types'
 import {
@@ -219,6 +220,7 @@ export function EngagementBar({ item }: { item: NewsItem }) {
   const { t } = useTranslation()
   const { likes, bookmarks, toggleLike, toggleBookmark } = useStore()
   const { data } = useEngagement(item.id)
+  const queryClient = useQueryClient()
   const [copied, setCopied] = useState(false)
 
   // Sunucudaki gerçek veri öncelikli; giriş yoksa yerel liste kullanılır.
@@ -258,6 +260,7 @@ export function EngagementBar({ item }: { item: NewsItem }) {
       setCount((v) => Math.max(0, v + (next ? -1 : 1)))
       toggleLike(item.id)
     }
+    void queryClient.invalidateQueries({ queryKey: ['engagement', item.id] })
   }
 
   const onBookmark = async () => {
