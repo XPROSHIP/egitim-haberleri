@@ -300,6 +300,30 @@ export async function askAssistant(
   return await res.json()
 }
 
+/** Görüntülenme sayacını bir kez artırır (oturum başına). */
+export async function countView(articleId: string): Promise<number | null> {
+  if (!BASE) return null
+  const key = `eh.view.${articleId}`
+  try {
+    if (sessionStorage.getItem(key)) return null
+    sessionStorage.setItem(key, '1')
+  } catch {
+    /* depolama kapalı olabilir */
+  }
+  try {
+    const res = await fetch(`${BASE}/api/view`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ article: articleId }),
+    })
+    if (!res.ok) return null
+    const data = (await res.json()) as { views: number }
+    return data.views
+  } catch {
+    return null
+  }
+}
+
 export function useRelated(item: NewsItem | undefined) {
   const { data } = useAllNews()
   if (!data || !item) return []

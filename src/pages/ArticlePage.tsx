@@ -1,8 +1,8 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ArrowLeft, ArrowRight, ExternalLink, Maximize2 } from 'lucide-react'
-import { useAllNews, useArticle, useRelated } from '../lib/api'
+import { useAllNews, useArticle, useRelated, countView } from '../lib/api'
 import { useStore } from '../lib/store'
 import { formatCount, formatDateTime, readMinutes } from '../lib/format'
 import { getCategory } from '../data/categories'
@@ -23,10 +23,23 @@ export function ArticlePage() {
   const { data } = useAllNews()
   const related = useRelated(item)
   const { markRead } = useStore()
+  const [views, setViews] = useState<number | null>(null)
 
   useEffect(() => {
     if (item) markRead(item.id)
   }, [item, markRead])
+
+  // Gerçek görüntülenme sayacı: haber sayfası açıldığında bir kez artar.
+  useEffect(() => {
+    if (!item?.id) return
+    let alive = true
+    void countView(item.id).then((views) => {
+      if (alive && views !== null) setViews(views)
+    })
+    return () => {
+      alive = false
+    }
+  }, [item?.id])
 
   const { prev, next } = useMemo(() => {
     if (!data || !item) return { prev: undefined, next: undefined }
@@ -118,10 +131,10 @@ export function ArticlePage() {
             <time dateTime={item.publishedAt}>{formatDateTime(item.publishedAt)}</time>
             <span>·</span>
             <span>{t('news.readTime', { min: readMinutes(item) })}</span>
-            {item.views > 0 && (
+            {(views ?? item.views) > 0 && (
               <>
                 <span>·</span>
-                <span>{t('news.views', { count: formatCount(item.views) })}</span>
+                <span>{t('news.views', { count: formatCount(views ?? item.views) })}</span>
               </>
             )}
             <button

@@ -96,16 +96,21 @@ export function createD1Store(db) {
     },
     async upsert(items) {
       if (items.length === 0) return { inserted: 0, skipped: 0, items: [] }
+      // Gövde ve özet kısalırsa üzerine yazılmaz: toplayıcının yerel
+      // kopyası (collected.json) D1'deki tam metni geri kısaltıyordu.
       const stmt = db.prepare(`
         INSERT INTO news (id, slug, title, excerpt, body, category, tags, source_name, source_url,
                           source_image, published_at, views, likes, featured, province, score,
                           dedupe_key, status, raw_title, full_text, lang)
         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
         ON CONFLICT(dedupe_key) DO UPDATE SET
-          title=excluded.title, excerpt=excluded.excerpt, body=excluded.body,
+          title=excluded.title,
+          excerpt=CASE WHEN LENGTH(excluded.excerpt) > LENGTH(excerpt) THEN excluded.excerpt ELSE excerpt END,
+          body=CASE WHEN LENGTH(excluded.body) > LENGTH(body) THEN excluded.body ELSE body END,
           category=excluded.category, tags=excluded.tags, source_image=excluded.source_image,
           featured=excluded.featured, province=excluded.province, score=excluded.score,
-          status=excluded.status, raw_title=excluded.raw_title, full_text=excluded.full_text,
+          status=excluded.status, raw_title=excluded.raw_title,
+          full_text=CASE WHEN LENGTH(excluded.body) > LENGTH(body) THEN excluded.full_text ELSE full_text END,
           lang=excluded.lang
       `)
       const bound = items.map((i) =>
@@ -248,6 +253,8 @@ export function fromRow(r) {
     commentsCount: 0,
     featured: !!r.featured,
     province: r.province ?? undefined,
+    dedupeKey: r.dedupe_key ?? undefined,
+    score: r.score ?? 0,
     fullText: !!r.full_text,
     lang: r.lang ?? 'tr',
     rawTitle: r.raw_title ?? undefined,

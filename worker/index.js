@@ -345,6 +345,15 @@ export default {
       })
     }
 
+    // Gerçek görüntülenme sayacı: haber sayfası açıldığça bir kez artar.
+    if (url.pathname === '/api/view' && request.method === 'POST') {
+      const { article } = await request.json().catch(() => ({}))
+      if (!article) return reply({ error: 'missing_article' }, 400)
+      await env.DB.prepare('UPDATE news SET views = views + 1 WHERE id = ?').bind(article).run()
+      const row = await env.DB.prepare('SELECT views FROM news WHERE id = ?').bind(article).first()
+      return reply({ ok: true, views: row?.views ?? 0 })
+    }
+
     if (url.pathname === '/api/like' && request.method === 'POST') {
       const user = await currentUser(request, env)
       if (!user) return reply({ error: 'unauthorized' }, 401)
@@ -362,7 +371,10 @@ export default {
       const { results } = await env.DB.prepare('SELECT COUNT(*) AS n FROM news_likes WHERE article_id = ?')
         .bind(article)
         .all()
-      return reply({ ok: true, likes: results[0]?.n ?? 0, liked: Boolean(on) })
+      const likes = results[0]?.n ?? 0
+      // Haber kaydındaki sayaç da güncel kalsın (sıralama ve listeler için).
+      await env.DB.prepare('UPDATE news SET likes = ? WHERE id = ?').bind(likes, article).run()
+      return reply({ ok: true, likes, liked: Boolean(on) })
     }
 
     if (url.pathname === '/api/bookmark' && request.method === 'POST') {
