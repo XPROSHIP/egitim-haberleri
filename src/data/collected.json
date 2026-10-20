@@ -4652,6 +4652,72 @@
     "audioDuration": 22.38
   },
   {
+    "id": "f_1rzx9u9_mvgtbblz",
+    "slug": "yabanci-yapay-zeka-okul-yoneticilerinin-karar-alma-sureclerine-berra-1rzx9u",
+    "title": "Yapay zeka okul yöneticilerinin karar alma süreçlerine berraklık kazandırarak liderliği güçlendiriyor",
+    "excerpt": "Okul liderliğinde yapay zekanın gerçek ölçütü kazanılan zamandan ziyade, günlük karar alma süreçlerine kazandırılan odaklanma ve zihinsel berraklıktır.",
+    "body": [
+      "Yapay zeka eğitim liderleri için genellikle yalnızca bir verimlilik aracı olarak görülse de değerini yanlış kriterlerle ölçüyoruz. Okul yöneticileri sadece zaman darlığıyla değil, aynı zamanda yapılması gereken işlere kesintisiz dikkat ayıramama sorunuyla da karşı karşıya kalmaktadır.",
+      "Bölünmüş odaklanma, karar yorgunluğu ve mevzuat talepleri; öğretimsel liderlik ve stratejik düşünme için gereken zihinsel alanı tüketmektedir. Virginia'da büyük bir okul bölgesinde görev yapan bir müdür, yapay zekanın en büyük faydasının e-posta yazmak değil, zihinsel yükü hafifletmek olduğunu belirtmektedir."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "YAPAY ZEKA",
+      "OKUL YÖNETİMİ",
+      "EĞİTİM LİDERLİĞİ"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/why-ai-made-me-a-better-principal",
+      "image": "/img/why-a-made-me-a-better-principal-1k51sr.jpg"
+    },
+    "publishedAt": "2026-09-23T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1rzx9u9",
+    "rawTitle": "Why AI Made Me a Better Principal",
+    "status": "published",
+    "lang": "en"
+  },
+  {
+    "id": "f_bt3rbo_mvgtbblz",
+    "slug": "yabanci-egitimde-pesin-hukumler-erkek-ogretmen-sayisini-azaltirken-y-bt3rbo",
+    "title": "Eğitimde peşin hükümler erkek öğretmen sayısını azaltırken yapay zeka içeriklerini artırıyor",
+    "excerpt": "EdSurge podcast yayınında muhabirler, öğretmenlerin motivasyonları ile çocuklara yönelik eğitici videoları doğrulamadan kabul etmenin risklerini inceliyor.",
+    "body": [
+      "EdSurge'ün bu haftaki bölümünde iki muhabir, eğitimdeki kabulleri sorgulamanın önemini detaylarıyla ele alıyor. Ed Finkel, ülke genelindeki erkeklerle neden öğretmenliği seçtiklerini ve neden meslekten ayrıldıklarını anlamak amacıyla görüştü.",
+      "Yeni bir meslek araştırmasını inceleyen Finkel, erkek öğretmenlerin okula adım attıkları anda ön yargılarla karşılaştıklarını aktarıyor. Adam Stone ise küçük çocukları hedef alan ve yapay zeka tarafından üretilen niteliksiz video akışının etkilerini mercek altına alıyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "ERKEK ÖĞRETMENLER",
+      "DİJİTAL İÇERİK",
+      "EĞİTİMDE ÖN YARGI"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/the-cost-of-unchecked-assumptions-fewer-male-teachers-more-baby-slop",
+      "image": "/img/the-cost-of-unchecked-assumptions-fewer-male-teachers-more-b-1ajo5s.jpg"
+    },
+    "publishedAt": "2026-09-23T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:bt3rbo",
+    "rawTitle": "The Cost of Unchecked Assumptions: Fewer Male Teachers, More Baby Slop",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "n_qwd5a7_mvevvly5",
     "slug": "corum-da-yeni-egitim-ogretim-yilinin-ilk-haftasi-birim-amirleri-toplanti-1xir3y",
     "title": "Çorum'da yeni Eğitim Öğretim Yılının ilk Haftası birim amirleri toplantısında Değerlendirildi",
