@@ -5214,6 +5214,40 @@
     "audioDuration": 18.18
   },
   {
+    "id": "f_137tikb_mvh6wzk2",
+    "slug": "yabanci-ilkokul-sonrasinda-okuma-guclugu-ceken-ortaokul-ogrencileri--137tik",
+    "title": "İlkokul sonrasında okuma güçlüğü çeken ortaokul öğrencileri neden geride kalmaya devam ediyor?",
+    "excerpt": "Araştırmalar, ilkokul kademesinde başarılı olan okuma reformlarının ortaokulda geride kalan öğrenciler için yetersiz kaldığını ve bu grubun her yıl daha da gerilediğini gösteriyor.",
+    "body": [
+      "Pandemi sonrasında genel okuma puanları yükseliş eğilimi gösterse de ortaokul düzeyindeki düşük performanslı öğrenciler bu tablonun dışında kalıyor. NWEA bünyesinde araştırmalar yürüten Megan Kuhfeld, bu gruptaki okuyucuların arayı kapatmak yerine her geçen yıl daha fazla geriye düştüğünü vurguluyor.",
+      "Uzmanlar, temel sınıflarda uygulanan iyileştirme yöntemlerinin ortaokulda zaten geri kalmış öğrenciler düşünülerek tasarlanmadığına dikkat çekiyor. Bu nedenle erken dönemde işe yarayan okuma müdahaleleri, öğrencilerin en çok desteğe ihtiyaç duyduğu ortaokul seviyesinde yetersiz kalıyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "OKUMA BECERİLERİ",
+      "ORTAOKUL EĞİTİMİ",
+      "EĞİTİMDE REFORM",
+      "NWEA ARAŞTIRMASI"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/the-missing-middle-why-kids-still-struggle-to-read-after-third-grade",
+      "image": "/img/the-missing-middle-why-kids-still-struggle-to-read-after-thi-1vx0xi.jpg"
+    },
+    "publishedAt": "2026-09-16T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:137tikb",
+    "rawTitle": "The Missing Middle: Why Kids Still Struggle to Read After Third Grade",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "f_1ypctfg_mvh66caf",
     "slug": "yabanci-siniflari-birer-ekosistem-olarak-gormek-yapay-zeka-tartismal-1ypctf",
     "title": "Sınıfları birer ekosistem olarak görmek yapay zeka tartışmalarını daha derin bir boyuta taşıyor",
@@ -5347,6 +5381,39 @@
     "status": "published",
     "audioId": "n_6l2ml2_mvevprmo",
     "audioDuration": 23.14
+  },
+  {
+    "id": "f_1qkdsxs_mvh6wzk2",
+    "slug": "yabanci-yeni-egitim-yilinda-ogretmenleri-bekleyen-ekim-ayi-tukenmisl-1qkdsx",
+    "title": "Yeni eğitim yılında öğretmenleri bekleyen ekim ayı tükenmişliğiyle nasıl başa çıkılabilir?",
+    "excerpt": "Okulların açılmasından birkaç hafta sonra ortaya çıkan duygusal çöküş ve enerji kaybı, özellikle mesleğe yeni başlayan öğretmenleri zorluyor.",
+    "body": [
+      "Yeni eğitim öğretim yılının başlangıcındaki yoğun heyecan yatıştıktan birkaç hafta sonra öğretmenler belirgin bir duygusal düşüş yaşayabiliyor. New Teacher Center kurucusu Ellen Moir tarafından hayal kırıklığı evresi olarak tanımlanan bu süreç, eğitim camiasında ekim hüznü olarak da adlandırılıyor.",
+      "Rekindle Your Professional Fire kitabının yazarı Mike Anderson, bu durumun özellikle ilk yılındaki öğretmenler üzerinde çok daha sarsıcı etkiler bıraktığını ifade ediyor. Ekim hüznüne yakalanan eğitimcilerde odaklanma güçlüğü ve ciddi bir enerji kaybı gözlemleniyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "ÖĞRETMEN TÜKENMİŞLİĞİ",
+      "MESLEKİ GELİŞİM",
+      "YENİ ÖĞRETMENLER"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/the-october-blues-are-coming-heres-how-teachers-can-beat-them",
+      "image": "/img/the-october-blues-are-coming-here-s-how-teachers-can-beat-th-16xvv7.jpg"
+    },
+    "publishedAt": "2026-09-15T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1qkdsxs",
+    "rawTitle": "The “October Blues” Are Coming. Here’s How Teachers Can Beat Them.",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "n_hqval5_mvei314a",
