@@ -1,5 +1,74 @@
 [
   {
+    "id": "n_hknex8_mvgl1sdy",
+    "slug": "ortak-yazili-sinav-sistemi-uygulama-kilavuzu-yayimlanarak-ogretmenlerin--rku1yc",
+    "title": "Ortak Yazılı Sınav sistemi uygulama kılavuzu yayımlanarak öğretmenlerin erişimine sunuldu",
+    "excerpt": "Okullarda yapılan yazılı sınav süreçlerinde ortak standartların güçlendirilmesi amacıyla hazırlanan Ortak Yazılı Sınav Sistemi Uygulama Kılavuzu yayımlandı. Yeni EBA üzerinden erişilebilen sistem, sınav planlamasından değerlendirmeye kadar tüm aşamaları kapsıyor.",
+    "body": [
+      "Okullarda gerçekleştirilen yazılı sınavların hazırlanması ve değerlendirilmesi süreçlerinde ortak standartların güçlendirilmesi hedefleniyor. Bu kapsamda hazırlanan Ortak Yazılı Sınav Sistemi (OYSS) Uygulama Kılavuzu resmi olarak yayımlandı.",
+      "Yeni sistem Yeni EBA platformu üzerinden öğretmenlerin kullanımına açılacak. Uygulama ile birlikte sınav planlamasından soru hazırlamaya ve sonuçların değerlendirilmesine kadar uzanan süreçlerin tek merkezden yürütülmesi amaçlanıyor."
+    ],
+    "category": "meb",
+    "tags": [
+      "ORTAK SINAV",
+      "OYSS",
+      "EBA",
+      "MEB"
+    ],
+    "source": {
+      "name": "Çorum İl MEB",
+      "url": "https://corum.meb.gov.tr/www/ortak-yazili-sinav-sistemi-uygulama-kilavuzu-yayimlandi/icerik/4240",
+      "image": "/img/ortak-yaz-l-s-nav-sistemi-uygulama-k-lavuzu-yay-mland-4rre7m.jpg"
+    },
+    "publishedAt": "2026-10-20T10:36:22.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": true,
+    "province": "Çorum",
+    "fullText": false,
+    "score": 7.7,
+    "dedupeKey": "rku1yc",
+    "rawTitle": "\"Ortak Yazılı Sınav Sistemi Uygulama Kılavuzu\", Yayımlandı",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
+    "id": "n_1ofl1z7_mvgl1se1",
+    "slug": "egitim-ogretim-yili-birinci-donem-birinci-ortak-yazili-sinav-tarihleri-a-t5no1q",
+    "title": "Eğitim Öğretim Yılı birinci dönem birinci Ortak Yazılı Sınav tarihleri açıklandı",
+    "excerpt": "2026-2027 eğitim öğretim yılı birinci dönem birinci yazılı sınav takvimi belli oldu. Ortaokul ve lise düzeyindeki öğrenciler sınav günlerini araştırıyor.",
+    "body": [
+      "Millî Eğitim Bakanlığı , 2026-2027 eğitim öğretim yılı ülke geneli ortak yazılı sınav takvimini açıkladı. Peki, 1. dönem 1. yazılılar ne zaman? 6, 7, 8, 9, 10, 11. sınıf OYSS sınav tarihleri",
+      "OYSS açılımı Ortak Yazılı Sınav Sistemi'dir. Sistemle öğretmenlerin sınav hazırlama süreçlerinin desteklenmesi, farklı güçlük düzeylerinde hazırlanmış beceri temelli açık uçlu sorulara erişimin sağlanması ve okul geneli ortak yazılı sınavların öğretim programlarındaki öğrenme çıktılarıyla ilişkilendirilmesi amaçlanıyor.",
+      "Sınavlar; günde tek sınav yapılması hâlinde 2. ders saatinde, günde iki sınav yapılması hâlinde ise 2 ve 4. ders saatlerinde uygulanacak olup sınav süresi 40 dakika olacaktır.",
+      "10 Kasım 2026 tarihinde gerçekleştirilecek okul geneli ortak yazılı sınavlar 4. ders saatinde uygulanabilecektir. İhtiyaç hâlinde okul müdürlüğünün planlaması doğrultusunda farklı bir ders saatinde de sınav uygulaması yapılabilecektir.",
+      "Not: 6. sınıf matematik dersi 1. dönem 1. sınavı, ülke geneli ortak yazılı sınav kapsamında 11 Kasım 2026 Çarşamba günü yapılacaktır."
+    ],
+    "category": "sinav",
+    "tags": [
+      "YAZILI SINAVLAR",
+      "OYSS",
+      "SINAV TAKVİMİ"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/1-donem-1-yazililar-ne-zaman-6-7-8-9-10-11-sinif-oyss-sinav-tarihleri-2548523",
+      "image": "/img/1-d-nem-1-yaz-l-lar-ne-zaman-6-7-8-9-10-11-s-n-f-oyss-s-nav--xj9gpj.jpg"
+    },
+    "publishedAt": "2026-10-20T10:30:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 7.7,
+    "dedupeKey": "t5no1q",
+    "rawTitle": "1. dönem 1. yazılılar ne zaman? 6, 7, 8, 9, 10, 11. sınıf OYSS sınav tarihleri",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_xu0foh_mvg6i4em",
     "slug": "yok-baskani-ozvar-in-coktan-secmeli-sinav-elestirisine-akademiden-genis--1i0j12",
     "title": "YÖK başkanı özvar'ın çoktan seçmeli sınav eleştirisine akademiden geniş destek geldi",
@@ -1679,6 +1748,39 @@
     "status": "review"
   },
   {
+    "id": "n_1429kqy_mvgl1se5",
+    "slug": "osym-kpss-lisans-sonuclarinin-ardindan-adaylarin-brans-bazinda-siralama--1m79yc",
+    "title": "ÖSYM KPSS lisans sonuçlarının ardından adayların branş bazında sıralama süreci bekleniyor",
+    "excerpt": "2026-KPSS Lisans sonuçlarının ilan edilmesinin ardından kamu personeli adayları branş sıralamalarına odaklandı. Sıralamaların ÖSYM sistemi üzerinden erişime açılması bekleniyor.",
+    "body": [
+      "KPSS lisans sonuçlarının duyurulmasının üzerinden geçen sürenin ardından ÖSYM'den gelecek resmi açıklama bekleniyor. Peki, KPSS lisans branş bazında sıralamalar açıklandı mı?",
+      "KPSS branş bazında sıralamalar henüz belli olmadı. ÖSYM'nin geçmiş yıllardaki uygulamalarına bakıldığında; branş bazında sıralamalar genellikle sınav sonuçlarının açıklanmasını takip eden 1 ila 2 hafta içerisinde Aday İşlemleri Sistemi (ÖSYM AİS) üzerinden erişime açılmaktadır.",
+      "Sıralamalar yayımlandığında ais.osym.gov.tr adresine T.C. Kimlik Numaranız ve aday şifrenizle giriş yaparak \"Başvurularım / KPSS\" sekmesinden kendi branşınızdaki net yerinizi öğrenebilirsiniz."
+    ],
+    "category": "sinav",
+    "tags": [
+      "KPSS",
+      "ÖSYM",
+      "BRANŞ SIRALAMASI"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/kpss-lisans-brans-bazinda-siralamalar-aciklandi-mi-osym-kpss-brans-siralamalari-sorgulama-ekrani-2546953",
+      "image": "/img/kpss-lisans-bran-baz-nda-s-ralamalar-a-kland-m-sym-kpss-bran-jgv885.jpg"
+    },
+    "publishedAt": "2026-10-15T07:03:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4.6,
+    "dedupeKey": "1m79ycm",
+    "rawTitle": "KPSS lisans branş bazında sıralamalar açıklandı mı? ÖSYM KPSS branş sıralamaları sorgulama ekranı",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "f_1eohsoq_mvg5ojrw",
     "slug": "yabanci-pandemi-sonrasi-federal-fonlarin-kesilmesi-okullardaki-yogun-1eohso",
     "title": "Pandemi sonrası federal fonların kesilmesi okullardaki yoğun özel ders programlarını tehlikeye atıyor",
@@ -2233,6 +2335,45 @@
     "lang": "en",
     "audioId": "f_1b7eavp_mvfnucog",
     "audioDuration": 24.5
+  },
+  {
+    "id": "n_1pw6ivb_mvgl1se2",
+    "slug": "i-stanbul-buyuksehir-belediyesi-universite-ogrencilerine-yonelik-egitim--1t2259",
+    "title": "İstanbul büyükşehir belediyesi Üniversite öğrencilerine yönelik eğitim yardımı başvurularını sürdürüyor",
+    "excerpt": "İstanbul Büyükşehir Belediyesi tarafından üniversite öğrencilerine sağlanan burs desteği için başvuru süreci devam ediyor. Adaylar başvuru şartları ile talep edilen evrakları araştırıyor.",
+    "body": [
+      "İstanbul’da öğrenim gören ya da ailesi İstanbul’da ikamet eden ön lisans, lisans, yüksek lisans ve doktora öğrencilerine yönelik sunulan İBB Genç Üniversiteli Eğitim Desteği başvuruları tüm hızıyla devam ediyor. Eğitim giderlerine katkı sağlamak amacıyla verilen burs imkanından yararlanmak isteyen adaylar için başvuru takvimi netleşti. Peki, 2026-2027 İBB burs başvuruları ne zaman bitecek? İBB Genç Üniversiteli başvuruları nasıl yapılır? İBB burs başvurusu için gerekli belgeler neler? İşte tüm ayrıntılar...",
+      "2026-2027 eğitim-öğretim dönemi İBB Genç Üniversiteli burs başvuruları 29 Eylül 2026 tarihinde başlamış olup, 23 Ekim 2026 Cuma günü mesai bitimiyle sona erecektir. Adayların mağduriyet yaşamaması adına belgelerini sistem üzerinden son güne kalmadan tamamlamaları gerekmektedir.",
+      "Başvurular fiziki olarak alınmamakta olup tamamen dijital kanallar üzerinden gerçekleştirilmektedir. Adaylar iki farklı yöntemle başvuru yapabilirler:",
+      "1. İstanbul Senin Uygulaması: Google Play veya App Store üzerinden Akıllı cep telefonlarına indirilen \"İstanbul Senin\" mobil uygulaması üzerinden kolayca başvuru adımları takip edilebilir.",
+      "2. Web Sitesi: İBB'nin resmi başvuru portalı olan gencuniversiteli.ibb.istanbul adresi üzerinden T.C. kimlik numarası ve istenen bilgiler girilerek başvuru formu doldurulabilir.",
+      "Türkiye Cumhuriyeti vatandaşı olmak. Öğrencinin kendisinin veya ailesinin (anne/baba vefatı durumunda yakınının) İstanbul’da ikamet etmesi.",
+      "Ara ve son sınıf öğrencileri için yılsonu başarı notunun en az 100 üzerinden 53 ya da 4,00 üzerinden 2,00 olması.",
+      "Maddi desteğe ihtiyacı bulunmak. İBB BURS BAŞVURUSU İÇİN GEREKLİ BELGELER Sisteme yüklenmesi gereken temel evraklar şunlar:"
+    ],
+    "category": "universite",
+    "tags": [
+      "İBB BURS",
+      "GENÇ ÜNİVERSİTELİ",
+      "BURS BAŞVURUSU"
+    ],
+    "source": {
+      "name": "Cumhuriyet",
+      "url": "https://www.cumhuriyet.com.tr/egitim/2026-2027-ibb-burs-basvurulari-ne-zaman-bitecek-ibb-genc-universiteli-basvurulari-nasil-yapilir-ibb-burs-basvurusu-icin-gerekli-belgeler-neler-2546051",
+      "image": "/img/2026-2027-ibb-burs-ba-vurular-ne-zaman-bitecek-ibb-gen-niver-yvsm7y.jpg"
+    },
+    "publishedAt": "2026-10-12T18:14:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "province": "İstanbul",
+    "fullText": true,
+    "score": 6.4,
+    "dedupeKey": "1t2259s",
+    "rawTitle": "2026-2027 İBB burs başvuruları ne zaman bitecek? İBB Genç Üniversiteli başvuruları nasıl yapılır? İBB burs başvurusu için gerekli belgeler neler?",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "n_1a5wfno_mveiblan",
@@ -3108,6 +3249,39 @@
     "audioDuration": 43.46
   },
   {
+    "id": "f_1h2z9tb_mvgl5q2m",
+    "slug": "yabanci-siniflardaki-yapay-zeka-panik-ve-yasaklarinin-bedelini-erken-1h2z9t",
+    "title": "Sınıflardaki yapay zeka panik ve yasaklarının bedelini erken okuryazarlıkta öğrenciler ödeyebilir",
+    "excerpt": "Devlet okullarında sınıflarda yapay zekaya karşı tepkiler yükselirken, New Mexico örneği toptan yasakların erken okuryazarlık müdahalelerini engelleyebileceğini gösteriyor. Uzmanlar korku ve yanlış bilgilerin çocukların eğitim haklarına zarar vermemesi gerektiği uyarısında bulunuyor.",
+    "body": [
+      "Devlet okullarında yapay zeka kullanımına yönelik artan tepkiler ve genel yasaklama eğilimleri yaygınlaşıyor. Ancak New Mexico'daki gelişmeler, kapsamlı yasakların öğrencileri erken okuryazarlık müdahalelerinden mahrum bırakma riski taşıdığını ortaya koyuyor. Korku ve yanlış yönlendirmelerin çocuklara bedel ödetmemesi gerektiği vurgulanıyor.",
+      "New Mexico Kamu Eğitimi Departmanından Lynn Vasquez ve Amira Learning CEO'su Mark Angel, 15 Temmuz'da eyaletteki devlet okullarında kullanılan yapay zeka destekli okuryazarlık tarama aracını savunmak üzere milletvekilleriyle bir araya geldi. Eyalet, dezavantajlı öğrencilerin başarılarını artırmak için 2018 yılından bu yana bir mahkeme kararı altında bulunuyor. Yetkililer okuma yeterliliğini geliştirmek amacıyla 2025 yılında 5 ve 6 yaşındaki çocukları okurken dinleyen bu yazılıma başvurdu."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "YAPAY ZEKA",
+      "ERKEN OKURYAZARLIK",
+      "EĞİTİM TEKNOLOJİSİ"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/will-kids-pay-the-price-for-ai-panic",
+      "image": "/img/will-kids-pay-the-price-for-a-panic-1qibzr.jpg"
+    },
+    "publishedAt": "2026-10-05T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1h2z9tb",
+    "rawTitle": "Will Kids Pay the Price for AI Panic?",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "f_xqe5ch_mvfy5qkr",
     "slug": "yabanci-ingiltere-ve-galler-de-okullardaki-akran-istismari-endise-ve-xqe5ch",
     "title": "İngiltere ve Galler'de okullardaki akran istismarı endişe verici boyutlara ulaştı",
@@ -3496,6 +3670,39 @@
     "lang": "en",
     "audioId": "f_msj089_mvfx4puu",
     "audioDuration": 35.09
+  },
+  {
+    "id": "f_10m122w_mvgl5q2m",
+    "slug": "yabanci-okullar-egitim-teknolojisi-urunlerine-eklenen-yapay-zeka-oze-10m122",
+    "title": "Okullar eğitim teknolojisi ürünlerine eklenen yapay zeka özelliklerine gerçekten güvenebilir mi?",
+    "excerpt": "Eğitim teknolojisi şirketleri ürünlerine hızla yapay zeka özellikleri eklerken, bağımsız incelemeler bu araçların iddia edilen pedagojik etkililiğine dair kanıtları sorguluyor. Uzmanlar okul yöneticilerinin dijital öğretim araçlarını satın almadan önce dikkatlice doğrulamaları gerektiğini belirtiyor.",
+    "body": [
+      "Eğitim teknolojisi sağlayıcıları, yapay zeka özelliklerini yeni ve mevcut öğretim materyallerine hızla entegre ederek bunların eğitsel açıdan etkili olduğunu öne sürüyor. K-12 müfredatlarını inceleyen bağımsız kâr amacı gütmeyen kuruluş EdReports, bu iddiaların ardındaki kanıtları araştırmaya başladı. Elde edilen bulgular, bu sonbaharda teknoloji yatırımı yapmayı planlayan bölge yöneticileri için yanıtlanması zor sorular doğuruyor.",
+      "Söz konusu yapay zeka araçlarının bazıları içeriğin öğrenciler görmeden önce öğretmen tarafından incelenmesine izin verirken, diğerleri içerikleri doğrudan gerçek zamanlı olarak öğrencilere sunuyor. New York City Eğitim Departmanında 15 yıl görev yapmış olan EdReports Akademik Direktörü Courtney Allison, bu araçların doğrulanmasının önemine dikkat çekiyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "EĞİTİM TEKNOLOJİSİ",
+      "YAPAY ZEKA",
+      "MÜFREDAT DEĞERLENDİRME"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://edsurge.com/news/can-schools-trust-ai-features-in-edtech-products",
+      "image": "/img/can-schools-trust-a-features-in-edtech-products-uyiouo.jpg"
+    },
+    "publishedAt": "2026-09-30T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:10m122w",
+    "rawTitle": "Can Schools Trust AI Features in Edtech Products?",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "n_fzu26y_mvevprmo",
