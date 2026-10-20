@@ -5,7 +5,28 @@
   "observability": {
     "enabled": true
   },
+
+  // Sayfa HTML'i her istekte yeniden yazılır: /haber/:slug ve /kategori/:slug
+  // adreslerine doğru başlık, açıklama, canonical ve NewsArticle şeması
+  // eklenir. Tek sayfalık uygulama (SPA) olarak kalsak Google her adresi
+  // ana sayfa sanırdı; bu, haber siteleri için en kritik SEO eksiğidir.
+  "main": "public/_worker.js",
   "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
     "not_found_handling": "single-page-application"
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "egitim-haberleri",
+      "database_id": "6d96cbf2-3732-4d43-bc0f-db17b9bb2c12"
+    }
+  ],
+
+  "vars": {
+    "SITE_URL": "https://egitim-haberleri.omerzen.workers.dev",
+    "API_URL": "https://egitim-haberleri-api.omerzen.workers.dev"
   }
 }
