@@ -88,6 +88,9 @@ def upload(article_id, data: bytes, duration: float):
             "x-collect-secret": SECRET,
             "x-audio-duration": str(round(duration, 2)),
             "user-agent": "EgitimHaberleri-Podcast/1.0",
+            # Podcast haber sürümlemesinin DIŞINDADADIR: geçmiş bölümler asla
+            # yeniden üretilmez. Bu yüzden tarif taşınmaz.
+            "x-audio-recipe": "podcast",
         },
     )
     with urllib.request.urlopen(req, timeout=180) as res:

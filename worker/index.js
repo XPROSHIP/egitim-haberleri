@@ -248,17 +248,25 @@ export default {
       if (data.length === 0) return reply({ error: 'empty' }, 400)
       if (data.length > 6_500_000) return reply({ error: 'too_large' }, 413)
       const duration = Number(request.headers.get('x-audio-duration') ?? 0) || null
+      // Üretildiği "okuma tarifi" sürümü: hangi sesler bayat, hangiler güncel
+      // bununla bilinir.
+      const recipe = (request.headers.get('x-audio-recipe') ?? '').slice(0, 64) || null
       await env.DB.prepare(
-        `INSERT INTO news_audio (article_id, data, type, duration, bytes) VALUES (?,?,?,?,?)
+        `INSERT INTO news_audio (article_id, data, type, duration, bytes, recipe)
+         VALUES (?,?,?,?,?,?)
          ON CONFLICT(article_id) DO UPDATE SET data=excluded.data, type=excluded.type,
-           duration=excluded.duration, bytes=excluded.bytes`,
+           duration=excluded.duration, bytes=excluded.bytes, recipe=excluded.recipe`,
       )
-        .bind(id, data, 'audio/mpeg', duration, data.length)
+        .bind(id, data, 'audio/mpeg', duration, data.length, recipe)
         .run()
       await env.DB.prepare('UPDATE news SET audio_id = ?, audio_duration = ? WHERE id = ?')
         .bind(id, duration, id)
         .run()
-      return reply({ ok: true, id, bytes: data.length })
+      // Haber kaydında da tutulur: bayat ses tespiti tek sorguda yapılır.
+      await env.DB.prepare('UPDATE news SET audio_recipe = ? WHERE id = ?')
+        .bind(recipe, id)
+        .run()
+      return reply({ ok: true, id, bytes: data.length, recipe })
     }
 
     if (url.pathname.startsWith('/img/')) {
@@ -492,7 +500,15 @@ export default {
       return reply({ text: result.text, sources: result.sources, quota: after })
     }
 
-    /* ── Analitik: çerezsiz sayfa istatistikleri ─────────────────────── */
+    /* ── Sistem durumu (operatör için; ziyaretçi arayüzüne dokunmaz) ── */
+    if (url.pathname === '/api/state/audio' && request.method === 'POST') {
+      if (!authorized(request, env)) return reply({ error: 'unauthorized' }, 401)
+      const payload = await request.json().catch(() => ({}))
+      await recordState(env, 'audio', payload)
+      return reply({ ok: true })
+    }
+
+    // Gerçek görüntülenme sayacı — çerezsiz, kimlik tutmaz.
     if (url.pathname === '/api/track/stats' && request.method === 'GET') {
       const days = Math.min(Number(url.searchParams.get('days') ?? 14), 90)
       const total = await env.DB.prepare('SELECT COUNT(*) AS n FROM page_views').first()
@@ -713,12 +729,16 @@ export default {
       const images = await env.DB?.prepare('SELECT COUNT(*) AS n FROM images').all()
       const dispatch = await readState(env, 'dispatch')
       const collect = await readState(env, 'collect')
+      // Ses üretim durumu operatör içindir; ziyaretçi arayüzü göstermez.
+      const audio = await readState(env, 'audio')
       return reply({
         ok: true,
         news: news?.results?.[0]?.n ?? 0,
         images: images?.results?.[0]?.n ?? 0,
         // Otomasyon durumu: erişim anahtarı bozulursa site bunu gösterir.
         automation: { dispatch, collect },
+        // Ses üretim durumu operatör içindir (ziyaretçi arayüzü göstermez).
+        audio,
         time: new Date().toISOString(),
       })
     }

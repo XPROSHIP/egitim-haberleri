@@ -261,6 +261,8 @@ export function fromRow(r) {
     rawTitle: r.raw_title ?? undefined,
     hasAudio: !!r.audio_id,
     audioDuration: r.audio_duration ?? undefined,
+    /** Sesin üretildiği okuma tarifi sürümü (bayat ses tespiti için). */
+    audioRecipe: r.audio_recipe ?? undefined,
   }
 }
 
