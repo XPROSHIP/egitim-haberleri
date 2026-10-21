@@ -23,7 +23,10 @@ from datetime import datetime, timedelta, timezone
 API = os.environ.get("VITE_API_URL", "").rstrip("/")
 SECRET = os.environ.get("COLLECT_SECRET", "")
 SAMPLE_RATE = 24000
-MAX_ARTICLES = 8
+# Bölüm kısa ve öz olsun: en fazla 4 haber, toplam en fazla ~5,5 dakika.
+# (Ses yükleme sınırı nedeniyle daha uzun bölümler tek dosyaya sığmıyor.)
+MAX_ARTICLES = 4
+MAX_SECONDS = 330
 
 INTRO = (
     "Merhaba, ZENPOD Eğitim'e hoş geldiniz. Her gün eğitim gündeminden öne çıkan "
@@ -163,13 +166,19 @@ def main():
 
     parts = [(intro_bytes, intro_dur)]
     total = intro_dur
+    used = []
     for it in todays:
         audio = fetch_audio(it["id"])
         if not audio:
             continue
         dur = float(it.get("audioDuration") or 0)
+        if total + dur > MAX_SECONDS:
+            continue
         parts.append((audio, dur))
         total += dur
+        used.append(it)
+        if len(used) >= MAX_ARTICLES:
+            break
 
     outro_bytes, outro_dur = synth(OUTRO, "zenpod-outro")
     parts.append((outro_bytes, outro_dur))
@@ -177,25 +186,35 @@ def main():
     log(f"kapanış hazır ({outro_dur:.0f} sn)")
 
     episode = b"".join(p[0] for p in parts)
-    upload(episode_id, episode, total)
-    log(f"bölüm yüklendi: {episode_id} · {total:.0f} sn · {len(episode)/1024:.0f} KB")
+    log(f"bölüm: {len(used)} haber · {total:.0f} sn · {len(episode)/1024:.0f} KB")
 
-    headlines = "\n".join(f"• {it['title']}" for it in todays)
+    try:
+        upload(episode_id, episode, total)
+    except Exception as exc:  # noqa: BLE001
+        # Bölüm yüklenemezse iş akışı durmasın; bir sonraki turda tekrar dener.
+        log(f"bölüm yüklenemedi: {str(exc)[:120]}")
+        return
+
+    headlines = "\n".join(f"• {it['title']}" for it in used)
     description = (
         f"ZENPOD Eğitim — {now.strftime('%d.%m.%Y')} günün eğitim haberleri.\n\n"
         f"{headlines}\n\n"
         "Bütün haberler Eğitim Haberleri sitesinde. Takip edin, yorumlarla destekleyin."
     )
     title = f"ZENPOD Eğitim · {now.strftime('%d.%m.%Y')} · Günün eğitim haberleri"
-    api_post(
-        "/api/podcast/episode",
-        {
-            "id": episode_id,
-            "title": title,
-            "description": description,
-            "duration": total,
-        },
-    )
+    try:
+        api_post(
+            "/api/podcast/episode",
+            {
+                "id": episode_id,
+                "title": title,
+                "description": description,
+                "duration": total,
+            },
+        )
+    except Exception as exc:  # noqa: BLE001
+        log(f"bölüm kaydedilemedi: {str(exc)[:120]}")
+        return
     log("bölüm kaydedildi")
 
 

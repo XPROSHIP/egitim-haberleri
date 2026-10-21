@@ -17,6 +17,8 @@
 const SITE = 'https://egitim-haberleri.omerzen.workers.dev'
 const API = 'https://egitim-haberleri-api.omerzen.workers.dev'
 const PODCAST_TITLE = 'ZENPOD Eğitim'
+/** Dağıtım sürümü (ölçüm için). */
+const TRACK_VERSION = '2026-10-21a'
 
 const CATEGORY_NAMES = {
   mesleki: 'Mesleki Eğitim',
@@ -78,16 +80,12 @@ async function listNews(env, { category = null, limit = 50 } = {}) {
 /* ── Analitik: çerezsiz, sunucu tarafı sayfa sayacı ─────────────────────── */
 
 async function track(env, path) {
-  try {
-    await env.DB.prepare(
-      `INSERT INTO page_views (day, path, count) VALUES (?,?,1)
-       ON CONFLICT(day, path) DO UPDATE SET count = count + 1`,
-    )
-      .bind(dayKey(), path.slice(0, 200))
-      .run()
-  } catch {
-    /* sayac kritik değil */
-  }
+  await env.DB.prepare(
+    `INSERT INTO page_views (day, path, count) VALUES (?,?,1)
+     ON CONFLICT(day, path) DO UPDATE SET count = count + 1`,
+  )
+    .bind(dayKey(), path.slice(0, 200))
+    .run()
 }
 
 /* ── Meta ve şema ──────────────────────────────────────────────────────── */
@@ -368,7 +366,7 @@ ${parts.join('\n')}
 /* ── Worker ─────────────────────────────────────────────────────────────── */
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url)
 
     if (url.pathname === '/robots.txt') {
@@ -477,11 +475,11 @@ export default {
       if (a) {
         meta = articleMeta(a)
         pre = prerenderArticle(a)
-        void track(env, `/haber/${a.slug}`)
+        await track(env, `/haber/${a.slug}`)
       }
     } else {
       meta = categoryMeta(decodeURIComponent(cat[1]))
-      void track(env, `/kategori/${cat[1]}`)
+      await track(env, `/kategori/${cat[1]}`)
     }
 
     if (!meta) return response
@@ -491,7 +489,7 @@ export default {
     if (pre) out = out.replace('<div id="root"></div>', `<div id="root">${pre}</div>`)
 
     const headers = new Headers(response.headers)
-    headers.set('x-seo', 'injected')
+    headers.set('x-seo', `injected-v${TRACK_VERSION}`)
     return new Response(out, { status: response.status, headers })
   },
 }
