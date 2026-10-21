@@ -4730,6 +4730,40 @@
     "audioDuration": 21.62
   },
   {
+    "id": "f_s3zs9f_mviqdtfh",
+    "slug": "yabanci-new-york-ogrencileri-icin-yillik-kirk-iki-bin-dolarlik-butce-s3zs9f",
+    "title": "New York öğrencileri için yıllık kırk iki bin dolarlık bütçe teklifi",
+    "excerpt": "Jeff Yass'ın New York City'deki öğrenciler için önerdiği fon paylaşım modeli tartışılıyor. Bu teklif, eğitim harcamalarının aileler arasında nasıl paylaştırılabileceğini inceliyor.",
+    "body": [
+      "Jeff Yass, Wall Street Journal gazetesinde yayımlanan yazısında New York City'nin öğrenci başına harcadığı yaklaşık 42.000 doların nasıl değerlendirilmesi gerektiğine dair bir teklif sundu. Bu tutarın yarı yarıya bölünmesi ve bir kısmının ailenin seçeceği okula verilmesi, diğer kısmının ise bir tasarruf hesabına aktarılması öneriliyor.",
+      "Uzmanlar bu fikrin, 100 New Yorklu aileyle yapılacak küçük ölçekli ve randomize kontrollü bir deney olarak hayata geçirilmesini umuyor. Güncel piyasa koşulları ve gerçek sağlayıcı fiyatları baz alınarak üç farklı aile senaryosu üzerinde simülasyonlar gerçekleştirildi.",
+      "Yıllık 21.000 dolarlık ilk kısmın, New York City'deki gerçek özel okul ücretlerini karşılayıp karşılamayacağı detaylı bir şekilde incelendi. Yapılan bu çalışmalar fonların eğitim alanında ne kadar ileri gidebileceğini görmek açısından önem taşıyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Eğitim Finansmanı",
+      "New York",
+      "Okul Seçimi"
+    ],
+    "source": {
+      "name": "Education Next",
+      "url": "https://www.educationnext.org/the-42000-question-jeff-yass-proposal-new-york-city-students/",
+      "image": "/img/the-42-000-question-5sjsh6.png"
+    },
+    "publishedAt": "2026-10-14T05:00:45.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:s3zs9f",
+    "rawTitle": "The $42,000 Question",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "f_32yaot_mvga1tx8",
     "slug": "yabanci-cocuk-koruma-hizmetleriyle-temas-eden-ogrencilerin-okul-deva-32yaot",
     "title": "Çocuk koruma hizmetleriyle temas eden öğrencilerin okul devamsızlığı daha yüksek çıkıyor",
@@ -5292,6 +5326,40 @@
     "lang": "tr"
   },
   {
+    "id": "f_1wfuuqg_mviqdtfh",
+    "slug": "yabanci-egitim-tasarruf-hesaplari-avantaj-mi-yoksa-risk-mi-1wfuuq",
+    "title": "Eğitim tasarruf hesapları avantaj mı yoksa risk mi",
+    "excerpt": "Üç uzman, Eğitim Tasarruf Hesapları programlarının etkililiğini ve sürdürülebilirliğini tartışıyor. Bu sistemin eğitime getirdiği yenilikler ile olası riskler masaya yatırılıyor.",
+    "body": [
+      "1990'lı ve 2000'li yıllarda okul seçimi savunucuları ailelerin alternatif okullara erişimi için burs ve charter okulu programlarını desteklemiştir. Arizona ise 2011 yılında ebeveynlerin kamu fonlarını özel okul ücretleri dışında eğitim hizmetleri için de kullanmasına izin veren ilk Eğitim Tasarruf Hesabı programını kurmuştur.",
+      "Günümüzde bir düzineden fazla eyalet genel eğitim öğrencileri için bu hesapları sunarken, üç eyalet ise sadece özel eğitim öğrencilerine bu imkânı tanımaktadır. Destekçiler bu sistemin hibrit evde eğitim gibi yeni seçeneklerin önünü açtığını savunmaktadır.",
+      "Buna karşın bazı kesimler sistemin israfa, suistimale ve yolsuzluğa açık olabileceği konusunda endişe duymaktadır. Uzmanlar yüksek kaliteli okullardan uzaklaşılmasının olası sonuçlarını tartışmaya devam etmektedir."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Eğitim Tasarruf Hesabı",
+      "Okul Seçimi",
+      "Eğitim Politikaları"
+    ],
+    "source": {
+      "name": "Education Next",
+      "url": "https://www.educationnext.org/education-savings-accounts-boon-or-boondoggle-three-experts-debate-esa-programs-forum/",
+      "image": "/img/education-savings-accounts-boon-or-boondoggle-uyrgbp.png"
+    },
+    "publishedAt": "2026-10-13T05:00:08.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1wfuuqg",
+    "rawTitle": "Education Savings Accounts: Boon or Boondoggle?",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "f_1b7eavp_mvfnucog",
     "slug": "yabanci-grevler-ve-butce-kesintileri-avustralya-universitelerinde-be-1b7eav",
     "title": "Grevler ve bütçe kesintileri Avustralya üniversitelerinde belirsizlik yaratıyor",
@@ -5744,6 +5812,47 @@
     "status": "published",
     "audioId": "n_76qti7_mvei314a",
     "audioDuration": 20.66
+  },
+  {
+    "id": "n_1st5mbl_mviqdmzw",
+    "slug": "universite-ogrencileri-icin-kyk-burs-ve-kredi-basvurulari-e-devlet-uzeri-iwkj5x",
+    "title": "Üniversite öğrencileri için kyk burs ve kredi başvuruları e-Devlet üzerinden başladı",
+    "excerpt": "2026-2027 dönemi KYK burs ve kredi başvuruları e-Devlet üzerinden başladı. Öğrenciler başvurularını 16 Ekim 2026 Cuma günü saat 23.59'a kadar yapabilecek.",
+    "body": [
+      "2026-2027 KYK burs ve kredi başvuruları başladı. Gençlik ve Spor Bakanı Osman Aşkın Bak, üniversite öğrencilerinin beklediği başvuruların 12 Ekim Pazartesi günü itibarıyla e-Devlet üzerinden alınmaya başladığını duyurdu. Peki başvurular ne zaman bitecek, işlemler nasıl yapılacak?",
+      "Üniversite öğrencilerinin merakla beklediği 2026-2027 KYK burs ve kredi başvuru süreci başladı. Gençlik ve Spor Bakanı Osman Aşkın Bak, başvuruların 12 Ekim Pazartesi günü itibarıyla alınmaya başladığını açıkladı. Maddi destek almak isteyen öğrencilerin başvurularını 16 Ekim'e kadar tamamlaması gerekiyor. İşlemler, e-Devlet sistemi üzerinden gerçekleştirilebilecek.",
+      "Gençlik ve Spor Bakanı Osman Aşkın Bak, başvuruların başladığını sosyal medya hesabından duyurdu. (GSB)",
+      "## KYK BURS VE KREDİ BAŞVURULARI BAŞLADI",
+      "Üniversite öğrencilerinin eğitim hayatları boyunca maddi destek alabilmek için beklediği KYK burs ve kredi başvuru süreci başladı. Gençlik ve Spor Bakanı Osman Aşkın Bak, 2026-2027 eğitim öğretim dönemi başvurularının 12 Ekim Pazartesi günü itibarıyla alınmaya başladığını açıkladı.",
+      "Bakan Bak, sosyal medya hesabından yaptığı duyuruda öğrencilerin başvurularını e-Devlet üzerinden gerçekleştirebileceğini bildirdi. Başvurular için son tarih 16 Ekim 2026 Cuma olarak belirlendi. Adayların işlemlerini aynı gün saat 23.59'a kadar tamamlaması gerekiyor.",
+      "2026-2027 KYK burs ve kredi başvuruları e-Devlet üzerinden alınmaya başladı. (A Haber Grafik Ekibi)",
+      "## KYK BURS VE KREDİ BAŞVURUSU NASIL YAPILIR?",
+      "KYK burs ve öğrenim kredisi başvuruları e-Devlet sistemi üzerinden alınıyor. Başvuru yapmak isteyen öğrencilerin e-Devlet'e giriş yaparak ilgili başvuru ekranındaki işlemleri tamamlaması gerekiyor. e-Devlet şifresi bulunmayan öğrencilerin sisteme giriş için gerekli şifreyi alması veya kullanılabilen diğer giriş yöntemlerinden yararlanması gerekiyor.",
+      "Başvuru sırasında öğrencilerden istenen bilgilerin doğru ve eksiksiz girilmesi büyük önem taşıyor. Özellikle öğrenim bilgileriyle ilgili bir sorun yaşanmaması için başvuru öncesinde e-Devlet'teki kayıtların kontrol edilmesi gerekiyor.",
+      "## KYK BURS VE KREDİ BAŞVURU EKRANI İÇİN TIKLAYIN"
+    ],
+    "category": "universite",
+    "tags": [
+      "KYK BURS",
+      "KREDİ BAŞVURUSU",
+      "ÜNİVERSİTE"
+    ],
+    "source": {
+      "name": "A Haber",
+      "url": "https://ahaber.com.tr/egitim/2026-2027-kyk-burs-ve-kredi-basvurulari-basladi-6530047",
+      "image": "/img/kyk-burs-ve-kredi-ba-vurular-ba-lad-kimler-ba-vurabilecek-so-l7llwk.webp"
+    },
+    "publishedAt": "2026-10-12T07:14:36.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": true,
+    "fullText": true,
+    "score": 4.7,
+    "dedupeKey": "iwkj5x",
+    "rawTitle": "KYK burs ve kredi başvuruları başladı: Kimler başvurabilecek, son gün ne zaman?",
+    "status": "published",
+    "lang": "tr"
   },
   {
     "id": "n_vra4b7_mvei8kif",
