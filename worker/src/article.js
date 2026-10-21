@@ -1,10 +1,96 @@
-/** Yayıncı sayfasından kapak görseli ve haber metnini çıkarır. */
+/**
+ * Yayıncı sayfasından haber metnini çıkarır.
+ *
+ * Bu dosya gerçek bir HTML ayrıştırıcı kullanır (node-html-parser). Düzenli
+ * ifadelerle kazımak yayıncının sayfa yapısına göre kırılıyordu: MEB haberi
+ * <div> içinde, Hürriyet <p> içinde, bazı sayfalar haberin ortasına "ilgili
+ * haber" bloğu koyuyor, bazıları alt bilgiyi gövdenin içine gömüyordu.
+ * DOM üzerinden gezmek bu karışıklığı kesin olarak çözüyor.
+ */
+import { parse } from 'node-html-parser'
 import { decodeEntities } from './rss.js'
 
 const UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
 
 const BAD_IMG = /meta-photo|logo|placeholder|default[-_.]?img|avatar|1x1|blank\.|banner|sponsor|mansetresim|varsayilan|gorsel-yeri|header[-_.]?image/i
+
+/** Gövdenin bulunduğu kutular (öncelik sırasına göre). */
+const BODY_SELECTORS = [
+  'div.article-body',
+  'div.article-content',
+  'div.article-text',
+  'div.post-content',
+  'div.post-body',
+  'div.entry-content',
+  'div.haber-icerik',
+  'div.haber-govde',
+  'div.story-body',
+  'div.article-detail',
+  'div.article-text',
+  'div.news-content',
+  'div.haber-detay',
+  'div.detay-icerik',
+  'div.icerik',
+  'article',
+  'main',
+]
+
+/** Haber dışı, tek başına duran satırlar. */
+const BOILERPLATE_TEXT = [
+  /erişilebilirlik\s+özellikleri/i,
+  /gizlilik,\s*kullanım\s+ve\s+telif/i,
+  /©\s*türkiye\s+cumhuriyeti/i,
+  /t\.c\.\s*millet\s+eğitim\s+bakanlığı/i,
+  /takip\s+edin/i,
+  /yazı\s+(?:tipi|fontu)/i,
+  /sayfa\s+(?:genişliği|düzeni)/i,
+  /görünüm\s+(?:modu|ayarları)/i,
+  /çerez\s+(?:politikası|tercihleri)/i,
+  /paylaş|yazdır|facebook|twitter|instagram|linkedin|telegram|whatsapp/i,
+  /bize\s+ulaşın|iletişim\s+bilgileri/i,
+  /güncel\s+(?:haberler|gelişmeler)/i,
+  /ilgili\s+(?:haberler|news)/i,
+  /en\s+çok\s+(?:okunanlar|izlenenler)/i,
+  /öne\s+çıkan\s+haberler/i,
+  /diğer\s+haberler/i,
+  /^an\s+asayfa\s*\/?$/i,
+  /^e-?posta\s*\/?$/i,
+  /^s\.?s\.?s\.?$/i,
+  /^haberler$/i,
+  /^güncel$/i,
+]
+
+/** Tek başına tarih/saat satırı. */
+const BOILERPLATE_DATE =
+  /^(?:\d{1,2}\s+\w+\s+\d{4}(?:\s+\d{1,2}[:.]\d{2})?|\d{1,2}[./]\d{1,2}[./]\d{2,4}(?:\s+\d{1,2}[:.]\d{2})?|\d{1,2}[.:]\d{2})$/
+
+/** Buradan sonrası başka haberler listesi. */
+const LIST_MARKER =
+  /^(?:güncel\s+haberler|ilgili\s+haberler|diğer\s+haberler|en\s+çok\s+okunanlar|öne\s+çıkan\s+haberler)\b/i
+
+/** Buradan sonrası kurum künyesi / adres / iletişim bloğu. */
+const CUT_MARKER =
+  /^(?:adres\s*:|tel\s*:|telefon\s*:|faks\s*:|e-?posta\s*:|millî?\s*eğitim\s+bakanlığı['’]?nı\s+takip\s+edin|erişilebilirlik\s+özellikleri|gizlilik\s*,?\s*kullanım|©\s*türkiye\s+cumhuriyeti|haber\s*[:：]\s*$)/i
+
+/** Karşılaştırma için küçük harfe indirger, aksanları atar. */
+function fold(s = '') {
+  return s
+    .toLocaleLowerCase('tr')
+    .replace(/[çğıöşü]/g, (c) => ({ ç: 'c', ğ: 'g', ı: 'i', ö: 'o', ş: 's', ü: 'u' })[c])
+    .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function clean(s = '') {
+  return decodeEntities(
+    String(s)
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/[ ]/g, ' ')
+      .replace(/\s+/g, ' '),
+  ).trim()
+}
 
 /** Görselin gerçek bir fotoğraf olduğunu boyut ve en-boy oranıyla doğrular. */
 export function looksLikePhoto(buf) {
@@ -47,99 +133,11 @@ function imageSize(buf) {
   return null
 }
 
-function meta(html, ...patterns) {
-  for (const p of patterns) {
-    const m = html.match(p)
-    if (m?.[1] && m[1].trim().length > 4) return decodeEntities(m[1].trim())
-  }
-  return null
-}
-
-function cleanText(s) {
-  return decodeEntities(
-    s
-      .replace(/<[^>]+>/g, ' ')
-      .replace(/[ ]/g, ' ')
-      .replace(/\s+/g, ' '),
-  ).trim()
-}
-
-/**
- * Haber gövdesini içeren kapsayıcıyı seçer.
- *
- * Yayıncılar gövdeyi farklı sarmalayıcılara koyar. Eski yaklaşım ilk
- * "article" sınıflı <div>'e kilitlenip hemen kapanıyordu; sonuç: haber
- * metni iki cümlelik özete düşüyordu. Burada aday bölgeler ölçülür ve
- * içinde en çok paragraf metni bulunan seçilir.
- */
-function pickBodyScope(html) {
-  const candidates = []
-
-  // 1) Semantik etiketler
-  for (const m of html.matchAll(/<(article|main)\b[^>]*>([\s\S]*?)<\/\1>/gi)) {
-    candidates.push(m[2])
-  }
-
-  // 2) itemprop / class / id ile gövde kutusu
-  const boxRe =
-    /<(?:div|section)\b[^>]*(?:itemprop|class|id)\s*=\s*["'][^"']*(?:article-?body|articleBody|post-?body|entry-?content|post-?content|story-?body|news-?content|text-?content|haber|icerik|content)[^"']*["'][^>]*>([\s\S]*?)<\/(?:div|section)>/gi
-  for (const m of html.matchAll(boxRe)) {
-    candidates.push(m[1])
-  }
-
-  // 3) <body> her zaman aday
-  const body = html.match(/<body\b[^>]*>([\s\S]*?)<\/body>/i)
-  if (body) candidates.push(body[1])
-
-  let best = ''
-  let bestChars = 0
-  for (const c of candidates) {
-    // Yalnızca <p> içindeki gerçek metni say.
-    let chars = 0
-    for (const p of c.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)) {
-      const t = cleanText(p[1])
-      if (t.split(' ').length > 12) chars += t.length
-    }
-    if (chars > bestChars) {
-      bestChars = chars
-      best = c
-    }
-  }
-  return best || html
-}
-
-/**
- * Paragrafın başındaki kalın başlığı ayırır.
- *
- * Yayıncılar haber gövdesini "BAŞLIK — metin" biçiminde kuruyor. Kalın
- * başlık ayrı bir alt başlıktır; metinden koparılıp "## " işaretiyle
- * işaretlenir (arayüz h2 olarak çizer).
- */
-function splitLead(html) {
-  const strong = html.match(/^\s*<(strong|b)\b[^>]*>([\s\S]{4,220}?)<\/\1>\s*([\s\S]*)$/i)
-  if (strong) {
-    const heading = cleanText(strong[2])
-    const rest = cleanText(strong[3])
-    if (
-      heading &&
-      rest &&
-      heading.length >= 8 &&
-      heading.length <= 120 &&
-      rest.length >= 90 &&
-      heading.split(' ').length <= 14
-    ) {
-      return { heading, text: rest }
-    }
-  }
-  return { text: cleanText(html) }
-}
-
 /**
  * Sayfanın karakter kodlamasını belirler.
  *
- * Bazı yayıncılar (ör. star.com.tr) ISO-8859-9/windows-1254 kullanıyor;
- * "res.text()" UTF-8 varsaydığı için karakterler bozuk çıkıyordu
- * ("Bakanl��ktan yap��lan a��klamaya g��re").
+ * Bazı yayıncılar (star.com.tr) ISO-8859-9/windows-1254 kullanıyor; "res.text()"
+ * UTF-8 varsaydığı için karakterler bozuk çıkıyordu.
  */
 function decodeHtml(buf, contentType) {
   const bytes = new Uint8Array(buf)
@@ -147,7 +145,6 @@ function decodeHtml(buf, contentType) {
   const fromHeader = /charset=["']?([\w-]+)/i.exec(contentType ?? '')?.[1]
   if (fromHeader) candidates.push(fromHeader)
 
-  // Meta etiketlerini ilk 2 KB'de ara
   const head = new TextDecoder('utf-8', { fatal: false }).decode(bytes.subarray(0, 2048))
   const metaCharset =
     /<meta[^>]+charset=["']?([\w-]+)/i.exec(head)?.[1] ??
@@ -159,7 +156,6 @@ function decodeHtml(buf, contentType) {
   for (const label of candidates) {
     try {
       const text = new TextDecoder(label, { fatal: false }).decode(bytes)
-      // U+FFFD (bozuk karakter) çok fazlaysa bu kodlama doğru değildir.
       const broken = (text.match(/�/g) ?? []).length
       if (broken < 5) return text
     } catch {
@@ -169,12 +165,77 @@ function decodeHtml(buf, contentType) {
   return new TextDecoder('utf-8', { fatal: false }).decode(bytes)
 }
 
+function metaOf(root, ...patterns) {
+  for (const p of patterns) {
+    const m = root.querySelector(p)
+    const v = m?.getAttribute('content')
+    if (v && v.trim().length > 4) return decodeEntities(v.trim())
+  }
+  return null
+}
+
+/**
+ * Bir düğümün metin bloklarını toplar.
+ * Yalnızca "kendi metni" olan bloklar alınır (iç içe kutu metni iki kez sayılmaz).
+ */
+function collectBlocks(node) {
+  const blocks = []
+  const walk = (el) => {
+    for (const child of el.childNodes) {
+      if (child.nodeType !== 1) continue
+      const tag = child.rawTagName?.toLowerCase()
+      if (['script', 'style', 'noscript', 'svg', 'iframe', 'form', 'nav', 'footer', 'header'].includes(tag)) {
+        continue
+      }
+      if (['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', 'blockquote', 'figcaption'].includes(tag)) {
+        const text = clean(child.text)
+        if (!text) continue
+        // Yayıncının "BAŞLIK — metin" düzeni: kalın giriş ayrı bir alt başlıktır.
+        const strong = child.querySelector('strong, b')
+        if (strong && strong.rawTagName) {
+          const lead = clean(strong.text)
+          // strong metni paragrafın başında mı? (metinden çıkarılır)
+          const whole = clean(child.text)
+          const atStart = whole.toLocaleLowerCase('tr').startsWith(lead.toLocaleLowerCase('tr'))
+          const rest = clean(whole.replace(lead, ' '))
+          if (atStart && lead.length >= 8 && lead.length <= 140 && rest.length >= 90) {
+            blocks.push({ text: lead, strong: true })
+            blocks.push({ text: rest, strong: false })
+            continue
+          }
+        }
+        const strongOnly = strong && clean(strong.text) === text
+        blocks.push({ text, strong: Boolean(strongOnly) })
+        continue
+      }
+      // div gibi kutu etiketleri: kendi doğrudan metni varsa blok, yoksa içeriğine in
+      const own = child.childNodes
+        .filter((n) => n.nodeType === 3)
+        .map((n) => n.rawText ?? '')
+        .join(' ')
+        .trim()
+      if (own.length > 40) {
+        blocks.push({ text: clean(own), strong: false })
+        continue
+      }
+      // Yalnızca kalın metinden oluşan kutu: alt başlıktır (ya da promo başlığı).
+      const strong = child.querySelector('strong, b')
+      if (strong && clean(child.text) === clean(strong.text) && strong.text) {
+        blocks.push({ text: clean(strong.text), strong: true })
+        continue
+      }
+      walk(child)
+    }
+  }
+  walk(node)
+  return blocks
+}
+
 /**
  * Haber sayfasını okur.
  * @returns {{image:string|null, paragraphs:string[], description:string|null, siteName:string|null}}
  */
 export async function fetchArticle(url, { timeoutMs = 15000 } = {}) {
-  // Google News sayfaları gerçek makale değildir; og:image'ı boş yer tutucusudur
   if (/news\.google\.com/i.test(url)) {
     return { image: null, paragraphs: [], description: null, siteName: null, title: null }
   }
@@ -189,77 +250,92 @@ export async function fetchArticle(url, { timeoutMs = 15000 } = {}) {
     if (!res.ok) return { image: null, paragraphs: [], description: null, siteName: null }
     const html = decodeHtml(await res.arrayBuffer(), res.headers.get('content-type'))
 
-    const image = meta(
-      html,
-      /<meta[^>]+property=["']og:image(?::secure_url|:url)?["'][^>]+content=["']([^"']+)["']/i,
-      /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image(?::secure_url|:url)?["']/i,
-      /<link[^>]+rel=["']image_src["'][^>]+href=["']([^"']+)["']/i,
-      /<meta[^>]+name=["']twitter:image(?::src)?["'][^>]+content=["']([^"']+)["']/i,
-    )
+    const root = parse(html, {
+      blockTextElements: { script: false, noscript: false, style: false, pre: true },
+    })
 
-    const description = meta(
-      html,
-      /<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i,
-      /<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']+)["']/i,
+    const image = metaOf(
+      root,
+      'meta[property="og:image"]',
+      'meta[property="og:image:secure_url"]',
+      'meta[name="twitter:image"]',
+      'meta[name="twitter:image:src"]',
     )
-
-    const siteName = meta(
-      html,
-      /<meta[^>]+property=["']og:site_name["'][^>]+content=["']([^"']+)["']/i,
+    const description = metaOf(
+      root,
+      'meta[name="description"]',
+      'meta[property="og:description"]',
     )
+    const siteName = metaOf(root, 'meta[property="og:site_name"]')
+    const title = (
+      metaOf(root, 'meta[property="og:title"]', 'meta[name="twitter:title"]') ??
+      clean(root.querySelector('title')?.text ?? '')
+    ).replace(/\s*[|–—·]\s*[^|–—·]{0,40}$/, '')
 
-    const title = meta(
-      html,
-      /<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i,
-      /<title[^>]*>([\s\S]{10,220}?)<\/title>/i,
-    )?.replace(/\s*[|–—·]\s*[^|–—·]{0,40}$/, '')
-
-    const publishedRaw = meta(
-      html,
-      /<meta[^>]+property=["']article:published_time["'][^>]+content=["']([^"']+)["']/i,
-      /<time[^>]+datetime=["']([^"']+)["']/i,
-    )
+    const publishedRaw =
+      metaOf(root, 'meta[property="article:published_time"]') ??
+      root.querySelector('time')?.getAttribute('datetime') ??
+      null
     const published = publishedRaw ? new Date(publishedRaw) : null
 
-    // Gövde bulunurken en çok paragraf metni içeren kapsayıcı seçilir.
-    // (Eski hâli ilk "article" sınıflı <div>'e kilitleniyor ve içerik
-    // iki cümlelik özete düşüyordu.)
-    const scope = pickBodyScope(html)
+    // Gövde kutusu: bilinen seçiciler, sonra en çok metin içeren kutu.
+    let scope = null
+    for (const sel of BODY_SELECTORS) {
+      const found = root.querySelector(sel)
+      if (found) {
+        scope = found
+        break
+      }
+    }
+    if (!scope) {
+      const candidates = root.querySelectorAll('div, section, article')
+      let best = null
+      let bestLen = 0
+      for (const c of candidates) {
+        const len = clean(c.text).length
+        if (len > bestLen && len < 200000) {
+          bestLen = len
+          best = c
+        }
+      }
+      scope = best ?? root
+    }
 
-    const rawBlocks = [...scope.matchAll(/<(p|h2|h3)\b[^>]*>([\s\S]{40,4000}?)<\/\1>/gi)]
+    const blocks = collectBlocks(scope)
     const paragraphs = []
-    for (const m of rawBlocks) {
-      const tag = m[1].toLowerCase()
-      if (tag !== 'p') {
-        // Yayıncının kendi alt başlığı
-        const heading = cleanText(m[2])
-        if (heading && heading.length >= 8 && heading.length <= 140) paragraphs.push(`## ${heading}`)
+    for (const b of blocks) {
+      const t = b.text
+      if (!t) continue
+      if (LIST_MARKER.test(t)) break
+      if (CUT_MARKER.test(t)) break
+      if (BOILERPLATE_TEXT.some((re) => re.test(t))) continue
+      if (BOILERPLATE_DATE.test(t)) continue
+      if (b.strong) {
+        if (t.length >= 8 && t.length <= 140) paragraphs.push(`## ${t}`)
         continue
       }
-      // Bazı sayfalar haberin ortasına "ABONE OL" bloğu ve haberin tekrarını
-      // koyar; asıl içerik orada biter.
-      if (/^ABONE\s*OL/i.test(cleanText(m[2]).slice(0, 20))) break
-      const { heading, text } = splitLead(m[2])
-      if (heading) paragraphs.push(`## ${heading}`)
-      paragraphs.push(text)
+      if (/^ABONE\s*OL/i.test(t.slice(0, 20))) break
+      paragraphs.push(t)
     }
 
     const cleaned = paragraphs
-      .filter(
-        (p) =>
+      .filter((p) => {
+        if (p.startsWith('## ')) return p.length >= 8 && p.length <= 150
+        return (
           p.length >= 80 &&
           p.split(' ').length > 12 &&
           !/^(İçindekiler|Editör|Abone ol|©|Photo|Fotoğraf|REKLAM|Bu haber|Kaynakça|Linki Kopyala|Kaynak:|Bu içerik|Bu haber |İşte |Bunlar )/i.test(p) &&
           !/Kanuna aykırı ve izinsiz olarak kopyalanamaz/i.test(p) &&
           !/son dakika haberleri, köşe yazıları/i.test(p) &&
           !/haber içerikleri izin alınmadan/i.test(p) &&
-          !p.includes('©'),
-      )
+          !p.includes('©')
+        )
+      })
       .filter((p, i, arr) => arr.indexOf(p) === i)
       .slice(0, 30)
 
-    // MEB il müdürlüklerinde gövde <p> değil og:description içindedir
-    if (paragraphs.length < 2 && description && description.length > 200) {
+    // Gövde bulunamadıysa özet metninden paragraf kur.
+    if (cleaned.length < 2 && description && description.length > 200) {
       const sentences = description
         .split(/(?<=[.!?])\s+(?=[A-ZÇĞİÖŞÜ])/)
         .reduce((acc, s) => {
@@ -270,19 +346,19 @@ export async function fetchArticle(url, { timeoutMs = 15000 } = {}) {
         }, [])
         .map((s) => s.trim())
         .filter((s) => s.split(' ').length > 12)
-      if (sentences.length > 0) paragraphs.push(...sentences.slice(0, 6))
+      if (sentences.length > 0) cleaned.push(...sentences.slice(0, 6))
     }
 
     return {
       title,
       image: image && !BAD_IMG.test(image) ? absolutize(image, url) : null,
-      paragraphs,
+      paragraphs: cleaned,
       description,
       siteName,
       publishedAt: published && !Number.isNaN(+published) ? published.toISOString() : null,
     }
   } catch (err) {
-    console.warn('[article] okunamadı:', url, String(err?.message ?? err).slice(0, 160))
+    console.warn(`[article] okunamadı: ${url} ${String(err?.message ?? err).slice(0, 90)}`)
     return { image: null, paragraphs: [], description: null, siteName: null, title: null }
   } finally {
     clearTimeout(timer)
@@ -309,7 +385,6 @@ export async function downloadImage(url, referer, { maxBytes = 3_000_000, attemp
       })
       if (!res.ok) {
         lastError = new Error(`HTTP ${res.status}`)
-        // 4xx'te tekrar denemenin anlamı yok.
         if (res.status < 500 && res.status !== 429) return null
         continue
       }
@@ -321,12 +396,13 @@ export async function downloadImage(url, referer, { maxBytes = 3_000_000, attemp
       return { buffer: buf, type }
     } catch (err) {
       lastError = err
-      // Ağ hatası geçici olabilir; kısa bekleyip yeniden dene.
       await new Promise((r) => setTimeout(r, 600 * (i + 1)))
     }
   }
   if (lastError) {
-    console.warn(`[article] görsel indirilemedi: ${url.slice(0, 90)} · ${String(lastError.message ?? lastError).slice(0, 60)}`)
+    console.warn(
+      `[article] görsel indirilemedi: ${url.slice(0, 90)} · ${String(lastError.message ?? lastError).slice(0, 60)}`,
+    )
   }
   return null
 }

@@ -11,6 +11,7 @@ import { readFile } from 'node:fs/promises'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { fetchArticle } from '../src/article.js'
+import { createGemini, cleanBodies } from '../src/gemini.js'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(HERE, '..', '..')
@@ -25,6 +26,20 @@ const args = Object.fromEntries(
 )
 const LIMIT = Number(args.limit ?? 200)
 const FORCE = Boolean(args.force)
+const CLEAN = args.clean !== false
+
+/** Gemini anahtarları (temizleme için). */
+async function geminiKeys() {
+  try {
+    const raw = await readFile(resolve(ROOT, 'worker', '.env'), 'utf8')
+    return (raw.match(/GEMINI_API_KEYS\s*=\s*(.+)/)?.[1] ?? '')
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean)
+  } catch {
+    return []
+  }
+}
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
@@ -65,18 +80,14 @@ async function main() {
   let updated = 0
   let done = 0
   const payload = []
+  const fetched = []
   for (const it of todo) {
     done++
     try {
       const art = await fetchArticle(it.source.url)
       const paragraphs = (art.paragraphs ?? []).filter((p) => p && p.length >= 80)
       if (paragraphs.length >= 2) {
-        payload.push({
-          slug: it.slug,
-          body: paragraphs,
-          excerpt: makeExcerpt(paragraphs, it.excerpt),
-        })
-        updated++
+        fetched.push({ it, paragraphs })
         console.log(
           `  [${done}/${todo.length}] ${paragraphs.length} paragraf · ${it.title.slice(0, 55)}`,
         )
@@ -87,6 +98,41 @@ async function main() {
       console.warn(`  [${done}/${todo.length}] hata: ${String(err?.message ?? err).slice(0, 80)}`)
     }
     await sleep(400)
+  }
+
+  // Gemini temizliği: reklam, "ilgili haber" blokları ve site kalıntıları
+  // ayıklanır; haberin özü korunur.
+  if (CLEAN && fetched.length) {
+    const keys = await geminiKeys()
+    if (keys.length) {
+      const gemini = createGemini(keys, ['gemini-3.5-flash-lite', 'gemini-3.1-flash-lite'])
+      for (let i = 0; i < fetched.length; i += 4) {
+        const chunk = fetched.slice(i, i + 4)
+        const clusters = chunk.map((c) => ({
+          key: c.it.id,
+          title: c.it.title,
+          paragraphs: c.paragraphs,
+        }))
+        const cleaned = await cleanBodies(gemini, clusters)
+        for (const c of chunk) {
+          const next = cleaned.get(c.it.id)
+          if (next) c.paragraphs = next
+        }
+        console.log(`  temizlendi: ${i + chunk.length}/${fetched.length}`)
+        await sleep(600)
+      }
+    } else {
+      console.log('  GEMINI_API_KEYS yok, temizleme atlandı')
+    }
+  }
+
+  for (const c of fetched) {
+    payload.push({
+      slug: c.it.slug,
+      body: c.paragraphs,
+      excerpt: makeExcerpt(c.paragraphs, c.it.excerpt),
+    })
+    updated++
   }
 
   // 20'şerlik gruplar halinde gönder

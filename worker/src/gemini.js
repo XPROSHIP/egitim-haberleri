@@ -131,20 +131,20 @@ const CLEAN_SCHEMA = {
 
 const CLEAN_SYSTEM = `Sen Türkiye eğitim basınının editörüsün. Haber sayfalarından alınan metinlerde çöp vardır.
 
-BİRİNCİ KURAL — "İLGİLİ HABER" BLOKLARI:
-Bazı sayfalar haberin ORTASINA, büyük harfle ve tire ile başlayan bir başlık koyar
-(örneğin "- 8 ÜLKEDE 50 BİN ÇOCUĞA YÜZ YÜZE EĞİTİM") ve hemen ardından o başlığa ait
-birkaç paragraf gelir. Bu bir ilgili haber reklamıdır, haberin parçası DEĞİLDİR.
-- Böyle bir büyük harfli, tire ile başlayan başlığın text'ini BOŞ bırak.
-- Başlıktan hemen sonra gelen 2-4 paragraf da o reklama aittir: onların text'ini de BOŞ bırak.
-- Bu blok bittikten sonra haberin kendi paragrafları devam eder; onları koru.
+KURAL 1 — ALT BAŞLIKLAR KORUNUR (öncelikli):
+Metinde kısa, kalın (başlık gibi) satırlar vardır. Bunlar haberin alt başlıklarıdır.
+- Bu satırların text'ini BOŞ BIRAKMA, OLDUĞU GİBİ YAZ.
+- Tek istisna: BÜYÜK HARFLİ ve TİRE İLE BAŞLAYAN bir başlık (örneğin
+  "- 8 ÜLKEDE 50 BİN ÇOCUĞA YÜZ YÜZE EĞİTİM") ve hemen ardından gelen 2-4 paragraf
+  birlikte "ilgili haber" reklamıdır. O durumda: başlığın text'ini boş bırak VE
+  başlıktan sonraki 2-4 paragrafın text'ini de boş bırak.
 
-İKİNCİ KURAL — DİĞER ALAKSIZ PARAGRAFLAR:
-- Reklam, "ilgili haberler", "en çok okunanlar", menü, arama kutusu, künye, yazar bilgisi,
-  paylaşım butonları, "abone ol" yazıları hep alaksızdır: text boş olsun.
-- KONUSU bu haberin konusundan farklı olan paragraflar da alaksızdır.
+KURAL 2 — ALAKSIZ PARAGRAFLAR:
+Reklam, "ilgili haberler", "en çok okunanlar", menü, arama kutusu, künye, yazar bilgisi,
+paylaşım butonları, "abone ol", adres/telefon/e-posta bilgileri, erişilebilirlik araçları,
+yazı tipi / sayfa genişliği seçenekleri, tarih-saat satırları hep alaksızdır: text boş olsun.
 
-ÜÇÜNCÜ KURAL — KORUMA:
+KURAL 3 — HABER METNİ KORUNUR:
 - Habere ait paragrafların text'ini TAMAMEN yaz; KISAĞINA KISALTMA, özetleme.
   Yalnızca bozuk cümleleri ve yazımı düzelt.
 - Sayıları, tarihleri, yer adlarını, kurum adlarını ve alıntıları BİREBİR koru.
@@ -197,9 +197,12 @@ export async function cleanBodies(gemini, clusters) {
       const drop = new Set(list.filter((r) => !r.text).map((r) => r.para))
       for (const n of [...drop]) {
         const original = String(c.paragraphs[n - 1] ?? '')
+        // Alt başlık işaretli blok ("## ...") veya büyük harfli/tireli başlık
+        // → promo başlığı olabilir.
         const isPromoHeading =
-          original.length < 140 &&
-          /^\s*[-–—•]?\s*[A-ZÇĞİÖŞÜ0-9 ,.'!?"“”()&/-]{10,}$/.test(original)
+          (original.startsWith('## ') && original.length < 160) ||
+          (original.length < 140 &&
+            /^\s*[-–—•]?\s*[A-ZÇĞİÖŞÜ0-9 ,.'!?"“”()&/-]{10,}$/.test(original))
         if (!isPromoHeading) continue
         for (let k = n + 1; k <= n + 3; k++) drop.add(k)
       }
