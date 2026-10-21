@@ -136,9 +136,12 @@ paylaşım butonları, çerez bildirimi, canlı yayın kutusu, kaynakça, "haber
 GÖREV: Her paragrafı TEK TEK ele al.
 - Girdideki her paragraf için, sırasıyla bir kayıt üret: id alanı paragrafın sırası (1'den başlar),
   text alanı ise o paragrafın TEMİZLENMİŞ hâlidir.
-- Paragraf alaksızsa (reklam, başka haberin başlığı, menü, künye) text alanı BOŞ string olsun.
-- Paragraf habere aitse text alanına paragrafın tamamını yaz; KISAĞINA KISALTMA, özetleme.
-  Sadece bozuk cümleleri düzelt, yazımı düzelt, gereksiz tekrarı at.
+- Bir paragraf şu durumlarda ALAKSIZDIR ve text alanı BOŞ string olmalıdır:
+  * reklam, reklam etiketi, "ilgili haberler", "en çok okunanlar", "diğer haberler" gibi bloklar
+  * BAŞKA BİR HABERE AİT olan başlık veya içerik (konusu, olayı, kurumu farklı olan haber paragrafları)
+  * menü, arama kutusu, künye, yazar bilgisi, paylaşım butonları, künye yazısı
+- Paragraf bu haberin kendi içeriğiyse text alanına paragrafın tamamını yaz; KISAĞINA KISALTMA,
+  özetleme. Sadece bozuk cümleleri ve yazımı düzelt.
 - Sayıları, tarihleri, yer adlarını, kurum adlarını ve alıntıları BİREBİR koru.
 - Yorum, reklam ya da yeni bilgi ekleme.
 - Kaç paragraf girdiysen o kadar kayıt üret; id'ler 1'den başlayarak sıralı olsun.
