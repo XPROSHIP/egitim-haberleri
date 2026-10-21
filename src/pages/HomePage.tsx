@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
 import { useAllNews, useFeed, useMostRead, useTrending } from '../lib/api'
 import { useStore } from '../lib/store'
+import { interestScore, useInterests } from '../lib/interest'
 import { selectForYou } from '../lib/api'
 import { NewsCard } from '../components/NewsCard'
 import { StoryBar } from '../components/StoryBar'
@@ -26,16 +27,25 @@ export function HomePage() {
   const { t, i18n } = useTranslation()
   const lang = i18n.language === 'en' ? 'en' : 'tr'
   const { data, isLoading } = useAllNews()
-  const { feedMode, setFeedMode, followed, likes, hideRead, readMarks, setHideRead } = useStore()
+  const { feedMode, setFeedMode, followed, likes, hideRead, readMarks, setHideRead, signedIn } =
+    useStore()
+  const { data: interests = [] } = useInterests(signedIn)
 
   const list = useMemo(() => {
     if (!data) return []
     if (feedMode === 'foryou') {
       const sorted = selectForYou(data, likes)
-      return hideRead ? sorted.filter((n) => !readMarks.includes(n.id)) : sorted
+      // Öğrenilen ilgi alanları (kategori/etiket ağırlıkları) sıralamayı güçlendirir.
+      const scored = sorted.map((n) => ({
+        n,
+        score: interestScore(n, interests),
+      }))
+      scored.sort((a, b) => b.score - a.score)
+      const result = scored.map((x) => x.n)
+      return hideRead ? result.filter((n) => !readMarks.includes(n.id)) : result
     }
     return null
-  }, [data, feedMode, likes, hideRead, readMarks])
+  }, [data, feedMode, likes, hideRead, readMarks, interests])
 
   const { items } = useFeed({
     mode: feedMode,
@@ -161,6 +171,24 @@ export function HomePage() {
             <NewsCard item={hero} variant="hero" lang={lang} />
 
             <StoryBar items={data ?? []} />
+
+            <Link
+              to="/podcast"
+              className="mt-4 flex items-center gap-3 rounded-xl border border-line bg-gradient-to-r from-primary/10 via-surface to-accent/10 p-4 transition hover:border-primary/30"
+            >
+              <span className="grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-primary to-accent text-white">
+                <Icon name="Mic" size={18} />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-[0.875rem] font-bold text-fg">
+                  ZENPOD Eğitim — günün haberleri sesli
+                </span>
+                <span className="block truncate text-[0.75rem] text-muted">
+                  Her sabah iki dakikada eğitim gündemi
+                </span>
+              </span>
+              <Icon name="ArrowRight" size={16} className="shrink-0 text-muted" />
+            </Link>
 
             <section className="mt-2">
               <div className="mb-1 flex items-end justify-between">

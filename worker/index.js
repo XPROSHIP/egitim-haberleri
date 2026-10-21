@@ -106,6 +106,16 @@ async function currentUser(request, env) {
   }
 }
 
+/** Kısa, kararlı karma (abonelik uç noktası için). */
+function hashString(str = '') {
+  let h = 2166136261
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i)
+    h = Math.imul(h, 16777619)
+  }
+  return (h >>> 0).toString(36)
+}
+
 /** Sistemin durumunu D1'de tutar: tetikleme basarisi, son toplama zamani.
     Boylece token bozulursa hatirlamak yerine site uyariyor. */
 async function recordState(env, key, value) {
@@ -480,6 +490,147 @@ export default {
       await saveMessage(env, user.id, 'assistant', result.text, result.sources)
       const after = await quotaOf(env, user.id)
       return reply({ text: result.text, sources: result.sources, quota: after })
+    }
+
+    /* ── Analitik: çerezsiz sayfa istatistikleri ─────────────────────── */
+    if (url.pathname === '/api/track/stats' && request.method === 'GET') {
+      const days = Math.min(Number(url.searchParams.get('days') ?? 14), 90)
+      const total = await env.DB.prepare('SELECT COUNT(*) AS n FROM page_views').first()
+      const recent = await env.DB.prepare(
+        `SELECT day, SUM(count) AS n FROM page_views
+         WHERE day >= date('now', ?) GROUP BY day ORDER BY day ASC`,
+      )
+        .bind(`-${days} days`)
+        .all()
+      const top = await env.DB.prepare(
+        `SELECT path, SUM(count) AS n FROM page_views
+         WHERE day >= date('now', '-30 days') GROUP BY path ORDER BY n DESC LIMIT 25`,
+      ).all()
+      return reply({
+        ok: true,
+        total: total?.n ?? 0,
+        days: recent?.results ?? [],
+        top: top?.results ?? [],
+      })
+    }
+
+    /* ── Kullanıcı ilgi alanları ("Sana Özel" akışı) ─────────────────── */
+    if (url.pathname === '/api/interest' && request.method === 'GET') {
+      const user = await currentUser(request, env)
+      if (!user) return reply({ error: 'unauthorized' }, 401)
+      const rows = await env.DB.prepare(
+        'SELECT kind, value, weight FROM user_interests WHERE user_id = ? ORDER BY weight DESC LIMIT 60',
+      )
+        .bind(user.id)
+        .all()
+      return reply({ interests: rows?.results ?? [] })
+    }
+
+    if (url.pathname === '/api/interest' && request.method === 'POST') {
+      const user = await currentUser(request, env)
+      if (!user) return reply({ error: 'unauthorized' }, 401)
+      const { kind, value, delta } = await request.json().catch(() => ({}))
+      const k = String(kind ?? '').slice(0, 20)
+      const v = String(value ?? '').slice(0, 80)
+      if (!k || !v) return reply({ error: 'missing_fields' }, 400)
+      const d = Math.max(-1, Math.min(1, Number(delta ?? 1)))
+      await env.DB.prepare(
+        `INSERT INTO user_interests (user_id, kind, value, weight, updated_at)
+         VALUES (?,?,?,?, datetime('now'))
+         ON CONFLICT(user_id, kind, value) DO UPDATE SET
+           weight = MAX(-5, MIN(5, user_interests.weight + ?)),
+           updated_at = datetime('now')`,
+      )
+        .bind(user.id, k, v, d, d)
+        .run()
+      return reply({ ok: true })
+    }
+
+    /* ── Web push ────────────────────────────────────────────────────── */
+    if (url.pathname === '/api/push/key' && request.method === 'GET') {
+      return reply({ ok: true, publicKey: env.VAPID_PUBLIC_KEY ?? '' })
+    }
+
+    if (url.pathname === '/api/push/subscribe' && request.method === 'POST') {
+      const user = await currentUser(request, env)
+      const { endpoint, keys, categories } = await request.json().catch(() => ({}))
+      if (!endpoint || !keys?.p256dh || !keys?.auth) {
+        return reply({ error: 'missing_fields' }, 400)
+      }
+      const id = `p_${hashString(endpoint).slice(0, 16)}`
+      await env.DB.prepare(
+        `INSERT INTO push_subscriptions (id, user_id, endpoint, p256dh, auth, categories)
+         VALUES (?,?,?,?,?,?)
+         ON CONFLICT(endpoint) DO UPDATE SET
+           user_id=excluded.user_id, p256dh=excluded.p256dh, auth=excluded.auth,
+           categories=excluded.categories`,
+      )
+        .bind(
+          id,
+          user?.id ?? null,
+          String(endpoint).slice(0, 500),
+          String(keys.p256dh).slice(0, 200),
+          String(keys.auth).slice(0, 100),
+          JSON.stringify(Array.isArray(categories) ? categories.slice(0, 12) : []).slice(0, 300),
+        )
+        .run()
+      return reply({ ok: true, id })
+    }
+
+    if (url.pathname === '/api/push/unsubscribe' && request.method === 'POST') {
+      const { endpoint } = await request.json().catch(() => ({}))
+      if (!endpoint) return reply({ error: 'missing_fields' }, 400)
+      await env.DB.prepare('DELETE FROM push_subscriptions WHERE endpoint = ?')
+        .bind(String(endpoint).slice(0, 500))
+        .run()
+      return reply({ ok: true })
+    }
+
+    // Abone listesi ve VAPID bilgisi yalnızca toplayıcı (CI) için.
+    if (url.pathname === '/api/push/subscribers' && request.method === 'GET') {
+      if (!authorized(request, env)) return reply({ error: 'unauthorized' }, 401)
+      const rows = await env.DB.prepare(
+        'SELECT endpoint, p256dh, auth, categories FROM push_subscriptions',
+      ).all()
+      return reply({
+        ok: true,
+        publicKey: env.VAPID_PUBLIC_KEY ?? '',
+        privateKey: env.VAPID_PRIVATE_KEY ?? '',
+        subscribers: (rows?.results ?? []).map((r) => ({
+          endpoint: r.endpoint,
+          keys: { p256dh: r.p256dh, auth: r.auth },
+          categories: r.categories ? JSON.parse(r.categories) : [],
+        })),
+      })
+    }
+
+    /* ── ZENPOD Eğitim bölümleri ────────────────────────────────────── */
+    if (url.pathname === '/api/podcast/episode' && request.method === 'POST') {
+      if (!authorized(request, env)) return reply({ error: 'unauthorized' }, 401)
+      const { id, title, description, duration } = await request.json().catch(() => ({}))
+      if (!id || !title) return reply({ error: 'missing_fields' }, 400)
+      await env.DB.prepare(
+        `INSERT INTO podcast_episodes (id, title, description, audio_id, duration)
+         VALUES (?,?,?,?,?)
+         ON CONFLICT(id) DO UPDATE SET title=excluded.title, description=excluded.description,
+           audio_id=excluded.audio_id, duration=excluded.duration`,
+      )
+        .bind(
+          String(id).slice(0, 80),
+          String(title).slice(0, 200),
+          String(description ?? '').slice(0, 2000),
+          String(id).slice(0, 80),
+          Number(duration ?? 0) || null,
+        )
+        .run()
+      return reply({ ok: true, id })
+    }
+
+    if (url.pathname === '/api/podcast/episodes' && request.method === 'GET') {
+      const rows = await env.DB.prepare(
+        'SELECT id, title, description, duration, published_at FROM podcast_episodes ORDER BY published_at DESC LIMIT 30',
+      ).all()
+      return reply({ episodes: rows?.results ?? [] })
     }
 
     // Geriye dönük metin doldurma: eski haberlerin kısa gövdesi kaynak

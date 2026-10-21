@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ArrowLeft, ArrowRight, ExternalLink, Maximize2 } from 'lucide-react'
 import { useAllNews, useArticle, useRelated, countView } from '../lib/api'
+import { recordInterest } from '../lib/interest'
 import { useStore } from '../lib/store'
 import { formatCount, formatDateTime, readMinutes } from '../lib/format'
 import { getCategory } from '../data/categories'
@@ -22,7 +23,7 @@ export function ArticlePage() {
   const { item, isLoading } = useArticle(slug)
   const { data } = useAllNews()
   const related = useRelated(item)
-  const { markRead } = useStore()
+  const { markRead, signedIn } = useStore()
   const [views, setViews] = useState<number | null>(null)
 
   useEffect(() => {
@@ -40,6 +41,12 @@ export function ArticlePage() {
       alive = false
     }
   }, [item?.id])
+
+  // İlgi alanı: okunan haber "Sana Özel" akışını besler.
+  useEffect(() => {
+    if (!item || !signedIn) return
+    void recordInterest(item, 0.4)
+  }, [item, signedIn])
 
   const { prev, next } = useMemo(() => {
     if (!data || !item) return { prev: undefined, next: undefined }
@@ -173,9 +180,15 @@ export function ArticlePage() {
                 {t('news.fullText')} · {item.source.name}
               </p>
             )}
-            {item.body.map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
+            {item.body.map((p, i) =>
+              p.startsWith('## ') ? (
+                <h2 key={i} className="text-lg font-bold tracking-tight text-fg sm:text-xl">
+                  {p.slice(3).trim()}
+                </h2>
+              ) : (
+                <p key={i}>{p}</p>
+              ),
+            )}
           </div>
 
           <a

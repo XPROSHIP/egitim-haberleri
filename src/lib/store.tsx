@@ -13,10 +13,17 @@ import type { User } from '../types'
 export type ThemeMode = 'dark' | 'light' | 'system'
 export type FontScale = '1' | '1.25' | '1.5'
 export type FeedMode = 'latest' | 'featured' | 'following' | 'foryou'
+/** Okuma konforu: yazı tipi, satır genişliği, satır aralığı. */
+export type ReaderFont = 'sans' | 'serif'
+export type ReaderWidth = 'narrow' | 'normal' | 'wide'
+export type ReaderLine = 'compact' | 'normal' | 'relaxed'
 
 type Persisted = {
   theme: ThemeMode
   fontScale: FontScale
+  readerFont: ReaderFont
+  readerWidth: ReaderWidth
+  readerLine: ReaderLine
   lang: Lang
   bookmarks: string[]
   likes: string[]
@@ -26,6 +33,7 @@ type Persisted = {
   consent: 'all' | 'essential' | null
   feedMode: FeedMode
   hideRead: boolean
+  pushEnabled: boolean
   user: User | null
   /** demo kullanıcı — Google girişi yapılandırılana kadar geçici çözüm */
   demoUser: boolean
@@ -36,6 +44,9 @@ const KEY = 'eh.state.v1'
 const defaults: Persisted = {
   theme: 'system',
   fontScale: '1',
+  readerFont: 'sans',
+  readerWidth: 'normal',
+  readerLine: 'normal',
   lang: 'tr',
   bookmarks: [],
   likes: [],
@@ -47,6 +58,7 @@ const defaults: Persisted = {
   feedMode: 'latest',
   // Okunanlar varsayilan olarak gizli: kullanici her giriste ayni ekrani gormesin.
   hideRead: true,
+  pushEnabled: false,
   user: null,
   demoUser: false,
 }
@@ -89,6 +101,10 @@ type Store = Persisted & {
   setConsent: (c: 'all' | 'essential') => void
   setFeedMode: (m: FeedMode) => void
   setHideRead: (v: boolean) => void
+  setReaderFont: (f: ReaderFont) => void
+  setReaderWidth: (w: ReaderWidth) => void
+  setReaderLine: (l: ReaderLine) => void
+  setPushEnabled: (v: boolean) => void
   setUser: (u: User | null, demo?: boolean) => void
 }
 
@@ -119,6 +135,14 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     document.documentElement.style.fontSize = `${FONT_SCALE_PCT[state.fontScale] ?? 100}%`
   }, [state.fontScale])
+
+  // Okuma konforu ayarları: CSS değişkenleri üzerinden uygulanır.
+  useEffect(() => {
+    const el = document.documentElement
+    el.dataset.readerFont = state.readerFont
+    el.dataset.readerWidth = state.readerWidth
+    el.dataset.readerLine = state.readerLine
+  }, [state.readerFont, state.readerWidth, state.readerLine])
 
   useEffect(() => {
     document.documentElement.lang = state.lang
@@ -165,6 +189,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       setConsent: (consent) => setState((s) => ({ ...s, consent })),
       setFeedMode: (feedMode) => setState((s) => ({ ...s, feedMode })),
       setHideRead: (hideRead) => setState((s) => ({ ...s, hideRead })),
+      setReaderFont: (readerFont) => setState((s) => ({ ...s, readerFont })),
+      setReaderWidth: (readerWidth) => setState((s) => ({ ...s, readerWidth })),
+      setReaderLine: (readerLine) => setState((s) => ({ ...s, readerLine })),
+      setPushEnabled: (pushEnabled) => setState((s) => ({ ...s, pushEnabled })),
       setUser: (user, demo = false) => setState((s) => ({ ...s, user, demoUser: demo })),
     }),
     [state, resolvedTheme],

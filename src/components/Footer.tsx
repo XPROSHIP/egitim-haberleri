@@ -104,6 +104,7 @@ export function Footer() {
             <ul className="space-y-2">
               {[
                 ['/hakkimizda', t('legal.about')],
+                ['/kurumsal', 'Kurumsal ve Editoryal Politika'],
                 ['/gizlilik', t('legal.privacy')],
                 ['/kvkk', t('legal.kvkk')],
                 ['/kullanim-sartlari', t('legal.terms')],
@@ -113,6 +114,36 @@ export function Footer() {
                   <Link to={to} className="text-[0.75rem] text-muted transition hover:text-fg">
                     {label}
                   </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <nav>
+            <h3 className="mb-3 text-[0.75rem] font-bold tracking-wide text-fg uppercase">
+              Takip et
+            </h3>
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  to="/podcast"
+                  className="text-[0.75rem] text-muted transition hover:text-fg"
+                >
+                  ZENPOD Eğitim
+                </Link>
+              </li>
+              {[
+                ['/feed.xml', 'RSS (tüm haberler)'],
+                ['/podcast.xml', 'Podcast RSS'],
+                ['/sitemap.xml', 'Site haritası'],
+              ].map(([href, label]) => (
+                <li key={href}>
+                  <a
+                    href={href}
+                    className="text-[0.75rem] text-muted transition hover:text-fg"
+                  >
+                    {label}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -136,8 +167,9 @@ export function Footer() {
             </span>
           </p>
           <p className="max-w-2xl text-[0.625rem] leading-relaxed text-faint/70">
-            Haberler ilgili kaynaklardan otomatik olarak derlenir. Özetler yapay zekâ tarafından
-            üretilmiştir; resmî bilgi için kaynak kurumların sitelerini esas alınız.
+            Haberler ilgili kaynaklardan otomatik olarak derlenir. Başlıklar ve özetler
+            yayıncıların kendi ifadelerine dayanır; resmî bilgi için kaynak kurumların
+            sitelerini esas alınız.
           </p>
         </div>
       </div>

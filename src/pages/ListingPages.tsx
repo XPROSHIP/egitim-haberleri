@@ -142,16 +142,41 @@ export function TagPage() {
   )
 }
 
+const DATE_RANGES = [
+  { key: '', label: 'Tüm zamanlar', hours: 0 },
+  { key: '24h', label: 'Son 24 saat', hours: 24 },
+  { key: '3d', label: 'Son 3 gün', hours: 24 * 3 },
+  { key: '1w', label: 'Son hafta', hours: 24 * 7 },
+  { key: '1m', label: 'Son ay', hours: 24 * 30 },
+] as const
+
 export function SearchPage() {
   const [params, setParams] = useSearchParams()
   const { t, i18n } = useTranslation()
   const lang = i18n.language === 'en' ? 'en' : 'tr'
   const q = params.get('q') ?? ''
+  const cat = params.get('kategori') ?? ''
+  const range = params.get('zaman') ?? ''
+  const sort = (params.get('sirala') ?? 'relevance') as 'relevance' | 'newest' | 'mostRead'
   const [input, setInput] = useState(q)
-  const { items } = useFeed({ query: q })
   const tags = useAllTags()
 
+  const dateFrom = useMemo(() => {
+    const found = DATE_RANGES.find((r) => r.key === range)
+    if (!found || !found.hours) return undefined
+    return new Date(Date.now() - found.hours * 3600_000).toISOString()
+  }, [range])
+
+  const { items } = useFeed({ query: q, filterCategory: cat || undefined, dateFrom, sort })
+
   useEffect(() => setInput(q), [q])
+
+  const setParam = (key: string, value: string) => {
+    const next = new URLSearchParams(params)
+    if (value) next.set(key, value)
+    else next.delete(key)
+    setParams(next)
+  }
 
   return (
     <div className="mx-auto max-w-[1000px] px-3 pb-16 sm:px-4">
@@ -162,7 +187,7 @@ export function SearchPage() {
         <form
           onSubmit={(e) => {
             e.preventDefault()
-            setParams(input.trim() ? { q: input.trim() } : {})
+            setParam('q', input.trim())
           }}
           className="mt-4 flex items-center gap-2 rounded-xl border border-line bg-surface px-4 py-2.5"
         >
@@ -174,11 +199,91 @@ export function SearchPage() {
             className="flex-1 bg-transparent text-sm text-fg outline-none placeholder:text-faint"
           />
           {input && (
-            <button type="button" onClick={() => { setInput(''); setParams({}) }}>
+            <button type="button" onClick={() => { setInput(''); setParam('q', '') }}>
               <Icon name="X" size={15} className="text-faint hover:text-fg" />
             </button>
           )}
         </form>
+
+        {/* Filtreler: kategori, tarih, sıralama */}
+        <div className="mt-3 flex flex-wrap items-center gap-1.5">
+          <span className="mr-1 text-[0.6875rem] font-semibold tracking-wide text-faint uppercase">
+            Kategori
+          </span>
+          <button
+            type="button"
+            onClick={() => setParam('kategori', '')}
+            className={clsx(
+              'rounded-full border px-2.5 py-1 text-[0.6875rem] transition',
+              !cat ? 'border-primary/50 bg-primary/10 text-primary' : 'border-line text-muted hover:text-fg',
+            )}
+          >
+            Tümü
+          </button>
+          {categories.map((c) => (
+            <button
+              key={c.slug}
+              type="button"
+              onClick={() => setParam('kategori', c.slug)}
+              className={clsx(
+                'flex items-center gap-1 rounded-full border px-2.5 py-1 text-[0.6875rem] transition',
+                cat === c.slug
+                  ? 'border-primary/50 bg-primary/10 text-primary'
+                  : 'border-line text-muted hover:text-fg',
+              )}
+            >
+              <CategoryMark mark={c.mark} color="currentColor" size={10} strokeWidth={2} />
+              {c.name}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-2 flex flex-wrap items-center gap-1.5">
+          <span className="mr-1 text-[0.6875rem] font-semibold tracking-wide text-faint uppercase">
+            Tarih
+          </span>
+          {DATE_RANGES.map((r) => (
+            <button
+              key={r.key || 'all'}
+              type="button"
+              onClick={() => setParam('zaman', r.key)}
+              className={clsx(
+                'rounded-full border px-2.5 py-1 text-[0.6875rem] transition',
+                range === r.key
+                  ? 'border-primary/50 bg-primary/10 text-primary'
+                  : 'border-line text-muted hover:text-fg',
+              )}
+            >
+              {r.label}
+            </button>
+          ))}
+          <span className="mx-1 h-3 w-px bg-line" />
+          <span className="mr-1 text-[0.6875rem] font-semibold tracking-wide text-faint uppercase">
+            Sırala
+          </span>
+          {(
+            [
+              { key: 'relevance', label: 'Alakalı' },
+              { key: 'newest', label: 'En yeni' },
+              { key: 'mostRead', label: 'En çok okunan' },
+            ] as const
+          ).map((s) => (
+            <button
+              key={s.key}
+              type="button"
+              onClick={() => setParam('sirala', s.key)}
+              className={clsx(
+                'rounded-full border px-2.5 py-1 text-[0.6875rem] transition',
+                sort === s.key
+                  ? 'border-primary/50 bg-primary/10 text-primary'
+                  : 'border-line text-muted hover:text-fg',
+              )}
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+
         {!q && tags.length > 0 && (
           <div className="mt-4 flex flex-wrap gap-2">
             {tags.slice(0, 18).map(([tag, count]) => (

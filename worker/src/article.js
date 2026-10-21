@@ -109,6 +109,32 @@ function pickBodyScope(html) {
 }
 
 /**
+ * Paragrafın başındaki kalın başlığı ayırır.
+ *
+ * Yayıncılar haber gövdesini "BAŞLIK — metin" biçiminde kuruyor. Kalın
+ * başlık ayrı bir alt başlıktır; metinden koparılıp "## " işaretiyle
+ * işaretlenir (arayüz h2 olarak çizer).
+ */
+function splitLead(html) {
+  const strong = html.match(/^\s*<(strong|b)\b[^>]*>([\s\S]{4,220}?)<\/\1>\s*([\s\S]*)$/i)
+  if (strong) {
+    const heading = cleanText(strong[2])
+    const rest = cleanText(strong[3])
+    if (
+      heading &&
+      rest &&
+      heading.length >= 8 &&
+      heading.length <= 120 &&
+      rest.length >= 90 &&
+      heading.split(' ').length <= 14
+    ) {
+      return { heading, text: rest }
+    }
+  }
+  return { text: cleanText(html) }
+}
+
+/**
  * Haber sayfasını okur.
  * @returns {{image:string|null, paragraphs:string[], description:string|null, siteName:string|null}}
  */
@@ -165,13 +191,30 @@ export async function fetchArticle(url, { timeoutMs = 15000 } = {}) {
     // iki cümlelik özete düşüyordu.)
     const scope = pickBodyScope(html)
 
-    const paragraphs = [...scope.matchAll(/<p\b[^>]*>([\s\S]{40,4000}?)<\/p>/gi)]
-      .map((m) => cleanText(m[1]))
+    const rawBlocks = [...scope.matchAll(/<(p|h2|h3)\b[^>]*>([\s\S]{40,4000}?)<\/\1>/gi)]
+    const paragraphs = []
+    for (const m of rawBlocks) {
+      const tag = m[1].toLowerCase()
+      if (tag !== 'p') {
+        // Yayıncının kendi alt başlığı
+        const heading = cleanText(m[2])
+        if (heading && heading.length >= 8 && heading.length <= 140) paragraphs.push(`## ${heading}`)
+        continue
+      }
+      const { heading, text } = splitLead(m[2])
+      if (heading) paragraphs.push(`## ${heading}`)
+      paragraphs.push(text)
+    }
+
+    const cleaned = paragraphs
       .filter(
         (p) =>
           p.length >= 80 &&
           p.split(' ').length > 12 &&
           !/^(İçindekiler|Editör|Abone ol|©|Photo|Fotoğraf|REKLAM|Bu haber|Kaynakça|Linki Kopyala|Kaynak:|Bu içerik|Bu haber |İşte |Bunlar )/i.test(p) &&
+          !/Kanuna aykırı ve izinsiz olarak kopyalanamaz/i.test(p) &&
+          !/son dakika haberleri, köşe yazıları/i.test(p) &&
+          !/haber içerikleri izin alınmadan/i.test(p) &&
           !p.includes('©'),
       )
       .filter((p, i, arr) => arr.indexOf(p) === i)

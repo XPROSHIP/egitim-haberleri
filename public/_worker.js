@@ -2,17 +2,21 @@
  * Site Worker'ı — sayfa HTML'ini adrese göre yeniden yazar.
  *
  * Tek sayfalık uygulama (SPA) olarak yayın yapıyoruz: Google sayfayı
- * çalıştırıp başlığı güncellese bile sosyal medya ve WhatsApp önizlemeleri
+ * çalıştırıp başlığı günsel bile sosyal medya ve WhatsApp önizlemeleri
  * boş kalıyor, her haber adresi ana sayfa gibi görünüyordu. Bu Worker
- * HTML kabuğunu alıp adrese göre doğru meta etiketlerini ve şema
- * (schema.org) verisini yerleştiriyor.
+ * HTML kabuğunu alıp adrese göre doğru meta etiketlerini, şema
+ * (schema.org) verisini ve haber metnini yerleştiriyor.
  *
- * Ayrıca /robots.txt ve /sitemap.xml dosyalarını canlı veritabanından
- * üretiyor (Google Haberler sitemap'i dâhil).
+ * Ayrıca:
+ *   · /robots.txt, /sitemap.xml  → canlı veritabanından
+ *   · /feed.xml, /kategori/*.xml  → RSS beslemeleri
+ *   · /podcast.xml                → ZENPOD Eğitim ses bülteni
+ *   · çerezsiz sayfa sayacı       → sunucu tarafında, kimlik tutmadan
  */
 
 const SITE = 'https://egitim-haberleri.omerzen.workers.dev'
 const API = 'https://egitim-haberleri-api.omerzen.workers.dev'
+const PODCAST_TITLE = 'ZENPOD Eğitim'
 
 const CATEGORY_NAMES = {
   mesleki: 'Mesleki Eğitim',
@@ -34,6 +38,7 @@ const esc = (s = '') =>
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
 
 const setMeta = (html, attr, content) => {
   const re = new RegExp(`<meta ${attr}\\s*[^>]*>`, 'i')
@@ -41,11 +46,15 @@ const setMeta = (html, attr, content) => {
   return re.test(html) ? html.replace(re, tag) : html
 }
 
-/** /haber/:slug → haber kaydı. */
+const dayKey = () => new Date().toISOString().slice(0, 10)
+
+/* ── Veritabanı ─────────────────────────────────────────────────────────── */
+
 async function findArticle(env, slug) {
   try {
     return await env.DB.prepare(
-      `SELECT slug, title, excerpt, source_name, source_url, source_image, published_at, category, lang
+      `SELECT slug, title, excerpt, body, source_name, source_url, source_image, published_at,
+              category, lang, full_text
        FROM news WHERE slug = ? AND status = 'published' LIMIT 1`,
     )
       .bind(slug)
@@ -55,7 +64,35 @@ async function findArticle(env, slug) {
   }
 }
 
-function articleMeta(env, a) {
+async function listNews(env, { category = null, limit = 50 } = {}) {
+  const where = category ? 'AND category = ?' : ''
+  const sql = `SELECT slug, title, excerpt, body, source_name, source_url, source_image,
+                      published_at, category, lang
+               FROM news WHERE status = 'published' ${where}
+               ORDER BY published_at DESC LIMIT ?`
+  const stmt = category ? env.DB.prepare(sql).bind(category, limit) : env.DB.prepare(sql).bind(limit)
+  const { results } = await stmt.all()
+  return results ?? []
+}
+
+/* ── Analitik: çerezsiz, sunucu tarafı sayfa sayacı ─────────────────────── */
+
+async function track(env, path) {
+  try {
+    await env.DB.prepare(
+      `INSERT INTO page_views (day, path, count) VALUES (?,?,1)
+       ON CONFLICT(day, path) DO UPDATE SET count = count + 1`,
+    )
+      .bind(dayKey(), path.slice(0, 200))
+      .run()
+  } catch {
+    /* sayac kritik değil */
+  }
+}
+
+/* ── Meta ve şema ──────────────────────────────────────────────────────── */
+
+function articleMeta(a) {
   const url = `${SITE}/haber/${a.slug}`
   const image = a.source_image
     ? a.source_image.startsWith('/img/')
@@ -72,7 +109,7 @@ function articleMeta(env, a) {
     image: [image],
     datePublished: a.published_at,
     dateModified: a.published_at,
-    inLanguage: a.lang === 'en' ? 'tr' : 'tr',
+    inLanguage: 'tr',
     articleSection: CATEGORY_NAMES[a.category] ?? 'Eğitim',
     author: { '@type': 'Organization', name: 'Eğitim Haberleri' },
     publisher: {
@@ -116,7 +153,6 @@ function applyMeta(html, meta) {
   out = setMeta(out, 'name="twitter:description"', meta.description)
   out = setMeta(out, 'name="twitter:image"', meta.image)
 
-  // Canonical
   const canonical = `<link rel="canonical" href="${esc(meta.url)}" />`
   if (/<link rel="canonical"[^>]*>/i.test(out)) {
     out = out.replace(/<link rel="canonical"[^>]*>/i, canonical)
@@ -124,14 +160,150 @@ function applyMeta(html, meta) {
     out = out.replace('</head>', `${canonical}\n</head>`)
   }
 
-  // Şema (JSON-LD)
   const ld = `<script type="application/ld+json">${JSON.stringify(meta.jsonld)}</script>`
-  out = out.replace(
-    /<script type="application\/ld\+json">[\s\S]*?<\/script>/i,
-    ld,
-  )
+  out = out.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/i, ld)
   return out
 }
+
+/* ── Haber ön-render: metin de arama motoruna gitsin ───────────────────── */
+
+function paragraphsOf(a) {
+  let body = a.body
+  if (typeof body === 'string') {
+    try {
+      body = JSON.parse(body)
+    } catch {
+      body = []
+    }
+  }
+  if (!Array.isArray(body)) body = []
+  const out = []
+  for (const p of body) {
+    if (typeof p !== 'string' || !p.trim()) continue
+    if (p.startsWith('## ')) {
+      out.push(`<h2>${esc(p.slice(3).trim())}</h2>`)
+    } else {
+      out.push(`<p>${esc(p)}</p>`)
+    }
+  }
+  return out.join('\n      ')
+}
+
+/**
+ * Haber sayfasının gövdesini HTML'e önceden yazar.
+ * React uygulaması yüklenirken tarayıcıda (ve Google'da) metin hazır olur.
+ */
+function prerenderArticle(a) {
+  const cat = CATEGORY_NAMES[a.category] ?? 'Eğitim'
+  const img = a.source_image
+    ? a.source_image.startsWith('/img/')
+      ? `${API}${a.source_image}`
+      : a.source_image
+    : `${API}/icon-512.png`
+  const published = new Date(a.published_at ?? Date.now()).toLocaleDateString('tr-TR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
+  return `
+    <article class="mx-auto max-w-[1180px] px-3 pt-6 sm:px-4">
+      <div class="max-w-[760px]">
+        <span class="inline-flex w-fit items-center rounded-full px-2.5 py-1 text-[0.6875rem] font-semibold text-white" style="background:var(--primary)">${esc(cat)}</span>
+        <h1 class="mt-2.5 text-[23px] leading-[1.16] font-bold tracking-tight text-fg sm:text-[34px]">${esc(a.title)}</h1>
+        <p class="mt-4 text-[0.96875rem] leading-relaxed text-muted sm:text-[1.0625rem]">${esc(a.excerpt ?? '')}</p>
+        <p class="tnum mt-4 border-y border-line py-3 text-[0.75rem] text-faint">${esc(a.source_name ?? '')} · ${esc(published)}</p>
+        <img src="${esc(img)}" alt="${esc(a.title)}" class="mt-6 aspect-[16/9] w-full rounded-2xl object-cover" />
+        <div class="article-prose mt-8 space-y-5">
+      ${paragraphsOf(a)}
+        </div>
+        <p class="mt-8 text-[0.75rem] text-faint">Kaynak: <a href="${esc(a.source_url ?? '')}" rel="noopener nofollow" class="underline underline-offset-2">${esc(a.source_name ?? '')}</a> — Eğitim Haberleri</p>
+      </div>
+    </article>`
+}
+
+/* ── RSS ────────────────────────────────────────────────────────────────── */
+
+function rssItem(a) {
+  const url = `${SITE}/haber/${a.slug}`
+  const image = a.source_image?.startsWith('/img/') ? `${API}${a.source_image}` : a.source_image
+  const pub = new Date(a.published_at ?? Date.now()).toUTCString()
+  return `    <item>
+      <title>${esc(a.title)}</title>
+      <link>${url}</link>
+      <guid isPermaLink="true">${url}</guid>
+      <pubDate>${pub}</pubDate>
+      <category>${esc(CATEGORY_NAMES[a.category] ?? 'Eğitim')}</category>
+      <description>${esc(a.excerpt ?? '')}</description>${image ? `\n      <enclosure url="${esc(image)}" type="image/jpeg" length="0"/>` : ''}
+    </item>`
+}
+
+function rssFeed(items, { title, description, link, self, category = null }) {
+  const itemsXml = items.map(rssItem).join('\n')
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>${esc(title)}</title>
+    <link>${link}</link>
+    <atom:link href="${self}" rel="self" type="application/rss+xml"/>
+    <description>${esc(description)}</description>
+    <language>tr</language>
+    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+    <generator>Eğitim Haberleri</generator>
+    <image><url>${API}/icon-512.png</url><title>${esc(title)}</title><link>${link}</link></image>
+${itemsXml}
+  </channel>
+</rss>`
+}
+
+/* ── ZENPOD Eğitim (podcast) ────────────────────────────────────────────── */
+
+async function podcastFeed(env) {
+  let episodes = []
+  try {
+    const { results } = await env.DB.prepare(
+      'SELECT id, title, description, audio_id, duration, published_at FROM podcast_episodes ORDER BY published_at DESC LIMIT 30',
+    ).all()
+    episodes = results ?? []
+  } catch {
+    episodes = []
+  }
+  const items = episodes
+    .map((e) => {
+      const url = `${SITE}/podcast/${e.id}.mp3`
+      const date = new Date(e.published_at ?? Date.now()).toUTCString()
+      return `    <item>
+      <title>${esc(e.title)}</title>
+      <link>${SITE}/podcast</link>
+      <guid isPermaLink="false">zenpod-${e.id}</guid>
+      <pubDate>${date}</pubDate>
+      <description>${esc(e.description ?? '')}</description>
+      <enclosure url="${url}" type="audio/mpeg" length="0"/>
+      <itunes:duration>${Math.round(e.duration ?? 0)}</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+    </item>`
+    })
+    .join('\n')
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <title>${esc(PODCAST_TITLE)}</title>
+    <link>${SITE}/podcast</link>
+    <atom:link href="${SITE}/podcast.xml" rel="self" type="application/rss+xml"/>
+    <description>Eğitim gündeminden günün haberleri, sesli. Eğitim Haberleri'ni takip edin, yorumlarla destekleyin.</description>
+    <language>tr</language>
+    <itunes:author>Eğitim Haberleri</itunes:author>
+    <itunes:summary>Eğitim gündeminden günün haberleri, sesli.</itunes:summary>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:image href="${API}/icon-512.png"/>
+    <itunes:category text="Education"/>
+    <itunes:owner><itunes:name>Eğitim Haberleri</itunes:name></itunes:owner>
+${items}
+  </channel>
+</rss>`
+}
+
+/* ── robots.txt ve sitemap.xml ──────────────────────────────────────────── */
 
 function robots() {
   return `User-agent: *
@@ -158,7 +330,7 @@ async function sitemap(env) {
     rows = []
   }
 
-  const today = new Date().toISOString().slice(0, 10)
+  const today = dayKey()
   const staticUrls = [
     { loc: `${SITE}/`, priority: '1.0', changefreq: 'hourly' },
     ...Object.keys(CATEGORY_NAMES).map((c) => ({
@@ -167,6 +339,7 @@ async function sitemap(env) {
       changefreq: 'hourly',
     })),
     { loc: `${SITE}/kategoriler`, priority: '0.5', changefreq: 'weekly' },
+    { loc: `${SITE}/podcast`, priority: '0.6', changefreq: 'daily' },
   ]
 
   const parts = []
@@ -192,6 +365,8 @@ ${parts.join('\n')}
 `
 }
 
+/* ── Worker ─────────────────────────────────────────────────────────────── */
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url)
@@ -211,8 +386,80 @@ export default {
       })
     }
 
-    // Meta yazımı yalnızca haber ve kategori adreslerinde gerekir; geri
-    // kalanı doğrudan servis et (CPU tasarrufu).
+    // RSS
+    if (url.pathname === '/feed.xml' || url.pathname === '/rss.xml') {
+      const items = await listNews(env, { limit: 50 })
+      return new Response(
+        rssFeed(items, {
+          title: 'Eğitim Haberleri',
+          description:
+            'Mesleki eğitim, MESEM, MEB, Çorum eğitim ve yabancı eğitim gündeminden güncel haberler.',
+          link: SITE,
+          self: `${SITE}/feed.xml`,
+        }),
+        {
+          headers: {
+            'content-type': 'application/rss+xml; charset=utf-8',
+            'cache-control': 'public, max-age=900',
+          },
+        },
+      )
+    }
+
+    const catFeed = url.pathname.match(/^\/kategori\/([a-z-]+)\.xml$/)
+    if (catFeed) {
+      const slug = catFeed[1]
+      const name = CATEGORY_NAMES[slug] ?? slug
+      const items = await listNews(env, { category: slug, limit: 50 })
+      return new Response(
+        rssFeed(items, {
+          title: `${name} — Eğitim Haberleri`,
+          description: `${name} kategorisindeki güncel haberler.`,
+          link: `${SITE}/kategori/${slug}`,
+          self: `${SITE}/kategori/${slug}.xml`,
+          category: slug,
+        }),
+        {
+          headers: {
+            'content-type': 'application/rss+xml; charset=utf-8',
+            'cache-control': 'public, max-age=900',
+          },
+        },
+      )
+    }
+
+    if (url.pathname === '/podcast.xml') {
+      return new Response(await podcastFeed(env), {
+        headers: {
+          'content-type': 'application/rss+xml; charset=utf-8',
+          'cache-control': 'public, max-age=1800',
+        },
+      })
+    }
+
+    // Podcast bölümü sesi (API Worker'daki ses deposundan)
+    if (url.pathname.startsWith('/podcast/') && url.pathname.endsWith('.mp3')) {
+      const id = url.pathname.slice('/podcast/'.length, -4)
+      const row = await env.DB.prepare(
+        'SELECT data, type FROM news_audio WHERE article_id = ?',
+      )
+        .bind(id)
+        .first()
+      if (!row) return new Response('Not found', { status: 404 })
+      const bytes = row.data instanceof ArrayBuffer
+        ? new Uint8Array(row.data)
+        : Array.isArray(row.data)
+          ? Uint8Array.from(row.data)
+          : new Uint8Array(0)
+      return new Response(bytes, {
+        headers: {
+          'content-type': row.type ?? 'audio/mpeg',
+          'cache-control': 'public, max-age=86400',
+        },
+      })
+    }
+
+    // Meta yazımı yalnızca haber ve kategori adreslerinde gerekir.
     const article = url.pathname.match(/^\/haber\/([^/]+)$/)
     const cat = url.pathname.match(/^\/kategori\/([^/]+)$/)
     if (!article && !cat) return env.ASSETS.fetch(request)
@@ -223,18 +470,28 @@ export default {
 
     const html = await response.text()
     let meta = null
+    let pre = ''
 
     if (article) {
       const a = await findArticle(env, decodeURIComponent(article[1]))
-      if (a) meta = articleMeta(env, a)
+      if (a) {
+        meta = articleMeta(a)
+        pre = prerenderArticle(a)
+        void track(env, `/haber/${a.slug}`)
+      }
     } else {
       meta = categoryMeta(decodeURIComponent(cat[1]))
+      void track(env, `/kategori/${cat[1]}`)
     }
 
     if (!meta) return response
 
+    let out = applyMeta(html, meta)
+    // Haber metnini de HTML'e yaz: hem arama motoru hem hızlı ilk boyama.
+    if (pre) out = out.replace('<div id="root"></div>', `<div id="root">${pre}</div>`)
+
     const headers = new Headers(response.headers)
     headers.set('x-seo', 'injected')
-    return new Response(applyMeta(html, meta), { status: response.status, headers })
+    return new Response(out, { status: response.status, headers })
   },
 }

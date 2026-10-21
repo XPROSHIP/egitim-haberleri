@@ -73,7 +73,11 @@ export type FeedFilters = {
   followed?: string[]
   hideRead?: boolean
   readMarks?: string[]
-  sort?: 'newest' | 'mostRead'
+  sort?: 'newest' | 'mostRead' | 'relevance'
+  /** Bu tarihten sonrası (ISO) */
+  dateFrom?: string
+  /** Bu kategoride ara */
+  filterCategory?: string
 }
 
 export function selectNews(items: NewsItem[], f: FeedFilters): NewsItem[] {
@@ -92,10 +96,17 @@ export function selectNews(items: NewsItem[], f: FeedFilters): NewsItem[] {
       (n) => resolveCategory(n.category) === cat || n.tags.includes(cat) || n.tags.includes('liseler'),
     )
   }
+  if (f.filterCategory) {
+    list = list.filter((n) => resolveCategory(n.category) === f.filterCategory)
+  }
   if (f.tag) list = list.filter((n) => n.tags.includes(f.tag!))
   if (f.province) list = list.filter((n) => n.province === f.province)
   if (f.hideRead && f.readMarks?.length) {
     list = list.filter((n) => !f.readMarks!.includes(n.id))
+  }
+  if (f.dateFrom) {
+    const from = +new Date(f.dateFrom)
+    list = list.filter((n) => +new Date(n.publishedAt) >= from)
   }
   if (f.query) {
     const q = f.query.toLocaleLowerCase('tr')
@@ -109,9 +120,16 @@ export function selectNews(items: NewsItem[], f: FeedFilters): NewsItem[] {
   }
 
   if (f.sort === 'mostRead') list.sort((a, b) => b.views - a.views)
+  else if (f.sort === 'relevance') list.sort((a, b) => relevanceScore(b) - relevanceScore(a))
   else list.sort((a, b) => +new Date(b.publishedAt) - +new Date(a.publishedAt))
 
   return list
+}
+
+/** Arama sonuçlarında alaka puanı: başlık eşleşmesi + tazelik + etkileşim. */
+function relevanceScore(n: NewsItem): number {
+  const ageH = (Date.now() - +new Date(n.publishedAt)) / 3600_000
+  return Math.exp(-ageH / 72) * 2 + Math.min(1, n.likes / 200) + Math.min(1, n.views / 8000) * 0.5
 }
 
 /** İlgi alanı + güncellik + etkileşim ağırlıklı sıralama. */

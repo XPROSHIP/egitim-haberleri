@@ -80,6 +80,20 @@ export function SideDrawer({
             Hikâyeler
           </button>
 
+          <NavLink
+            to="/podcast"
+            onClick={onClose}
+            className={({ isActive }) =>
+              clsx(
+                'mb-1 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition',
+                isActive ? 'bg-surface-2 text-fg' : 'text-muted hover:bg-surface-2 hover:text-fg',
+              )
+            }
+          >
+            <Icon name="Mic" size={17} />
+            ZENPOD Eğitim
+          </NavLink>
+
           {items.map((i) => (
             <NavLink
               key={i.to}

@@ -78,6 +78,20 @@ jobs:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
         run: python worker/scripts/tts_generate.py
 
+      # --- ZENPOD Eğitim: günlük ses bülteni ---
+      - name: Günlük podcast bölümü hazırla
+        env:
+          COLLECT_SECRET: ${{ secrets.COLLECT_SECRET }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+        run: python worker/scripts/podcast_generate.py
+
+      # --- Web push: yeni haberleri abonelere bildir ---
+      - name: Bildirimleri gönder
+        env:
+          COLLECT_SECRET: ${{ secrets.COLLECT_SECRET }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+        run: node worker/scripts/push-notify.mjs
+
       - name: Ses durumunu depoya kaydet
         run: |
           git config user.name  "github-actions[bot]"

@@ -21,6 +21,7 @@ import {
 } from './pages/ListingPages'
 import { SettingsPage } from './pages/SettingsPage'
 import { ProfilePage } from './pages/ProfilePage'
+import { PodcastPage } from './pages/PodcastPage'
 import { LegalPage, LoginPage, NotFoundPage } from './pages/LegalPages'
 import { MobileTabBar } from './components/MobileTabBar'
 import { bus, EVENTS } from './lib/bus'
@@ -128,9 +129,11 @@ function Shell() {
           <Route path="/kaydedilenler" element={<SavedPage kind="bookmarks" />} />
           <Route path="/begeniler" element={<SavedPage kind="likes" />} />
           <Route path="/profil" element={<ProfilePage />} />
+          <Route path="/podcast" element={<PodcastPage />} />
           <Route path="/ayarlar" element={<SettingsPage />} />
           <Route path="/giris" element={<LoginPage onOpen={() => setLogin(true)} />} />
           <Route path="/hakkimizda" element={<LegalPage />} />
+          <Route path="/kurumsal" element={<LegalPage />} />
           <Route path="/gizlilik" element={<LegalPage />} />
           <Route path="/kvkk" element={<LegalPage />} />
           <Route path="/kullanim-sartlari" element={<LegalPage />} />

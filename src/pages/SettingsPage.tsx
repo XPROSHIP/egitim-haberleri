@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
@@ -9,6 +9,7 @@ import { CategoryMark } from '../components/CategoryMark'
 import { Icon } from '../components/Icon'
 import { signOut } from '../lib/auth'
 import { bus, EVENTS } from '../lib/bus'
+import { disablePush, enablePush, isPushEnabled, pushSupported } from '../lib/push'
 
 /* ── iOS benzeri gruplandırılmış liste öğeleri ───────────────────────────── */
 
@@ -194,6 +195,24 @@ export function SettingsPage() {
   const store = useStore()
   const { data } = useAllNews()
   const [toast, setToast] = useState('')
+  const [pushOn, setPushOn] = useState(false)
+
+  // Bildirim durumu: tarayıcı izin verdiyse ve abonelik kayıtlıysa açık.
+  useEffect(() => {
+    setPushOn(isPushEnabled())
+  }, [])
+
+  const onPushToggle = async (v: boolean) => {
+    if (!pushSupported()) {
+      setToast(t('settings.pushUnsupported'))
+      setTimeout(() => setToast(''), 2200)
+      return
+    }
+    const ok = v ? await enablePush(store.followed) : await disablePush()
+    setPushOn(ok)
+    setToast(ok ? t('settings.pushSaved') : t('settings.pushFailed'))
+    setTimeout(() => setToast(''), 2200)
+  }
 
   const themes: { key: ThemeMode; label: string; icon: string }[] = [
     { key: 'dark', label: t('settings.themeDark'), icon: 'Moon' },
@@ -248,6 +267,57 @@ export function SettingsPage() {
         </div>
       </Group>
 
+      {/* Okuma konforu */}
+      <Group title="Okuma konforu" footer={t('settings.readerDesc')}>
+        <div className="space-y-4 p-4">
+          <div>
+            <p className="mb-2 text-[0.75rem] text-muted">Yazı tipi</p>
+            <Segmented
+              value={store.readerFont}
+              options={[
+                { key: 'sans', label: 'Modern' },
+                { key: 'serif', label: 'Klasik' },
+              ]}
+              onChange={store.setReaderFont}
+            />
+          </div>
+          <div>
+            <p className="mb-2 text-[0.75rem] text-muted">Metin genişliği</p>
+            <Segmented
+              value={store.readerWidth}
+              options={[
+                { key: 'narrow', label: 'Dar' },
+                { key: 'normal', label: 'Normal' },
+                { key: 'wide', label: 'Geniş' },
+              ]}
+              onChange={store.setReaderWidth}
+            />
+          </div>
+          <div>
+            <p className="mb-2 text-[0.75rem] text-muted">Satır aralığı</p>
+            <Segmented
+              value={store.readerLine}
+              options={[
+                { key: 'compact', label: 'Sık' },
+                { key: 'normal', label: 'Normal' },
+                { key: 'relaxed', label: 'Açık' },
+              ]}
+              onChange={store.setReaderLine}
+            />
+          </div>
+        </div>
+        <div className="border-t border-line-soft p-4">
+          <p className="article-prose">
+            <span className="block text-[0.9375rem] font-semibold text-fg">
+              {t('settings.previewTitle')}
+            </span>
+          </p>
+          <p className="article-prose mt-1">
+            <span className="block text-[0.8125rem] text-muted">{t('settings.previewBody')}</span>
+          </p>
+        </div>
+      </Group>
+
       <Group title="Akış" footer={t('settings.personalDesc')}>
         <ToggleRow
           label="Kişiselleştirilmiş sıralama"
@@ -260,6 +330,12 @@ export function SettingsPage() {
           desc="Okuduğun haberler akışta görünmez"
           on={store.hideRead}
           onChange={store.setHideRead}
+        />
+        <ToggleRow
+          label={t('settings.push')}
+          desc={t('settings.pushDesc')}
+          on={pushOn}
+          onChange={onPushToggle}
         />
       </Group>
 
