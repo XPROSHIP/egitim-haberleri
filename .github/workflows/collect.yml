@@ -48,7 +48,17 @@ jobs:
             echo "Değişiklik yok, commit atlanıyor."
           else
             git commit -m "chore: haber toplama ($(date -u '+%Y-%m-%d %H:%M UTC'))"
-            git push
+            # Depoda aynı anda başka bir commit olabilir (elle push).
+            # Çakışmada yeniden denenir; veri zaten D1'de olduğu için
+            # başarısızlık iş akışını durdurmaz.
+            for i in 1 2 3; do
+              if git pull --rebase origin main && git push; then
+                echo "push tamam"; break
+              fi
+              git rebase --abort || true
+              sleep 5
+            done
+            git push || echo "push yapılamadı, veri D1'de kayıtlı"
           fi
 
       # --- Ses sentezi (EMA Lightning) ---
@@ -101,5 +111,12 @@ jobs:
             echo "Değişiklik yok, commit atlanıyor."
           else
             git commit -m "chore: ses sentezi ($(date -u '+%Y-%m-%d %H:%M UTC'))"
-            git push
+            for i in 1 2 3; do
+              if git pull --rebase origin main && git push; then
+                echo "push tamam"; break
+              fi
+              git rebase --abort || true
+              sleep 5
+            done
+            git push || echo "push yapılamadı, veri D1'de kayıtlı"
           fi
