@@ -3696,6 +3696,40 @@
     "audioDuration": 21.18
   },
   {
+    "id": "f_1dx8jaz_mvingrlq",
+    "slug": "yabanci-amerika-da-tarih-ve-vatandaslik-egitimi-icin-eyaletlerin-har-1dx8ja",
+    "title": "Amerika'da tarih ve vatandaşlık eğitimi için eyaletlerin harekete geçmesi gerekiyor",
+    "excerpt": "Son Nation's Report Card verileri, öğrencilerin tarih ve vatandaşlık eğitimindeki başarı oranlarının düştüğünü ortaya koyuyor. Bu durum eyalet düzeyinde acil adımlar atılmasını zorunlu kılıyor.",
+    "body": [
+      "Amerika'nın bağımsızlığının 250. yılını kutlamaya hazırlanırken, en son Nation's Report Card sonuçları çocukların ABD tarihi ve vatandaşlık eğitimine olan bağlılığımızı yenilememiz gerektiğini gösteriyor. Ülke genelinde 8. sınıf öğrencilerinin yalnızca beşte biri vatandaşlık bilgisinde, yüzde 13'ü ise ABD tarihinde temel yeterlilik gösterebildi.",
+      "Dahası, her iki dersteki başarı oranları önceki yıllara göre düşmeye devam ediyor. Öğrenci başarısını artırmaya odaklanan eyalet eğitim sistemlerinin liderleri için bu verilerin ortaya koyduğu öğrenme açıkları acil eylem gerektiriyor.",
+      "Amerikalı gençlerin ortak tarihimizi, hükümetimizi ve işlevlerini, sahip olduğumuz hakları anlaması hayati önem taşımaktadır. Gelecek nesillerin anayasal cumhuriyetimize katılım sağlaması ve Amerikan kurumlarına güvenmesi ancak bu şekilde beklenebilir."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "TARİH EĞİTİMİ",
+      "EYALETLER",
+      "ÖĞRENCİ BAŞARISI"
+    ],
+    "source": {
+      "name": "Education Next",
+      "url": "https://www.educationnext.org/improving-u-s-history-and-civics-education-for-students-begins-with-the-states/",
+      "image": "/img/mproving-u-s-history-and-civics-education-for-students-begin-jve0b0.png"
+    },
+    "publishedAt": "2026-10-16T05:00:01.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1dx8jaz",
+    "rawTitle": "Improving U.S. History and Civics Education for Students Begins with the States",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "f_2mo2f0_mviczbhs",
     "slug": "yabanci-yuksekogretim-sektoru-buyuk-bir-krizle-karsi-karsiya-kalirke-2mo2f0",
     "title": "Yükseköğretim sektörü büyük bir krizle karşı karşıya kalırken kapanmalar yayılıyor",
@@ -3908,6 +3942,40 @@
     "lang": "tr",
     "audioId": "n_1429kqy_mvgl1se5",
     "audioDuration": 49.28
+  },
+  {
+    "id": "f_15l81y9_mvingrlq",
+    "slug": "yabanci-yeni-bir-kitap-egitim-arastirmalarindaki-ideolojik-yaklasiml-15l81y",
+    "title": "Yeni bir kitap eğitim araştırmalarındaki ideolojik yaklaşımları ve tartışmaları masaya yatırıyor",
+    "excerpt": "Manufactured Outrage adlı yeni kitap, muhafazakârların eğitime yönelik politikalarını ele alırken eğitim akademisindeki sorunları da gözler önüne seriyor.",
+    "body": [
+      "Akademik dünya, özellikle de ideolojik söylemleri bilimsel uzmanlık kisvesi altında sunmak isteyenler için oldukça elverişli bir alandır. Uygun siyasi görüşlere sahip yazarlar, vergi mükelleflerinin desteklediği üniversitelerde kadro alabilmekte ve prestijli akademik yayınevlerinde eserler yayımlatabilmektedir.",
+      "Elena Aydarova, T. Jameson Brewer, Emily M. Hodge ve Serena J. Salloum adlı dört yazarın ortaklaşa kaleme aldığı Manufactured Outrage adlı eser bu duruma örnek teşkil ediyor. Kamu araştırma üniversitelerinde görev yapan bu profesörler, 2020'lerin başında eyaletlerin neden bazı eğitim politikalarını değiştirdiğini açıklamayı amaçlıyor.",
+      "Yazarlar, söz konusu dönemde birçok eyaletin kritik ırk teorisiyle mücadele etmesini ve DEI uygulamalarını ortadan kaldırmasını eleştirel bir gözle inceliyor. Kitap, muhafazakâr endüstriyel kompleksin eğitime müdahalesini ele alırken akademik tarafsızlık tartışmalarını da yeniden alevlendiriyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "EĞİTİM ARAŞTIRMALARI",
+      "KİTAP",
+      "AKADEMİ"
+    ],
+    "source": {
+      "name": "Education Next",
+      "url": "https://www.educationnext.org/can-you-tell-the-education-scholar-from-the-conspiracy-kook-review-book-manufactured-outrage-aydarova-brewer-hodge-salloum/",
+      "image": "/img/can-you-tell-the-education-scholar-from-the-conspiracy-kook-ktrdez.png"
+    },
+    "publishedAt": "2026-10-15T05:00:39.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:15l81y9",
+    "rawTitle": "Can You Tell the Education Scholar from the Conspiracy Kook?",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "f_1eveb46_mviesavv",
@@ -5257,6 +5325,60 @@
     "lang": "en",
     "audioId": "f_1b7eavp_mvfnucog",
     "audioDuration": 24.5
+  },
+  {
+    "id": "n_1yv6im1_mvingm24",
+    "slug": "ogrenciler-hem-okuyacak-hem-kazanacak-iskur-genclik-programi-nda-aylik-o-m0fml8",
+    "title": "Öğrenciler hem okuyacak hem kazanacak! işkur Gençlik Programı'nda aylık ödeme tutarı belli oldu",
+    "excerpt": "İŞKUR Gençlik Programı'nda yeni dönem başlıyor! 2026-2027 döneminde 150 bin üniversite öğrencisi programa katılarak eğitimlerini aksatmadan gelir elde edebilecek. Haftada 3 güne kadar katılım sağlanabilen programda günlük ödeme 1.375 TL, aylık gelir ise 19 bin 250 TL olacak.",
+    "body": [
+      "İŞKUR Gençlik Programı kapsamında 150 bin öğrenciye destek! Ayda 19 bin 250 lira ödeme yapılacak",
+      "Başkan Erdoğan, Kabine Toplantısı'nın ardından üniversite öğrencilerini yakından ilgilendiren İŞKUR Gençlik Programı'na ilişkin ayrıntıları açıkladı. Erdoğan, 2026-2027 döneminde 150 bin öğrencinin programdan yararlanacağını müjdeledi. Eğitimlerini aksatmadan haftada 3 güne kadar programa katılabilecek öğrenciler, günlük 1.375 TL, ayda 14 günlük katılım halinde ise 19 bin 250 TL gelir elde edebilecek.",
+      "Başkan Recep Tayyip Erdoğan, Kabine Toplantısı'nın ardından gençlerin eğitimlerini sürdürürken çalışma hayatını tanımalarına, tecrübe kazanıp geleceğe daha iyi hazırlanmasına büyük önem verdiklerini ifade ederek İŞKUR Gençlik Programı'ndan faydalanan genç sayısının 220 bine yaklaştığını duyurdu.",
+      "## 2027 YILI KONTENJANI 150 BİNE YÜKSELDİ",
+      "Başkan Erdoğan, yaptığı açıklamada İŞKUR Gençlik Programı 2026-2027 dönemi kontenjanını 150 bine çıkardığını duyurarak şu ifadeleri kullandı:",
+      "## AYDA 19 BİN 250 TL GELİR DESTEĞİ",
+      "Başkan Erdoğan'ın açıkladığı İŞKUR Gençlik Programı'nın yeni döneminde 150 bin üniversite öğrencisine günlük olarak 1.375 lira ödeme yapılacak. Ay içinde 14 gün katılım sağlayan öğrenciler için ise 19 bin 250 TL gelir desteği verilecek.",
+      "İŞKUR Gençlik Programı kapsamında 2026-2027 dönemi kontenjanında 150 bin öğrenciye katkı sağlanacak. (Foto: X)",
+      "## BAŞVURULAR BAŞLIYOR",
+      "## İŞKUR GENÇLİK PROGRAMI NEDİR?",
+      "İŞKUR Gençlik Programı, Türkiye İş Kurumu ve devlet üniversitelerinin iş birliğiyle üniversite öğrencilerine iş deneyimi kazandırmayı hedefliyor. Öğrencilerin mesleki becerilerini geliştirmeyi ve çalışma disiplini edinmelerini amaçlayan programa, eğitimlerini aksatmadan haftada 3 güne kadar katılım sağlanabiliyor.",
+      "Programda yer alacak öğrenciler, üniversite kampüslerinin işleyişine ve gelişimine katkı sunan çeşitli alanlarda çalışma fırsatı bulacak. Bu kapsamda çevre ve sürdürülebilirlik projelerinden altyapı ve bakım işlerine, sosyal ve kültürel etkinliklerden akademik ve idari birimlere desteğe kadar pek çok faaliyet yürütülecek. Ayrıca toplumsal iş birliği, öğrencilerin üniversiteye uyumunu ve kişisel gelişimini destekleyen çalışmalar ile dijital dönüşüm ve inovasyon projeleri de programın çalışma alanları arasında yer alacak.",
+      "Katılımcılara bireysel danışmanlığın yanı sıra iş arama, finansal okuryazarlık, özgeçmiş hazırlama ve mülakat teknikleri gibi eğitimler de verilmektedir.",
+      "## İŞKUR GENÇLİK PROGRAMINDAN KİMLER FAYDALANABİLİR?",
+      "Devlet üniversitelerinin ön lisans, lisans, yüksek lisans ve doktora örgün eğitimlerinde yer alan aktif öğrenciler yararlanabilir. (Açık öğretim ve uzaktan eğitim öğrencileri programdan faydalanamaz.)",
+      "İŞKUR Gençlik Programı kapsamında üniversite öğrencilerine günlük 1.375 TL, ayda ise 19 bin 250 TL gelir desteği sağlanacak. (Foto: AA)",
+      "## İŞKUR GENÇLİK PROGRAMINA BAŞVURULAR NEREDEN YAPILACAK?",
+      "Programa katılmak isteyen üniversite öğrencileri guc.iskur.gov.tr adresindeki \"Başvuru yap\" sekmesine tıklayarak kaydını gerçekleştirebilir.",
+      "## İŞKUR GENÇLİK PROGRAMINA BAŞVURU ŞARTLARI NELER?",
+      "Program talep tarihinden önceki bir yıl içerisinde ve programın fiilen başlayacağı tarihe kadar yüklenicinin veya bağlı, ilgili, ilişkili ve yan kuruluşlarının çalışanı olmamak,",
+      "Başvuru tarihinden önceki son bir aylık sürede 5510 sayılı Kanunun 4 üncü maddesi kapsamında sigortalı olarak bildirilmemiş olmak veya sigortalı sayılmamak,",
+      "Başvuru tarihi itibarıyla 5510 sayılı Kanunun 5 inci maddesi kapsamında sigortalı olarak bildirilmemiş olmak veya sigortalı sayılmamak,",
+      "Yüklenici üniversitenin öğrencisi olmak (açık öğretim veya uzaktan öğretim öğrencisi olmamak, kaydını dondurmamış ve/veya pasif durumda olmamak) şartları aranır.",
+      "## İŞKUR GENÇLİK PROGRAMI UYGULAMA SÜRESİ KAÇ AYDIR?",
+      "## İŞKUR GENÇLİK PROGRAMINDA HAFTALIK YARARLANMA SÜRESİ NE KADARDIR?",
+      "Haftalık yararlanma süresi en fazla yirmi iki buçuk saat ve üç gün olarak uygulanır."
+    ],
+    "category": "universite",
+    "tags": [
+      "A Haber"
+    ],
+    "source": {
+      "name": "A Haber",
+      "url": "https://ahaber.com.tr/egitim/iskur-genclik-programi-ile-150-bin-ogrenciye-gelir-destegi-6530493",
+      "image": "/img/renciler-hem-okuyacak-hem-kazanacak-i-kur-gen-lik-program-nd-oivrhx.webp"
+    },
+    "publishedAt": "2026-10-12T19:57:11.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 3.6,
+    "dedupeKey": "m0fml8",
+    "rawTitle": "Öğrenciler hem okuyacak hem kazanacak! İŞKUR Gençlik Programı'nda aylık ödeme tutarı belli oldu",
+    "status": "review",
+    "lang": "tr"
   },
   {
     "id": "n_1pw6ivb_mvgl1se2",
