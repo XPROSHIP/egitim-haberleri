@@ -129,22 +129,30 @@ const CLEAN_SCHEMA = {
   },
 }
 
-const CLEAN_SYSTEM = `Sen Türkiye eğitim basınının editörüsün. Haber sayfalarından kopyalanan metinlerde
-çöp vardır: reklamlar, "ilgili haberler", "en çok okunanlar", başka haberlerin başlıkları, yazar künyesi,
-paylaşım butonları, çerez bildirimi, canlı yayın kutusu, kaynakça, "haberin devamı" gibi.
+const CLEAN_SYSTEM = `Sen Türkiye eğitim basınının editörüsün. Haber sayfalarından alınan metinlerde çöp vardır.
 
-GÖREV: Her paragrafı TEK TEK ele al.
-- Girdideki her paragraf için, sırasıyla bir kayıt üret: id alanı paragrafın sırası (1'den başlar),
-  text alanı ise o paragrafın TEMİZLENMİŞ hâlidir.
-- Bir paragraf şu durumlarda ALAKSIZDIR ve text alanı BOŞ string olmalıdır:
-  * reklam, reklam etiketi, "ilgili haberler", "en çok okunanlar", "diğer haberler" gibi bloklar
-  * BAŞKA BİR HABERE AİT olan başlık veya içerik (konusu, olayı, kurumu farklı olan haber paragrafları)
-  * menü, arama kutusu, künye, yazar bilgisi, paylaşım butonları, künye yazısı
-- Paragraf bu haberin kendi içeriğiyse text alanına paragrafın tamamını yaz; KISAĞINA KISALTMA,
-  özetleme. Sadece bozuk cümleleri ve yazımı düzelt.
+BİRİNCİ KURAL — "İLGİLİ HABER" BLOKLARI:
+Bazı sayfalar haberin ORTASINA, büyük harfle ve tire ile başlayan bir başlık koyar
+(örneğin "- 8 ÜLKEDE 50 BİN ÇOCUĞA YÜZ YÜZE EĞİTİM") ve hemen ardından o başlığa ait
+birkaç paragraf gelir. Bu bir ilgili haber reklamıdır, haberin parçası DEĞİLDİR.
+- Böyle bir büyük harfli, tire ile başlayan başlığın text'ini BOŞ bırak.
+- Başlıktan hemen sonra gelen 2-4 paragraf da o reklama aittir: onların text'ini de BOŞ bırak.
+- Bu blok bittikten sonra haberin kendi paragrafları devam eder; onları koru.
+
+İKİNCİ KURAL — DİĞER ALAKSIZ PARAGRAFLAR:
+- Reklam, "ilgili haberler", "en çok okunanlar", menü, arama kutusu, künye, yazar bilgisi,
+  paylaşım butonları, "abone ol" yazıları hep alaksızdır: text boş olsun.
+- KONUSU bu haberin konusundan farklı olan paragraflar da alaksızdır.
+
+ÜÇÜNCÜ KURAL — KORUMA:
+- Habere ait paragrafların text'ini TAMAMEN yaz; KISAĞINA KISALTMA, özetleme.
+  Yalnızca bozuk cümleleri ve yazımı düzelt.
 - Sayıları, tarihleri, yer adlarını, kurum adlarını ve alıntıları BİREBİR koru.
 - Yorum, reklam ya da yeni bilgi ekleme.
-- Kaç paragraf girdiysen o kadar kayıt üret; id'ler 1'den başlayarak sıralı olsun.
+
+ÇIKTI: Her girdi paragrafı için bir kayıt üret: id = paragrafın sırası (1'den başlar),
+text = o paragrafın temizlenmiş metni (alaksızsa boş string).
+Kaç paragraf girdiysen o kadar kayıt üret; id'ler 1'den başlayarak sıralı olsun.
 JSON dizisi döndür.`
 
 /**
@@ -182,7 +190,23 @@ export async function cleanBodies(gemini, clusters) {
         .map((d) => ({ para: Number(d?.id), text: String(d?.text ?? '').trim() }))
         .filter((r) => Number.isInteger(r.para) && r.para >= 1)
         .sort((a, b) => a.para - b.para)
-      const clean = list.filter((r) => r.text.length >= 30).map((r) => r.text)
+
+      // Model "ilgili haber" promo başlıklarını boşaltıyor; o bloğun devamı
+      // da aynı reklama ait. Başlığı kod tarafında tanıyıp devamını da
+      // düşürüyoruz (belirsizlik bırakmıyoruz).
+      const drop = new Set(list.filter((r) => !r.text).map((r) => r.para))
+      for (const n of [...drop]) {
+        const original = String(c.paragraphs[n - 1] ?? '')
+        const isPromoHeading =
+          original.length < 140 &&
+          /^\s*[-–—•]?\s*[A-ZÇĞİÖŞÜ0-9 ,.'!?"“”()&/-]{10,}$/.test(original)
+        if (!isPromoHeading) continue
+        for (let k = n + 1; k <= n + 3; k++) drop.add(k)
+      }
+
+      const clean = list
+        .filter((r) => !drop.has(r.para) && r.text.length >= 30)
+        .map((r) => r.text)
       if (clean.length < 2) continue
       const origChars = c.paragraphs.join(' ').length
       const newChars = clean.join(' ').length

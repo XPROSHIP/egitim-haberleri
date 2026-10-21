@@ -56,34 +56,40 @@ async function main() {
   const BATCH = 8
   for (let i = 0; i < todo.length; i += BATCH) {
     const chunk = todo.slice(i, i + BATCH)
-    // cleanBodies paragraf dizisini bekliyor; API "body" alanını veriyor.
-    const clusters = chunk.map((c) => ({
-      key: c.id,
-      title: c.title,
-      paragraphs: c.body ?? [],
-    }))
-    const cleaned = await cleanBodies(gemini, clusters)
+    try {
+      // cleanBodies paragraf dizisini bekliyor; API "body" alanını veriyor.
+      const clusters = chunk.map((c) => ({
+        key: c.id,
+        title: c.title,
+        paragraphs: c.body ?? [],
+      }))
+      const cleaned = await cleanBodies(gemini, clusters)
 
-    const payload = []
-    for (const c of chunk) {
-      const next = cleaned.get(c.id)
-      if (!next) continue
-      payload.push({ slug: c.slug, body: next, excerpt: c.excerpt })
+      const payload = []
+      for (const c of chunk) {
+        const next = cleaned.get(c.id)
+        if (!next) continue
+        payload.push({ slug: c.slug, body: next, excerpt: c.excerpt })
+      }
+      if (!payload.length) {
+        console.log(`  ${i + chunk.length}/${todo.length} temizlenemedi`)
+        continue
+      }
+      if (!DRY) {
+        const r = await fetch(`${API}/api/refill`, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', 'x-collect-secret': SECRET },
+          body: JSON.stringify({ items: payload }),
+          signal: AbortSignal.timeout(120_000),
+        })
+        const j = await r.json().catch(() => ({}))
+        updated += j.updated ?? 0
+      }
+      console.log(`  ${i + chunk.length}/${todo.length} · ${payload.length} haber yazıldı`)
+    } catch (err) {
+      // Tek grup hatası tüm işi durdurmamalı.
+      console.warn(`  ${i + chunk.length}/${todo.length} hata: ${String(err?.message ?? err).slice(0, 90)}`)
     }
-    if (!payload.length) {
-      console.log(`  ${i + chunk.length}/${todo.length} temizlenemedi`)
-      continue
-    }
-    if (!DRY) {
-      const r = await fetch(`${API}/api/refill`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', 'x-collect-secret': SECRET },
-        body: JSON.stringify({ items: payload }),
-      })
-      const j = await r.json().catch(() => ({}))
-      updated += j.updated ?? 0
-    }
-    console.log(`  ${i + chunk.length}/${todo.length} · ${payload.length} haber yazıldı`)
     await sleep(700)
   }
 

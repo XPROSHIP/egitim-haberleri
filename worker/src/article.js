@@ -236,6 +236,9 @@ export async function fetchArticle(url, { timeoutMs = 15000 } = {}) {
         if (heading && heading.length >= 8 && heading.length <= 140) paragraphs.push(`## ${heading}`)
         continue
       }
+      // Bazı sayfalar haberin ortasına "ABONE OL" bloğu ve haberin tekrarını
+      // koyar; asıl içerik orada biter.
+      if (/^ABONE\s*OL/i.test(cleanText(m[2]).slice(0, 20))) break
       const { heading, text } = splitLead(m[2])
       if (heading) paragraphs.push(`## ${heading}`)
       paragraphs.push(text)
