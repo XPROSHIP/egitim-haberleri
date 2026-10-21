@@ -105,6 +105,7 @@ export function createD1Store(db) {
         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
         ON CONFLICT(dedupe_key) DO UPDATE SET
           title=excluded.title,
+          source_url=excluded.source_url,
           excerpt=CASE WHEN LENGTH(excluded.excerpt) > LENGTH(excerpt) THEN excluded.excerpt ELSE excerpt END,
           body=CASE WHEN LENGTH(excluded.body) > LENGTH(body) THEN excluded.body ELSE body END,
           category=excluded.category, tags=excluded.tags, source_image=excluded.source_image,

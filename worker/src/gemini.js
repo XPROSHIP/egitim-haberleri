@@ -1,5 +1,6 @@
 /** Gemini istemcisi: çoklu anahtar rotasyonu + toplu özetleme (ücretsiz katman). */
 import { GEMINI_MODEL, GEMINI_MODELS } from './config.js'
+import { isJunkParagraph } from './article.js'
 
 const ENDPOINT = (model, key) =>
   `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`
@@ -209,6 +210,7 @@ export async function cleanBodies(gemini, clusters) {
 
       const clean = list
         .filter((r) => !drop.has(r.para) && r.text.length >= 30)
+        .filter((r) => !isJunkParagraph(r.text))
         .map((r) => r.text)
       if (clean.length < 2) continue
       const origChars = c.paragraphs.join(' ').length

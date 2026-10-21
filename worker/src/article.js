@@ -71,7 +71,19 @@ const LIST_MARKER =
 
 /** Buradan sonrası kurum künyesi / adres / iletişim bloğu. */
 const CUT_MARKER =
-  /^(?:adres\s*:|tel\s*:|telefon\s*:|faks\s*:|e-?posta\s*:|millî?\s*eğitim\s+bakanlığı['’]?nı\s+takip\s+edin|erişilebilirlik\s+özellikleri|gizlilik\s*,?\s*kullanım|©\s*türkiye\s+cumhuriyeti|haber\s*[:：]\s*$)/i
+  /^(?:adres\s*:|tel\s*:|telefon\s*:|faks\s*:|e-?posta\s*:|millî?\s*eğitim\s+bakanlığı['’]?nı\s+takip\s+edin|erişilebilirlik\s+özellikleri|gizlilik\s*,?\s*kullanım|©\s*türkiye\s+cumhuriyeti|haber\s*[:：]\s*$|takip\s+edin\b)/i
+
+/**
+ * Bir paragrafın haber dışı (alt bilgi, künye, menü, tarih) olduğunu söyler.
+ * Hem çıkarıcı hem de metin temizleyici kullanır.
+ */
+export function isJunkParagraph(text = '') {
+  const t = String(text)
+  if (BOILERPLATE.test(t)) return true
+  if (LIST_MARKER.test(t)) return true
+  if (CUT_MARKER.test(t)) return true
+  return BOILERPLATE_TEXT.some((re) => re.test(t))
+}
 
 /** Karşılaştırma için küçük harfe indirger, aksanları atar. */
 function fold(s = '') {
