@@ -8,6 +8,7 @@ import { interestScore, useInterests } from '../lib/interest'
 import { selectForYou } from '../lib/api'
 import { NewsCard } from '../components/NewsCard'
 import { StoryBar } from '../components/StoryBar'
+import { PushBanner } from '../components/PushBanner'
 import { Icon } from '../components/Icon'
 import { groupByDay } from '../lib/format'
 
@@ -171,6 +172,8 @@ export function HomePage() {
             <NewsCard item={hero} variant="hero" lang={lang} />
 
             <StoryBar items={data ?? []} />
+
+            <PushBanner />
 
             <Link
               to="/podcast"

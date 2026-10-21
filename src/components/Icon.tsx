@@ -1,4 +1,5 @@
 import {
+  Bell,
   BookOpen,
   Bookmark,
   BookmarkCheck,
@@ -52,6 +53,7 @@ import {
 import type { ComponentType } from 'react'
 
 const registry: Record<string, ComponentType<LucideProps>> = {
+  Bell,
   BookOpen,
   Bookmark,
   BookmarkCheck,
