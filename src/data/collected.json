@@ -2546,6 +2546,40 @@
     "hasAudio": false
   },
   {
+    "id": "f_1vrj3yk_mviczbhs",
+    "slug": "yabanci-cezaevindeki-yazarlik-atolyesi-icimizdeki-anlatilmamis-hikay-1vrj3y",
+    "title": "Cezaevindeki yazarlık atölyesi içimizdeki anlatılmamış hikayeleri anlamamızı sağlıyor",
+    "excerpt": "Cezaevi yazarlık atölyeleri, yükseköğretim programlarından büyük ölçüde mahrum bırakılan bireyler için öğrenme ve iyileşme kıvılcımı yakabilir. Bu atölyeler katılımcılara derin bir sığınak ve anlayış yolu sunuyor.",
+    "body": [
+      "Bir cezaevi yazarlık atölyesine ilk adım attığım günü çok net hatırlıyorum. Gölge içindeki bu odada bir düzeneğe yakın uyumsuz plastik sandalye ve birkaç masadan fazlası yoktu.",
+      "Geçmişte yaşadığım zorlu dönemin ardından katıldığım bu grupta akranlarımı dinlemek bana güç verdi. Sınıftaki bir kadının paylaştığı ham ve savunmasız hikaye sayesinde içsel bir aydınlanma yaşadım.",
+      "Bu tür sanatsal ve yazınsal çalışmalar, dezavantajlı bireylerin kendi iç dünyalarını keşfetmelerine yardımcı oluyor. Yazmak, adeta karanlıkta kalan hikayeler için güvenli bir sığınak işlevi görüyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Yazarlık Atölyesi",
+      "Cezaevi Eğitimi",
+      "Kişisel Gelişim"
+    ],
+    "source": {
+      "name": "Hechinger Report",
+      "url": "https://hechingerreport.org/opinion-prison-writing-workshop-i-found-refuge/",
+      "image": "/img/op-n-on-n-a-prison-writing-workshop-found-refuge-and-a-road--p5wt9c.jpg"
+    },
+    "publishedAt": "2026-10-19T06:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1vrj3yk",
+    "rawTitle": "OPINION: In a prison writing workshop, I found refuge and a road to understanding the ‘untold stories’ inside us",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "n_r9btf0_mveiblan",
     "slug": "kpss-on-lisans-sinavi-sonuclari-icin-adaylarin-heyecanli-bekleyisi-suruy-1r8bgj",
     "title": "ÖSYM tarafından düzenlenen KPSS ön Lisans sınavının sonuçları için adayların heyecanlı bekleyişi sürüyor",
@@ -3391,6 +3425,40 @@
     "audioDuration": 21.18
   },
   {
+    "id": "f_2mo2f0_mviczbhs",
+    "slug": "yabanci-yuksekogretim-sektoru-buyuk-bir-krizle-karsi-karsiya-kalirke-2mo2f0",
+    "title": "Yükseköğretim sektörü büyük bir krizle karşı karşıya kalırken kapanmalar yayılıyor",
+    "excerpt": "Massachusetts eyaletindeki Amherst kentinde bulunan Hampshire College, aralık ayında kapanmaya hazırlanıyor. Bu durum, kapanan veya birleşen yükseköğretim kurumlarının sayısındaki artışı gözler önüne seriyor.",
+    "body": [
+      "Otoparklar büyük ölçüde boş kalmış durumdayken kilitli ve karanlık binalar adeta hayalet şehri andırıyor. Bu manzara terk edilmiş bir fabrikayı değil, aralık ayında kapanacak olan ünlü liberal sanatlar okulu Hampshire College'ı gösteriyor.",
+      "Üniversite ve yüksekokulların kapanma veya birleşme oranı son zamanlarda endişe verici bir hıza ulaştı. Neredeyse her üç haftada bire denk gelen bu kapanmalar sektördeki büyük krizi gözler önüne seriyor.",
+      "Boş kalan bu kampüsler, ekonomik değişimler nedeniyle terk edilen eski sanayi tesislerini andırıyor. Yaşanan bu dönüşüm yükseköğretim alanında derin izler bırakmaya devam ediyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Yükseköğretim Krizi",
+      "Üniversite Kapanışları",
+      "Hampshire College"
+    ],
+    "source": {
+      "name": "Hechinger Report",
+      "url": "https://hechingerreport.org/experts-say-higher-education-is-an-industry-in-turmoil-the-collateral-damage-is-widespread/",
+      "image": "/img/experts-say-higher-education-is-an-industry-in-turmoil-the-c-gtiqbr.jpg"
+    },
+    "publishedAt": "2026-10-15T22:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:2mo2f0",
+    "rawTitle": "Experts say higher education is an industry in turmoil. The collateral damage is widespread",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "n_xjfkt8_mvevprmn",
     "slug": "karadeniz-mozem-izleme-heyeti-corum-i-l-milli-egitim-mudurlugunu-ziyaret-1qd8z1",
     "title": "Karadeniz mözem izleme heyeti Çorum İl Milli Eğitim Müdürlüğüne çalışma ziyaretinde bulundu",
@@ -3569,6 +3637,40 @@
     "lang": "tr",
     "audioId": "n_1429kqy_mvgl1se5",
     "audioDuration": 49.28
+  },
+  {
+    "id": "f_y8py23_mviczbhs",
+    "slug": "yabanci-cocuklarin-okuma-ogrenme-surecindeki-sorunlarin-temel-cozumu-y8py23",
+    "title": "Çocukların okuma öğrenme sürecindeki sorunların temel çözümü her zaman öğretmektir",
+    "excerpt": "APM Reports tarafından hazırlanan Sold a Story isimli podcast, çocukların sınıf ortamında nasıl öğrendiğini inceliyor. Araştırma sonuçlarının okullara neden tam olarak yansımadığını gözler önüne seriyor.",
+    "body": [
+      "Sold a Story, çocukların okuma yazmayı öğrenirken neden zorlandığını ve bu alandaki araştırmaların okullara nasıl yansıdığını inceleyen bir araştırmacı podcast serisidir. Birinci sezon, ülke genelinde okuma eğitiminde büyük bir değişim dalgası başlatmıştı.",
+      "İkinci sezonda ise odak noktası sadece okuma becerisinden çıkarak doğrudan öğretim sürecinin kendisine çevriliyor. Illinois'deki deneysel bir anaokulunda eğitim uzmanları etkili öğretim yöntemleri üzerine yeni keşifler yapıyor.",
+      "Zig Engelmann ve meslektaşları fikirlerini sınıf içi öğretim yöntemlerine dönüştürürken önemli başarılar elde ediyor. Bu çalışmalar etkili eğitimin temelinde nitelikli öğretmen yaklaşımının yattığını bir kez daha kanıtlıyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Eğitim Araştırmaları",
+      "Öğretim Yöntemleri",
+      "Okul Eğitimi"
+    ],
+    "source": {
+      "name": "Hechinger Report",
+      "url": "https://hechingerreport.org/sold-a-story-the-remedy-is-always-teaching/",
+      "image": "/img/sold-a-story-the-remedy-is-always-teaching-1alqmu.png"
+    },
+    "publishedAt": "2026-10-15T05:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:y8py23",
+    "rawTitle": "Sold a story: The remedy is always teaching",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "f_1eohsoq_mvg5ojrw",
@@ -7262,6 +7364,40 @@
     "lang": "tr",
     "audioId": "n_1815v24_mvha2myn",
     "audioDuration": 117.72
+  },
+  {
+    "id": "f_z4yzpn_mviczbhs",
+    "slug": "yabanci-yapay-zeka-egitimi-ortadan-kaldirmiyor-aksine-egitime-olan-t-z4yzpn",
+    "title": "Yapay zeka eğitimi ortadan kaldırmıyor aksine eğitime olan talebi artırıyor",
+    "excerpt": "Yükseköğretimde yapay zekanın eğitimi tamamen, ortadan kaldırıp kaldırmayacağı sorusu son yıllarda giderek daha sık soruluyor. Bilimsel ve felsefi analizler ise bu soruya net bir hayır yanıtını veriyor.",
+    "body": [
+      "Yükseköğretimde çalışan biri olarak son bir yılda bana da artan bir sıklıkla yapay zekanın eğitimin yerini alıp almayacağı soruluyor. Bilimsel araştırmalar ve felsefi analizler bu sorunun özüne inmemizi sağlıyor ve yanıt kesin bir hayır oluyor.",
+      "Yapay zeka üniversite eğitimine olan ihtiyacı ortadan kaldırmayacak. Aslında tam aksine eğitime olan talebi daha da artırıyor.",
+      "Yapay zekanın yükseköğretimdeki yerini belirlemek için stratejik bir yol haritasına ihtiyacımız var. Etkilerini incelemeli ve onu insan düşüncesinin en iyi yönleriyle birleştirmeliyiz."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Yapay Zeka",
+      "Yükseköğretim",
+      "Eğitim Teknolojileri"
+    ],
+    "source": {
+      "name": "eCampus News",
+      "url": "https://www.ecampusnews.com/ai-in-education/2026/10/02/why-ai-doesnt-replace-education-it-demands-it/",
+      "image": "/img/why-a-doesn-t-replace-education-it-demands-it-natm59.png"
+    },
+    "publishedAt": "2026-10-02T09:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:z4yzpn",
+    "rawTitle": "Why AI doesn’t replace education—it demands it",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "n_1elrde5_mvei1j37",
