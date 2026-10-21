@@ -26,6 +26,18 @@ const args = Object.fromEntries(
 )
 const LIMIT = Number(args.limit ?? 200)
 const DRY = Boolean(args.dry)
+/** Yalnızca gerçekten bozuk görünenleri temizle (hızlı onarım). */
+const JUNK_ONLY = Boolean(args['junk-only'])
+
+/** Gövdede çöp kalıntısı var mı? */
+function hasJunk(body) {
+  const text = (body ?? []).join(' ')
+  return (
+    /Adres:|İstenen adres|Güncel Haberler|Erişilebilirlik|© Türkiye Cumhuriyeti|Yazı Tipi|Sayfa Genişliği|^Tel:|Takip Edin|Gizlilik, Kullanım/i.test(
+      text,
+    ) || text.length < 300
+  )
+}
 
 async function keys() {
   const raw = await readFile(resolve(ROOT, 'worker', '.env'), 'utf8')
@@ -43,7 +55,8 @@ async function main() {
 
   // Zaten temizlenmiş gibi görünenleri atla (alt başlık işareti olanlar
   // yeni modelden geçmiş demektir).
-  const todo = items.filter((i) => (i.body ?? []).length >= 2)
+  let todo = items.filter((i) => (i.body ?? []).length >= 2)
+  if (JUNK_ONLY) todo = todo.filter((i) => hasJunk(i.body))
   console.log(`[clean] ${todo.length} haber temizlenecek`)
 
   const gemini = createGemini(await keys(), [

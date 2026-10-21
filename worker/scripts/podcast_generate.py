@@ -108,10 +108,14 @@ KURALLAR:
   "Çorum'dan gelen bir başka haber", "Yabancı kaynaklardan gelen son gelişme" gibi.
 - Aynı konudaki haberleri birleştir, tek tek tekrar etme.
 - Kısaltmaları tek heceyle yaz: MESEM, MEB, YÖK, ALES, KPSS. Sayıları rakam olarak yaz.
-- Hiçbir madde işareti, başlık işareti, bağlantı, hashtag veya noktalama kullanma. Düz, konuşma dilinde yaz.
+- Hiçbir madde işareti, başlık işareti, bağlantı veya hashtag kullanma.
+- NOKTALAMAYI KORU: cümle sonu nokta, virgül, tırnak ve iki nokta normal Türkçe
+  yazım kurallarına göre kullan. Seslendirme bu noktalamayı duraklama için
+  kullanıyor; noktalama olmadan bülten tek nefes hâlinde okunur ve yapay durur.
 - Başta dinleyenleri selamla ve bültenin konusunu bir cümleyle söyle.
-- Sonda dinleyicilere şunu söyle: haberlerin tamamı Eğitim Haberleri sitesinde yayımlandı, siteyi takip etsinler
-  ve yorumlarla destek versinler. Kapanış samimi olsun, acele etmeyen bir tonda bitsin.
+- Sonda dinleyicilere şunu söyle: haberlerin tamamı Eğitim Haberleri sitesinde
+  yayımlandı, siteyi takip etsinler ve yorumlarla destek versinler. Kapanış
+  samimi olsun, acele etmeyen bir tonda bitsin.
 - Yalnızca bülten metnini yaz; başka hiçbir şey yazma."""
 
 

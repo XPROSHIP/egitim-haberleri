@@ -149,6 +149,9 @@ KURAL 3 — HABER METNİ KORUNUR:
 - Habere ait paragrafların text'ini TAMAMEN yaz; KISAĞINA KISALTMA, özetleme.
   Yalnızca bozuk cümleleri ve yazımı düzelt.
 - Sayıları, tarihleri, yer adlarını, kurum adlarını ve alıntıları BİREBİR koru.
+- NOKTALAMAYI KORU: cümle sonu nokta, virgül, iki nokta, tırnak ve ünlem
+  işaretlerini kaynaktaki gibi bırak. Bu metin seslendirilecek; noktalama
+  duraklamayı sağlıyor, noktalama olmayan metin yapay ve hızlı okunuyor.
 - Yorum, reklam ya da yeni bilgi ekleme.
 
 ÇIKTI: Her girdi paragrafı için bir kayıt üret: id = paragrafın sırası (1'den başlar),

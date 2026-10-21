@@ -103,10 +103,15 @@ def main():
             log(f"zaman butcesi doldu · {len(todo) - i + 1} haber sonraki kosuda")
             break
         body = " ".join(it.get("body") or [])
-        # Noktalama temizlenir, kısaltmalar yazıyla okunur (MESEM -> Mesem).
+        # Noktalama korunur (duraklama için); yalnızca modelin sesli okuduğu
+        # işaretler temizlenir ve kısaltmalar açılımlarıyla değiştirilir.
         text = clean_for_tts(f"{it['title']}. {body}")
         if len(text) > MAX_CHARS:
             text = text[:MAX_CHARS]
+            # Cümle ortasında kesme: son nokta/virgül sınırına kadar al.
+            cut = max(text.rfind(". "), text.rfind("! "), text.rfind("? "))
+            if cut > MAX_CHARS * 0.5:
+                text = text[: cut + 1]
         try:
             speech = tts.say(text, sample_rate=SAMPLE_RATE)
             pcm = np.asarray(speech.audio, dtype=np.float32)

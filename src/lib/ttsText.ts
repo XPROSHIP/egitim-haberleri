@@ -1,19 +1,42 @@
 /**
- * Seslendirme (TTS) metin temizleme — Python tarafının TypeScript karşılığı.
+ * Seslendirme (TTS) metin hazırlığı — Python tarafının TypeScript karşılığı.
  *
- * Tarayıcının seslendirmesi bazı noktalama işaretlerini sesli okuyor
- * ("nokta", "virgül") ve tam büyük harfli kısaltmaları harf harf söylüyor
- * (MESEM -> "Me Se E Me"). Bu modül metni okunur hâle getirir.
+ * EMA Lightning'in metin ön işleyicisi (normalizer_tr) davranışı:
+ *  · virgül, nokta, iki nokta, noktalı virgül, ünlem, soru işareti, tırnak,
+ *    parantez OLDUĞU GİBİ bırakılır — model bunları prozodi (duraklama)
+ *    için kullanır. Bunlar SİLİNMEZ.
+ *  · tire ("tire"), eğik çizgi ("eğik çizgi") gibi işaretleri SESLİ okur;
+ *    onlar sessiz karşılıklarıyla değiştirilir.
+ *  · sayı, tarih, saat, para, yüzde doğru okunur.
+ *  · kısaltmaları (ALES, KPSS...) harf harf okur; açılımlarıyla değiştirilir.
  */
 
+/** Kısaltmalar: sesli okunabilir açılımları. */
+const ACRONYMS: Record<string, string> = {
+  MESEM: 'Mesleki Eğitim Merkezi',
+  MEB: 'Milli Eğitim Bakanlığı',
+  'YÖK': 'Yükseköğretim Kurulu',
+  'ÖSYM': 'Öğrenci Seçme ve Yerleştirme Merkezi',
+  ALES: 'Akademik Personel ve Lisans Sınavı',
+  KPSS: 'Kamu Personeli Seçme Sınavı',
+  YKS: 'Yükseköğretim Kurulu Sınavı',
+  TYT: 'Temel Yerleştirme Testi',
+  AYT: 'Alan Yeterlilik Testi',
+  LGS: 'Liseye Geçiş Sınavı',
+  'AÖF': 'Açıköğretim Fakültesi',
+  'TYT/AYT': 'Temel ve Alan Yeterlilik Testleri',
+  'T.C.': 'Türkiye Cumhuriyeti',
+  SGK: 'Sosyal Güvenlik Kurumu',
+}
+
+/** Yanlış telaffüz düzeltmeleri. */
 const PRONUNCIATIONS: Record<string, string> = {
   karekökü: 'kare kökü',
   karekök: 'kare kök',
   karekökler: 'kare kökler',
+  karekok: 'kare kök',
   youtube: 'youtub',
   whatsapp: 'vatsap',
-  't.c.': 'T C',
-  'a.v.': 'A V',
   'vs.': 've benzeri',
   'vb.': 've benzeri',
   'örn.': 'örneğin',
@@ -25,80 +48,74 @@ const PRONUNCIATIONS: Record<string, string> = {
   'sn.': 'saniye',
   'dk.': 'dakika',
   'sa.': 'saat',
-  'gb': 'gigabayt',
-  'mb': 'megabayt',
-  'kb': 'kilobayt',
-  'tb': 'terabayt',
-  'tl': 'lira',
-  'usd': 'dolar',
-  'eur': 'euro',
-  'öğr.': 'öğrenci',
-  meb: 'Meb',
-  mesem: 'Mesem',
-  yök: 'Yök',
-  kpss: 'Kpss',
-  ösym: 'Ösym',
-  ales: 'Ales',
-  tyt: 'Tyt',
-  ayt: 'Ayt',
-  lgs: 'Lgs',
-  yks: 'Yks',
-  sks: 'Sks',
-  obn: 'Obn',
-  aime: 'Aime',
-  aöf: 'Aöf',
-  bilsem: 'Bilsem',
-  tübitak: 'Tübitak',
-  tubitak: 'Tübitak',
+  'sf.': 'sanfiyye',
+  gb: 'gigabayt',
+  mb: 'megabayt',
+  kb: 'kilobayt',
+  tb: 'terabayt',
+  tl: 'lira',
+  usd: 'dolar',
+  eur: 'euro',
 }
 
-const SYMBOLS: [string, string][] = [
-  ['%', ' yüzde '],
-  ['&', ' ve '],
-  ['+', ' artı '],
-  ['=', ' eşittir '],
-  ['@', ' at '],
+/** Modelin SESLİ okuduğu işaretler: sessiz karşılıkları. */
+const READ_ALOUD: [string, string][] = [
+  ['-', ' '],
+  ['–', ' '],
+  ['—', ' '],
+  ['−', ' '],
+  ['/', ' '],
+  ['\\', ' '],
+  ['|', ' '],
+  ['•', ', '],
+  ['·', ', '],
+  ['*', ' '],
   ['#', ' numara '],
-  ['€', ' avro '],
-  ['$', ' dolar '],
-  ['£', ' sterlin '],
-  ['°', ' derece '],
-  ['½', ' yarım '],
-  ['¼', ' çeyrek '],
-  ['×', ' çarpı '],
-  ['÷', ' bölü '],
-  ['±', ' artı eksi '],
-  ['→', ' yönünde '],
+  ['@', ' at '],
+  ['_', ' '],
+  ['…', '...'],
+  ['“', '"'],
+  ['”', '"'],
+  ['„', '"'],
+  ['«', '"'],
+  ['»', '"'],
+  ['‘', "'"],
+  ['’', "'"],
 ]
 
-const ROMAN = new Set(['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'])
-
-/** Tam büyük harfli kısaltmaları tek sözcük hâline getirir (MESEM -> Mesem). */
-function acronyms(text: string): string {
-  return text.replace(/[A-ZÇĞİÖŞÜ]{2,}/g, (word) => {
-    if (ROMAN.has(word)) return word
-    if (word.includes('-')) {
-      return word
-        .split('-')
-        .map((p) => (p.length > 1 ? p.charAt(0) + p.slice(1).toLowerCase() : p))
-        .join('-')
-    }
-    return word.charAt(0) + word.slice(1).toLowerCase()
-  })
-}
-
-/** Metni seslendirme için temizler: noktalama yok, kısaltmalar okunur. */
+/** Metni seslendirme için hazırlar. Noktalama korunur. */
 export function cleanForTts(text: string): string {
   if (!text) return ''
-  let out = text.toLocaleLowerCase('tr')
-  for (const [needle, rep] of Object.entries(PRONUNCIATIONS)) {
-    if (out.includes(needle)) out = out.split(needle).join(rep)
+  let out = String(text)
+
+  // 1) Kısaltmalar (büyük harfli hâliyle aranır)
+  for (const key of Object.keys(ACRONYMS).sort((a, b) => b.length - a.length)) {
+    if (!out.includes(key)) continue
+    const name = ACRONYMS[key]
+    // "Milli Eğitim Bakanlığı (MEB)" -> "Milli Eğitim Bakanlığı"
+    const re = new RegExp(
+      `([\\wÇĞİÖŞÜçğıöşü ,.'-]{0,80}?)\\s*\\(${key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\)`,
+      'g',
+    )
+    out = out.replace(re, (m, before: string) => {
+      const head = name.split(' ')[0].toLocaleLowerCase('tr')
+      return head && before.toLocaleLowerCase('tr').includes(head) ? before : m
+    })
+    out = out.split(key).join(name)
   }
-  for (const [sym, rep] of SYMBOLS) out = out.split(sym).join(rep)
-  out = acronyms(out)
-  // Noktalama ve tırnak işaretleri kaldırılır.
-  out = out.replace(/["“”„«»'‘’]/g, ' ')
-  out = out.replace(/[.,;:!?()[\]{}…/\\|]/g, ' ')
-  out = out.replace(/[-\u2013\u2014]+/g, ' ')
-  return out.replace(/\s+/g, ' ').trim()
+
+  // 2) Modelin sesli okuduğu işaretler
+  for (const [ch, rep] of READ_ALOUD) out = out.split(ch).join(rep)
+
+  // 3) Telaffüz düzeltmeleri (metni küçük harfe indirir)
+  let low = out.toLocaleLowerCase('tr')
+  for (const [needle, rep] of Object.entries(PRONUNCIATIONS)) {
+    if (low.includes(needle)) low = low.split(needle).join(rep)
+  }
+  out = low
+
+  // 4) Sayı sonrası nokta ("1. madde" -> "bir. madde" okunmasın)
+  out = out.replace(/(?<=\d)\.(?=\s|$)/g, ' ')
+
+  return out.replace(/[ \t]+/g, ' ').replace(/\n{3,}/g, '\n\n').trim()
 }
