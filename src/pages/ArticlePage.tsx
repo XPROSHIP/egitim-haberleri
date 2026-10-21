@@ -168,16 +168,12 @@ export function ArticlePage() {
             </figure>
           )}
 
-          {/* Tam metin — kaynaktan alındıysa başlık, değilse özet gövdesi */}
+          {/* Tam metin — kaynaktan alındıysa başlık, değilse özet gövdesi.
+              Kaynak bilgisi metnin sonundaki bağlantıda veriliyor. */}
           <div className="article-prose mt-8 space-y-5">
             {item.lang === 'en' && (
               <p className="border-l-2 border-line pl-4 text-[0.75rem] text-faint">
                 {item.source.name} · İngilizce kaynaktan çevrildi
-              </p>
-            )}
-            {item.fullText && item.lang !== 'en' && (
-              <p className="border-l-2 border-line pl-4 text-[0.75rem] text-faint">
-                {t('news.fullText')} · {item.source.name}
               </p>
             )}
             {item.body.map((p, i) =>

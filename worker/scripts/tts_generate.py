@@ -17,6 +17,9 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from tts_text import clean_for_tts  # noqa: E402
+
 API = os.environ.get("VITE_API_URL", "").rstrip("/")
 SECRET = os.environ.get("COLLECT_SECRET", "")
 SAMPLE_RATE = 24000
@@ -99,7 +102,8 @@ def main():
             log(f"zaman butcesi doldu · {len(todo) - i + 1} haber sonraki kosuda")
             break
         body = " ".join(it.get("body") or [])
-        text = f"{it['title']}. {body}"
+        # Noktalama temizlenir, kısaltmalar yazıyla okunur (MESEM -> Mesem).
+        text = clean_for_tts(f"{it['title']}. {body}")
         if len(text) > MAX_CHARS:
             text = text[:MAX_CHARS]
         try:

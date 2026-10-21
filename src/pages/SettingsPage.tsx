@@ -205,13 +205,18 @@ export function SettingsPage() {
   const onPushToggle = async (v: boolean) => {
     if (!pushSupported()) {
       setToast(t('settings.pushUnsupported'))
-      setTimeout(() => setToast(''), 2200)
+      setTimeout(() => setToast(''), 2600)
+      return
+    }
+    if (typeof Notification !== 'undefined' && Notification.permission === 'denied') {
+      setToast(t('settings.pushBlocked'))
+      setTimeout(() => setToast(''), 3200)
       return
     }
     const ok = v ? await enablePush(store.followed) : await disablePush()
     setPushOn(ok)
     setToast(ok ? t('settings.pushSaved') : t('settings.pushFailed'))
-    setTimeout(() => setToast(''), 2200)
+    setTimeout(() => setToast(''), 2600)
   }
 
   const themes: { key: ThemeMode; label: string; icon: string }[] = [
@@ -307,14 +312,10 @@ export function SettingsPage() {
           </div>
         </div>
         <div className="border-t border-line-soft p-4">
-          <p className="article-prose">
-            <span className="block text-[0.9375rem] font-semibold text-fg">
-              {t('settings.previewTitle')}
-            </span>
-          </p>
-          <p className="article-prose mt-1">
-            <span className="block text-[0.8125rem] text-muted">{t('settings.previewBody')}</span>
-          </p>
+          <div className="article-prose">
+            <p className="text-[0.9375rem] font-semibold text-fg">{t('settings.previewTitle')}</p>
+            <p className="text-[0.8125rem] text-muted">{t('settings.previewBody')}</p>
+          </div>
         </div>
       </Group>
 

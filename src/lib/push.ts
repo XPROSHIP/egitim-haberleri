@@ -34,11 +34,18 @@ export function isPushEnabled(): boolean {
   )
 }
 
-/** Service worker'ı kaydeder (yoksa). */
+/** Service worker'ı kaydeder ve aktif olmasını bekler. */
 export async function registerWorker(): Promise<ServiceWorkerRegistration | null> {
   if (!pushSupported()) return null
   try {
-    return await navigator.serviceWorker.register('/sw.js', { scope: '/' })
+    const reg = await navigator.serviceWorker.register('/sw.js', { scope: '/' })
+    // Abonelik için worker'ın "active" olması gerekiyor.
+    if (reg.active && reg.active.state === 'activated') return reg
+    await Promise.race([
+      navigator.serviceWorker.ready,
+      new Promise((r) => setTimeout(r, 4000)),
+    ])
+    return reg
   } catch {
     return null
   }
@@ -47,35 +54,55 @@ export async function registerWorker(): Promise<ServiceWorkerRegistration | null
 /** Bildirimleri açar ve Worker'a abone olur. */
 export async function enablePush(categories: string[] = []): Promise<boolean> {
   if (!pushSupported()) return false
-  const permission = await Notification.requestPermission()
+  if (typeof Notification === 'undefined') return false
+
+  let permission = Notification.permission
+  if (permission === 'default') {
+    try {
+      permission = await Notification.requestPermission()
+    } catch {
+      return false
+    }
+  }
   if (permission !== 'granted') return false
 
   const reg = await registerWorker()
   if (!reg) return false
 
-  const res = await fetch(`${API}/api/push/key`)
-  const { publicKey } = (await res.json()) as { publicKey: string }
+  let publicKey = ''
+  try {
+    const res = await fetch(`${API}/api/push/key`)
+    const data = (await res.json()) as { publicKey?: string }
+    publicKey = data.publicKey ?? ''
+  } catch {
+    return false
+  }
   if (!publicKey) return false
 
-  const existing = await reg.pushManager.getSubscription()
-  const sub =
-    existing ??
-    (await reg.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(publicKey) as unknown as BufferSource,
-    }))
+  try {
+    const existing = await reg.pushManager.getSubscription()
+    const sub =
+      existing ??
+      (await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(publicKey) as unknown as BufferSource,
+      }))
 
-  await fetch(`${API}/api/push/subscribe`, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
-      endpoint: sub.endpoint,
-      keys: sub.toJSON().keys,
-      categories,
-    }),
-  })
-  localStorage.setItem('eh.push.enabled', '1')
-  return true
+    const res = await fetch(`${API}/api/push/subscribe`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        endpoint: sub.endpoint,
+        keys: sub.toJSON().keys,
+        categories,
+      }),
+    })
+    if (!res.ok) return false
+    localStorage.setItem('eh.push.enabled', '1')
+    return true
+  } catch {
+    return false
+  }
 }
 
 /** Aboneliği kaldırır. */

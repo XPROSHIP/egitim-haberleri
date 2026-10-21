@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import type { NewsItem } from '../types'
 import { Icon } from './Icon'
 import { audioUrlFor } from '../lib/api'
+import { cleanForTts } from '../lib/ttsText'
 
 type Voice = SpeechSynthesisVoice
 
@@ -28,6 +29,13 @@ function rankVoices(voices: Voice[]): Voice[] {
 /** Okuma hızları. 0,9 çok ağırdı; en hızlı seçenek 2×. */
 const RATES = [1, 1.25, 1.5, 2]
 
+/** Saniyeyi "d:sn" biçimine çevirir. */
+function formatTime(seconds: number): string {
+  const s = Math.max(0, Math.round(seconds))
+  const m = Math.floor(s / 60)
+  return `${m}:${String(s % 60).padStart(2, '0')}`
+}
+
 /**
  * Haber seslendirici.
  *
@@ -42,6 +50,7 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
   const [rate, setRate] = useState(1)
   const [progress, setProgress] = useState(0)
   const [mode, setMode] = useState<'audio' | 'tts'>('tts')
+  const [currentTime, setCurrentTime] = useState(0)
   const utterRef = useRef<SpeechSynthesisUtterance | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const cancelRef = useRef(false)
@@ -50,7 +59,7 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
 
   const script = useMemo(() => {
     const body = item.fullText ? item.body : [item.excerpt]
-    return `${item.title}. ${body.join(' ')} Kaynak: ${item.source.name}.`
+    return cleanForTts(`${item.title}. ${body.join(' ')}`)
   }, [item])
 
   useEffect(() => {
@@ -73,12 +82,30 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
     cancelRef.current = true
     setState('idle')
     setProgress(0)
+    setCurrentTime(0)
     window.speechSynthesis?.cancel()
     if (audioRef.current) {
       audioRef.current.pause()
       audioRef.current.currentTime = 0
     }
   }, [item.id])
+
+  // Hazır ses oynarken geçen süreyi takip et
+  useEffect(() => {
+    if (state !== 'playing' || mode !== 'audio') return
+    const el = audioRef.current
+    if (!el) return
+    const onTime = () => setCurrentTime(el.currentTime)
+    el.addEventListener('timeupdate', onTime)
+    return () => el.removeEventListener('timeupdate', onTime)
+  }, [state, mode])
+
+  // Tarayıcı seslendirmesinde süreyi saniyelik say (kalan süre göstergesi)
+  useEffect(() => {
+    if (state !== 'playing' || mode !== 'tts') return
+    const timer = window.setInterval(() => setCurrentTime((c) => c + 1), 1000)
+    return () => window.clearInterval(timer)
+  }, [state, mode])
 
   const stop = useCallback(() => {
     cancelRef.current = true
@@ -87,6 +114,7 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
     if (audioRef.current) audioRef.current.currentTime = 0
     setState('idle')
     setProgress(0)
+    setCurrentTime(0)
   }, [])
 
   /* --- Sunucuda hazır olan ses --- */
@@ -182,9 +210,16 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
   const supported =
     typeof window !== 'undefined' && ('speechSynthesis' in window || Boolean(audioUrl))
 
-  const durationLabel = item.audioDuration
-    ? `${Math.round(item.audioDuration)} sn`
-    : null
+  // Süre bilgisi: hazır seste sunucudan, tarayıcı sesinde metin uzunluğundan.
+  const estimatedSeconds = useMemo(
+    () => Math.round(script.length / 14), // Türkçe TTS için yaklaşık 14 karakter/saniye
+    [script],
+  )
+  const totalSeconds =
+    mode === 'audio'
+      ? (audioRef.current?.duration || item.audioDuration || 0)
+      : estimatedSeconds
+  const remaining = Math.max(0, Math.round(totalSeconds - currentTime))
 
   return (
     <div className={clsx('rounded-xl border border-line bg-surface p-3.5', className)}>
@@ -203,12 +238,18 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
           <p className="text-[0.8125rem] font-semibold text-fg">
             {state === 'idle' ? 'Haberi dinle' : state === 'playing' ? 'Okunuyor…' : 'Duraklatıldı'}
           </p>
-          <p className="truncate text-[0.6875rem] text-faint">
-            {mode === 'audio'
-              ? `Sentezlenmiş Türkçe ses${durationLabel ? ` · ${durationLabel}` : ''}`
-              : audioUrl
-                ? (voices[voiceIdx]?.name ?? (supported ? 'Türkçe ses bulunamadı' : 'Desteklenmiyor'))
-                : 'Tarayıcı sesi · hazırlanan ses bir sonraki turda gelir'}
+          <p className="tnum truncate text-[0.6875rem] text-faint">
+            {totalSeconds > 0 ? (
+              <>
+                {formatTime(totalSeconds)} · {state === 'idle' ? 'kaldı' : `${formatTime(remaining)} kaldı`}
+              </>
+            ) : mode === 'audio' ? (
+              'Sentezlenmiş ses'
+            ) : audioUrl ? (
+              (voices[voiceIdx]?.name ?? (supported ? 'Türkçe ses bulunamadı' : 'Desteklenmiyor'))
+            ) : (
+              'Tarayıcı sesi · hazırlanan ses bir sonraki turda gelir'
+            )}
           </p>
           <div className="mt-1.5 h-[3px] overflow-hidden rounded-full bg-surface-3">
             <div

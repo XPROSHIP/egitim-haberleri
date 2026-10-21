@@ -135,6 +135,41 @@ function splitLead(html) {
 }
 
 /**
+ * Sayfanın karakter kodlamasını belirler.
+ *
+ * Bazı yayıncılar (ör. star.com.tr) ISO-8859-9/windows-1254 kullanıyor;
+ * "res.text()" UTF-8 varsaydığı için karakterler bozuk çıkıyordu
+ * ("Bakanl��ktan yap��lan a��klamaya g��re").
+ */
+function decodeHtml(buf, contentType) {
+  const bytes = new Uint8Array(buf)
+  const candidates = []
+  const fromHeader = /charset=["']?([\w-]+)/i.exec(contentType ?? '')?.[1]
+  if (fromHeader) candidates.push(fromHeader)
+
+  // Meta etiketlerini ilk 2 KB'de ara
+  const head = new TextDecoder('utf-8', { fatal: false }).decode(bytes.subarray(0, 2048))
+  const metaCharset =
+    /<meta[^>]+charset=["']?([\w-]+)/i.exec(head)?.[1] ??
+    /<meta[^>]+content=["'][^"']*charset=([\w-]+)/i.exec(head)?.[1]
+  if (metaCharset) candidates.push(metaCharset)
+
+  candidates.push('utf-8', 'windows-1254', 'iso-8859-9')
+
+  for (const label of candidates) {
+    try {
+      const text = new TextDecoder(label, { fatal: false }).decode(bytes)
+      // U+FFFD (bozuk karakter) çok fazlaysa bu kodlama doğru değildir.
+      const broken = (text.match(/�/g) ?? []).length
+      if (broken < 5) return text
+    } catch {
+      /* bilinmeyen etiket */
+    }
+  }
+  return new TextDecoder('utf-8', { fatal: false }).decode(bytes)
+}
+
+/**
  * Haber sayfasını okur.
  * @returns {{image:string|null, paragraphs:string[], description:string|null, siteName:string|null}}
  */
@@ -152,7 +187,7 @@ export async function fetchArticle(url, { timeoutMs = 15000 } = {}) {
       headers: { 'user-agent': UA, accept: 'text/html,application/xhtml+xml' },
     })
     if (!res.ok) return { image: null, paragraphs: [], description: null, siteName: null }
-    const html = await res.text()
+    const html = decodeHtml(await res.arrayBuffer(), res.headers.get('content-type'))
 
     const image = meta(
       html,

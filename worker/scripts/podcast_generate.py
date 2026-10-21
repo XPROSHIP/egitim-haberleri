@@ -2,11 +2,13 @@
 """
 ZENPOD Eğitim — günlük ses bülteni.
 
-Günün haberlerinin hazır seslerini, açılış ve kapanış cümleleriyle
-birleştirip tek bir MP3 bölüm haline getirir ve Worker'a yükler.
+Günün haberlerini ucuz modele (flash-lite) okutup SAMİMİ, enerjik bir
+bülten metni yazdırır, sonra o metni EMA Lightning ile sese çevirip
+Worker'a yükler. Düz haber metni okunmaz; editörün yazdığı bir metin
+okunur.
 
-Açılış ve kapanış metni sıcak ve samimi: siteyi tanıtır, takip ve yorum
-çağrısında bulunur.
+Açılışta ve kapanışta site (Eğitim Haberleri) tanıtılır, okuyucudan takip
+etme ve yorumla destekleme istenir.
 
 GitHub Actions'ta çalışır (EMA Lightning kurulu olduğunda):
     python worker/scripts/podcast_generate.py
@@ -19,28 +21,18 @@ import time
 import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from tts_text import clean_for_tts  # noqa: E402
 
 API = os.environ.get("VITE_API_URL", "").rstrip("/")
 SECRET = os.environ.get("COLLECT_SECRET", "")
+KEYS = [k.strip() for k in os.environ.get("GEMINI_API_KEYS", "").split(",") if k.strip()]
 SAMPLE_RATE = 24000
-# Bölüm kısa ve öz olsun: en fazla 4 haber, toplam en fazla ~5,5 dakika.
-# (Ses yükleme sınırı nedeniyle daha uzun bölümler tek dosyaya sığmıyor.)
-MAX_ARTICLES = 4
-MAX_SECONDS = 330
-
-INTRO = (
-    "Merhaba, ZENPOD Eğitim'e hoş geldiniz. Her gün eğitim gündeminden öne çıkan "
-    "haberleri sizin için hazırlıyoruz. Mesleki eğitimden Milli Eğitim Bakanlığı'na, "
-    "Çorum'dan yabancı eğitim gündemine kadar. Bütün haberler Eğitim Haberleri "
-    "sitemizde yayımlanıyor; sitemizi takip edin, beğendiğiniz haberlere yorum yazarak "
-    "bizi destekleyin. Şimdi günün haberlerine geçelim."
-)
-
-OUTRO = (
-    "ZENPOD Eğitim'i dinlediğiniz için teşekkür ederiz. Bugünün haberleri Eğitim "
-    "Haberleri sitesinde sizi bekliyor. Yeni bölümler için bizi takip edin, "
-    "yorumlarınızı bırakmayı unutmayın. Görüşmek üzere."
-)
+# Bölüm kısa ve öz olsun (ses yükleme sınırı): en fazla ~7 dakika.
+MAX_SECONDS = 420
+MAX_WORDS = 950
 
 if not API or not SECRET:
     print("VITE_API_URL / COLLECT_SECRET eksik", file=sys.stderr)
@@ -101,6 +93,85 @@ def upload(article_id, data: bytes, duration: float):
         return res.status
 
 
+# ── Bülten metnini model yazsın ────────────────────────────────────────────
+
+SCRIPT_SYSTEM = """Sen "ZENPOD Eğitim" sesli bülteninin yazarısın. Türkiye'nin eğitim
+gündemini dinleyenlere, bugünün haberlerini sıcak ve enerjik bir dille anlatırsın.
+
+KURALLAR:
+- Metin 600 ile 900 kelime arasında olsun.
+- YALNIZCA sana verilen başlık ve özetlere dayan. Uydurma bilgi, sayı, tarih veya kurum adı ekleme.
+- En önemli haberden başla, sonra önem sırasına göre devam et. Her haber için 2 ila 4 cümle yaz:
+  ne oldu, neden önemli, kimlerin ilgilenmesi gerekir.
+- Haberler arasında doğal geçiş cümleleri kur: "Şimdi Milli Eğitim Bakanlığı'ndan bir duyuru",
+  "Çorum'dan gelen bir başka haber", "Yabancı kaynaklardan gelen son gelişme" gibi.
+- Aynı konudaki haberleri birleştir, tek tek tekrar etme.
+- Kısaltmaları tek heceyle yaz: MESEM, MEB, YÖK, ALES, KPSS. Sayıları rakam olarak yaz.
+- Hiçbir madde işareti, başlık işareti, bağlantı, hashtag veya noktalama kullanma. Düz, konuşma dilinde yaz.
+- Başta dinleyenleri selamla ve bültenin konusunu bir cümleyle söyle.
+- Sonda dinleyicilere şunu söyle: haberlerin tamamı Eğitim Haberleri sitesinde yayımlandı, siteyi takip etsinler
+  ve yorumlarla destek versinler. Kapanış samimi olsun, acele etmeyen bir tonda bitsin.
+- Yalnızca bülten metnini yaz; başka hiçbir şey yazma."""
+
+
+def write_script(items):
+    """Gemini'ye bülten metnini yazdırır. Başarısız olursa None."""
+    if not KEYS:
+        log("GEMINI_API_KEYS yok, bülten metni üretilemiyor")
+        return None
+    payload = "\n\n".join(
+        f"{i + 1}. BAŞLIK: {it['title']}\n   ÖZET: {(it.get('excerpt') or '')[:300]}"
+        for i, it in enumerate(items)
+    )
+    body = {
+        "systemInstruction": {"parts": [{"text": SCRIPT_SYSTEM}]},
+        "contents": [
+            {
+                "role": "user",
+                "parts": [
+                    {
+                        "text": (
+                            f"Bugünün eğitim haberleri ({len(items)} haber):\n\n{payload}\n\n"
+                            "Bugünkü ZENPOD Eğitim bültenini yaz."
+                        )
+                    }
+                ],
+            }
+        ],
+        "generationConfig": {
+            "temperature": 0.7,
+            "maxOutputTokens": 4096,
+        },
+    }
+    for model in ("gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-3.5-flash"):
+        for key in KEYS:
+            try:
+                url = (
+                    "https://generativelanguage.googleapis.com/v1beta/models/"
+                    f"{model}:generateContent?key={key}"
+                )
+                req = urllib.request.Request(
+                    url,
+                    data=json.dumps(body).encode("utf-8"),
+                    method="POST",
+                    headers={"content-type": "application/json"},
+                )
+                with urllib.request.urlopen(req, timeout=120) as res:
+                    data = json.loads(res.read().decode("utf-8"))
+                text = (
+                    data.get("candidates", [{}])[0]
+                    .get("content", {})
+                    .get("parts", [{}])[0]
+                    .get("text", "")
+                )
+                if text and len(text.split()) > 120:
+                    log(f"bülten metni yazıldı ({model}, {len(text.split())} kelime)")
+                    return text
+            except Exception:
+                continue
+    return None
+
+
 def main():
     if os.environ.get("PODCAST_DISABLED") == "1":
         log("kapalı (PODCAST_DISABLED=1)")
@@ -126,76 +197,61 @@ def main():
         it
         for it in items
         if it.get("id")
-        and it.get("hasAudio")
+        and it.get("title")
         and it.get("publishedAt")
         and (datetime.fromisoformat(it["publishedAt"].replace("Z", "+00:00")).timestamp() * 1000)
         >= cutoff
     ]
     todays.sort(key=lambda x: x.get("publishedAt") or "", reverse=True)
-    todays = todays[:MAX_ARTICLES]
-
+    todays = todays[:12]
     if not todays:
-        log("bugüne ait sesli haber yok, bölüm üretilmedi")
+        log("bugüne ait haber yok, bölüm üretilmedi")
         return
 
-    log(f"{len(todays)} haber seçildi")
-    for it in todays:
-        log(f"  · {it['title'][:70]}")
+    log(f"{len(todays)} haber bulundu")
 
+    # 1) Bülten metnini model yazsın
+    script = write_script(todays)
+    if not script:
+        log("bülten metni üretilemedi, atlanıyor")
+        return
+
+    # 2) Sese çevir (noktalama temizlenmiş hâli)
     from ema_lightning import EMA
     import numpy as np
     import soundfile as sf
 
     tts = EMA()
+    spoken = clean_for_tts(script)
+    words = spoken.split()
+    if len(words) > MAX_WORDS:
+        spoken = " ".join(words[:MAX_WORDS])
+    log(f"seslendirilecek metin: {len(spoken.split())} kelime")
 
-    def synth(text, cache_id):
-        """Metni sese çevirir; aynı metin için önbellek kullanır."""
-        cached = fetch_audio(cache_id)
-        if cached:
-            return cached, 0
-        speech = tts.say(text, sample_rate=SAMPLE_RATE)
-        pcm = np.asarray(speech.audio, dtype=np.float32)
-        buf = io.BytesIO()
-        sf.write(buf, pcm, SAMPLE_RATE, format="MP3")
-        data_bytes = buf.getvalue()
-        upload(cache_id, data_bytes, speech.duration)
-        return data_bytes, speech.duration
+    try:
+        speech = tts.say(spoken, sample_rate=SAMPLE_RATE)
+    except Exception as exc:  # noqa: BLE001
+        log(f"ses sentezi başarısız: {str(exc)[:120]}")
+        return
 
-    intro_bytes, intro_dur = synth(INTRO, "zenpod-intro")
-    log(f"açılış hazır ({intro_dur:.0f} sn)")
+    pcm = np.asarray(speech.audio, dtype=np.float32)
+    buf = io.BytesIO()
+    sf.write(buf, pcm, SAMPLE_RATE, format="MP3")
+    episode = buf.getvalue()
+    total = speech.duration
+    log(f"bölüm hazır: {total:.0f} sn · {len(episode) / 1024:.0f} KB")
 
-    parts = [(intro_bytes, intro_dur)]
-    total = intro_dur
-    used = []
-    for it in todays:
-        audio = fetch_audio(it["id"])
-        if not audio:
-            continue
-        dur = float(it.get("audioDuration") or 0)
-        if total + dur > MAX_SECONDS:
-            continue
-        parts.append((audio, dur))
-        total += dur
-        used.append(it)
-        if len(used) >= MAX_ARTICLES:
-            break
-
-    outro_bytes, outro_dur = synth(OUTRO, "zenpod-outro")
-    parts.append((outro_bytes, outro_dur))
-    total += outro_dur
-    log(f"kapanış hazır ({outro_dur:.0f} sn)")
-
-    episode = b"".join(p[0] for p in parts)
-    log(f"bölüm: {len(used)} haber · {total:.0f} sn · {len(episode)/1024:.0f} KB")
+    if total > MAX_SECONDS * 1.4:
+        log("bölüm çok uzun, atlanıyor")
+        return
 
     try:
         upload(episode_id, episode, total)
     except Exception as exc:  # noqa: BLE001
-        # Bölüm yüklenemezse iş akışı durmasın; bir sonraki turda tekrar dener.
         log(f"bölüm yüklenemedi: {str(exc)[:120]}")
         return
 
-    headlines = "\n".join(f"• {it['title']}" for it in used)
+    headlines = "\n".join(f"• {it['title']}" for it in todays[:6])
     description = (
         f"ZENPOD Eğitim — {now.strftime('%d.%m.%Y')} günün eğitim haberleri.\n\n"
         f"{headlines}\n\n"

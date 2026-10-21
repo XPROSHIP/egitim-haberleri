@@ -20,7 +20,7 @@ import { fetchSectionLinks } from './section.js'
 import { dedupeKey, similarity, slugify, hash, normalizeTitleCase, foldWord } from './text.js'
 import { scoreItem, detectCategory, detectProvince, detectExtraTags } from './classify.js'
 import { collectForeign } from './foreign.js'
-import { createGemini, enrichWithGemini } from './gemini.js'
+import { createGemini, enrichWithGemini, cleanBodies } from './gemini.js'
 import { fetchArticle } from './article.js'
 
 const MAX_SECTION_FETCH = 45 // tur başına açılacak en fazla bölüm bağlantısı
@@ -306,6 +306,27 @@ export async function collect({
         }
       }),
     )
+  }
+
+  // 7b) Gövde temizliği: reklam, "ilgili haberler" ve benzeri kalıntılar
+  // ucuz modelle (flash-lite) toplu hâlde ayıklanır. Metnin özü korunur,
+  // sadece çöp temizlenir — sesli okuma da böylece temiz olur.
+  if (enrich) {
+    try {
+      const cleaner = createGemini(keys, ['gemini-3.5-flash-lite', 'gemini-3.1-flash-lite'])
+      const cleaned = await cleanBodies(cleaner, clusters)
+      let changed = 0
+      for (const c of clusters) {
+        const next = cleaned.get(c.key)
+        if (next) {
+          c.paragraphs = next
+          changed++
+        }
+      }
+      if (changed) logger.log(`[collect] ${changed} haberin metni temizlendi`)
+    } catch (err) {
+      run.errors.push(`temizleme: ${String(err?.message ?? err).slice(0, 90)}`)
+    }
   }
 
   // 8) Görseli olmayanlar yayınlanmaz

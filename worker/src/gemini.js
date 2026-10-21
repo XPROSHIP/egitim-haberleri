@@ -117,6 +117,83 @@ BAŞLIK ÖRNEKLERİ (doğru biçim):
   ✗ "Milli Eğitim Bakanlığı 2026-2027 Öğretmen Ataması Takvimini Açıkladı" (her kelime büyük harf olmaz)
 JSON dizisi döndür; id alanı girdi numarasıyla aynı olmalı.`
 
+const CLEAN_SCHEMA = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      id: { type: 'integer' },
+      paragraphs: { type: 'array', items: { type: 'string' } },
+    },
+    required: ['id', 'paragraphs'],
+  },
+}
+
+const CLEAN_SYSTEM = `Sen Türkiye eğitim basınının editörüsün. Haber sayfalarından kopyalanan metinlerde
+çöp vardır: reklamlar, "ilgili haberler", "en çok okunanlar", başka haberlerin başlıkları, yazar künyesi,
+paylaşım butonları, çerez bildirimi, canlı yayın kutusu, " haberin devamı", kaynakça, reklam etiketleri.
+
+GÖREV: Metni temizle.
+- Haberin özünü, olay öğelerini, sayıları, tarihleri, yer adlarını, alıntıları ve kurum adlarını KORU.
+- Metni KISALTMA. Alaksız girdileri çıkar; cümleleri düzgün Türkçeye getir.
+- Her paragrafı ayrı paragraf olarak koru; boş paragraf bırakma.
+- Yorum, reklam ya da yazar ekleme. Haber dışı hiçbir şey ekleme.
+JSON dizisi döndür; id alanı girdi numarasıyla aynı olmalı.`
+
+/**
+ * Haber gövdelerini toplu hâlde temizler.
+ *
+ * Kaynak sayfalarda reklam, "ilgili haberler" ve benzeri kalıntılar
+ * bulunuyor; bunlar hem metni bozuyor hem de sesli okumada okunuyor.
+ * Ucuz model (flash-lite) toplu çalışıyor.
+ *
+ * @param {Array<{paragraphs?:string[]}>} clusters
+ * @returns {Promise<Map<string,string[]>>} id -> temiz paragraflar
+ */
+export async function cleanBodies(gemini, clusters) {
+  const targets = clusters.filter((c) => (c.paragraphs?.length ?? 0) >= 2)
+  if (targets.length === 0) return new Map()
+
+  const out = new Map()
+  const BATCH = 8
+  for (let i = 0; i < targets.length; i += BATCH) {
+    const chunk = targets.slice(i, i + BATCH)
+    const input = chunk
+      .map((c, j) => `${j + 1}. BAŞLIK: ${c.title}\n   METİN:\n${c.paragraphs.join('\n')}`)
+      .join('\n\n')
+    try {
+      const data = await gemini.call({
+        systemInstruction: { parts: [{ text: CLEAN_SYSTEM }] },
+        contents: [{ role: 'user', parts: [{ text: `${input}\n\n${chunk.length} haber temizle.` }] }],
+        generationConfig: {
+          temperature: 0.1,
+          maxOutputTokens: 16384,
+          responseMimeType: 'application/json',
+          responseSchema: CLEAN_SCHEMA,
+        },
+      })
+      const byId = new Map(chunk.map((c, j) => [j + 1, c]))
+      for (const d of Array.isArray(data) ? data : []) {
+        const c = byId.get(d.id)
+        if (!c || !Array.isArray(d.paragraphs) || d.paragraphs.length === 0) continue
+        const clean = d.paragraphs
+          .map((p) => String(p ?? '').trim())
+          .filter((p) => p.length >= 60)
+        // Temizlenmiş metin, orijinalin en az yarısı kadar olmalı; değilse
+        // model metni gereksiz yere kısaltmış demektir, orijinali koru.
+        const origChars = c.paragraphs.join(' ').length
+        const newChars = clean.join(' ').length
+        if (clean.length >= 2 && newChars >= origChars * 0.5) {
+          out.set(c.key, clean)
+        }
+      }
+    } catch {
+      /* temizleme başarısız olursa orijinal metin korunur */
+    }
+  }
+  return out
+}
+
 export async function enrichWithGemini(gemini, clusters) {
   if (clusters.length === 0) return []
 
