@@ -1,5 +1,74 @@
 [
   {
+    "id": "n_jqg8p3_mvilliyn",
+    "slug": "i-skilip-mesleki-ve-teknik-anadolu-lisesinde-yeni-cnc-makineleri-hizmete-10eku4",
+    "title": "İskilip Mesleki ve Teknik Anadolu Lisesinde yeni cnc Makineleri Hizmete girdi",
+    "excerpt": "İskilip Mesleki ve Teknik Anadolu Lisesine hayırsever iş insanları İsmet Kuşgöz ve İsmail Kuşgöz'ün katkılarıyla kazandırılan iki adet CNC makinesinin açılışı gerçekleştirildi. Tören kapsamında okul atölyelerinde yürütülen yenileme çalışmalarının tanıtım programı da düzenlendi.",
+    "body": [
+      "Çorum'un İskilip ilçesinde bulunan Mesleki ve Teknik Anadolu Lisesinde hayırsever iş insanları İsmet Kuşgöz ve İsmail Kuşgöz'ün destekleriyle temin edilen iki adet CNC makinesi hizmete sunuldu. Açılış töreninde torna ve freze makinelerinin yanı sıra okul atölyelerinde tamamlanan yenileme çalışmaları katılımcılara tanıtıldı.",
+      "Düzenlenen tanıtım programına Çorum Valisi Ali Çalgan da katılım sağladı. Gerçekleştirilen yatırımlarla birlikte okulun mesleki eğitim altyapısının güçlendirilmesi hedefleniyor."
+    ],
+    "category": "mesem",
+    "tags": [
+      "ÇORUM",
+      "İSKİLİP",
+      "MESLEKİ EĞİTİM",
+      "CNC MAKİNESİ",
+      "mesem"
+    ],
+    "source": {
+      "name": "Çorum İl MEB",
+      "url": "https://corum.meb.gov.tr/www/iskilipte-mesleki-egitime-guclu-destek-cnc-makineleri-hizmete-acildi/icerik/4241",
+      "image": "/img/iskilip-te-mesleki-e-itime-g-l-destek-cnc-makineleri-hizmete-r4itou.jpg"
+    },
+    "publishedAt": "2026-10-21T19:41:42.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": true,
+    "province": "Çorum",
+    "fullText": false,
+    "score": 10,
+    "dedupeKey": "10eku4t",
+    "rawTitle": "İSKİLİP'TE MESLEKİ EĞİTİME GÜÇLÜ DESTEK: CNC MAKİNELERİ HİZMETE AÇILDI",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
+    "id": "f_fywpsl_mvillppd",
+    "slug": "yabanci-egitim-bakanligi-kozmetoloji-akreditasyon-kurumunun-yeni-uye-fywpsl",
+    "title": "Eğitim Bakanlığı Kozmetoloji Akreditasyon Kurumunun Yeni Üye Alımını Kısıtladı",
+    "excerpt": "Eğitim Bakanlığı, NACCAS adlı akreditasyon kurumunun yeni üye eklemesini yasakladı ve kurum hakkında uyarıda bulundu.",
+    "body": [
+      "NACCAS, kozmetoloji programları dahil olmak üzere 1.000'den fazla programı ve kurumu akredite etmektedir. Eğitim Bakanlığı çarşamba günü yaptığı açıklamada, kurumun yeni üye eklemesini yasaklayacağını ve uyumluluk sorunlarını çözmemesi halinde daha ağır cezalarla karşılaşabileceğini duyurdu.",
+      "Bu kısıtlama, Temmuz ayında Ulusal Kurumsal Kalite ve Bütünlük Danışma Komitesi ile yaşanan gerginliğin ardından geldi. Kurul üyeleri, şeffaflık eksikliği ve zayıf öğrenci çıktıları nedeniyle NACCAS yetkililerini sorguya çekmişti.",
+      "Temmuz toplantısında NACIQI üyeleri, NACCAS'ın federal tanınırlığının kaldırılmasını önlemek için oy kullanmıştı. Federal olarak tanınan bir ajanstan alınan akreditasyon, kurumlar ve programlar için federal öğrenci yardımlarına erişimin kilidini açabilmektedir."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "AKREDİTASYON",
+      "EĞİTİM BAKANLIĞI",
+      "KOZMETOLOJİ"
+    ],
+    "source": {
+      "name": "Inside Higher Ed",
+      "url": "https://www.insidehighered.com/news/governance/accreditation/2026/10/21/ed-restricts-membership-cosmetology-accreditor",
+      "image": "/img/ed-restricts-membership-for-cosmetology-accreditor-riar1f.jpg"
+    },
+    "publishedAt": "2026-10-21T18:55:56.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:fywpsl",
+    "rawTitle": "ED Restricts Membership for Cosmetology Accreditor",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "n_1j06uhc_mvig8uar",
     "slug": "acik-ogretim-lisesi-2026-2027-egitim-ogretim-yili-1-donem-sinav-takvimi--k3z5c3",
     "title": "Açık Öğretim Lisesi 2026-2027 Eğitim Öğretim Yılı 1. dönem sınav takvimi belli oldu",
@@ -4193,6 +4262,49 @@
     "audioDuration": 48.45
   },
   {
+    "id": "n_1ehq3t9_mvilliyp",
+    "slug": "yok-dijital-universite-platformu-uzerinden-16-ucretsiz-egitim-icin-basvu-b6d82b",
+    "title": "YÖK dijital Üniversite platformu üzerinden 16 ücretsiz eğitim için başvurular başladı",
+    "excerpt": "YÖK Dijital Üniversite Platformu kapsamında üniversite şartı aranmaksızın sunulan 16 ücretsiz eğitim için başvuru süreci başladı. Adaylar başvurularını 14 Ekim ile 20 Ekim tarihleri arasında yapabilecek.",
+    "body": [
+      "YÖK’ün Dijital Üniversite Platformu için başvurular bugün saat 17.00’de açılıyor. Yapay zeka, veri analizi ve sürdürülebilirlik alanlarında 16 ücretsiz çevrim içi modül sunulacak. 18 yaşını dolduran adaylar, herhangi bir ön koşul olmadan 20 Ekim’e kadar en fazla iki modül için başvuru yapabilecek.",
+      "Yükseköğretim Kurulunun (YÖK) üniversitelerdeki akademik birikimi daha geniş kesimlere ulaştırmak amacıyla hayata geçirdiği Dijital Üniversite Platformu'nda başvuru süreci bugün başlıyor. Saat 17.00'de açılacak başvuru ekranı, 20 Ekim'e kadar açık kalacak.",
+      "## BAŞVURULAR BUGÜN SAAT 17.00'DA AÇILACAK",
+      "Geçen yıl Veri Analizi Okulu adıyla başlatılan program, kapsamının genişletilmesiyle 2026-2027 akademik yılında Dijital Üniversite Platformu adı altında devam edecek. Başvurular 14 Ekim Çarşamba günü saat 17.00'de başlayacak ve 20 Ekim saat 23.59'da sona erecek.",
+      "Programa katılmak isteyenler, dijitaluniversiteplatformu.org adresi üzerinden başvurularını yapabilecek. Kontenjanların sınırlı olduğu platformda başvuru ve eğitim süreci için herhangi bir ücret alınmayacak.",
+      "## ÜÇ OKULDA 16 EĞİTİM MODÜLÜ SUNULACAK",
+      "Platform, farklı alanlarda kendini geliştirmek isteyen adayları üç ayrı okul çatısı altında buluşturacak. Yapay zekadan istatistiğe, iklim politikalarından temiz enerji teknolojilerine kadar uzanan eğitim programı hem akademik hem de mesleki gelişime katkı sağlamayı hedefliyor.",
+      "## Yapay Zeka Okulu:",
+      "Makine öğrenmesi, yapay zeka araçlarının kullanımı ve modern yazılım geliştirme alanlarında üç modül sunulacak.",
+      "## Veri Analizi Okulu:",
+      "Temel istatistik, panel veri, hesaplamalı sosyal bilimler, dijital beşeri bilimler, psikometri, biyoistatistik ve veri analitiği başlıklarında yedi modül yer alacak.",
+      "## Yeşil Dönüşüm ve Sürdürülebilirlik Okulu:",
+      "İklim değişikliği ve küresel politikalar, kurumsal sürdürülebilirlik, çevresel sürdürülebilirlik, döngüsel ekonomi ve sürdürülebilir finans ekosistemi, sosyal sürdürülebilirlik ve temiz enerji teknolojileri olmak üzere altı modül açılacak."
+    ],
+    "category": "universite",
+    "tags": [
+      "YÖK",
+      "DİJİTAL ÜNİVERSİTE",
+      "ÜCRETSİZ EĞİTİM"
+    ],
+    "source": {
+      "name": "A Haber",
+      "url": "https://ahaber.com.tr/egitim/yok-dijital-universite-platformu-basvuru-ve-sartlar-6531713",
+      "image": "/img/niversite-art-aranm-yor-y-k-ten-3-alanda-cretsiz-e-itim-f-rs-rqhxp5.webp"
+    },
+    "publishedAt": "2026-10-14T11:31:07.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": true,
+    "fullText": true,
+    "score": 4.7,
+    "dedupeKey": "b6d82b",
+    "rawTitle": "Üniversite şartı aranmıyor! YÖK’ten 3 alanda ücretsiz eğitim fırsatı",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_11q0d8n_mvei314a",
     "slug": "osym-2026-kpss-ortaogretim-sinava-giris-belgelerini-adaylarin-erisimine--d7kf1e",
     "title": "ÖSYM tarafından 2026 KPSS ortaöğretim sınava giriş belgeleri adayların erişime açıldı",
@@ -4789,6 +4901,40 @@
     "lang": "tr",
     "audioId": "n_8bqtbd_mvha2myi",
     "audioDuration": 251.08
+  },
+  {
+    "id": "f_1gr0kjr_mvillppe",
+    "slug": "yabanci-abd-universitelerinde-idari-kadrolar-azaliyor-ve-elestirmenl-1gr0kj",
+    "title": "ABD Üniversitelerinde İdari Kadrolar Azalıyor ve Eleştirmenler Bu Durumu Destekliyor",
+    "excerpt": "Louisiana State University idari kadrodan işten çıkarmalar yaparken, uzmanlar bu eğilimin ülke geneline yayıldığını belirtiyor.",
+    "body": [
+      "Louisiana State University'nin yeni başkanı, okulun 25 yöneticisini işten çıkaracağını ve tasarrufları fakülte işe alımlarına kaydıracağını duyurdu. Başkan Wade Rousse bu hamleyi operasyonları basitleştirmek ve araştırmaya odaklanmak olarak nitelendirdi.",
+      "Benzer işten çıkarmalar ülke çapındaki üniversitelerde de gerçekleşiyor ve bu durum yükseköğretimde yeni bir dönüm noktası olabilir. On yıllardır artış gösteren ve eleştirmenler tarafından idari şişkinlik olarak nitelendirilen ders vermeyen personel sayısı artık azalmaya başlıyor.",
+      "Yeni veriler, ABD üniversitelerindeki idari kadro artışının tersine döndüğünü gösteriyor. Bu değişim, kurumların kaynaklarını eğitim kadrosuna ve araştırmaya daha fazla aktarmasını sağlıyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "YÜKSEKÖĞRETİM",
+      "ÜNİVERSİTE",
+      "İDARİ KADRO"
+    ],
+    "source": {
+      "name": "Hechinger Report",
+      "url": "https://hechingerreport.org/colleges-are-cutting-administrative-jobs-and-critics-say-thats-a-good-thing/",
+      "image": "/img/colleges-are-cutting-administrative-jobs-and-critics-say-tha-bs6cde.jpg"
+    },
+    "publishedAt": "2026-10-13T09:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1gr0kjr",
+    "rawTitle": "Colleges are cutting administrative jobs — and critics say that’s a good thing",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "f_13rpl05_mvfnucog",
