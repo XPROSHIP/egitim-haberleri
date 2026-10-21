@@ -123,22 +123,26 @@ const CLEAN_SCHEMA = {
     type: 'object',
     properties: {
       id: { type: 'integer' },
-      paragraphs: { type: 'array', items: { type: 'string' } },
+      text: { type: 'string' },
     },
-    required: ['id', 'paragraphs'],
+    required: ['id', 'text'],
   },
 }
 
 const CLEAN_SYSTEM = `Sen Türkiye eğitim basınının editörüsün. Haber sayfalarından kopyalanan metinlerde
 çöp vardır: reklamlar, "ilgili haberler", "en çok okunanlar", başka haberlerin başlıkları, yazar künyesi,
-paylaşım butonları, çerez bildirimi, canlı yayın kutusu, " haberin devamı", kaynakça, reklam etiketleri.
+paylaşım butonları, çerez bildirimi, canlı yayın kutusu, kaynakça, "haberin devamı" gibi.
 
-GÖREV: Metni temizle.
-- Haberin özünü, olay öğelerini, sayıları, tarihleri, yer adlarını, alıntıları ve kurum adlarını KORU.
-- Metni KISALTMA. Alaksız girdileri çıkar; cümleleri düzgün Türkçeye getir.
-- Her paragrafı ayrı paragraf olarak koru; boş paragraf bırakma.
-- Yorum, reklam ya da yazar ekleme. Haber dışı hiçbir şey ekleme.
-JSON dizisi döndür; id alanı girdi numarasıyla aynı olmalı.`
+GÖREV: Her paragrafı TEK TEK ele al.
+- Girdideki her paragraf için, sırasıyla bir kayıt üret: id alanı paragrafın sırası (1'den başlar),
+  text alanı ise o paragrafın TEMİZLENMİŞ hâlidir.
+- Paragraf alaksızsa (reklam, başka haberin başlığı, menü, künye) text alanı BOŞ string olsun.
+- Paragraf habere aitse text alanına paragrafın tamamını yaz; KISAĞINA KISALTMA, özetleme.
+  Sadece bozuk cümleleri düzelt, yazımı düzelt, gereksiz tekrarı at.
+- Sayıları, tarihleri, yer adlarını, kurum adlarını ve alıntıları BİREBİR koru.
+- Yorum, reklam ya da yeni bilgi ekleme.
+- Kaç paragraf girdiysen o kadar kayıt üret; id'ler 1'den başlayarak sıralı olsun.
+JSON dizisi döndür.`
 
 /**
  * Haber gövdelerini toplu hâlde temizler.
@@ -147,24 +151,23 @@ JSON dizisi döndür; id alanı girdi numarasıyla aynı olmalı.`
  * bulunuyor; bunlar hem metni bozuyor hem de sesli okumada okunuyor.
  * Ucuz model (flash-lite) toplu çalışıyor.
  *
- * @param {Array<{paragraphs?:string[]}>} clusters
- * @returns {Promise<Map<string,string[]>>} id -> temiz paragraflar
+ * @param {Array<{paragraphs?:string[], title?:string}>} clusters
+ * @returns {Promise<Map<string,string[]>>} anahtar -> temiz paragraflar
  */
 export async function cleanBodies(gemini, clusters) {
   const targets = clusters.filter((c) => (c.paragraphs?.length ?? 0) >= 2)
   if (targets.length === 0) return new Map()
 
   const out = new Map()
-  const BATCH = 8
-  for (let i = 0; i < targets.length; i += BATCH) {
-    const chunk = targets.slice(i, i + BATCH)
-    const input = chunk
-      .map((c, j) => `${j + 1}. BAŞLIK: ${c.title}\n   METİN:\n${c.paragraphs.join('\n')}`)
-      .join('\n\n')
+  // Her haber tek tek gönderilir: model paragraf sayısını korusun diye
+  // 1:1 eşleme şeması kullanılıyor (id = paragraf sırası).
+  for (const c of targets) {
+    const paras = c.paragraphs.map((p, k) => `[${k + 1}] ${p}`).join('\n')
+    const input = `BAŞLIK: ${c.title}\n\nPARAGRAFLAR:\n${paras}`
     try {
-      const data = await gemini.call({
+      const rows = await gemini.call({
         systemInstruction: { parts: [{ text: CLEAN_SYSTEM }] },
-        contents: [{ role: 'user', parts: [{ text: `${input}\n\n${chunk.length} haber temizle.` }] }],
+        contents: [{ role: 'user', parts: [{ text: `${input}\n\nBu haberin paragraflarini temizle.` }] }],
         generationConfig: {
           temperature: 0.1,
           maxOutputTokens: 16384,
@@ -172,23 +175,18 @@ export async function cleanBodies(gemini, clusters) {
           responseSchema: CLEAN_SCHEMA,
         },
       })
-      const byId = new Map(chunk.map((c, j) => [j + 1, c]))
-      for (const d of Array.isArray(data) ? data : []) {
-        const c = byId.get(d.id)
-        if (!c || !Array.isArray(d.paragraphs) || d.paragraphs.length === 0) continue
-        const clean = d.paragraphs
-          .map((p) => String(p ?? '').trim())
-          .filter((p) => p.length >= 60)
-        // Temizlenmiş metin, orijinalin en az yarısı kadar olmalı; değilse
-        // model metni gereksiz yere kısaltmış demektir, orijinali koru.
-        const origChars = c.paragraphs.join(' ').length
-        const newChars = clean.join(' ').length
-        if (clean.length >= 2 && newChars >= origChars * 0.5) {
-          out.set(c.key, clean)
-        }
-      }
-    } catch {
-      /* temizleme başarısız olursa orijinal metin korunur */
+      const list = (Array.isArray(rows) ? rows : [])
+        .map((d) => ({ para: Number(d?.id), text: String(d?.text ?? '').trim() }))
+        .filter((r) => Number.isInteger(r.para) && r.para >= 1)
+        .sort((a, b) => a.para - b.para)
+      const clean = list.filter((r) => r.text.length >= 30).map((r) => r.text)
+      if (clean.length < 2) continue
+      const origChars = c.paragraphs.join(' ').length
+      const newChars = clean.join(' ').length
+      // Çok fazla kısalma olursa model özetlemiş demektir, orijinali koru.
+      if (newChars >= origChars * 0.35) out.set(c.key, clean)
+    } catch (err) {
+      console.warn(`[temizleme] hata: ${String(err?.message ?? err).slice(0, 140)}`)
     }
   }
   return out

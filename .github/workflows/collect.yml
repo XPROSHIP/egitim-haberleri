@@ -93,6 +93,7 @@ jobs:
         env:
           COLLECT_SECRET: ${{ secrets.COLLECT_SECRET }}
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
         run: python worker/scripts/podcast_generate.py
 
       # --- Web push: yeni haberleri abonelere bildir ---
