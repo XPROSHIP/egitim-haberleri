@@ -110,13 +110,18 @@ def main():
         try:
             speech = tts.say(text, sample_rate=SAMPLE_RATE)
             pcm = np.asarray(speech.audio, dtype=np.float32)
-            data_bytes = encode_pcm(pcm, SAMPLE_RATE)
+            data_bytes = encode_pcm(pcm, SAMPLE_RATE, bitrate="32k")
             # Veritabanı satır sınırı ~6 MB. Sığmıyorsa metni kısaltıp yeniden üret.
-            if len(data_bytes) > 6_000_000:
-                shorter = text[: int(len(text) * 0.6)]
-                speech = tts.say(shorter, sample_rate=SAMPLE_RATE)
+            for _ in range(3):
+                if len(data_bytes) <= 6_000_000:
+                    break
+                text = text[: int(len(text) * 0.6)]
+                speech = tts.say(text, sample_rate=SAMPLE_RATE)
                 pcm = np.asarray(speech.audio, dtype=np.float32)
-                data_bytes = encode_pcm(pcm, SAMPLE_RATE)
+                data_bytes = encode_pcm(pcm, SAMPLE_RATE, bitrate="32k")
+            if len(data_bytes) > 6_200_000:
+                log(f"  ses çok büyük, atlandı: {len(data_bytes) / 1048576:.1f} MB")
+                continue
             upload(it["id"], data_bytes, speech.duration)
             ok += 1
             log(
