@@ -79,7 +79,7 @@ const CUT_MARKER =
  */
 export function isJunkParagraph(text = '') {
   const t = String(text)
-  if (BOILERPLATE.test(t)) return true
+  if (BOILERPLATE_DATE.test(t)) return true
   if (LIST_MARKER.test(t)) return true
   if (CUT_MARKER.test(t)) return true
   return BOILERPLATE_TEXT.some((re) => re.test(t))

@@ -53,6 +53,7 @@ def api_json(path):
 
 
 def upload(article_id, data: bytes, duration: float, recipe: str | None):
+    """Sesi yükler. Worker ara sıra 503 dönebiliyor; kısa bekleyip yeniden dener."""
     url = f"{API}/api/audio?id={urllib.parse.quote(article_id)}"
     headers = {
         "content-type": "audio/mpeg",
@@ -64,9 +65,20 @@ def upload(article_id, data: bytes, duration: float, recipe: str | None):
     }
     if recipe:
         headers["x-audio-recipe"] = recipe
-    req = urllib.request.Request(url, data=data, method="POST", headers=headers)
-    with urllib.request.urlopen(req, timeout=180) as res:
-        return res.status
+    last = None
+    for attempt in range(4):
+        req = urllib.request.Request(url, data=data, method="POST", headers=headers)
+        try:
+            with urllib.request.urlopen(req, timeout=180) as res:
+                return res.status
+        except Exception as exc:  # noqa: BLE001
+            last = exc
+            status = getattr(exc, "code", None)
+            # 4xx kalıcı hatalar (417/413 gibi) tekrar denemeye değmez.
+            if status and status < 500 and status != 429:
+                raise
+            time.sleep(4 * (attempt + 1))
+    raise last
 
 
 def select_queue(items, recipe):
@@ -180,8 +192,13 @@ def main():
     log(f"tamam · {ok} ses · {fail} hata · {rate:.1f} haber/dk")
     kalan = len(todo) - ok - fail
     if kalan > 0:
-        kosu = kalan / rate if rate else 0
-        log(f"{kalan} haber kaldi · ~{kosu:.1f} kosu daha (bos gecen ~{kosu * 3 / 60:.1f} saat)")
+        # Bir koşunun kapasitesi: süre bütçesi × dakikada üretilen haber.
+        kapasite = max(1.0, BUDGET_MIN * rate)
+        kosu = kalan / kapasite
+        log(
+            f"{kalan} haber kaldi · bir koşuda ~{kapasite:.0f} haber → ~{kosu:.1f} koşu daha"
+            f" (bos gecen ~{kosu * 3:.1f} saat)"
+        )
     _report(recipe, ok, fail, rate, kalan)
 
 
