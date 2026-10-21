@@ -50,6 +50,13 @@ self.addEventListener('fetch', (event) => {
         const res = await fetch(req)
         if (res && (res.ok || res.type === 'opaque')) {
           cache.put(req, res.clone()).catch(() => undefined)
+          // Önbellek sınırsız büyümesin: en eski 40 girdiyi at.
+          const keys = await cache.keys()
+          if (keys.length > 60) {
+            for (const k of keys.slice(0, keys.length - 60)) {
+              await cache.delete(k).catch(() => undefined)
+            }
+          }
         }
         return res
       } catch {
