@@ -295,16 +295,35 @@ function absolutize(src, base) {
 }
 
 /** Görseli indirir; gerçek fotoğraf değilse null döner. */
-export async function downloadImage(url, referer, { maxBytes = 3_000_000 } = {}) {
-  const res = await fetch(url, {
-    headers: { 'user-agent': UA, referer },
-    redirect: 'follow',
-  })
-  if (!res.ok) return null
-  const type = res.headers.get('content-type') ?? ''
-  if (!/^image\/(jpeg|png|webp|avif)/.test(type)) return null
-  const buf = Buffer.from(await res.arrayBuffer())
-  if (buf.length < 8000 || buf.length > maxBytes) return null
-  if (!looksLikePhoto(buf)) return null
-  return { buffer: buf, type }
+export async function downloadImage(url, referer, { maxBytes = 3_000_000, attempts = 3 } = {}) {
+  let lastError = null
+  for (let i = 0; i < attempts; i++) {
+    try {
+      const res = await fetch(url, {
+        headers: { 'user-agent': UA, referer, accept: 'image/*,*/*;q=0.8' },
+        redirect: 'follow',
+        signal: AbortSignal.timeout(20000),
+      })
+      if (!res.ok) {
+        lastError = new Error(`HTTP ${res.status}`)
+        // 4xx'te tekrar denemenin anlamı yok.
+        if (res.status < 500 && res.status !== 429) return null
+        continue
+      }
+      const type = res.headers.get('content-type') ?? ''
+      if (!/^image\/(jpeg|png|webp|avif)/.test(type)) return null
+      const buf = Buffer.from(await res.arrayBuffer())
+      if (buf.length < 8000 || buf.length > maxBytes) return null
+      if (!looksLikePhoto(buf)) return null
+      return { buffer: buf, type }
+    } catch (err) {
+      lastError = err
+      // Ağ hatası geçici olabilir; kısa bekleyip yeniden dene.
+      await new Promise((r) => setTimeout(r, 600 * (i + 1)))
+    }
+  }
+  if (lastError) {
+    console.warn(`[article] görsel indirilemedi: ${url.slice(0, 90)} · ${String(lastError.message ?? lastError).slice(0, 60)}`)
+  }
+  return null
 }

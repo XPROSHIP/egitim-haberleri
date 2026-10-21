@@ -19,6 +19,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from tts_text import clean_for_tts  # noqa: E402
+from mp3 import encode_pcm  # noqa: E402
 
 API = os.environ.get("VITE_API_URL", "").rstrip("/")
 SECRET = os.environ.get("COLLECT_SECRET", "")
@@ -109,9 +110,13 @@ def main():
         try:
             speech = tts.say(text, sample_rate=SAMPLE_RATE)
             pcm = np.asarray(speech.audio, dtype=np.float32)
-            buf = io.BytesIO()
-            sf.write(buf, pcm, SAMPLE_RATE, format="MP3")
-            data_bytes = buf.getvalue()
+            data_bytes = encode_pcm(pcm, SAMPLE_RATE)
+            # Veritabanı satır sınırı ~6 MB. Sığmıyorsa metni kısaltıp yeniden üret.
+            if len(data_bytes) > 6_000_000:
+                shorter = text[: int(len(text) * 0.6)]
+                speech = tts.say(shorter, sample_rate=SAMPLE_RATE)
+                pcm = np.asarray(speech.audio, dtype=np.float32)
+                data_bytes = encode_pcm(pcm, SAMPLE_RATE)
             upload(it["id"], data_bytes, speech.duration)
             ok += 1
             log(

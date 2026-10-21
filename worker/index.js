@@ -246,7 +246,7 @@ export default {
       if (!id || id.length > 120) return reply({ error: 'invalid_id' }, 400)
       const data = new Uint8Array(await request.arrayBuffer())
       if (data.length === 0) return reply({ error: 'empty' }, 400)
-      if (data.length > 4_000_000) return reply({ error: 'too_large' }, 413)
+      if (data.length > 6_500_000) return reply({ error: 'too_large' }, 413)
       const duration = Number(request.headers.get('x-audio-duration') ?? 0) || null
       await env.DB.prepare(
         `INSERT INTO news_audio (article_id, data, type, duration, bytes) VALUES (?,?,?,?,?)

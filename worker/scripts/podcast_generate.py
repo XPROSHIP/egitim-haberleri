@@ -25,6 +25,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from tts_text import clean_for_tts  # noqa: E402
+from mp3 import encode_pcm  # noqa: E402
 
 API = os.environ.get("VITE_API_URL", "").rstrip("/")
 SECRET = os.environ.get("COLLECT_SECRET", "")
@@ -235,9 +236,7 @@ def main():
         return
 
     pcm = np.asarray(speech.audio, dtype=np.float32)
-    buf = io.BytesIO()
-    sf.write(buf, pcm, SAMPLE_RATE, format="MP3")
-    episode = buf.getvalue()
+    episode = encode_pcm(pcm, SAMPLE_RATE)
     total = speech.duration
     log(f"bölüm hazır: {total:.0f} sn · {len(episode) / 1024:.0f} KB")
 
