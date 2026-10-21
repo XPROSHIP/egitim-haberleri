@@ -662,6 +662,39 @@
     "lang": "tr"
   },
   {
+    "id": "f_10bdglz_mviclavj",
+    "slug": "yabanci-ogretmenler-gocmen-polislerinin-tehdidi-altindaki-cocuklara--10bdgl",
+    "title": "Öğretmenler göçmen polislerinin tehdidi altındaki çocuklara destek olmakta zorlanıyor",
+    "excerpt": "Genişletilmiş sınır dışı etme çabalarının sonuçlarına katlanan çocuklar, aile ayrılığı ve yerinden edilme travmasıyla karşı karşıya kalıyor. Öğretmenler sınıfta adaletsizlikle mücadele eden öğrencilerine destek olmaya çalışıyor.",
+    "body": [
+      "Üçüncü sınıf öğrencisi Emma, kurallara uymadığında veya oyun kaybettiğinde yoğun duygular yaşıyor. Sınıftaki diğer öğretmenlerle birlikte onun güçlü bir iç adalet duygusuna sahip olduğunu gözlemliyoruz.",
+      "Ona sınıf arkadaşlarının kurallara uyduğunu ve kuralların önemli olduğunu söylüyorum. Ancak hem o hem de ben ailesinin, değişen kurallara rağmen bu ülkeye geldiğinden beri kurallara uymaya çalıştığını biliyoruz."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Öğretmen Görüşleri",
+      "Göçmen Çocuklar",
+      "Eğitim"
+    ],
+    "source": {
+      "name": "Hechinger Report",
+      "url": "https://hechingerreport.org/teacher-voice-support-children-immigration/",
+      "image": "/img/teacher-vo-ce-teachers-are-once-again-struggling-to-support--1xghsm.jpg"
+    },
+    "publishedAt": "2026-10-21T05:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:10bdglz",
+    "rawTitle": "TEACHER VOICE: Teachers are once again struggling to support children whose lives are upended by immigration police",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "n_12505k7_mvhpidji",
     "slug": "meb-ortaokul-ve-liselerde-16-bransta-yazili-sinav-sorularini-ortak-havuz-t01uc1",
     "title": "MEB ortaokul ve liselerde 16 branşta yazılı sınav sorularını ortak havuzdan seçecek",
@@ -6068,6 +6101,39 @@
     "lang": "tr"
   },
   {
+    "id": "f_yebs3p_mviclavi",
+    "slug": "yabanci-yapay-zeka-odakli-dijital-okuryazarlikta-ogrenci-ajansi-once-yebs3p",
+    "title": "Yapay zeka odaklı dijital okuryazarlıkta öğrenci ajansı öncelikli konumda yer alıyor",
+    "excerpt": "Yapay zekanın hızlı gelişimi okulları zorlarken, eğitimciler öğrenme sürecinin nasıl rehberlik edileceğini yeniden değerlendiriyor. Müfredat sadece yapay zeka araçlarını öğretmenin ötesine geçerek eleştirel düşünceyi teşvik etmelidir.",
+    "body": [
+      "Birçok okul için yapay zeka okuryazarlığına giden yol belirsizliğini koruyor. Temel zorluk sadece yapay zekanın hızlı evrimi değil, aynı zamanda anında yanıt üretme yeteneğidir.",
+      "Yaygın yanıt öğrencilere yapay zeka araçlarını nasıl kullanacaklarını öğretmek oldu ancak bu yaklaşım sorunun ortasından başlıyor. Okullar öncelikle yapay zeka eğitimine rehberlik etmesi gereken temel ilkeleri belirlemelidir."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Yapay Zeka",
+      "Dijital Okuryazarlık",
+      "Eğitim Teknolojileri"
+    ],
+    "source": {
+      "name": "eCampus News",
+      "url": "https://www.ecampusnews.com/ai-in-education/2026/10/07/learner-agency-comes-first-in-ai-driven-digital-literacy/",
+      "image": "/img/learner-agency-comes-first-in-a-driven-digital-literacy-1jsnhc.png"
+    },
+    "publishedAt": "2026-10-07T09:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:yebs3p",
+    "rawTitle": "Learner agency comes first in AI-driven digital literacy",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "n_10cdeax_mvha2myk",
     "slug": "kredi-ve-yurtlar-kurumu-yurt-basvurulari-icin-ek-kontenjan-basvuru-surec-saggg3",
     "title": "Kredi ve yurtlar kurumu yurt başvuruları için ek kontenjan başvuru sürecini başlattı",
@@ -6557,6 +6623,39 @@
     "lang": "tr"
   },
   {
+    "id": "f_1ylilkk_mviclavj",
+    "slug": "yabanci-enflux-saglik-meslekleri-egitimi-icin-mufredat-zekasi-sistem-1ylilk",
+    "title": "Enflux sağlık meslekleri eğitimi için müfredat zekası sistemini başlattı",
+    "excerpt": "Enflux, sağlık meslekleri programlarının müfredatlarını tek bir yerden oluşturmasına ve yönetmesine olanak tanıyan yeni çözümünü duyurdu. Bu sistem yapay zeka denetimini insan uzmanlığıyla birleştiriyor.",
+    "body": [
+      "San Antonio, Texas merkezli Enflux, sağlık meslekleri programlarının müfredatlarını tek bir yerde oluşturmasına, haritalandırmasına ve incelemesine yardımcı olan yeni çözümünü duyurdu. Bu sistem ders planlarını, öğrenme çıktıklarını ve akreditasyon standartlarını tek bir kaynakta topluyor.",
+      "Yeni araç, Enflux yapay zeka denetimini bağımsız uzman incelemesiyle birleştirerek ölçeklenebilir analiz sunuyor. Böylece nihai müfredat kararları tamamen fakültenin elinde kalmaya devam ediyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Müfredat",
+      "Sağlık Eğitimi",
+      "Yapay Zeka"
+    ],
+    "source": {
+      "name": "eCampus News",
+      "url": "https://www.ecampusnews.com/newsline/2026/10/05/enflux-launches-curriculum-intelligence-for-health-professions-education/",
+      "image": "/img/enflux-launches-curriculum-ntelligence-for-health-profession-amfts8.png"
+    },
+    "publishedAt": "2026-10-05T18:31:32.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1ylilkk",
+    "rawTitle": "Enflux Launches Curriculum Intelligence for Health Professions Education",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "n_8ksn21_mvha2myb",
     "slug": "bakan-tekin-turkiye-nin-pisa-ve-oecd-alanlarinda-ortalamasini-yukselttig-1b7rqv",
     "title": "Bakan Tekin türkiye'nin pısa ve oecd alanlarında ortalamasını yükselttiğini açıkladı",
@@ -6637,6 +6736,39 @@
     "lang": "tr",
     "audioId": "n_1awq62z_mvha2myl",
     "audioDuration": 20.22
+  },
+  {
+    "id": "f_1fyk46j_mviclavj",
+    "slug": "yabanci-yuksekogretimde-yapay-zeka-kullanimi-icin-otorite-ve-sorumlu-1fyk46",
+    "title": "Yükseköğretimde yapay zeka kullanımı için otorite ve sorumluluk tartışılıyor",
+    "excerpt": "Yükseköğretimde yapay zekanın yönetimi kurumsal amaçları korumayı amaçlarken, kararların kim tarafından alınacağı sorusu önem kazanıyor. Üniversitelerin bu süreçte liderlik sorumluluğunu netleştirmesi gerekiyor.",
+    "body": [
+      "Eğer kurumsal yönetim kurumun amacını korumak zorundaysa, bu yönü belirleme yetkisinin kimde olduğu sorusu yanıtlanmalıdır. Yapay zekanın olduğu bir dünyada üniversiteler hazırlık sürecinde başarısızlık riskiyle karşılaşabilir.",
+      "Liderler net beklentiler belirlemeden istişareleri sürdürebilir ve yönetim kurulları riski en aza indirmek isterken farkında olmadan artırabilir. Bu durum tüm paydaşlar için açık bir sorumluluk mimarisi gerektirir."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Yükseköğretim",
+      "Yapay Zeka",
+      "Kurumsal Yönetim"
+    ],
+    "source": {
+      "name": "eCampus News",
+      "url": "https://www.ecampusnews.com/ai-in-education/2026/10/05/authority-responsibility-and-accountability-for-ai-in-higher-ed/",
+      "image": "/img/authority-responsibility-and-accountability-for-a-in-higher--5mbjkg.png"
+    },
+    "publishedAt": "2026-10-05T09:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1fyk46j",
+    "rawTitle": "Authority, responsibility, and accountability for AI in higher ed",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "n_1voc718_mvhatcr8",
