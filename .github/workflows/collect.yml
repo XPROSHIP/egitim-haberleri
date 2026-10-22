@@ -107,6 +107,16 @@ jobs:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
         run: node worker/scripts/push-notify.mjs
 
+      # --- Yabancı çevirileri tazele ---
+      # Kaynak site erişimi bazen engellenir, çeviri eksik kalır. Bu adım tam
+      # olanları atlar, eksik kalanları yeniden çevirir (kendi kendini onarır).
+      - name: Yabancı çevirileri tazele
+        env:
+          COLLECT_SECRET: ${{ secrets.COLLECT_SECRET }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
+        run: python worker/scripts/retranslate_foreign.py --limit=20
+
       - name: Ses durumunu depoya kaydet
         run: |
           git config user.name  "github-actions[bot]"
