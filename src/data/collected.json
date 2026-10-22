@@ -5360,6 +5360,39 @@
     "lang": "en"
   },
   {
+    "id": "f_q9bsr3_mvirz36u",
+    "slug": "yabanci-okullarda-yapay-zekayi-yasaklamak-yerine-ogretmenleri-destek-q9bsr3",
+    "title": "Okullarda yapay zekayı yasaklamak yerine öğretmenleri desteklemek için doğru adımlar atılmalı",
+    "excerpt": "Wallace Vakfı yöneticisi Dan Weisberg, okullarda yapay zekanın yasaklanması yerine teknolojinin öğretmenleri destekleyecek şekilde düzenlenmesi gerektiğini belirtti. Paul E. Peterson ile gerçekleştirilen söyleşide eğitimde teknoloji entegrasyonu ele alındı.",
+    "body": [
+      "Wallace Vakfı Program ve Politika Direktörü ve New York Şehri Devlet Okulları eski şansölye yardımcısı Dan Weisberg, Paul E. Peterson'ın yayınına konuk oldu. Görüşmede yapay zekanın okullarda nasıl düzenlendiği ve eğitim teknolojilerinin öğretmenlere nasıl yardımcı olabileceği tartışıldı.",
+      "Uzmanlar, yapay zekayı tamamen yasaklamak yerine eğitimcilerin işini kolaylaştıracak çözümlere odaklanılması gerektiğinin altını çiziyor. The Education Exchange programı Soundcloud, Apple Podcasts, Spotify, YouTube ve Education Next üzerinden takip edilebiliyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "YAPAY ZEKA",
+      "EĞİTİMDE TEKNOLOJİ",
+      "OKUL YÖNETİMİ"
+    ],
+    "source": {
+      "name": "Education Next",
+      "url": "https://www.educationnext.org/the-education-exchange-dont-ban-ai-in-schools/",
+      "image": "/img/the-education-exchange-don-t-ban-a-in-schools-bn15l.png"
+    },
+    "publishedAt": "2026-10-13T04:55:44.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:q9bsr3",
+    "rawTitle": "The Education Exchange: Don’t Ban AI in Schools",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "f_1b7eavp_mvfnucog",
     "slug": "yabanci-grevler-ve-butce-kesintileri-avustralya-universitelerinde-be-1b7eav",
     "title": "Grevler ve bütçe kesintileri Avustralya üniversitelerinde belirsizlik yaratıyor",
@@ -6782,6 +6815,39 @@
     "lang": "tr",
     "audioId": "n_nw18e_mvha2myn",
     "audioDuration": 18.22
+  },
+  {
+    "id": "f_la20yl_mvirz36u",
+    "slug": "yabanci-amerika-birlesik-devletleri-genelinde-yeni-federal-okul-seci-la20yl",
+    "title": "Amerika Birleşik Devletleri genelinde yeni federal okul seçimi programı geniş kitlelere ulaşıyor",
+    "excerpt": "ABD'de 2025 yılı düzenlemesiyle hayata geçirilen Federal Burs Vergi İndirimi programı, ailelerin özel okul tercihlerini kolaylaştırıyor. Yeni sistemin yüz binlerce öğrencinin bütçelerini aşan özel okullara kayıt yaptırmasına olanak tanıması bekleniyor.",
+    "body": [
+      "2025 yılındaki mevzuatın bir parçası olarak hayata geçirilen Federal Burs Vergi İndirimi (FSTC) programı, okul seçimi savunucuları arasında memnuniyet yarattı. Ülke genelindeki ilk federal K-12 okul seçimi programı olan bu adımın, yüz binlerce hatta milyonlarca öğrencinin özel okullara erişimini mümkün kılacağı öngörülüyor.",
+      "Söz konusu teşvikin özellikle New York gibi bu tür imkanları kendi başına sunmayan ancak programa katılacağını bildiren eyaletlerdeki ailelere büyük fayda sağlayacağı belirtiliyor. Ayrıca devlet okulu destekçileri de yeni sistemin getirdiği fırsatları dikkatle değerlendiriyor."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "OKUL SEÇİMİ",
+      "EĞİTİM POLİTİKASI",
+      "BURS SİSTEMİ"
+    ],
+    "source": {
+      "name": "Education Next",
+      "url": "https://www.educationnext.org/federal-school-choice-is-here-is-the-field-ready-federal-scholarship-tax-credit/",
+      "image": "/img/federal-school-choice-s-here-s-the-field-ready-gmd7i8.png"
+    },
+    "publishedAt": "2026-10-08T05:00:29.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:la20yl",
+    "rawTitle": "Federal School Choice Is Here. Is the Field Ready?",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "n_4zo7lx_mvevprmq",
