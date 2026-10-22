@@ -44,6 +44,9 @@ function EpisodePlayer({ episode }: { episode: PodcastEpisode }) {
   const [current, setCurrent] = useState(0)
   const [duration, setDuration] = useState(episode.duration ?? 0)
   const src = `https://egitim-haberleri.omerzen.workers.dev/podcast/${episode.id}.mp3`
+  // İndirme adresi API Worker'dan: SPA yedeğine düşme ihtimali yok,
+  // sunucu ayrıca doğru dosya adını gönderiyor.
+  const downloadSrc = `${API}/api/audio/${episode.id}`
 
   useEffect(() => {
     const el = audioRef.current
@@ -117,8 +120,8 @@ function EpisodePlayer({ episode }: { episode: PodcastEpisode }) {
               </p>
             </div>
             <a
-              href={src}
-              download={`zenpod-${episode.id}.mp3`}
+              href={downloadSrc}
+              download={`${episode.id}.mp3`}
               aria-label="Bölümü indir"
               title="Bölümü indir"
               className="grid size-8 shrink-0 place-items-center rounded-full border border-line text-muted transition hover:bg-surface-2 hover:text-fg"

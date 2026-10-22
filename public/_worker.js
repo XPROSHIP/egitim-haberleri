@@ -452,6 +452,8 @@ export default {
       return new Response(bytes, {
         headers: {
           'content-type': row.type ?? 'audio/mpeg',
+          // Tarayıcı dosyayı doğru adla indirsin (HTML kabuğu gelmesin).
+          'content-disposition': `attachment; filename="${id}.mp3"`,
           'cache-control': 'public, max-age=86400',
         },
       })
@@ -460,7 +462,18 @@ export default {
     // Meta yazımı yalnızca haber ve kategori adreslerinde gerekir.
     const article = url.pathname.match(/^\/haber\/([^/]+)$/)
     const cat = url.pathname.match(/^\/kategori\/([^/]+)$/)
-    if (!article && !cat) return env.ASSETS.fetch(request)
+    if (!article && !cat) {
+      // Dosya uzantısı olan bilinmeyen bir yol (mp3, mp4, pdf, zip...):
+      // SPA kabuğu DEĞİL, temiz 404 dönsün. Aksi halde indirilen dosyanın
+      // içine HTML yazılıyor.
+      if (/\.[a-z0-9]{2,5}$/i.test(url.pathname)) {
+        return new Response('Not found', {
+          status: 404,
+          headers: { 'content-type': 'text/plain; charset=utf-8' },
+        })
+      }
+      return env.ASSETS.fetch(request)
+    }
 
     const response = await env.ASSETS.fetch(request)
     const type = response.headers.get('content-type') ?? ''

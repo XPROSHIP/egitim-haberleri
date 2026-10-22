@@ -233,6 +233,8 @@ export default {
       return new Response(bytes, {
         headers: {
           'content-type': row?.type ?? 'audio/mpeg',
+          // İndirilen dosya MP3 olsun (HTML kabuğu gelmesin).
+          'content-disposition': `attachment; filename="${id.replace(/[^a-zA-Z0-9._-]/g, '_')}.mp3"`,
           'cache-control': 'public, max-age=31536000, immutable',
           ...corsFor(request),
         },
