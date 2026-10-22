@@ -61,6 +61,10 @@ jobs:
             git push || echo "push yapılamadı, veri D1'de kayıtlı"
           fi
 
+      # --- Ses üretim politikasının denetimi (hızlı, ücretsiz) ---
+      - name: Okuma tarifi politikasını doğrula
+        run: python worker/scripts/test_recipe.py
+
       # --- Ses sentezi (EMA Lightning) ---
       # Yeni haberlerin tam metni Türkçe sese çevrilir ve Worker'a yüklenir.
       # Site, sesi varsa onu çalar; yoksa tarayıcının kendi TTS'ine düşer.
