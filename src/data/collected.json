@@ -1,5 +1,71 @@
 [
   {
+    "id": "f_6xrpm0_mvj4w2g3",
+    "slug": "yabanci-cocuklarin-okuma-ve-ogrenme-yontemlerini-inceleyen-sorusturm-6xrpm0",
+    "title": "Çocukların Okuma Ve Öğrenme Yöntemlerini İnceleyen Soruşturma Podcast Serisi Devam Ediyor",
+    "excerpt": "APM Reports tarafından hazırlanan Sold a Story podcast serisi, çocukların okuma ve öğrenme süreçlerindeki bilimsel araştırmaları inceliyor.",
+    "body": [
+      "APM Reports tarafından üretilen Sold a Story, çocukların nasıl öğrendiğini, sınıfta neyin işe yaradığını ve bu araştırmaların neden okullara yansımadığını inceleyen bir podcast serisidir. Birinci sezon, pek çok çocuğun neden okumakta zorlandığını ortaya koyarak ülke çapında bir değişim dalgası başlatmıştır.",
+      "İkinci sezonda ise okumanın ötesine geçilerek doğrudan öğretim yöntemleri ele alınmaktadır. İkinci sezonun üçüncü bölümünde, Zig Engelmann'ın doğrudan öğretim yöntemini tarihin en büyük eğitim deneylerinden birinde test etme fırsatı bulması anlatılmaktadır."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "EĞİTİM",
+      "PODCAST",
+      "ÖĞRETİM YÖNTEMLERİ"
+    ],
+    "source": {
+      "name": "Hechinger Report",
+      "url": "https://hechingerreport.org/sold-a-story-the-forgotten-experiment/",
+      "image": "/img/sold-a-story-the-forgotten-experiment-136cqe.png"
+    },
+    "publishedAt": "2026-10-22T05:01:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:6xrpm0",
+    "rawTitle": "Sold a story: The forgotten experiment",
+    "status": "published",
+    "lang": "en"
+  },
+  {
+    "id": "n_1ajc6xx_mvj4vopv",
+    "slug": "egitim-i-s-milli-egitim-bakanligi-nin-ortak-yazili-sinav-sistemi-uygulam-n8ej8o",
+    "title": "Eğitim-İş Milli Eğitim Bakanlığı'nın Ortak Yazılı Sınav sistemi uygulamasına karşı dava açtı",
+    "excerpt": "Eğitim-İş, Milli Eğitim Bakanlığı tarafından hayata geçirilen Ortak Yazılı Sınav Sistemi uygulamasının iptali ve yürütmesinin durdurulması talebiyle Danıştay'a başvuruda bulundu.",
+    "body": [
+      "Milli Eğitim Bakanlığı tarafından hayata geçirilen Ortak Yazılı Sınav Sistemi uygulamasına karşı yargı süreci başlatıldı. Eğitim-İş sendikası, söz konusu düzenlemenin durdurulması için harekete geçti.",
+      "Danıştay'a yapılan başvuruda Ortak Yazılı Sınav Sistemi uygulamasının yürütmesinin durdurulması ve iptali talep edildi. Yargı sürecindeki gelişmeler takip ediliyor."
+    ],
+    "category": "sinav",
+    "tags": [
+      "ORTAK YAZILI SINAV",
+      "EĞİTİM İŞ",
+      "DANIŞTAY",
+      "MEB DAVA"
+    ],
+    "source": {
+      "name": "Milliyet",
+      "url": "https://milliyet.com.tr/egitim/ortak-yazili-sinav-sistemine-dava-7684912",
+      "image": "/img/ortak-yaz-l-s-nav-sistemine-dava-nmjd6.jpg"
+    },
+    "publishedAt": "2026-10-22T04:01:48.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": true,
+    "fullText": false,
+    "score": 6.7,
+    "dedupeKey": "n8ej8o",
+    "rawTitle": "Ortak yazılı sınav sistemine dava",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_jqg8p3_mvilliyn",
     "slug": "i-skilip-mesleki-ve-teknik-anadolu-lisesinde-yeni-cnc-makineleri-hizmete-10eku4",
     "title": "İskilip Mesleki ve Teknik Anadolu Lisesinde yeni cnc Makineleri Hizmete girdi",
