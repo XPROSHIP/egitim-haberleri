@@ -32,13 +32,16 @@ const SCHEMA = {
 }
 
 const SYSTEM = `Sen Türkiye eğitim basınının editörüsün. Sana İngilizce eğitim haberleri verilir.
-GÖREV: Haberleri Türkçeye çevir ve editle.
+GÖREV: Haberleri TAM olarak Türkçeye çevir ve editle.
+- Kaynak metindeki HER paragrafı çevir. Girdide kaç numaralı paragraf varsa, çıktıda da
+  o kadar paragraf olsun ve SIRAYI KORU. Metni kısaltma, özetleme, atlama: bir paragrafın
+  uzunluğu kaynağına yakın olmalı.
 - Başlığı doğal Türkçe haber diliyle yaz (8-14 kelime). Cümle başı büyük harfle başlar, özel adlar büyük harfle korunur. TÜM HARFLERİ BÜYÜK YAZMA.
-- Özet: tek paragraf, en fazla 2 cümle, Türkçe.
-- Gövde: 2-3 kısa paragraf (her biri 2-3 cümle). Kaynakta olmayan ayrıntı ekleme.
+- Özet: tek paragraf, en fazla 2 cümle, Türkçe; kaynağın özünü yansıtır.
 - Etiketler: 2-4 adet, Türkçe, büyük harf, en fazla 3 kelime.
 - Kurum adlarını çevirme: "University of Oxford" -> "Oxford Üniversitesi", "Harvard" -> "Harvard".
-- Sayı, tarih ve yer adlarını olduğu gibi koru.
+- Sayı, tarih, yer adı, alıntı ve istatistikleri BİREBİR koru.
+- Yorum, yorum alıntısı veya yeni bilgi ekleme.
 JSON dizisi döndür; id alanı girdi numarasıyla aynı olmalı.`
 
 const isEducation = (text) => {
@@ -119,13 +122,16 @@ export async function collectForeign({
     return []
   }
 
-  // Çeviri
+  // Çeviri: kaynak metnin TAMAMI gönderilir. Kısaltmak çevirileri eksik bırakıyordu
+  // (ölçüm: kaynak metnin %3-26'sı çevriliyordu).
   const gemini = createGemini(keys, [TRANSLATE_MODEL, 'gemini-3.1-flash-lite', 'gemini-3.5-flash'])
   const input = withImage
-    .map(
-      (c, i) =>
-        `${i + 1}. TITLE: ${c.title}\n   SUMMARY: ${(c.description || '').slice(0, 400)}\n   BODY: ${(c.paragraphs ?? []).join(' ').slice(0, 900)}\n   SOURCE: ${c.siteName ?? c.sourceName}\n   DATE: ${c.publishedAt}`,
-    )
+    .map((c, i) => {
+      const paras = (c.paragraphs ?? [])
+        .map((p, k) => `[${k + 1}] ${p}`)
+        .join('\n')
+      return `${i + 1}. TITLE: ${c.title}\n   SUMMARY: ${(c.description || '').slice(0, 400)}\n   BODY:\n${paras}\n   SOURCE: ${c.siteName ?? c.sourceName}\n   DATE: ${c.publishedAt}`
+    })
     .join('\n\n')
 
   let out = []
@@ -135,7 +141,7 @@ export async function collectForeign({
       contents: [{ role: 'user', parts: [{ text: `${input}\n\n${withImage.length} haber çevir.` }] }],
       generationConfig: {
         temperature: 0.2,
-        maxOutputTokens: 8192,
+        maxOutputTokens: 32768,
         responseMimeType: 'application/json',
         responseSchema: SCHEMA,
       },
@@ -150,12 +156,21 @@ export async function collectForeign({
   for (const d of out ?? []) {
     const c = byIndex.get(d.id)
     if (!c || !d.title) continue
+    // Model bazen "[1] " gibi girdi numaralarını metne yansıtır.
+    const paras = (d.paragraphs ?? [])
+      .map((p) => String(p ?? '').replace(/^\s*\[\d+\]\s*/, '').trim())
+      .filter((p) => p.length >= 40)
+    const srcChars = (c.paragraphs ?? []).join(' ').length
+    const trChars = paras.join(' ').length
+    if (srcChars > 800 && trChars < srcChars * 0.35) {
+      logger.log(`[foreign] eksik çeviri: ${Math.round((trChars / srcChars) * 100)}% (${c.title.slice(0, 40)})`)
+    }
     items.push({
       id: `f_${hash(c.link)}_${Date.now().toString(36)}`,
       slug: `yabanci-${slugifyTr(d.title)}-${hash(c.link).slice(0, 6)}`,
       title: d.title,
       excerpt: d.excerpt || d.title,
-      body: d.paragraphs?.length ? d.paragraphs : [d.excerpt || d.title],
+      body: paras.length ? paras : [d.excerpt || d.title],
       category: 'yabanci',
       tags: [...new Set(['yabancı eğitim', ...(d.tags ?? [])])],
       source: { name: c.siteName ?? c.sourceName, url: c.link, image: c.localImage },

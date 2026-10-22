@@ -37,6 +37,22 @@ function formatTime(seconds: number): string {
 }
 
 /**
+ * Aynı anda tek ses çalsın.
+ *
+ * Sayfadan başka bir habere geçildiğinde ya da ikinci bir oynatıcı açıldığında
+ * önceki ses durur. Hem tarayıcı TTS'i hem de hazır MP3 için geçerlidir
+ * (MP3, bileşen çıkarılınca susturulmazdı).
+ */
+let aktifOynatici: (() => void) | null = null
+
+function digeriniDurdur() {
+  if (aktifOynatici) {
+    aktifOynatici()
+    aktifOynatici = null
+  }
+}
+
+/**
  * Haber seslendirici.
  *
  * Sunucuda hazır üretilmiş ses varsa (EMA Lightning) onu çalar; yoksa
@@ -62,6 +78,20 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
     return cleanForTts(`${item.title}. ${body.join(' ')}`)
   }, [item])
 
+  /** Bu oynatıcıyı durduran fonksiyon (kayıt defterinde kullanılır). */
+  const durdur = useCallback(() => {
+    cancelRef.current = true
+    window.speechSynthesis?.cancel()
+    const el = audioRef.current
+    if (el) {
+      el.pause()
+      el.currentTime = 0
+    }
+    setState('idle')
+    setProgress(0)
+    setCurrentTime(0)
+  }, [])
+
   useEffect(() => {
     if (!('speechSynthesis' in window)) return
     const load = () => {
@@ -76,6 +106,14 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
       window.speechSynthesis.cancel()
     }
   }, [])
+
+  // Bileşen çıkarılırken (başka habere geçildiğinde) ses de dursun.
+  useEffect(() => {
+    return () => {
+      durdur()
+      if (aktifOynatici === durdur) aktifOynatici = null
+    }
+  }, [durdur])
 
   // Haber değişince durdur: aynı anda iki ses çalmamalı.
   useEffect(() => {
@@ -120,6 +158,8 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
   /* --- Sunucuda hazır olan ses --- */
   const playAudio = useCallback(() => {
     if (!audioUrl) return false
+    // Başka bir ses çalıyorsa onu durdur (aynı anda tek ses).
+    digeriniDurdur()
     let el = audioRef.current
     if (!el) {
       el = new Audio()
@@ -148,12 +188,16 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
     })
     setMode('audio')
     setState('playing')
+    // Bu oynatıcıyı kaydet: başka bir oynatıcı açılırsa durdurulsun.
+    aktifOynatici = durdur
     return true
-  }, [audioUrl, rate])
+  }, [audioUrl, rate, durdur])
 
   /* --- Tarayıcı TTS --- */
   const speak = useCallback(() => {
     if (!('speechSynthesis' in window)) return
+    // Başka bir ses çalıyorsa onu durdur (aynı anda tek ses).
+    digeriniDurdur()
     cancelRef.current = false
     window.speechSynthesis.cancel()
 
@@ -182,7 +226,9 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
     window.speechSynthesis.speak(u)
     setMode('tts')
     setState('playing')
-  }, [script, voices, voiceIdx, rate])
+    // Bu oynatıcıyı kaydet: başka bir oynatıcı açılırsa durdurulsun.
+    aktifOynatici = durdur
+  }, [script, voices, voiceIdx, rate, durdur])
 
   const toggle = () => {
     if (state === 'playing') {

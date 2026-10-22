@@ -30,37 +30,151 @@ export function usePodcastEpisodes() {
   })
 }
 
-function durationLabel(seconds: number | null): string {
-  if (!seconds) return ''
-  const m = Math.floor(seconds / 60)
-  const s = Math.round(seconds % 60)
-  return `${m}:${String(s).padStart(2, '0')}`
+function formatTime(seconds: number): string {
+  const s = Math.max(0, Math.round(seconds))
+  const m = Math.floor(s / 60)
+  return `${m}:${String(s % 60).padStart(2, '0')}`
 }
 
-/**
- * ZENPOD Eğitim — günün eğitim haberlerinin sesli bülteni.
- */
+/** Tek bir bölüm oynatıcısı: play/pause, ilerleme çubuğu, indirme. */
+function EpisodePlayer({ episode }: { episode: PodcastEpisode }) {
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const barRef = useRef<HTMLDivElement | null>(null)
+  const [playing, setPlaying] = useState(false)
+  const [current, setCurrent] = useState(0)
+  const [duration, setDuration] = useState(episode.duration ?? 0)
+  const src = `https://egitim-haberleri.omerzen.workers.dev/podcast/${episode.id}.mp3`
+
+  useEffect(() => {
+    const el = audioRef.current
+    if (!el) return
+    const onTime = () => setCurrent(el.currentTime)
+    const onMeta = () => {
+      if (Number.isFinite(el.duration) && el.duration > 0) setDuration(el.duration)
+    }
+    const onEnd = () => {
+      setPlaying(false)
+      setCurrent(0)
+    }
+    el.addEventListener('timeupdate', onTime)
+    el.addEventListener('loadedmetadata', onMeta)
+    el.addEventListener('ended', onEnd)
+    return () => {
+      el.removeEventListener('timeupdate', onTime)
+      el.removeEventListener('loadedmetadata', onMeta)
+      el.removeEventListener('ended', onEnd)
+      el.pause()
+    }
+  }, [])
+
+  const toggle = () => {
+    const el = audioRef.current
+    if (!el) return
+    if (playing) {
+      el.pause()
+      setPlaying(false)
+    } else {
+      // Aynı anda tek bölüm çalsın.
+      document.querySelectorAll('audio').forEach((a) => {
+        if (a !== el) a.pause()
+      })
+      void el.play()
+      setPlaying(true)
+    }
+  }
+
+  const seek = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = audioRef.current
+    const bar = barRef.current
+    if (!el || !bar || !duration) return
+    const rect = bar.getBoundingClientRect()
+    const ratio = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width))
+    el.currentTime = ratio * duration
+    setCurrent(el.currentTime)
+  }
+
+  const pct = duration ? Math.min(1, current / duration) : 0
+
+  return (
+    <article className="rounded-xl border border-line bg-surface p-4 transition hover:border-line/70">
+      <div className="flex items-start gap-3">
+        <button
+          type="button"
+          onClick={toggle}
+          aria-label={playing ? 'Duraklat' : 'Oynat'}
+          className="grid size-11 shrink-0 place-items-center rounded-full bg-fg text-bg transition hover:opacity-90"
+        >
+          <Icon name={playing ? 'Pause' : 'Play'} size={17} />
+        </button>
+
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start gap-2">
+            <div className="min-w-0 flex-1">
+              <h2 className="text-[0.9375rem] leading-snug font-bold text-fg">{episode.title}</h2>
+              <p className="tnum mt-1 text-[0.6875rem] text-faint">
+                {formatDate(episode.published_at, 'tr')}
+                {duration ? ` · ${formatTime(duration)} dk` : ''}
+              </p>
+            </div>
+            <a
+              href={src}
+              download={`zenpod-${episode.id}.mp3`}
+              aria-label="Bölümü indir"
+              title="Bölümü indir"
+              className="grid size-8 shrink-0 place-items-center rounded-full border border-line text-muted transition hover:bg-surface-2 hover:text-fg"
+            >
+              <Icon name="Download" size={15} />
+            </a>
+          </div>
+
+          {/* İlerleme çubuğu: tıklanınca istenen saniyeye atlanır */}
+          <div
+            ref={barRef}
+            role="slider"
+            tabIndex={0}
+            aria-label="Konum"
+            aria-valuemin={0}
+            aria-valuemax={Math.round(duration)}
+            aria-valuenow={Math.round(current)}
+            onClick={seek}
+            onKeyDown={(e) => {
+              const el = audioRef.current
+              if (!el || !duration) return
+              if (e.key === 'ArrowRight') el.currentTime = Math.min(duration, el.currentTime + 10)
+              if (e.key === 'ArrowLeft') el.currentTime = Math.max(0, el.currentTime - 10)
+            }}
+            className="group mt-3 cursor-pointer select-none"
+          >
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-surface-3">
+              <div
+                className="h-full rounded-full bg-primary transition-[width] duration-150 group-hover:bg-accent"
+                style={{ width: `${Math.round(pct * 100)}%` }}
+              />
+            </div>
+            <div className="tnum mt-1 flex justify-between text-[0.625rem] text-faint">
+              <span>{formatTime(current)}</span>
+              <span>{formatTime(duration)}</span>
+            </div>
+          </div>
+
+          {episode.description && (
+            <p className="mt-2.5 line-clamp-3x text-[0.8125rem] leading-relaxed whitespace-pre-line text-muted">
+              {episode.description}
+            </p>
+          )}
+        </div>
+      </div>
+      <audio ref={audioRef} src={src} preload="metadata" />
+    </article>
+  )
+}
+
 export function PodcastPage() {
   const { data: episodes = [], isLoading } = usePodcastEpisodes()
-  const [playing, setPlaying] = useState<string | null>(null)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
     document.title = 'ZENPOD Eğitim — Eğitim Haberleri'
   }, [])
-
-  const play = (id: string) => {
-    const el = audioRef.current
-    if (!el) return
-    if (playing === id) {
-      el.pause()
-      setPlaying(null)
-      return
-    }
-    el.src = `https://egitim-haberleri.omerzen.workers.dev/podcast/${id}.mp3`
-    void el.play().catch(() => setPlaying(null))
-    setPlaying(id)
-  }
 
   return (
     <div className="mx-auto max-w-[760px] px-3 pb-20 sm:px-4">
@@ -74,19 +188,19 @@ export function PodcastPage() {
         </h1>
         <p className="mt-3 max-w-xl text-[0.9375rem] leading-relaxed text-muted">
           Her sabah eğitim gündeminden öne çıkan haberler, iki dakikada. Mesleki eğitimden
-          Milli Eğitim Bakanlığı'na, Çorum'dan yabancı eğitim gündemine kadar bütün
-          haberler <strong className="font-semibold text-fg">Eğitim Haberleri</strong>{' '}
-          sitesinde yayımlanıyor. Sitemizi takip edin, yorumlarla bizi destekleyin — bölümler
-          tam da bu yorumlarla şekilleniyor.
+          Milli Eğitim Bakanlığı'na, Çorum'dan yabancı eğitim gündemine kadar bütün haberler{' '}
+          <strong className="font-semibold text-fg">Eğitim Haberleri</strong> sitesinde
+          yayımlanıyor. Sitemizi takip edin, yorumlarla bizi destekleyin — bölümler tam da bu
+          yorumlarla şekilleniyor.
         </p>
         <div className="mt-5 flex flex-wrap gap-2">
-          <Link
-            to="/feed.xml"
+          <a
+            href="/podcast.xml"
             className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-4 py-2 text-[0.8125rem] font-semibold text-fg transition hover:bg-surface-2"
           >
             <Icon name="Rss" size={14} />
             RSS ile takip et
-          </Link>
+          </a>
           <Link
             to="/"
             className="inline-flex items-center gap-1.5 rounded-full bg-fg px-4 py-2 text-[0.8125rem] font-semibold text-bg transition hover:opacity-90"
@@ -97,7 +211,11 @@ export function PodcastPage() {
         </div>
       </header>
 
-      {isLoading && <div className="skeleton h-24 rounded-xl" />}
+      <h2 className="mb-3 flex items-center gap-2 text-lg font-bold tracking-tight text-fg">
+        Günün Eğitim Haberleri
+      </h2>
+
+      {isLoading && <div className="skeleton h-28 rounded-xl" />}
 
       {!isLoading && episodes.length === 0 && (
         <div className="rounded-xl border border-line bg-surface p-8 text-center">
@@ -109,66 +227,31 @@ export function PodcastPage() {
         </div>
       )}
 
-      <div className="space-y-3">
+      <div className={clsx('space-y-3')}>
         {episodes.map((e) => (
-          <article
-            key={e.id}
-            className="rounded-xl border border-line bg-surface p-4 transition hover:border-line/70"
-          >
-            <div className="flex items-start gap-3">
-              <button
-                type="button"
-                onClick={() => play(e.id)}
-                aria-label={playing === e.id ? 'Duraklat' : 'Oynat'}
-                className="grid size-11 shrink-0 place-items-center rounded-full bg-fg text-bg transition hover:opacity-90"
-              >
-                <Icon name={playing === e.id ? 'Pause' : 'Play'} size={17} />
-              </button>
-              <div className="min-w-0 flex-1">
-                <h2 className="text-[0.9375rem] leading-snug font-bold text-fg">{e.title}</h2>
-                <p className="tnum mt-1 text-[0.6875rem] text-faint">
-                  {formatDate(e.published_at, 'tr')}
-                  {e.duration ? ` · ${durationLabel(e.duration)} dk` : ''}
-                </p>
-                {e.description && (
-                  <p className="mt-2 line-clamp-3x text-[0.8125rem] leading-relaxed whitespace-pre-line text-muted">
-                    {e.description}
-                  </p>
-                )}
-              </div>
-            </div>
-          </article>
+          <EpisodePlayer key={e.id} episode={e} />
         ))}
       </div>
-
-      <audio
-        ref={audioRef}
-        onEnded={() => setPlaying(null)}
-        onPause={() => setPlaying(null)}
-        className="hidden"
-      />
 
       <div className="mt-10 rounded-xl border border-line bg-surface p-5">
         <h2 className="text-sm font-bold text-fg">Bölümü beğendiniz mi?</h2>
         <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-muted">
           Eğitim Haberleri'ni takip edin, okuduğunuz haberlere yorum yazın. Yorumlar
-          bültenin hangi konulara ağırlık vereceğini belirliyor. Yeni bölümler için
-          bizi takip edin.
+          bültenin hangi konulara ağırlık vereceğini belirliyor. Yeni bölümler için bizi takip
+          edin.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           <Link
             to="/"
-            className={clsx(
-              'rounded-full border border-line px-4 py-2 text-[0.8125rem] font-semibold text-fg transition hover:bg-surface-2',
-            )}
+            className="rounded-full border border-line px-4 py-2 text-[0.8125rem] font-semibold text-fg transition hover:bg-surface-2"
           >
             Siteye dön
           </Link>
           <a
-            href="/feed.xml"
+            href="/podcast.xml"
             className="rounded-full border border-line px-4 py-2 text-[0.8125rem] font-semibold text-fg transition hover:bg-surface-2"
           >
-            RSS
+            Podcast RSS
           </a>
         </div>
       </div>

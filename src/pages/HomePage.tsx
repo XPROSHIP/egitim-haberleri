@@ -184,7 +184,7 @@ export function HomePage() {
               </span>
               <span className="min-w-0 flex-1">
                 <span className="block text-[0.875rem] font-bold text-fg">
-                  ZENPOD Eğitim — günün haberleri sesli
+                  ZENPOD Eğitim — Günün Eğitim Haberleri
                 </span>
                 <span className="block truncate text-[0.75rem] text-muted">
                   Her sabah iki dakikada eğitim gündemi
