@@ -172,12 +172,18 @@ def main():
     items = [i for i in data.get("items", []) if i.get("lang") == "en"]
     log(f"{len(items)} yabancı haber, ilk {limit} işlenecek")
 
+    atlandi = 0
     for i, it in enumerate(items[:limit], 1):
         paras = fetch_paragraphs(it["source"]["url"])
         if len(paras) < 2:
             log(f"  [{i}/{limit}] kaynak metin alınamadı: {it['title'][:40]}")
             continue
         src_chars = sum(len(p) for p in paras)
+        # Zaten tam çevrilmişse atla (tekrar çevirmek zaman kaybı).
+        mevcut = sum(len(p) for p in (it.get("body") or []))
+        if src_chars > 500 and mevcut >= src_chars * 0.6:
+            atlandi += 1
+            continue
         numbered = "\n".join(f"[{k + 1}] {p}" for k, p in enumerate(paras))
         prompt = (
             f"1. TITLE: {it.get('rawTitle') or it['title']}\n"
@@ -219,7 +225,7 @@ def main():
         log(f"  [{i}/{limit}] %{pct} · {len(tr)} paragraf · {it['title'][:44]}")
         time.sleep(0.4)
 
-    log("bitti")
+    log(f"bitti · atlanan (zaten tam): {atlandi}")
 
 
 if __name__ == "__main__":
