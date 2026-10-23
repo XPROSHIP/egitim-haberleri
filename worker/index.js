@@ -292,9 +292,9 @@ export default {
       const dryRun = body?.dryRun === true
       const MB = 1024 * 1024
       const audioBudget = Number(body?.audioBudget ?? 3072) * MB
-      const audioTarget = Number(body?.audioTarget ?? 2560) * MB
+      const audioTarget = Number(body?.audioTarget ?? 2900) * MB
       const imageBudget = Number(body?.imageBudget ?? 1280) * MB
-      const imageTarget = Number(body?.imageTarget ?? 1024) * MB
+      const imageTarget = Number(body?.imageTarget ?? 1200) * MB
       const minAgeDays = Math.max(1, Number(body?.minAgeDays ?? 14))
 
       const sizeOf = async (table) => {

@@ -21,12 +21,12 @@ if (!API || !SECRET) {
   process.exit(1)
 }
 
-/** MB cinsinden bütçeler. 3 GB ses + 1,25 GB görsel ≈ 4,25 GB (5 GB sınır). */
+/** MB cinsinden bütçeler. 3 GB ses + 1,25 GB görsel ≈ 4,25 GB (D1 sınırı 5 GB). */
 const LIMITS = {
   audioBudget: 3072,
-  audioTarget: 2560,
+  audioTarget: 2900,
   imageBudget: 1280,
-  imageTarget: 1024,
+  imageTarget: 1200,
   minAgeDays: 14,
 }
 
