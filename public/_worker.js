@@ -14,7 +14,7 @@
  *   · çerezsiz sayfa sayacı       → sunucu tarafında, kimlik tutmadan
  */
 
-const SITE = 'https://egitim-haberleri.omerzen.workers.dev'
+const SITE = 'https://egitim.omerzen.workers.dev'
 const API = 'https://egitim-haberleri-api.omerzen.workers.dev'
 const PODCAST_TITLE = 'ZENPOD Eğitim'
 /** Dağıtım sürümü (ölçüm için). */

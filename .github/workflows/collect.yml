@@ -117,6 +117,15 @@ jobs:
           GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
         run: python worker/scripts/retranslate_foreign.py --limit=20
 
+      # --- Depolama: kota dolduysa en eski sesleri ve görselleri temizle ---
+      # Kota dolmadıkça hiçbir şey silinmez. Silinen sesin yerine yenisi
+      # üretilmez (audio_retired); yani döngü kendi kendine dengelenir.
+      - name: Depolama kotasını dengele
+        env:
+          COLLECT_SECRET: ${{ secrets.COLLECT_SECRET }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+        run: node worker/scripts/prune-storage.mjs
+
       - name: Ses durumunu depoya kaydet
         run: |
           git config user.name  "github-actions[bot]"

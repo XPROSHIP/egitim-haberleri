@@ -1,0 +1,13 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "egitim-haberleri",
+  "main": "index.js",
+  "compatibility_date": "2026-10-12",
+
+  // Site "egitim.omerzen.workers.dev" adresine taşındı. Bu Worker eski
+  // adresi 301 ile yenisine yönlendirir; paylaşılmış bağlantılar kırılmaz.
+  // Deploy: npx wrangler deploy --config legacy/wrangler.jsonc
+  "vars": {
+    "TARGET": "https://egitim.omerzen.workers.dev"
+  }
+}

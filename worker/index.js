@@ -271,6 +271,147 @@ export default {
       return reply({ ok: true, id, bytes: data.length, recipe })
     }
 
+    /**
+     * Depolama bakımı (yalnızca toplayıcı).
+     *
+     * Sesler ve görseller D1'de tutuluyor; D1'in ücretsiz kademesi 5 GB.
+     * Sabit bir "şu kadar gün sonra sil" kuralı yerine kota izleniyor:
+     * toplam boyut bütçeyi geçerse EN ESKİ kayıtlardan başlanarak hedefe
+     * kadar silinir. Kota dolmadıkça hiçbir şeye dokunulmaz.
+     *
+     * Emniyet tabanı: `minAgeDays` günden yeni kayıtlar asla silinmez.
+     * Ses silinen haber `audio_retired` ile işaretlenir ki bir daha
+     * seslendirilmesin (silme ile üretim birbirini kovalamasın).
+     *
+     * Gövde (hepsi isteğe bağlı, MB cinsinden):
+     *   { audioBudget, audioTarget, imageBudget, imageTarget, minAgeDays, dryRun }
+     */
+    if (url.pathname === '/api/storage/prune' && request.method === 'POST') {
+      if (!authorized(request, env)) return reply({ error: 'unauthorized' }, 401)
+      const body = await request.json().catch(() => ({}))
+      const dryRun = body?.dryRun === true
+      const MB = 1024 * 1024
+      const audioBudget = Number(body?.audioBudget ?? 3072) * MB
+      const audioTarget = Number(body?.audioTarget ?? 2560) * MB
+      const imageBudget = Number(body?.imageBudget ?? 1280) * MB
+      const imageTarget = Number(body?.imageTarget ?? 1024) * MB
+      const minAgeDays = Math.max(1, Number(body?.minAgeDays ?? 14))
+
+      const sizeOf = async (table) => {
+        const r = await env.DB.prepare(
+          `SELECT COUNT(*) AS n, COALESCE(SUM(LENGTH(data)), 0) AS b FROM ${table}`,
+        ).first()
+        return { count: Number(r?.n ?? 0), bytes: Number(r?.b ?? 0) }
+      }
+
+      /** Tek sorguda silinecek en eski kayıtları seçer (kota aşılmadıysa boş). */
+      const chunky = async (sql, ids) => {
+        for (let i = 0; i < ids.length; i += 80) {
+          const part = ids.slice(i, i + 80)
+          await env.DB.prepare(sql(part.length)).bind(...part).run()
+        }
+      }
+      const marks = (n) => Array.from({ length: n }, () => '?').join(',')
+
+      const audioBefore = await sizeOf('news_audio')
+      const imageBefore = await sizeOf('images')
+
+      // ── Sesler ────────────────────────────────────────────────────────────
+      let audioDeleted = 0
+      let audioFreed = 0
+      if (audioBefore.bytes > audioBudget) {
+        // Podcast bölümleri kalıcıdır: silme adayı değil, ama toplama dahil.
+        //
+        // Emniyet tabanı sesin ÜRETİLDİĞİ zamana bakar (created_at), haberin
+        // kaynakta yayımlandığı tarihe değil: aylar önce yayımlanmış bir haber
+        // bugün toplanıp seslendirilmiş olabilir, o ses hemen silinmemeli.
+        // Silme sırası ise içerik yaşına göre: en eski haberin sesi önce gider.
+        const { results } = await env.DB.prepare(
+          `SELECT a.article_id AS id, LENGTH(a.data) AS b
+             FROM news_audio a
+             LEFT JOIN news n ON n.id = a.article_id
+            WHERE a.article_id NOT LIKE 'zenpod-%'
+              AND julianday(a.created_at) < julianday('now', ?)
+            ORDER BY julianday(COALESCE(n.published_at, a.created_at)) ASC
+            LIMIT 500`,
+        )
+          .bind(`-${minAgeDays} days`)
+          .all()
+
+        const ids = []
+        let remaining = audioBefore.bytes
+        for (const row of results ?? []) {
+          if (remaining <= audioTarget) break
+          ids.push(row.id)
+          remaining -= Number(row.b ?? 0)
+          audioFreed += Number(row.b ?? 0)
+        }
+        audioDeleted = ids.length
+        if (!dryRun && ids.length > 0) {
+          await chunky(
+            (n) => `DELETE FROM news_audio WHERE article_id IN (${marks(n)})`,
+            ids,
+          )
+          await chunky(
+            (n) =>
+              `UPDATE news SET audio_id = NULL, audio_duration = NULL, audio_retired = 1
+                WHERE id IN (${marks(n)})`,
+            ids,
+          )
+        }
+      }
+
+      // ── Görseller ─────────────────────────────────────────────────────────
+      let imageDeleted = 0
+      let imageFreed = 0
+      if (imageBefore.bytes > imageBudget) {
+        const { results } = await env.DB.prepare(
+          `SELECT key, LENGTH(data) AS b FROM images
+            WHERE julianday(created_at) < julianday('now', ?)
+            ORDER BY julianday(created_at) ASC
+            LIMIT 500`,
+        )
+          .bind(`-${minAgeDays} days`)
+          .all()
+
+        const keys = []
+        let remaining = imageBefore.bytes
+        for (const row of results ?? []) {
+          if (remaining <= imageTarget) break
+          keys.push(row.key)
+          remaining -= Number(row.b ?? 0)
+          imageFreed += Number(row.b ?? 0)
+        }
+        imageDeleted = keys.length
+        if (!dryRun && keys.length > 0) {
+          await chunky((n) => `DELETE FROM images WHERE key IN (${marks(n)})`, keys)
+          // Haber kaydı silinmiş görsele işaret etmesin: arayüz zaten
+          // kategori renkli yedeği gösteriyor, boşa 404 isteği olmasın.
+          await chunky(
+            (n) => `UPDATE news SET source_image = NULL WHERE source_image IN (${marks(n)})`,
+            keys.map((k) => `/img/${k}`),
+          )
+        }
+      }
+
+      return reply({
+        ok: true,
+        dryRun,
+        audio: {
+          before: audioBefore.bytes,
+          after: audioBefore.bytes - audioFreed,
+          deleted: audioDeleted,
+          freed: audioFreed,
+        },
+        images: {
+          before: imageBefore.bytes,
+          after: imageBefore.bytes - imageFreed,
+          deleted: imageDeleted,
+          freed: imageFreed,
+        },
+      })
+    }
+
     if (url.pathname.startsWith('/img/')) {
       const key = decodeURIComponent(url.pathname.slice('/img/'.length))
       const row = await env.DB?.prepare('SELECT data, type FROM images WHERE key = ?')

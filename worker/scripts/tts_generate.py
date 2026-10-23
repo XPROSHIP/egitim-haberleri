@@ -5,14 +5,12 @@ Haberleri EMA Lightning ile sese çevirip Worker'a yükler.
 GitHub Actions'ta çalışır:
   pip install ema-lightning --extra-index-url https://download.pytorch.org/whl/cpu
 
-İki kuyruk, bu sırayla:
-  1) SESİ OLMAYAN haberler  → yeni yayımlanan haberler her zaman önce,
-     yeniden üretim kuyruğunun arkasında kalmaz.
-  2) BAYAT sesler            → okuma tarifi sürümü eski kalan sesler.
-     Tarift sürümü içerikten otomatik türetilir (tts_recipe.py): okuma
-     kuralları, model veya okunan metin uzunluğu değiştiyse eski sesler
-     yeniden üretilir. Yalnızca bit hızı/örnekleme hızı gibi kodlama
-     değişiklikleri taramı değiştirmez, sadece yeni dosyalara uygulanır.
+Tek kural: yalnızca SESİ HİÇ OLMAYAN haberler seslendirilir. Okuma tarifi
+(kurallar, model, metin uzunluğu) değişse bile mevcut sesler yeniden
+üretilmez — eski haber, o gün nasıl okunduysa öyle kalır. Tarif sürümü
+yalnızca kayıt/denetim için `news_audio.recipe` alanında tutulur. Depolama
+kotası dolduğunda sesi silinen haberler `audio_retired` ile işaretlenir ve
+bir daha seslendirilmez.
 
 Her ses tek tek yüklenir: yeni dosya yüklenmeden eskisi durmaya devam eder,
 ziyaretçi hiçbir ses kaybı yaşamaz. Ziyaretçiye hiçbir durum gösterilmez.
@@ -81,33 +79,29 @@ def upload(article_id, data: bytes, duration: float, recipe: str | None):
     raise last
 
 
-def select_queue(items, recipe):
+def select_queue(items, _recipe=None):
     """
     İş sırasını kurar.
 
-    1) Sesi hiç olmayan haberler (yeni yayınlar) — her zaman önce.
-    2) Okuma tarifi bayat kalan sesler — sırasıyla.
+    Yalnızca **sesi hiç olmayan** haberler seslendirilir.
+
+    Okuma kuralları, model ya da metin hazırlama değiştiğinde mevcut sesler
+    yeniden üretilmez: eski haber, o gün nasıl okunduysa öyle kalır. Tarif
+    sürümü (`recipe`) yalnızca kayıt/denetim amaçlı tutulur.
+
+    `audioRetired` işaretli haberlerin sesi depolama kotası için bilerek
+    silinmiştir; bir daha seslendirilmez (silme ile üretim sonsuz döngüye
+    girmesin).
     """
-    fresh = [it for it in items if it.get("id") and not it.get("hasAudio") and (it.get("body") or [])]
-    stale = [
+    fresh = [
         it
         for it in items
         if it.get("id")
-        and it.get("hasAudio")
-        and it.get("audioRecipe")
-        and it.get("audioRecipe") != recipe
+        and not it.get("hasAudio")
+        and not it.get("audioRetired")
         and (it.get("body") or [])
     ]
-    # Tarifi hiç kaydedilmemiş sesler (eski üretimler) de bayattır.
-    unknown = [
-        it
-        for it in items
-        if it.get("id")
-        and it.get("hasAudio")
-        and not it.get("audioRecipe")
-        and (it.get("body") or [])
-    ]
-    return fresh, stale + unknown
+    return fresh, []
 
 
 def main():
@@ -119,17 +113,17 @@ def main():
 
     data = api_json("/api/news?limit=500")
     items = data.get("items", [])
-    fresh, stale = select_queue(items, recipe)
-    log(f"sesi olmayan: {len(fresh)} · bayat (yenilenecek): {len(stale)}")
+    fresh, _ = select_queue(items, recipe)
+    log(f"sesi olmayan: {len(fresh)} · mevcut sesler korunuyor (yeniden üretim yok)")
 
     limit = int(os.environ.get("TTS_LIMIT", "0"))
     if limit:
-        stale = stale[:limit]
-        log(f"TEST: yalnizca {limit} bayat haber islenecek")
+        fresh = fresh[:limit]
+        log(f"TEST: yalnizca {limit} haber islenecek")
 
-    todo = fresh + stale
+    todo = fresh
     if not todo:
-        log("sesi olmayan ya da bayat haber yok")
+        log("seslendirilecek yeni haber yok")
         _report(recipe, 0, 0, 0, 0)
         return
 

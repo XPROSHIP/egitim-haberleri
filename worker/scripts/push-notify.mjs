@@ -44,7 +44,7 @@ async function main() {
   }
 
   webpush.setVapidDetails(
-    'mailto:destek@egitim-haberleri.omerzen.workers.dev',
+    'mailto:destek@egitim.omerzen.workers.dev',
     publicKey,
     privateKey,
   )

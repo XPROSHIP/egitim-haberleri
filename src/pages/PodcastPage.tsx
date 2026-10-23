@@ -43,7 +43,7 @@ function EpisodePlayer({ episode }: { episode: PodcastEpisode }) {
   const [playing, setPlaying] = useState(false)
   const [current, setCurrent] = useState(0)
   const [duration, setDuration] = useState(episode.duration ?? 0)
-  const src = `https://egitim-haberleri.omerzen.workers.dev/podcast/${episode.id}.mp3`
+  const src = `https://egitim.omerzen.workers.dev/podcast/${episode.id}.mp3`
   // İndirme adresi API Worker'dan: SPA yedeğine düşme ihtimali yok,
   // sunucu ayrıca doğru dosya adını gönderiyor.
   const downloadSrc = `${API}/api/audio/${episode.id}`

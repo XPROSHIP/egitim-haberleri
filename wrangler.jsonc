@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "egitim-haberleri",
+  "name": "egitim",
   "compatibility_date": "2026-10-12",
   "observability": {
     "enabled": true
@@ -26,7 +26,7 @@
   ],
 
   "vars": {
-    "SITE_URL": "https://egitim-haberleri.omerzen.workers.dev",
+    "SITE_URL": "https://egitim.omerzen.workers.dev",
     "API_URL": "https://egitim-haberleri-api.omerzen.workers.dev"
   }
 }

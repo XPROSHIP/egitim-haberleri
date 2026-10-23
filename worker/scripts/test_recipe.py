@@ -6,7 +6,9 @@ Kanıtlar:
   1) Bit hızı / örnekleme hızı değişimi tarif sürümünü DEĞİŞTİRMEZ.
   2) Metin hazırlama kuralları, model veya okunan metin uzunluğu değişimi
      tarif sürümünü DEĞİŞTİRİR.
-  3) Kuyruk sırası: sesi olmayan haberler her zaman önce, bayat sesler sonra.
+  3) Kuyruk: yalnızca sesi hiç olmayan haberler. Ses tarifi değişse bile
+     mevcut sesler YENİDEN ÜRETİLMEZ; kotası dolduğu için silinmiş
+     (`audioRetired`) haberler de bir daha seslendirilmez.
   4) Sürüm elle değiştirilemez: içerikten türetilir.
 
 Çalıştırma:  python worker/scripts/test_recipe.py
@@ -66,20 +68,28 @@ kontrol(
     surum(kural="farkli-kural-hashi") != temel,
 )
 
-print("3) Kuyruk sirasi: yeni once, bayat sonra")
+print("3) Kuyruk: yalnizca sesi olmayanlar, mevcut sesler korunur")
 r = surum()
 ornek = [
     {"id": "1", "hasAudio": False, "body": ["x"], "title": "yeni"},
     {"id": "2", "hasAudio": True, "audioRecipe": r, "body": ["x"], "title": "guncel"},
     {"id": "3", "hasAudio": True, "audioRecipe": "tts-eski", "body": ["x"], "title": "bayat"},
     {"id": "4", "hasAudio": True, "audioRecipe": None, "body": ["x"], "title": "tarifsiz"},
+    {
+        "id": "5",
+        "hasAudio": False,
+        "audioRetired": True,
+        "body": ["x"],
+        "title": "emekli",
+    },
+    {"id": "6", "hasAudio": False, "body": [], "title": "govdesiz"},
 ]
-yeni, bayat = tts_generate.select_queue(ornek, r)
-kontrol("yeni haber yeni kuyrukta", [i["title"] for i in yeni] == ["yeni"])
-kontrol(
-    "bayat + tarifsiz sesler yenileme kuyrugunda",
-    sorted(i["title"] for i in bayat) == ["bayat", "tarifsiz"],
-)
+yeni, yenilenecek = tts_generate.select_queue(ornek, r)
+kontrol("yalnizca sesi olmayan haber kuyrukta", [i["title"] for i in yeni] == ["yeni"])
+kontrol("tarif degisse de eski sesler yenilenmiyor", yenilenecek == [])
+kontrol("kotadan silinen ses bir daha uretilmiyor", "emekli" not in [i["title"] for i in yeni])
+kontrol("govdesiz haber seslendirilmiyor", "govdesiz" not in [i["title"] for i in yeni])
+
 
 print("4) Surum elle degistirilemez (icerikten turetilir)")
 kontrol("surum icerikten turetiliyor", surum().startswith("tts-") and len(surum()) == 14)

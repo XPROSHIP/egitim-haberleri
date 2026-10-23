@@ -261,8 +261,13 @@ export function fromRow(r) {
     rawTitle: r.raw_title ?? undefined,
     hasAudio: !!r.audio_id,
     audioDuration: r.audio_duration ?? undefined,
-    /** Sesin üretildiği okuma tarifi sürümü (bayat ses tespiti için). */
+    /** Sesin üretildiği okuma tarifi sürümü (yalnızca kayıt/denetim amaçlı). */
     audioRecipe: r.audio_recipe ?? undefined,
+    /**
+     * Ses kotası dolduğu için sesi silinmiş haber. Bir daha seslendirilmez;
+     * aksi halde silme ile üretim birbirini kovalar.
+     */
+    audioRetired: !!r.audio_retired,
   }
 }
 
