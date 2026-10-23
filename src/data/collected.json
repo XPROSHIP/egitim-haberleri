@@ -5013,6 +5013,40 @@
     "lang": "tr"
   },
   {
+    "id": "n_1j3sv6b_mvk7hlww",
+    "slug": "osym-2026-tus-ikinci-donem-yerlestirme-sonuclari-ile-taban-puanlarini-ac-7atki",
+    "title": "ÖSYM 2026 TUS ikinci dönem yerleştirme sonuçları ile taban puanlarını açıkladı",
+    "excerpt": "ÖSYM tarafından 2026 TUS 2. dönem yerleştirme sonuçları ile branş bazındaki puanlar erişime açıldı. Adaylar yerleştirme neticeleriyle birlikte taban ve tavan puanları görüntüleyebiliyor.",
+    "body": [
+      "2026 TUS 2. dönem yerleştirme süreci tamamlanarak sonuçlar adayların incelemesine sunuldu. Sınava katılan adaylar sonuç belgelerine ilgili sorgulama ekranı üzerinden erişebiliyor.",
+      "ÖSYM tarafından yayımlanan tablolarda branşlara göre oluşan taban ve tavan puanlar detaylandırıldı. İlan edilen listede en yüksek puanların yanı sıra boş kalan kontenjanlara ilişkin bilgiler de paylaşıldı."
+    ],
+    "category": "sinav",
+    "tags": [
+      "TUS",
+      "ÖSYM",
+      "SINAV SONUÇLARI",
+      "TABAN PUANLAR"
+    ],
+    "source": {
+      "name": "takvim.com.tr",
+      "url": "https://www.takvim.com.tr/egitim/2026-tus-2-donem-tercih-sonuclari-6532330",
+      "image": "/img/2026-tus-2-d-nem-sonu-lar-a-kland-taban-ve-tavan-puanlar-da--nd6yza.webp"
+    },
+    "publishedAt": "2026-10-15T08:24:20.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "province": "Van",
+    "fullText": false,
+    "score": 4.6,
+    "dedupeKey": "7atki",
+    "rawTitle": "2026 TUS 2. dönem sonuçları açıklandı! Taban ve tavan puanları da belli oldu: İşte sorgulama ekranı",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_1429kqy_mvgl1se5",
     "slug": "osym-kpss-lisans-sonuclarinin-ardindan-adaylarin-brans-bazinda-siralama--1m79yc",
     "title": "ÖSYM KPSS lisans sonuçlarının ardından adayların branş bazında sıralama süreci bekleniyor",
@@ -6583,6 +6617,39 @@
     "score": 3.6,
     "dedupeKey": "m0fml8",
     "rawTitle": "Öğrenciler hem okuyacak hem kazanacak! İŞKUR Gençlik Programı'nda aylık ödeme tutarı belli oldu",
+    "status": "review",
+    "lang": "tr"
+  },
+  {
+    "id": "n_r2vyhz_mvk7hlwx",
+    "slug": "i-skur-genclik-programi-ile-150-bin-ogrenciye-gunluk-1-375-lira-destek-v-t6cjyt",
+    "title": "İŞKUR Gençlik Programı ile 150 bin öğrenciye günlük 1.375 lira destek verilecek",
+    "excerpt": "Çalışma ve Sosyal Güvenlik Bakanı Vedat Işıkhan, İŞKUR Gençlik Programı'nın yeni dönem kontenjanını açıkladı. Program kapsamında 150 bin öğrenciye günlük 1.375 lira destek ödemesi yapılacak.",
+    "body": [
+      "Çalışma ve Sosyal Güvenlik Bakanı Vedat Işıkhan, İŞKUR Gençlik Programı başvurularının başladığını duyurdu. Yeni dönemde programa kabul edilecek toplam kontenjan 150 bin öğrenci olarak belirlendi.",
+      "Eğitimlerine devam eden öğrencilere yönelik hazırlanan programda katılımcılara günlük 1.375 lira maddi destek sağlanacak. Başvuruların başlamasıyla birlikte sürece ilişkin usul ve esaslar kamuoyuyla paylaşıldı."
+    ],
+    "category": "gundem",
+    "tags": [
+      "İŞKUR",
+      "GENÇLİK PROGRAMI",
+      "ÖĞRENCİ DESTEĞİ",
+      "VEDAT IŞIKHAN"
+    ],
+    "source": {
+      "name": "takvim.com.tr",
+      "url": "https://www.takvim.com.tr/egitim/iskur-genclik-programi-basliyor-150-bin-ogrenciye-gunluk-1375-lira-odeme-yapilacak-6530440",
+      "image": "/img/i-kur-gen-lik-program-ba-vurular-ba-l-yor-150-bin-renciye-g--wzxgqn.webp"
+    },
+    "publishedAt": "2026-10-12T18:18:30.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": true,
+    "fullText": false,
+    "score": 3.6,
+    "dedupeKey": "t6cjyt",
+    "rawTitle": "İŞKUR Gençlik Programı başvuruları başlıyor! 150 bin öğrenciye günlük 1.375 lira destek",
     "status": "review",
     "lang": "tr"
   },
