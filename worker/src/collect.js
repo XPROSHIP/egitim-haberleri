@@ -329,11 +329,16 @@ export async function collect({
     }
   }
 
-  // 8) Görseli olmayanlar yayınlanmaz
-  const withImage = clusters.filter((c) => c.localImage)
+  // 8) Görseli olmayanlar yayınlanmaz.
+  //    Ancak görseli OLUP yüklenemeyen haber yayından düşmez: depolama dolu,
+  //    kaynak engelli gibi geçici durumlarda bütün tur boşa gitmesin. Böyle
+  //    haberler görselsiz yayınlanır, arayüz kategori renkli yedeği gösterir;
+  //    metin ve ses yerinde kalır.
+  const withImage = clusters.filter((c) => c.localImage || c.image)
+  const localOnly = withImage.filter((c) => c.localImage).length
   run.noImage = clusters.length - withImage.length
   logger.log(
-    `[collect] görsel: ${withImage.length}, tam metin: ${run.withFullText}, görselsiz elenen: ${run.noImage}`,
+    `[collect] görsel: ${localOnly}, yedeğe düşecek: ${withImage.length - localOnly}, tam metin: ${run.withFullText}, görselsiz elenen: ${run.noImage}`,
   )
 
   // 9) Gemini ile başlık, özet, etiket, kategori

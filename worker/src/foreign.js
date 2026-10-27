@@ -116,7 +116,10 @@ export async function collectForeign({
     }),
   )
 
-  const withImage = selected.filter((c) => c.localImage)
+  // Görseli yüklenemeyen (depolama dolu, kaynak engeli) haber de çevrilir;
+  // yalnızca hiç görseli olmayanlar elenir. Aksi halde geçici bir depolama
+  // sorunu yabancı haber akışını tümden durdurur.
+  const withImage = selected.filter((c) => c.localImage || c.image)
   if (!withImage.length) {
     logger.log('[foreign] görsel bulunamadı, atlandı')
     return []

@@ -21,14 +21,25 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 50
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: '22'
 
       - name: Bağımlılıkları kur
         run: npm ci
+
+      # --- Depolama: yeni tur başlamadan yer aç ---
+      # D1'in ücretsiz kademesi 500 MB. Sınır aşılınca D1 yazmayı tamamen
+      # reddeder (haber, ses ve görsel aynı anda durur). Bu yüzden temizlik
+      # toplamanın SONUNDA değil, ÖNÜNDE yapılır: tur başlarken yer hazırdır.
+      # Kota dolmadıkça hiçbir şey silinmez.
+      - name: Depolama kotasını dengele
+        env:
+          COLLECT_SECRET: ${{ secrets.COLLECT_SECRET }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+        run: node worker/scripts/prune-storage.mjs
 
       - name: Haberleri topla ve yayınla
         env:
@@ -69,14 +80,14 @@ jobs:
       # Yeni haberlerin tam metni Türkçe sese çevrilir ve Worker'a yüklenir.
       # Site, sesi varsa onu çalar; yoksa tarayıcının kendi TTS'ine düşer.
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
           cache: 'pip'
           cache-dependency-path: worker/requirements-tts.txt
 
       - name: Model ağırlıklarını önbelleğe al
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.cache/huggingface
           key: ema-lightning-v1
@@ -117,14 +128,7 @@ jobs:
           GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
         run: python worker/scripts/retranslate_foreign.py --limit=20
 
-      # --- Depolama: kota dolduysa en eski sesleri ve görselleri temizle ---
-      # Kota dolmadıkça hiçbir şey silinmez. Silinen sesin yerine yenisi
-      # üretilmez (audio_retired); yani döngü kendi kendine dengelenir.
-      - name: Depolama kotasını dengele
-        env:
-          COLLECT_SECRET: ${{ secrets.COLLECT_SECRET }}
-          VITE_API_URL: ${{ secrets.VITE_API_URL }}
-        run: node worker/scripts/prune-storage.mjs
+      # --- Depolama temizliği turun BAŞINDA yapılıyor (yukarıya bak) ---
 
       - name: Ses durumunu depoya kaydet
         run: |

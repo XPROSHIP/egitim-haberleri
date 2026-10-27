@@ -274,28 +274,43 @@ export default {
     /**
      * Depolama bakımı (yalnızca toplayıcı).
      *
-     * Sesler ve görseller D1'de tutuluyor; D1'in ücretsiz kademesi 5 GB.
-     * Sabit bir "şu kadar gün sonra sil" kuralı yerine kota izleniyor:
-     * toplam boyut bütçeyi geçerse EN ESKİ kayıtlardan başlanarak hedefe
-     * kadar silinir. Kota dolmadıkça hiçbir şeye dokunulmaz.
+     * Sesler ve görseller D1'de tutuluyor. D1'in ÜCRETSİZ kademesi 500 MB'tır
+     * (5 GB olan sınır ücretli kademenindir). Sınır aşılınca D1 yazmayı
+     * tamamen reddeder — "Exceeded maximum DB size" — yani toplama, ses ve
+     * görsel sessizce durur. Bu yüzden sabit "şu kadar gün sonra sil" yerine
+     * kota izleniyor: toplam boyut bütçeyi geçerse EN ESKİ kayıtlardan
+     * başlanarak hedefe kadar silinir. Kota dolmadıkça hiçbir şeye dokunulmaz.
      *
-     * Emniyet tabanı: `minAgeDays` günden yeni kayıtlar asla silinmez.
-     * Ses silinen haber `audio_retired` ile işaretlenir ki bir daha
-     * seslendirilmesin (silme ile üretim birbirini kovalamasın).
+     * Bütçeler 500 MB'a göre: ses 320 MB, görsel 100 MB → ~115 MB emniyet
+     * payı (metin, indeksler, sayfa artıkları).
+     *
+     * Emniyet tabanı: yeni üretilmiş sese (5 gün) ve yeni görsele (7 gün)
+     * dokunulmaz. Ses silinen haber `audio_retired` ile işaretlenir ki bir
+     * daha seslendirilmesin (silme ile üretim birbirini kovalamasın).
+     *
+     * Podcast: en yeni `podcastKeep` bölüm tutulur (besleme zaten 30 bölüm
+     * listeliyor), daha eskileri silinir — aksi halde hiç silinmeyen tek
+     * kalem olur ve kotayı yıllar içinde tek başına doldurur.
      *
      * Gövde (hepsi isteğe bağlı, MB cinsinden):
-     *   { audioBudget, audioTarget, imageBudget, imageTarget, minAgeDays, dryRun }
+     *   { audioBudget, audioTarget, imageBudget, imageTarget,
+     *     audioMinAgeDays, imageMinAgeDays, podcastKeep, dryRun }
      */
     if (url.pathname === '/api/storage/prune' && request.method === 'POST') {
       if (!authorized(request, env)) return reply({ error: 'unauthorized' }, 401)
       const body = await request.json().catch(() => ({}))
       const dryRun = body?.dryRun === true
       const MB = 1024 * 1024
-      const audioBudget = Number(body?.audioBudget ?? 3072) * MB
-      const audioTarget = Number(body?.audioTarget ?? 2900) * MB
-      const imageBudget = Number(body?.imageBudget ?? 1280) * MB
-      const imageTarget = Number(body?.imageTarget ?? 1200) * MB
-      const minAgeDays = Math.max(1, Number(body?.minAgeDays ?? 14))
+      const audioBudget = Number(body?.audioBudget ?? 320) * MB
+      const audioTarget = Number(body?.audioTarget ?? 290) * MB
+      const imageBudget = Number(body?.imageBudget ?? 100) * MB
+      const imageTarget = Number(body?.imageTarget ?? 85) * MB
+      // Eski çağrılar tek bir `minAgeDays` gönderiyordu; ikisine de uygulanır.
+      const legacyAge =
+        body?.minAgeDays === undefined ? null : Math.max(1, Number(body.minAgeDays))
+      const audioAge = Math.max(1, Number(body?.audioMinAgeDays ?? legacyAge ?? 5))
+      const imageAge = Math.max(1, Number(body?.imageMinAgeDays ?? legacyAge ?? 7))
+      const podcastKeep = Math.max(1, Math.min(200, Number(body?.podcastKeep ?? 30)))
 
       const sizeOf = async (table) => {
         const r = await env.DB.prepare(
@@ -313,6 +328,37 @@ export default {
       }
       const marks = (n) => Array.from({ length: n }, () => '?').join(',')
 
+      // ── Podcast: en yeni N bölüm kalır ───────────────────────────────────
+      let podcastDeleted = 0
+      let podcastFreed = 0
+      {
+        const { results } = await env.DB.prepare(
+          `SELECT p.id AS id, p.audio_id AS audioId, COALESCE(LENGTH(a.data), 0) AS b
+             FROM podcast_episodes p
+             LEFT JOIN news_audio a ON a.article_id = p.audio_id
+            ORDER BY p.published_at DESC
+            LIMIT -1 OFFSET ?`,
+        )
+          .bind(podcastKeep)
+          .all()
+        const rows = results ?? []
+        podcastDeleted = rows.length
+        for (const r of rows) podcastFreed += Number(r.b ?? 0)
+        if (!dryRun && rows.length > 0) {
+          const audioIds = rows.map((r) => r.audioId).filter(Boolean)
+          if (audioIds.length > 0) {
+            await chunky(
+              (n) => `DELETE FROM news_audio WHERE article_id IN (${marks(n)})`,
+              audioIds,
+            )
+          }
+          await chunky(
+            (n) => `DELETE FROM podcast_episodes WHERE id IN (${marks(n)})`,
+            rows.map((r) => r.id),
+          )
+        }
+      }
+
       const audioBefore = await sizeOf('news_audio')
       const imageBefore = await sizeOf('images')
 
@@ -320,7 +366,7 @@ export default {
       let audioDeleted = 0
       let audioFreed = 0
       if (audioBefore.bytes > audioBudget) {
-        // Podcast bölümleri kalıcıdır: silme adayı değil, ama toplama dahil.
+        // Podcast bölümleri burada aday değil: sayıları yukarıda sabitlendi.
         //
         // Emniyet tabanı sesin ÜRETİLDİĞİ zamana bakar (created_at), haberin
         // kaynakta yayımlandığı tarihe değil: aylar önce yayımlanmış bir haber
@@ -335,7 +381,7 @@ export default {
             ORDER BY julianday(COALESCE(n.published_at, a.created_at)) ASC
             LIMIT 500`,
         )
-          .bind(`-${minAgeDays} days`)
+          .bind(`-${audioAge} days`)
           .all()
 
         const ids = []
@@ -371,7 +417,7 @@ export default {
             ORDER BY julianday(created_at) ASC
             LIMIT 500`,
         )
-          .bind(`-${minAgeDays} days`)
+          .bind(`-${imageAge} days`)
           .all()
 
         const keys = []
@@ -397,6 +443,11 @@ export default {
       return reply({
         ok: true,
         dryRun,
+        podcast: {
+          keep: podcastKeep,
+          deleted: podcastDeleted,
+          freed: podcastFreed,
+        },
         audio: {
           before: audioBefore.bytes,
           after: audioBefore.bytes - audioFreed,
