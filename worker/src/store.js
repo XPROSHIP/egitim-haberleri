@@ -146,7 +146,10 @@ export function createD1Store(db) {
     async all(limit = 500) {
       const { results } = await db
         .prepare(
-          `SELECT * FROM news WHERE status = 'published' ORDER BY published_at DESC LIMIT ?`,
+          `SELECT id, slug, title, excerpt, category, tags, source_name, source_url,
+                  source_image, published_at, views, likes, featured, province, score,
+                  status, raw_title, full_text, lang, audio_id, audio_duration
+           FROM news WHERE status = 'published' ORDER BY published_at DESC LIMIT ?`,
         )
         .bind(limit)
         .all()

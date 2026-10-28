@@ -10,7 +10,10 @@
 /** Doğrudan RSS beslemeleri. */
 export const RSS_FEEDS = [
   { name: 'Çorum İl MEB', url: 'https://corum.meb.gov.tr/meb_iys_dosyalar/xml/rss_haberler.xml', weight: 6, province: 'Çorum', category: 'corum' },
-  { name: 'Çorum İl MEB', url: 'https://corum.meb.gov.tr/meb_iys_dosyalar/xml/rss_duyurular.xml', weight: 4, province: 'Çorum', category: 'corum' },  { name: 'Anadolu Ajansı', url: 'https://www.aa.com.tr/tr/rss/default?cat=egitim', weight: 4 },
+  { name: 'Çorum İl MEB', url: 'https://corum.meb.gov.tr/meb_iys_dosyalar/xml/rss_duyurular.xml', weight: 4, province: 'Çorum', category: 'corum' },
+  { name: 'MEB Mesleki Eğitim (MTEGM)', url: 'https://mtegm.meb.gov.tr/meb_iys_dosyalar/xml/rss_haberler.xml', weight: 6, category: 'mesleki' },
+  { name: 'MEB Mesleki Eğitim Duyurular', url: 'https://mtegm.meb.gov.tr/meb_iys_dosyalar/xml/rss_duyurular.xml', weight: 5, category: 'mesleki' },
+  { name: 'Anadolu Ajansı', url: 'https://www.aa.com.tr/tr/rss/default?cat=egitim', weight: 4 },
   { name: 'Anadolu Ajansı', url: 'https://www.aa.com.tr/tr/rss/default?cat=guncel', weight: 1 },
   { name: 'Sözcü', url: 'https://www.sozcu.com.tr/feeds-rss-category-egitim', weight: 3 },
   { name: 'Hürriyet', url: 'https://www.hurriyet.com.tr/rss/egitim', weight: 4 },
@@ -175,10 +178,10 @@ export const FOREIGN_EDU_TERMS = [
 export const TRANSLATE_MODEL = 'gemini-3.5-flash-lite'
 
 /** Bir turda kaç yabancı haber çevrilsin. */
-export const MAX_FOREIGN_PER_RUN = 10
+export const MAX_FOREIGN_PER_RUN = 3
 
 /** Yabancı kaynaktan kaynak başına alınabilecek en fazla haber. */
-export const MAX_FOREIGN_PER_SOURCE = 3
+export const MAX_FOREIGN_PER_SOURCE = 1
 
 /** Kategori tespiti: hangi başlık hangi kategoriye gider. */
 export const CATEGORY_RULES = [

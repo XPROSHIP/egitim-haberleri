@@ -204,7 +204,7 @@ export default {
     await dispatchCollect(env)
   },
 
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url)
     const cors = corsFor(request)
     /** Bu isteğe ait CORS başlıklarıyla JSON döndürür. */
@@ -654,19 +654,26 @@ export default {
     }
 
     if (url.pathname.startsWith('/img/')) {
+      const cache = caches.default
+      const cacheKey = new Request(url.toString(), request)
+      const cached = await cache.match(cacheKey)
+      if (cached) return cached
+
       const key = decodeURIComponent(url.pathname.slice('/img/'.length))
       const row = await env.DB_IMAGES?.prepare('SELECT data, type FROM images WHERE key = ?')
         .bind(key)
         .first()
       const bytes = toBytes(row?.data)
       if (!bytes) return new Response('Not found', { status: 404 })
-      return new Response(bytes, {
+      const res = new Response(bytes, {
         headers: {
           'content-type': row?.type ?? 'image/jpeg',
           'cache-control': 'public, max-age=31536000, immutable',
           ...cors,
         },
       })
+      ctx?.waitUntil?.(cache.put(cacheKey, res.clone()))
+      return res
     }
 
     // Görsel yükleme (yalnızca toplayıcı)

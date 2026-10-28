@@ -60,8 +60,23 @@ export function useAllNews() {
 
 export function useArticle(slug: string | undefined) {
   const { data, isLoading } = useAllNews()
-  const item = data?.find((n) => n.slug === slug)
-  return { item, isLoading: isLoading && !data }
+  const cached = data?.find((n) => n.slug === slug)
+
+  const single = useQuery({
+    queryKey: ['news', 'item', slug],
+    queryFn: async (): Promise<NewsItem | null> => {
+      if (!slug || !BASE) return null
+      const res = await fetch(`${BASE}/api/news/${encodeURIComponent(slug)}`)
+      if (!res.ok) return null
+      const item = (await res.json()) as NewsItem
+      return decodeItem(withImageBase(item))
+    },
+    enabled: Boolean(slug && (!cached || !cached.body || cached.body.length === 0)),
+    staleTime: 5 * 60_000,
+  })
+
+  const item = single.data ?? cached
+  return { item, isLoading: (!item && isLoading) || single.isLoading }
 }
 
 export type FeedFilters = {

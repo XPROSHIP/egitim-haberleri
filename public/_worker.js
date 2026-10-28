@@ -375,13 +375,17 @@ export default {
     const site = getSite(url, env)
     const api = getApi(env)
 
-    if (url.pathname === '/robots.txt') {
+    // TurkTicaret gibi yönlendirme servislerinin eklediği yinelenen eğik çizgileri temizle:
+    // Örneğin https://egitim.omerzen.workers.dev//sitemap.xml -> /sitemap.xml
+    const pathname = url.pathname.replace(/\/+/g, '/') || '/'
+
+    if (pathname === '/robots.txt') {
       return new Response(robots(site), {
         headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=3600' },
       })
     }
 
-    if (url.pathname === '/sitemap.xml') {
+    if (pathname === '/sitemap.xml') {
       return new Response(await sitemap(env, site), {
         headers: {
           'content-type': 'application/xml; charset=utf-8',
@@ -391,7 +395,7 @@ export default {
     }
 
     // RSS
-    if (url.pathname === '/feed.xml' || url.pathname === '/rss.xml') {
+    if (pathname === '/feed.xml' || pathname === '/rss.xml') {
       const items = await listNews(env, { limit: 50 })
       return new Response(
         rssFeed(items, {
@@ -411,7 +415,7 @@ export default {
       )
     }
 
-    const catFeed = url.pathname.match(/^\/kategori\/([a-z-]+)\.xml$/)
+    const catFeed = pathname.match(/^\/kategori\/([a-z-]+)\.xml$/)
     if (catFeed) {
       const slug = catFeed[1]
       const name = CATEGORY_NAMES[slug] ?? slug
@@ -433,7 +437,7 @@ export default {
       )
     }
 
-    if (url.pathname === '/podcast.xml') {
+    if (pathname === '/podcast.xml') {
       return new Response(await podcastFeed(env, site, api), {
         headers: {
           'content-type': 'application/rss+xml; charset=utf-8',
@@ -443,8 +447,8 @@ export default {
     }
 
     // Podcast bölümü sesi: DB_AUDIO, DB veya API fallback ile asla 404 dönmez
-    if (url.pathname.startsWith('/podcast/') && url.pathname.endsWith('.mp3')) {
-      const id = url.pathname.slice('/podcast/'.length, -4)
+    if (pathname.startsWith('/podcast/') && pathname.endsWith('.mp3')) {
+      const id = pathname.slice('/podcast/'.length, -4)
       let row = null
       try {
         const dbAudio = env.DB_AUDIO ?? env.DB
@@ -510,13 +514,13 @@ export default {
     }
 
     // Meta yazımı yalnızca haber ve kategori adreslerinde gerekir.
-    const article = url.pathname.match(/^\/haber\/([^/]+)$/)
-    const cat = url.pathname.match(/^\/kategori\/([^/]+)$/)
+    const article = pathname.match(/^\/haber\/([^/]+)$/)
+    const cat = pathname.match(/^\/kategori\/([^/]+)$/)
     if (!article && !cat) {
       // Dosya uzantısı olan bilinmeyen bir yol (mp3, mp4, pdf, zip...):
       // SPA kabuğu DEĞİL, temiz 404 dönsün. Aksi halde indirilen dosyanın
       // içine HTML yazılıyor.
-      if (/\.[a-z0-9]{2,5}$/i.test(url.pathname)) {
+      if (/\.[a-z0-9]{2,5}$/i.test(pathname)) {
         return new Response('Not found', {
           status: 404,
           headers: { 'content-type': 'text/plain; charset=utf-8' },
