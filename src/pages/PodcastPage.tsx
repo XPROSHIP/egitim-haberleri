@@ -36,6 +36,8 @@ function formatTime(seconds: number): string {
   return `${m}:${String(s % 60).padStart(2, '0')}`
 }
 
+const RATES = [1, 1.25, 1.5, 2] as const
+
 /** Tek bir bölüm oynatıcısı: play/pause, ilerleme çubuğu, indirme. */
 function EpisodePlayer({ episode }: { episode: PodcastEpisode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -43,10 +45,20 @@ function EpisodePlayer({ episode }: { episode: PodcastEpisode }) {
   const [playing, setPlaying] = useState(false)
   const [current, setCurrent] = useState(0)
   const [duration, setDuration] = useState(episode.duration ?? 0)
-  const src = `https://egitim.omerzen.workers.dev/podcast/${episode.id}.mp3`
-  // İndirme adresi API Worker'dan: SPA yedeğine düşme ihtimali yok,
-  // sunucu ayrıca doğru dosya adını gönderiyor.
+  const [rate, setRate] = useState<number>(1)
+  // Hem oynatma hem indirme canlı API Worker üzerinden doğrudan sunulur:
+  // böylece SPA fallback'e düşme ya da domain uyuşmazlığı yaşanmaz.
+  const src = `${API}/api/audio/${episode.id}`
   const downloadSrc = `${API}/api/audio/${episode.id}`
+
+  const cycleRate = () => {
+    const idx = RATES.indexOf(rate as (typeof RATES)[number])
+    const nextRate = RATES[(idx + 1) % RATES.length]
+    setRate(nextRate)
+    if (audioRef.current) {
+      audioRef.current.playbackRate = nextRate
+    }
+  }
 
   useEffect(() => {
     const el = audioRef.current
@@ -81,6 +93,7 @@ function EpisodePlayer({ episode }: { episode: PodcastEpisode }) {
       document.querySelectorAll('audio').forEach((a) => {
         if (a !== el) a.pause()
       })
+      el.playbackRate = rate
       void el.play()
       setPlaying(true)
     }
@@ -89,11 +102,18 @@ function EpisodePlayer({ episode }: { episode: PodcastEpisode }) {
   const seek = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = audioRef.current
     const bar = barRef.current
-    if (!el || !bar || !duration) return
+    if (!el || !bar) return
+    const total = duration || el.duration || episode.duration || 0
+    if (!total || !Number.isFinite(total)) return
     const rect = bar.getBoundingClientRect()
     const ratio = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width))
-    el.currentTime = ratio * duration
-    setCurrent(el.currentTime)
+    const target = ratio * total
+    try {
+      el.currentTime = target
+      setCurrent(target)
+    } catch {
+      /* ignore seek error */
+    }
   }
 
   const pct = duration ? Math.min(1, current / duration) : 0
@@ -119,15 +139,26 @@ function EpisodePlayer({ episode }: { episode: PodcastEpisode }) {
                 {duration ? ` · ${formatTime(duration)} dk` : ''}
               </p>
             </div>
-            <a
-              href={downloadSrc}
-              download={`${episode.id}.mp3`}
-              aria-label="Bölümü indir"
-              title="Bölümü indir"
-              className="grid size-8 shrink-0 place-items-center rounded-full border border-line text-muted transition hover:bg-surface-2 hover:text-fg"
-            >
-              <Icon name="Download" size={15} />
-            </a>
+            <div className="flex shrink-0 items-center gap-1.5">
+              <button
+                type="button"
+                onClick={cycleRate}
+                aria-label={`Oynatma hızı: ${rate} katı`}
+                title="Oynatma hızı"
+                className="h-8 rounded-full border border-line px-2 text-[0.6875rem] font-bold text-muted transition hover:bg-surface-2 hover:text-fg"
+              >
+                {rate}×
+              </button>
+              <a
+                href={downloadSrc}
+                download={`${episode.id}.mp3`}
+                aria-label="Bölümü indir"
+                title="Bölümü indir"
+                className="grid size-8 shrink-0 place-items-center rounded-full border border-line text-muted transition hover:bg-surface-2 hover:text-fg"
+              >
+                <Icon name="Download" size={15} />
+              </a>
+            </div>
           </div>
 
           {/* İlerleme çubuğu: tıklanınca istenen saniyeye atlanır */}
@@ -199,6 +230,8 @@ export function PodcastPage() {
         <div className="mt-5 flex flex-wrap gap-2">
           <a
             href="/podcast.xml"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-4 py-2 text-[0.8125rem] font-semibold text-fg transition hover:bg-surface-2"
           >
             <Icon name="Rss" size={14} />
@@ -252,6 +285,8 @@ export function PodcastPage() {
           </Link>
           <a
             href="/podcast.xml"
+            target="_blank"
+            rel="noopener noreferrer"
             className="rounded-full border border-line px-4 py-2 text-[0.8125rem] font-semibold text-fg transition hover:bg-surface-2"
           >
             Podcast RSS

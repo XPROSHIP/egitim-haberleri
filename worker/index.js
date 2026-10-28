@@ -197,15 +197,9 @@ export default {
   async scheduled(controller, env) {
     controller.noRetry()
 
-    // Eski haberlerin sesleri depolama yerini kapmasin: 180 gunden eskisi silinir.
-    try {
-      const { meta } = await env.DB.prepare(
-        "DELETE FROM news_audio WHERE created_at < datetime('now', '-180 days')",
-      ).run()
-      if (meta?.changes) console.log(`[worker] ${meta.changes} eski ses silindi`)
-    } catch (err) {
-      console.error('[worker] ses temizleme hatasi', String(err?.message ?? err).slice(0, 100))
-    }
+    // Ses/görsel temizliği artık sabit gün sayısına göre değil, kota bazlı:
+    // /api/storage/prune her turda bütçeyi ölçer ve yalnızca taşarsa en
+    // eskileri siler. Burada ayrıca bir yaş kuralı uygulanmaz.
 
     await dispatchCollect(env)
   },
@@ -225,18 +219,45 @@ export default {
     // Haber sesi (EMA Lightning ile üretilmiş MP3)
     if (url.pathname.startsWith('/api/audio/') && request.method === 'GET') {
       const id = decodeURIComponent(url.pathname.slice('/api/audio/'.length))
-      const row = await env.DB?.prepare('SELECT data, type FROM news_audio WHERE article_id = ?')
+      const row = await env.DB_AUDIO?.prepare('SELECT data, type FROM news_audio WHERE article_id = ?')
         .bind(id)
         .first()
       const bytes = toBytes(row?.data)
       if (!bytes) return new Response('Not found', { status: 404 })
+
+      const total = bytes.byteLength
+      const range = request.headers.get('range')
+      const contentType = row?.type ?? 'audio/mpeg'
+      const cors = corsFor(request)
+
+      if (range && range.startsWith('bytes=')) {
+        const parts = range.slice(6).split('-')
+        const start = parseInt(parts[0], 10) || 0
+        const end = parts[1] ? parseInt(parts[1], 10) : total - 1
+        if (start < total && end < total && start <= end) {
+          const chunk = bytes.subarray(start, end + 1)
+          return new Response(chunk, {
+            status: 206,
+            headers: {
+              'content-type': contentType,
+              'content-range': `bytes ${start}-${end}/${total}`,
+              'content-length': String(chunk.byteLength),
+              'accept-ranges': 'bytes',
+              'cache-control': 'public, max-age=31536000, immutable',
+              ...cors,
+            },
+          })
+        }
+      }
+
       return new Response(bytes, {
         headers: {
-          'content-type': row?.type ?? 'audio/mpeg',
-          // İndirilen dosya MP3 olsun (HTML kabuğu gelmesin).
+          'content-type': contentType,
+          'content-length': String(total),
+          'accept-ranges': 'bytes',
           'content-disposition': `attachment; filename="${id.replace(/[^a-zA-Z0-9._-]/g, '_')}.mp3"`,
           'cache-control': 'public, max-age=31536000, immutable',
-          ...corsFor(request),
+          ...cors,
         },
       })
     }
@@ -246,20 +267,23 @@ export default {
       if (!authorized(request, env)) return reply({ error: 'unauthorized' }, 401)
       const id = url.searchParams.get('id') ?? ''
       if (!id || id.length > 120) return reply({ error: 'invalid_id' }, 400)
-      const data = new Uint8Array(await request.arrayBuffer())
-      if (data.length === 0) return reply({ error: 'empty' }, 400)
-      if (data.length > 6_500_000) return reply({ error: 'too_large' }, 413)
+      // Gereksiz kopya yok: gövde doğrudan D1'e bağlanır. Ücretsiz kademede
+      // çağrı başına 10 ms CPU var; 2 MB'lık bir sesi ikinci kez kopyalamak
+      // bu bütçeyi yakıyordu (error 1102).
+      const buf = await request.arrayBuffer()
+      if (buf.byteLength === 0) return reply({ error: 'empty' }, 400)
+      if (buf.byteLength > 6_500_000) return reply({ error: 'too_large' }, 413)
       const duration = Number(request.headers.get('x-audio-duration') ?? 0) || null
       // Üretildiği "okuma tarifi" sürümü: hangi sesler bayat, hangiler güncel
       // bununla bilinir.
       const recipe = (request.headers.get('x-audio-recipe') ?? '').slice(0, 64) || null
-      await env.DB.prepare(
+      await env.DB_AUDIO.prepare(
         `INSERT INTO news_audio (article_id, data, type, duration, bytes, recipe)
          VALUES (?,?,?,?,?,?)
          ON CONFLICT(article_id) DO UPDATE SET data=excluded.data, type=excluded.type,
            duration=excluded.duration, bytes=excluded.bytes, recipe=excluded.recipe`,
       )
-        .bind(id, data, 'audio/mpeg', duration, data.length, recipe)
+        .bind(id, buf, 'audio/mpeg', duration, buf.byteLength, recipe)
         .run()
       await env.DB.prepare('UPDATE news SET audio_id = ?, audio_duration = ? WHERE id = ?')
         .bind(id, duration, id)
@@ -268,21 +292,26 @@ export default {
       await env.DB.prepare('UPDATE news SET audio_recipe = ? WHERE id = ?')
         .bind(recipe, id)
         .run()
-      return reply({ ok: true, id, bytes: data.length, recipe })
+      return reply({ ok: true, id, bytes: buf.byteLength, recipe })
     }
 
     /**
      * Depolama bakımı (yalnızca toplayıcı).
      *
-     * Sesler ve görseller D1'de tutuluyor. D1'in ÜCRETSİZ kademesi 500 MB'tır
-     * (5 GB olan sınır ücretli kademenindir). Sınır aşılınca D1 yazmayı
-     * tamamen reddeder — "Exceeded maximum DB size" — yani toplama, ses ve
-     * görsel sessizce durur. Bu yüzden sabit "şu kadar gün sonra sil" yerine
-     * kota izleniyor: toplam boyut bütçeyi geçerse EN ESKİ kayıtlardan
-     * başlanarak hedefe kadar silinir. Kota dolmadıkça hiçbir şeye dokunulmaz.
+     * Depolama üç D1 veritabanına bölünmüştür:
+     *   DB        → haber metni, yorum, beğeni, analitik (yıllarca küçük kalır)
+     *   DB_AUDIO  → ses dosyaları
+     *   DB_IMAGES → görseller
      *
-     * Bütçeler 500 MB'a göre: ses 320 MB, görsel 100 MB → ~115 MB emniyet
-     * payı (metin, indeksler, sayfa artıkları).
+     * D1'in ÜCRETSİZ kademesinde tek veritabanı 500 MB, hesap toplamı 5 GB.
+     * Medya ana veritabanında tutulduğunda 500 MB'lık tavan aşılınca D1 bütün
+     * yazmaları reddediyordu ("Exceeded maximum DB size") ve haber toplama
+     * tamamen duruyordu. Ayrı veritabanlarında ise kota dolunca yalnızca en
+     * eski ses/görsel gider; HABER METNİ KALICI KALIR.
+     *
+     * Sabit "şu kadar gün sonra sil" kuralı yok: toplam boyut bütçeyi geçerse
+     * en eskilerden başlanarak hedefe kadar silinir. Kota dolmadıkça hiçbir
+     * şeye dokunulmaz.
      *
      * Emniyet tabanı: yeni üretilmiş sese (5 gün) ve yeni görsele (7 gün)
      * dokunulmaz. Ses silinen haber `audio_retired` ile işaretlenir ki bir
@@ -298,13 +327,14 @@ export default {
      */
     if (url.pathname === '/api/storage/prune' && request.method === 'POST') {
       if (!authorized(request, env)) return reply({ error: 'unauthorized' }, 401)
+      if (!env.DB_AUDIO || !env.DB_IMAGES) return reply({ error: 'no_split_db' }, 500)
       const body = await request.json().catch(() => ({}))
       const dryRun = body?.dryRun === true
       const MB = 1024 * 1024
-      const audioBudget = Number(body?.audioBudget ?? 320) * MB
-      const audioTarget = Number(body?.audioTarget ?? 290) * MB
-      const imageBudget = Number(body?.imageBudget ?? 100) * MB
-      const imageTarget = Number(body?.imageTarget ?? 85) * MB
+      const audioBudget = Number(body?.audioBudget ?? 480) * MB
+      const audioTarget = Number(body?.audioTarget ?? 440) * MB
+      const imageBudget = Number(body?.imageBudget ?? 480) * MB
+      const imageTarget = Number(body?.imageTarget ?? 440) * MB
       // Eski çağrılar tek bir `minAgeDays` gönderiyordu; ikisine de uygulanır.
       const legacyAge =
         body?.minAgeDays === undefined ? null : Math.max(1, Number(body.minAgeDays))
@@ -312,18 +342,18 @@ export default {
       const imageAge = Math.max(1, Number(body?.imageMinAgeDays ?? legacyAge ?? 7))
       const podcastKeep = Math.max(1, Math.min(200, Number(body?.podcastKeep ?? 30)))
 
-      const sizeOf = async (table) => {
-        const r = await env.DB.prepare(
-          `SELECT COUNT(*) AS n, COALESCE(SUM(LENGTH(data)), 0) AS b FROM ${table}`,
-        ).first()
+      const sizeOf = async (db, table) => {
+        const r = await db
+          .prepare(`SELECT COUNT(*) AS n, COALESCE(SUM(LENGTH(data)), 0) AS b FROM ${table}`)
+          .first()
         return { count: Number(r?.n ?? 0), bytes: Number(r?.b ?? 0) }
       }
 
-      /** Tek sorguda silinecek en eski kayıtları seçer (kota aşılmadıysa boş). */
-      const chunky = async (sql, ids) => {
+      /** Kimlikleri 80'lik parçalar hâlinde tek sorguda siler (param sınırı 100). */
+      const chunky = async (ids, sql, db) => {
         for (let i = 0; i < ids.length; i += 80) {
           const part = ids.slice(i, i + 80)
-          await env.DB.prepare(sql(part.length)).bind(...part).run()
+          await db.prepare(sql(part.length)).bind(...part).run()
         }
       }
       const marks = (n) => Array.from({ length: n }, () => '?').join(',')
@@ -333,34 +363,43 @@ export default {
       let podcastFreed = 0
       {
         const { results } = await env.DB.prepare(
-          `SELECT p.id AS id, p.audio_id AS audioId, COALESCE(LENGTH(a.data), 0) AS b
-             FROM podcast_episodes p
-             LEFT JOIN news_audio a ON a.article_id = p.audio_id
-            ORDER BY p.published_at DESC
-            LIMIT -1 OFFSET ?`,
+          `SELECT id, audio_id AS audioId FROM podcast_episodes
+            ORDER BY published_at DESC LIMIT -1 OFFSET ?`,
         )
           .bind(podcastKeep)
           .all()
         const rows = results ?? []
+        const audioIds = rows.map((r) => r.audioId).filter(Boolean)
         podcastDeleted = rows.length
-        for (const r of rows) podcastFreed += Number(r.b ?? 0)
+        // Boyutlar ses veritabanından ayrıca toplanır (çapraz DB JOIN olmaz).
+        for (let i = 0; i < audioIds.length; i += 80) {
+          const part = audioIds.slice(i, i + 80)
+          const s = await env.DB_AUDIO.prepare(
+            `SELECT COALESCE(SUM(LENGTH(data)), 0) AS b FROM news_audio
+              WHERE article_id IN (${marks(part.length)})`,
+          )
+            .bind(...part)
+            .first()
+          podcastFreed += Number(s?.b ?? 0)
+        }
         if (!dryRun && rows.length > 0) {
-          const audioIds = rows.map((r) => r.audioId).filter(Boolean)
           if (audioIds.length > 0) {
             await chunky(
-              (n) => `DELETE FROM news_audio WHERE article_id IN (${marks(n)})`,
               audioIds,
+              (n) => `DELETE FROM news_audio WHERE article_id IN (${marks(n)})`,
+              env.DB_AUDIO,
             )
           }
           await chunky(
-            (n) => `DELETE FROM podcast_episodes WHERE id IN (${marks(n)})`,
             rows.map((r) => r.id),
+            (n) => `DELETE FROM podcast_episodes WHERE id IN (${marks(n)})`,
+            env.DB,
           )
         }
       }
 
-      const audioBefore = await sizeOf('news_audio')
-      const imageBefore = await sizeOf('images')
+      const audioBefore = await sizeOf(env.DB_AUDIO, 'news_audio')
+      const imageBefore = await sizeOf(env.DB_IMAGES, 'images')
 
       // ── Sesler ────────────────────────────────────────────────────────────
       let audioDeleted = 0
@@ -368,17 +407,15 @@ export default {
       if (audioBefore.bytes > audioBudget) {
         // Podcast bölümleri burada aday değil: sayıları yukarıda sabitlendi.
         //
-        // Emniyet tabanı sesin ÜRETİLDİĞİ zamana bakar (created_at), haberin
-        // kaynakta yayımlandığı tarihe değil: aylar önce yayımlanmış bir haber
-        // bugün toplanıp seslendirilmiş olabilir, o ses hemen silinmemeli.
-        // Silme sırası ise içerik yaşına göre: en eski haberin sesi önce gider.
-        const { results } = await env.DB.prepare(
-          `SELECT a.article_id AS id, LENGTH(a.data) AS b
-             FROM news_audio a
-             LEFT JOIN news n ON n.id = a.article_id
-            WHERE a.article_id NOT LIKE 'zenpod-%'
-              AND julianday(a.created_at) < julianday('now', ?)
-            ORDER BY julianday(COALESCE(n.published_at, a.created_at)) ASC
+        // Ses artık ayrı veritabanında olduğu için `news` ile JOIN edilemez;
+        // sıra sesin üretildiği zamana göre (created_at). Ses, haber toplandıktan
+        // hemen sonra üretildiği için bu, yayın sırasıyla aynı şeydir.
+        const { results } = await env.DB_AUDIO.prepare(
+          `SELECT article_id AS id, LENGTH(data) AS b
+             FROM news_audio
+            WHERE article_id NOT LIKE 'zenpod-%'
+              AND julianday(created_at) < julianday('now', ?)
+            ORDER BY julianday(created_at) ASC
             LIMIT 500`,
         )
           .bind(`-${audioAge} days`)
@@ -395,14 +432,16 @@ export default {
         audioDeleted = ids.length
         if (!dryRun && ids.length > 0) {
           await chunky(
-            (n) => `DELETE FROM news_audio WHERE article_id IN (${marks(n)})`,
             ids,
+            (n) => `DELETE FROM news_audio WHERE article_id IN (${marks(n)})`,
+            env.DB_AUDIO,
           )
           await chunky(
+            ids,
             (n) =>
               `UPDATE news SET audio_id = NULL, audio_duration = NULL, audio_retired = 1
                 WHERE id IN (${marks(n)})`,
-            ids,
+            env.DB,
           )
         }
       }
@@ -411,7 +450,7 @@ export default {
       let imageDeleted = 0
       let imageFreed = 0
       if (imageBefore.bytes > imageBudget) {
-        const { results } = await env.DB.prepare(
+        const { results } = await env.DB_IMAGES.prepare(
           `SELECT key, LENGTH(data) AS b FROM images
             WHERE julianday(created_at) < julianday('now', ?)
             ORDER BY julianday(created_at) ASC
@@ -430,12 +469,17 @@ export default {
         }
         imageDeleted = keys.length
         if (!dryRun && keys.length > 0) {
-          await chunky((n) => `DELETE FROM images WHERE key IN (${marks(n)})`, keys)
+          await chunky(
+            keys,
+            (n) => `DELETE FROM images WHERE key IN (${marks(n)})`,
+            env.DB_IMAGES,
+          )
           // Haber kaydı silinmiş görsele işaret etmesin: arayüz zaten
           // kategori renkli yedeği gösteriyor, boşa 404 isteği olmasın.
           await chunky(
-            (n) => `UPDATE news SET source_image = NULL WHERE source_image IN (${marks(n)})`,
             keys.map((k) => `/img/${k}`),
+            (n) => `UPDATE news SET source_image = NULL WHERE source_image IN (${marks(n)})`,
+            env.DB,
           )
         }
       }
@@ -463,9 +507,155 @@ export default {
       })
     }
 
+    /**
+     * Tek seferlik taşıma: medyayı ana veritabanından kendi veritabanına taşır.
+     *
+     * Depolama bölünmesi yapıldığında eski ses/görseller ana veritabanında
+     * kalmıştı; bu uç onları partiler hâlinde taşır. Normal akışta çağrılmaz
+     * (yalnızca geçiş sırasında). Taşınan satır ana veritabanından silinir,
+     * böylece 500 MB'lık tavan hemen boşalır.
+     */
+    if (url.pathname === '/api/storage/move' && request.method === 'POST') {
+      if (!authorized(request, env)) return reply({ error: 'unauthorized' }, 401)
+      if (!env.DB_AUDIO || !env.DB_IMAGES) return reply({ error: 'no_split_db' }, 500)
+      const body = await request.json().catch(() => ({}))
+      const kind = body?.kind === 'images' ? 'images' : 'audio'
+      const limit = Math.max(1, Math.min(25, Number(body?.limit ?? 10)))
+      const marks = (n) => Array.from({ length: n }, () => '?').join(',')
+      const chunky = async (ids, sql) => {
+        for (let i = 0; i < ids.length; i += 80) {
+          const part = ids.slice(i, i + 80)
+          await env.DB.prepare(sql(part.length)).bind(...part).run()
+        }
+      }
+      // Ücretsiz kademede CPU 10 ms: BLOB'u gereksiz yere kopyalamıyoruz.
+      // D1 zaten ArrayBuffer/typed array döndürüyorsa olduğu gibi bağlanır.
+      const bindable = (v) =>
+        v instanceof ArrayBuffer || ArrayBuffer.isView(v) ? v : toBytes(v)
+
+      if (kind === 'images') {
+        const { results } = await env.DB.prepare(
+          `SELECT key, data, type, bytes, created_at FROM images
+            ORDER BY created_at ASC LIMIT ?`,
+        )
+          .bind(limit)
+          .all()
+        const rows = results ?? []
+        if (rows.length > 0) {
+          await env.DB_IMAGES.batch(
+            rows.map((r) =>
+              env.DB_IMAGES
+                .prepare(
+                  `INSERT OR REPLACE INTO images (key, data, type, bytes, created_at)
+                   VALUES (?,?,?,?,?)`,
+                )
+                .bind(r.key, bindable(r.data), r.type, r.bytes, r.created_at),
+            ),
+          )
+          await chunky(rows.map((r) => r.key), (n) => `DELETE FROM images WHERE key IN (${marks(n)})`)
+        }
+        const left = await env.DB.prepare('SELECT COUNT(*) AS n FROM images').first()
+        return reply({ ok: true, kind, moved: rows.length, remaining: Number(left?.n ?? 0) })
+      }
+
+      const { results } = await env.DB.prepare(
+        `SELECT article_id, data, type, duration, bytes, created_at, recipe FROM news_audio
+          ORDER BY created_at ASC LIMIT ?`,
+      )
+        .bind(limit)
+        .all()
+      const rows = results ?? []
+      if (rows.length > 0) {
+        await env.DB_AUDIO.batch(
+          rows.map((r) =>
+            env.DB_AUDIO
+              .prepare(
+                `INSERT OR REPLACE INTO news_audio
+                   (article_id, data, type, duration, bytes, created_at, recipe)
+                 VALUES (?,?,?,?,?,?,?)`,
+              )
+              .bind(
+                r.article_id,
+                bindable(r.data),
+                r.type,
+                r.duration,
+                r.bytes,
+                r.created_at,
+                r.recipe,
+              ),
+          ),
+        )
+        await chunky(
+          rows.map((r) => r.article_id),
+          (n) => `DELETE FROM news_audio WHERE article_id IN (${marks(n)})`,
+        )
+      }
+      const left = await env.DB.prepare('SELECT COUNT(*) AS n FROM news_audio').first()
+      return reply({ ok: true, kind, moved: rows.length, remaining: Number(left?.n ?? 0) })
+    }
+
+    /**
+     * Tek seferlik taşıma: sesi tek ifadede, oluşturma zamanı korunarak yazar.
+     *
+     * `/api/storage/move` kaynak BLOB'u D1'den okuyup yeniden yazdığı için
+     * 2 MB üstü seslerde ücretsiz kademenin 10 ms CPU bütçesini aşıyor
+     * (error 1102). Burada gövde doğrudan yazılır; ses dosyası yerelden gelir.
+     * Normal akışta kullanılmaz.
+     */
+    if (url.pathname === '/api/storage/put' && request.method === 'POST') {
+      if (!authorized(request, env)) return reply({ error: 'unauthorized' }, 401)
+      if (!env.DB_AUDIO) return reply({ error: 'no_split_db' }, 500)
+      const id = url.searchParams.get('id') ?? ''
+      if (!id || id.length > 120) return reply({ error: 'invalid_id' }, 400)
+      const buf = await request.arrayBuffer()
+      if (buf.byteLength === 0) return reply({ error: 'empty' }, 400)
+      const duration = Number(request.headers.get('x-audio-duration') ?? 0) || null
+      const recipe = (request.headers.get('x-audio-recipe') ?? '').slice(0, 64) || null
+      const createdAt = (request.headers.get('x-audio-created') ?? '').slice(0, 32) || null
+      await env.DB_AUDIO.prepare(
+        `INSERT INTO news_audio (article_id, data, type, duration, bytes, created_at, recipe)
+         VALUES (?,?,'audio/mpeg',?,?,COALESCE(?, datetime('now')),?)
+         ON CONFLICT(article_id) DO UPDATE SET data=excluded.data, type=excluded.type,
+           duration=excluded.duration, bytes=excluded.bytes, recipe=excluded.recipe,
+           created_at=COALESCE(?, news_audio.created_at)`,
+      )
+        .bind(id, buf, duration, buf.byteLength, createdAt, recipe, createdAt)
+        .run()
+      await env.DB.prepare(
+        'UPDATE news SET audio_id = ?, audio_duration = ?, audio_recipe = ? WHERE id = ?',
+      )
+        .bind(id, duration, recipe, id)
+        .run()
+      return reply({ ok: true, id, bytes: buf.byteLength })
+    }
+
+    /**
+     * Tek seferlik taşıma: görseli tek ifadede, oluşturma zamanı korunarak yazar.
+     * Ses ile aynı gerekçe (bkz. /api/storage/put). Normal akışta kullanılmaz.
+     */
+    if (url.pathname === '/api/storage/put-image' && request.method === 'POST') {
+      if (!authorized(request, env)) return reply({ error: 'unauthorized' }, 401)
+      if (!env.DB_IMAGES) return reply({ error: 'no_split_db' }, 500)
+      const key = url.searchParams.get('key') ?? ''
+      if (!key || key.length > 200) return reply({ error: 'invalid_key' }, 400)
+      const buf = await request.arrayBuffer()
+      if (buf.byteLength === 0) return reply({ error: 'empty' }, 400)
+      const type = (request.headers.get('x-image-type') ?? 'image/jpeg').slice(0, 40)
+      const createdAt = (request.headers.get('x-image-created') ?? '').slice(0, 32) || null
+      await env.DB_IMAGES.prepare(
+        `INSERT INTO images (key, data, type, bytes, created_at)
+         VALUES (?,?,?,?,COALESCE(?, datetime('now')))
+         ON CONFLICT(key) DO UPDATE SET data=excluded.data, type=excluded.type,
+           bytes=excluded.bytes, created_at=COALESCE(?, images.created_at)`,
+      )
+        .bind(key, buf, type, buf.byteLength, createdAt, createdAt)
+        .run()
+      return reply({ ok: true, key, bytes: buf.byteLength })
+    }
+
     if (url.pathname.startsWith('/img/')) {
       const key = decodeURIComponent(url.pathname.slice('/img/'.length))
-      const row = await env.DB?.prepare('SELECT data, type FROM images WHERE key = ?')
+      const row = await env.DB_IMAGES?.prepare('SELECT data, type FROM images WHERE key = ?')
         .bind(key)
         .first()
       const bytes = toBytes(row?.data)
@@ -489,7 +679,7 @@ export default {
       if (data.length === 0) return reply({ error: 'empty' }, 400)
       if (data.length > 2_000_000) return reply({ error: 'too_large' }, 413)
 
-      await env.DB.prepare(
+      await env.DB_IMAGES.prepare(
         `INSERT INTO images (key, data, type, bytes) VALUES (?,?,?,?)
          ON CONFLICT(key) DO UPDATE SET data=excluded.data, type=excluded.type, bytes=excluded.bytes`,
       )
@@ -920,7 +1110,8 @@ export default {
 
     if (url.pathname === '/api/health') {
       const news = await env.DB?.prepare('SELECT COUNT(*) AS n FROM news').all()
-      const images = await env.DB?.prepare('SELECT COUNT(*) AS n FROM images').all()
+      const images = await env.DB_IMAGES?.prepare('SELECT COUNT(*) AS n FROM images').all()
+      const audioRows = await env.DB_AUDIO?.prepare('SELECT COUNT(*) AS n FROM news_audio').all()
       const dispatch = await readState(env, 'dispatch')
       const collect = await readState(env, 'collect')
       // Ses üretim durumu operatör içindir; ziyaretçi arayüzü göstermez.
@@ -929,6 +1120,7 @@ export default {
         ok: true,
         news: news?.results?.[0]?.n ?? 0,
         images: images?.results?.[0]?.n ?? 0,
+        audioFiles: audioRows?.results?.[0]?.n ?? 0,
         // Otomasyon durumu: erişim anahtarı bozulursa site bunu gösterir.
         automation: { dispatch, collect },
         // Ses üretim durumu operatör içindir (ziyaretçi arayüzü göstermez).

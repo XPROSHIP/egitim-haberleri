@@ -177,6 +177,25 @@ export function FeedPage() {
             ))}
           </nav>
 
+          <div className="mt-6">
+            <h2 className="mb-2 px-3 flex items-center gap-1.5 text-[0.6875rem] font-bold tracking-[0.14em] text-faint uppercase">
+              <Icon name="Hash" size={13} className="text-muted" />
+              Etiketler
+            </h2>
+            <div className="flex flex-wrap gap-1.5 px-3">
+              {tagEntries.slice(0, 14).map(([tag, count]) => (
+                <Link
+                  key={tag}
+                  to={`/etiket/${encodeURIComponent(tag)}`}
+                  className="rounded-full border border-line px-2.5 py-1 text-[0.6875rem] text-muted transition hover:border-faint/40 hover:text-fg"
+                >
+                  #{tag}
+                  <span className="tnum ml-1 text-faint">{count}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
           <p className="mt-8 px-3 text-[0.6875rem] text-faint">
             <span className="font-semibold tracking-wide">OMERZEN</span> © 2026
           </p>
@@ -320,25 +339,6 @@ export function FeedPage() {
                     </button>
                   )
                 })}
-              </div>
-            </section>
-
-            <section className="rounded-xl border border-line bg-surface p-4">
-              <h2 className="mb-3 flex items-center gap-2 text-[0.8125rem] font-bold text-fg">
-                <Icon name="Hash" size={15} className="text-muted" />
-                Etiketler
-              </h2>
-              <div className="flex flex-wrap gap-1.5">
-                {tagEntries.slice(0, 14).map(([tag, count]) => (
-                  <Link
-                    key={tag}
-                    to={`/etiket/${encodeURIComponent(tag)}`}
-                    className="rounded-full border border-line px-2.5 py-1 text-[0.6875rem] text-muted transition hover:border-faint/40 hover:text-fg"
-                  >
-                    #{tag}
-                    <span className="tnum ml-1 text-faint">{count}</span>
-                  </Link>
-                ))}
               </div>
             </section>
           </div>

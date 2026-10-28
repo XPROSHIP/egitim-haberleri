@@ -5,7 +5,7 @@
  * gibi abonelikler CI tarafından gönderilir.
  */
 
-const VERSION = 'zen-v1'
+const VERSION = 'zen-v2'
 const SHELL = `shell-${VERSION}`
 const DATA = `data-${VERSION}`
 
@@ -40,8 +40,16 @@ self.addEventListener('fetch', (event) => {
   if (req.method !== 'GET') return
   const url = new URL(req.url)
 
-  // Analitik ve bildirim uçları önbelleğe alınmaz.
-  if (url.pathname.startsWith('/api/track') || url.pathname.startsWith('/api/push')) return
+  // XML beslemeleri, ses dosyaları, analitik ve API uçları Service Worker tarafından yakalanmaz; doğrudan ağa gider.
+  if (
+    url.pathname.endsWith('.xml') ||
+    url.pathname.endsWith('.mp3') ||
+    url.pathname.startsWith('/api/') ||
+    url.pathname === '/robots.txt' ||
+    url.pathname === '/sitemap.xml'
+  ) {
+    return
+  }
 
   event.respondWith(
     (async () => {
@@ -99,15 +107,14 @@ self.addEventListener('notificationclick', (event) => {
   event.notification.close()
   const target = event.notification.data?.url || '/'
   event.waitUntil(
-    (async () => {
-      const list = await self.clients.matchAll({ type: 'window', includeUncontrolled: true })
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((list) => {
       for (const client of list) {
-        if (client.url.includes(target) && 'focus' in client) {
+        if ('focus' in client) {
           client.navigate(target)
           return client.focus()
         }
       }
-      return self.clients.openWindow(target)
-    })(),
+      if (clients.openWindow) return clients.openWindow(target)
+    }),
   )
 })

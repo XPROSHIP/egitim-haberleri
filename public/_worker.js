@@ -14,11 +14,14 @@
  *   · çerezsiz sayfa sayacı       → sunucu tarafında, kimlik tutmadan
  */
 
-const SITE = 'https://egitim.omerzen.workers.dev'
-const API = 'https://egitim-haberleri-api.omerzen.workers.dev'
+const DEFAULT_SITE = 'https://corummesem.com.tr'
+const DEFAULT_API = 'https://egitim-haberleri-api.omerzen.workers.dev'
 const PODCAST_TITLE = 'ZENPOD Eğitim'
 /** Dağıtım sürümü (ölçüm için). */
-const TRACK_VERSION = '2026-10-21a'
+const TRACK_VERSION = '2026-10-28b'
+
+const getSite = (url, env) => url?.origin || env?.SITE_URL || DEFAULT_SITE
+const getApi = (env) => env?.API_URL || DEFAULT_API
 
 const CATEGORY_NAMES = {
   mesleki: 'Mesleki Eğitim',
@@ -90,13 +93,13 @@ async function track(env, path) {
 
 /* ── Meta ve şema ──────────────────────────────────────────────────────── */
 
-function articleMeta(a) {
-  const url = `${SITE}/haber/${a.slug}`
+function articleMeta(a, site, api) {
+  const url = `${site}/haber/${a.slug}`
   const image = a.source_image
     ? a.source_image.startsWith('/img/')
-      ? `${API}${a.source_image}`
+      ? `${api}${a.source_image}`
       : a.source_image
-    : `${API}/icon-512.png`
+    : `${api}/icon-512.png`
   const title = `${a.title} — Eğitim Haberleri`
   const description = (a.excerpt || '').slice(0, 300)
   const jsonld = {
@@ -113,7 +116,7 @@ function articleMeta(a) {
     publisher: {
       '@type': 'Organization',
       name: 'Eğitim Haberleri',
-      logo: { '@type': 'ImageObject', url: `${API}/icon-512.png` },
+      logo: { '@type': 'ImageObject', url: `${api}/icon-512.png` },
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
     isBasedOn: a.source_url,
@@ -121,9 +124,9 @@ function articleMeta(a) {
   return { title, description, url, image, jsonld }
 }
 
-function categoryMeta(slug) {
+function categoryMeta(slug, site, api) {
   const name = CATEGORY_NAMES[slug] ?? slug
-  const url = `${SITE}/kategori/${slug}`
+  const url = `${site}/kategori/${slug}`
   const title = `${name} Haberleri — Eğitim Haberleri`
   const description = `${name} kategorisindeki güncel haberler, duyurular ve gelişmeler. Eğitim Haberleri'nden her üç saatte bir yenilenir.`
   const jsonld = {
@@ -134,7 +137,7 @@ function categoryMeta(slug) {
     url,
     inLanguage: 'tr',
   }
-  return { title, description, url, image: `${API}/icon-512.png`, jsonld }
+  return { title, description, url, image: `${api}/icon-512.png`, jsonld }
 }
 
 /** HTML kabuğuna meta etiketlerini ve şemayı yazar. */
@@ -191,13 +194,13 @@ function paragraphsOf(a) {
  * Haber sayfasının gövdesini HTML'e önceden yazar.
  * React uygulaması yüklenirken tarayıcıda (ve Google'da) metin hazır olur.
  */
-function prerenderArticle(a) {
+function prerenderArticle(a, site, api) {
   const cat = CATEGORY_NAMES[a.category] ?? 'Eğitim'
   const img = a.source_image
     ? a.source_image.startsWith('/img/')
-      ? `${API}${a.source_image}`
+      ? `${api}${a.source_image}`
       : a.source_image
-    : `${API}/icon-512.png`
+    : ''
   const published = new Date(a.published_at ?? Date.now()).toLocaleDateString('tr-TR', {
     day: 'numeric',
     month: 'long',
@@ -210,7 +213,7 @@ function prerenderArticle(a) {
         <h1 class="mt-2.5 text-[23px] leading-[1.16] font-bold tracking-tight text-fg sm:text-[34px]">${esc(a.title)}</h1>
         <p class="mt-4 text-[0.96875rem] leading-relaxed text-muted sm:text-[1.0625rem]">${esc(a.excerpt ?? '')}</p>
         <p class="tnum mt-4 border-y border-line py-3 text-[0.75rem] text-faint">${esc(a.source_name ?? '')} · ${esc(published)}</p>
-        <img src="${esc(img)}" alt="${esc(a.title)}" class="mt-6 aspect-[16/9] w-full rounded-2xl object-cover" />
+        ${img ? `<img src="${esc(img)}" alt="${esc(a.title)}" class="mt-6 aspect-[16/9] w-full rounded-2xl object-cover" />` : ''}
         <div class="article-prose mt-8 space-y-5">
       ${paragraphsOf(a)}
         </div>
@@ -221,9 +224,9 @@ function prerenderArticle(a) {
 
 /* ── RSS ────────────────────────────────────────────────────────────────── */
 
-function rssItem(a) {
-  const url = `${SITE}/haber/${a.slug}`
-  const image = a.source_image?.startsWith('/img/') ? `${API}${a.source_image}` : a.source_image
+function rssItem(a, site, api) {
+  const url = `${site}/haber/${a.slug}`
+  const image = a.source_image?.startsWith('/img/') ? `${api}${a.source_image}` : a.source_image
   const pub = new Date(a.published_at ?? Date.now()).toUTCString()
   return `    <item>
       <title>${esc(a.title)}</title>
@@ -235,8 +238,9 @@ function rssItem(a) {
     </item>`
 }
 
-function rssFeed(items, { title, description, link, self, category = null }) {
-  const itemsXml = items.map(rssItem).join('\n')
+function rssFeed(items, { title, description, link, self, api }) {
+  const siteUrl = link
+  const itemsXml = items.map((a) => rssItem(a, siteUrl, api)).join('\n')
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
@@ -247,7 +251,7 @@ function rssFeed(items, { title, description, link, self, category = null }) {
     <language>tr</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <generator>Eğitim Haberleri</generator>
-    <image><url>${API}/icon-512.png</url><title>${esc(title)}</title><link>${link}</link></image>
+    <image><url>${api}/icon-512.png</url><title>${esc(title)}</title><link>${link}</link></image>
 ${itemsXml}
   </channel>
 </rss>`
@@ -255,7 +259,7 @@ ${itemsXml}
 
 /* ── ZENPOD Eğitim (podcast) ────────────────────────────────────────────── */
 
-async function podcastFeed(env) {
+async function podcastFeed(env, site, api) {
   let episodes = []
   try {
     const { results } = await env.DB.prepare(
@@ -267,11 +271,11 @@ async function podcastFeed(env) {
   }
   const items = episodes
     .map((e) => {
-      const url = `${SITE}/podcast/${e.id}.mp3`
+      const url = `${site}/podcast/${e.id}.mp3`
       const date = new Date(e.published_at ?? Date.now()).toUTCString()
       return `    <item>
       <title>${esc(e.title)}</title>
-      <link>${SITE}/podcast</link>
+      <link>${site}/podcast</link>
       <guid isPermaLink="false">zenpod-${e.id}</guid>
       <pubDate>${date}</pubDate>
       <description>${esc(e.description ?? '')}</description>
@@ -286,14 +290,14 @@ async function podcastFeed(env) {
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
   <channel>
     <title>${esc(PODCAST_TITLE)}</title>
-    <link>${SITE}/podcast</link>
-    <atom:link href="${SITE}/podcast.xml" rel="self" type="application/rss+xml"/>
+    <link>${site}/podcast</link>
+    <atom:link href="${site}/podcast.xml" rel="self" type="application/rss+xml"/>
     <description>Eğitim gündeminden günün haberleri, sesli. Eğitim Haberleri'ni takip edin, yorumlarla destekleyin.</description>
     <language>tr</language>
     <itunes:author>Eğitim Haberleri</itunes:author>
     <itunes:summary>Eğitim gündeminden günün haberleri, sesli.</itunes:summary>
     <itunes:explicit>false</itunes:explicit>
-    <itunes:image href="${API}/icon-512.png"/>
+    <itunes:image href="${api}/icon-512.png"/>
     <itunes:category text="Education"/>
     <itunes:owner><itunes:name>Eğitim Haberleri</itunes:name></itunes:owner>
 ${items}
@@ -303,7 +307,7 @@ ${items}
 
 /* ── robots.txt ve sitemap.xml ──────────────────────────────────────────── */
 
-function robots() {
+function robots(site) {
   return `User-agent: *
 Allow: /
 
@@ -312,11 +316,11 @@ Disallow: /ara
 Disallow: /giris
 Disallow: /profil
 
-Sitemap: ${SITE}/sitemap.xml
+Sitemap: ${site}/sitemap.xml
 `
 }
 
-async function sitemap(env) {
+async function sitemap(env, site) {
   let rows = []
   try {
     const { results } = await env.DB.prepare(
@@ -330,14 +334,14 @@ async function sitemap(env) {
 
   const today = dayKey()
   const staticUrls = [
-    { loc: `${SITE}/`, priority: '1.0', changefreq: 'hourly' },
+    { loc: `${site}/`, priority: '1.0', changefreq: 'hourly' },
     ...Object.keys(CATEGORY_NAMES).map((c) => ({
-      loc: `${SITE}/kategori/${c}`,
+      loc: `${site}/kategori/${c}`,
       priority: '0.7',
       changefreq: 'hourly',
     })),
-    { loc: `${SITE}/kategoriler`, priority: '0.5', changefreq: 'weekly' },
-    { loc: `${SITE}/podcast`, priority: '0.6', changefreq: 'daily' },
+    { loc: `${site}/kategoriler`, priority: '0.5', changefreq: 'weekly' },
+    { loc: `${site}/podcast`, priority: '0.6', changefreq: 'daily' },
   ]
 
   const parts = []
@@ -347,7 +351,7 @@ async function sitemap(env) {
     )
   }
   for (const a of rows) {
-    const loc = `${SITE}/haber/${a.slug}`
+    const loc = `${site}/haber/${a.slug}`
     const date = String(a.published_at ?? '').slice(0, 10)
     parts.push(
       `  <url><loc>${loc}</loc><lastmod>${date}</lastmod><changefreq>daily</changefreq><priority>0.8</priority>` +
@@ -368,15 +372,17 @@ ${parts.join('\n')}
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url)
+    const site = getSite(url, env)
+    const api = getApi(env)
 
     if (url.pathname === '/robots.txt') {
-      return new Response(robots(), {
+      return new Response(robots(site), {
         headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=3600' },
       })
     }
 
     if (url.pathname === '/sitemap.xml') {
-      return new Response(await sitemap(env), {
+      return new Response(await sitemap(env, site), {
         headers: {
           'content-type': 'application/xml; charset=utf-8',
           'cache-control': 'public, max-age=1800',
@@ -392,8 +398,9 @@ export default {
           title: 'Eğitim Haberleri',
           description:
             'Mesleki eğitim, MESEM, MEB, Çorum eğitim ve yabancı eğitim gündeminden güncel haberler.',
-          link: SITE,
-          self: `${SITE}/feed.xml`,
+          link: site,
+          self: `${site}/feed.xml`,
+          api,
         }),
         {
           headers: {
@@ -413,9 +420,9 @@ export default {
         rssFeed(items, {
           title: `${name} — Eğitim Haberleri`,
           description: `${name} kategorisindeki güncel haberler.`,
-          link: `${SITE}/kategori/${slug}`,
-          self: `${SITE}/kategori/${slug}.xml`,
-          category: slug,
+          link: `${site}/kategori/${slug}`,
+          self: `${site}/kategori/${slug}.xml`,
+          api,
         }),
         {
           headers: {
@@ -427,7 +434,7 @@ export default {
     }
 
     if (url.pathname === '/podcast.xml') {
-      return new Response(await podcastFeed(env), {
+      return new Response(await podcastFeed(env, site, api), {
         headers: {
           'content-type': 'application/rss+xml; charset=utf-8',
           'cache-control': 'public, max-age=1800',
@@ -435,24 +442,67 @@ export default {
       })
     }
 
-    // Podcast bölümü sesi (API Worker'daki ses deposundan)
+    // Podcast bölümü sesi: DB_AUDIO, DB veya API fallback ile asla 404 dönmez
     if (url.pathname.startsWith('/podcast/') && url.pathname.endsWith('.mp3')) {
       const id = url.pathname.slice('/podcast/'.length, -4)
-      const row = await env.DB.prepare(
-        'SELECT data, type FROM news_audio WHERE article_id = ?',
-      )
-        .bind(id)
-        .first()
-      if (!row) return new Response('Not found', { status: 404 })
-      const bytes = row.data instanceof ArrayBuffer
-        ? new Uint8Array(row.data)
-        : Array.isArray(row.data)
-          ? Uint8Array.from(row.data)
-          : new Uint8Array(0)
+      let row = null
+      try {
+        const dbAudio = env.DB_AUDIO ?? env.DB
+        row = await dbAudio
+          ?.prepare('SELECT data, type FROM news_audio WHERE article_id = ?')
+          .bind(id)
+          .first()
+      } catch {}
+
+      if (!row || !row.data) {
+        // Doğrudan API Worker'dan proxy dene
+        try {
+          const apiRes = await fetch(`${api}/api/audio/${encodeURIComponent(id)}`)
+          if (apiRes.ok) {
+            const h = new Headers(apiRes.headers)
+            h.set('content-disposition', `attachment; filename="${id}.mp3"`)
+            h.set('cache-control', 'public, max-age=86400')
+            return new Response(apiRes.body, { status: 200, headers: h })
+          }
+        } catch {}
+        return new Response('Not found', { status: 404 })
+      }
+
+      const bytes =
+        row.data instanceof ArrayBuffer
+          ? new Uint8Array(row.data)
+          : Array.isArray(row.data)
+            ? Uint8Array.from(row.data)
+            : new Uint8Array(0)
+
+      const total = bytes.byteLength
+      const range = request.headers.get('range')
+      const contentType = row.type ?? 'audio/mpeg'
+
+      if (range && range.startsWith('bytes=')) {
+        const parts = range.slice(6).split('-')
+        const start = parseInt(parts[0], 10) || 0
+        const end = parts[1] ? parseInt(parts[1], 10) : total - 1
+        if (start < total && end < total && start <= end) {
+          const chunk = bytes.subarray(start, end + 1)
+          return new Response(chunk, {
+            status: 206,
+            headers: {
+              'content-type': contentType,
+              'content-range': `bytes ${start}-${end}/${total}`,
+              'content-length': String(chunk.byteLength),
+              'accept-ranges': 'bytes',
+              'cache-control': 'public, max-age=86400',
+            },
+          })
+        }
+      }
+
       return new Response(bytes, {
         headers: {
-          'content-type': row.type ?? 'audio/mpeg',
-          // Tarayıcı dosyayı doğru adla indirsin (HTML kabuğu gelmesin).
+          'content-type': contentType,
+          'content-length': String(total),
+          'accept-ranges': 'bytes',
           'content-disposition': `attachment; filename="${id}.mp3"`,
           'cache-control': 'public, max-age=86400',
         },
@@ -486,12 +536,12 @@ export default {
     if (article) {
       const a = await findArticle(env, decodeURIComponent(article[1]))
       if (a) {
-        meta = articleMeta(a)
-        pre = prerenderArticle(a)
+        meta = articleMeta(a, site, api)
+        pre = prerenderArticle(a, site, api)
         await track(env, `/haber/${a.slug}`)
       }
     } else {
-      meta = categoryMeta(decodeURIComponent(cat[1]))
+      meta = categoryMeta(decodeURIComponent(cat[1]), site, api)
       await track(env, `/kategori/${cat[1]}`)
     }
 

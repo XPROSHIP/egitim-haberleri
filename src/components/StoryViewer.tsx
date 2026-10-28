@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
-import clsx from 'clsx'
 import { getCategory } from '../data/categories'
 import { formatDate } from '../lib/format'
 import type { NewsItem } from '../types'
@@ -37,6 +36,7 @@ export function StoryViewer({
 }) {
   const [index, setIndex] = useState(startIndex)
   const indexRef = useRef(startIndex)
+  const [isPaused, setIsPaused] = useState(false)
 
   const clamp = useCallback((i: number, len: number) => Math.min(Math.max(i, 0), Math.max(len - 1, 0)), [])
 
@@ -70,12 +70,12 @@ export function StoryViewer({
     setIndex(open ? clamp(startIndex, items.length) : 0)
   }
 
-  /* Otomatik ilerleme */
+  /* Otomatik ilerleme — basılı tutulduğunda duraklar */
   useEffect(() => {
-    if (!open || items.length === 0) return
+    if (!open || items.length === 0 || isPaused) return
     const timer = window.setInterval(() => step(1), SLIDE_MS)
     return () => window.clearInterval(timer)
-  }, [open, items.length, step])
+  }, [open, items.length, step, isPaused])
 
   /* Klavye kontrolleri */
   useEffect(() => {
@@ -172,18 +172,24 @@ export function StoryViewer({
         </div>
 
         {/* Ekranın sol/sağ yarısı: önceki / sonraki haber.
-            Dikkat: "resize" imleçleri ekranın ortasında çizgi bırakıyordu. */}
+            Basılı tutulduğunda Instagram gibi akışı duraklatır. */}
         <button
           type="button"
           aria-label="Önceki haber"
           onClick={() => step(-1)}
-          className="absolute inset-y-0 left-0 z-20 w-1/2 cursor-pointer"
+          onPointerDown={() => setIsPaused(true)}
+          onPointerUp={() => setIsPaused(false)}
+          onPointerCancel={() => setIsPaused(false)}
+          className="absolute inset-y-0 left-0 z-20 w-1/2 cursor-pointer select-none"
         />
         <button
           type="button"
           aria-label="Sonraki haber"
           onClick={() => step(1)}
-          className="absolute inset-y-0 right-0 z-20 w-1/2 cursor-pointer"
+          onPointerDown={() => setIsPaused(true)}
+          onPointerUp={() => setIsPaused(false)}
+          onPointerCancel={() => setIsPaused(false)}
+          className="absolute inset-y-0 right-0 z-20 w-1/2 cursor-pointer select-none"
         />
 
         {/* Üst bar: kategori adı, sayaç, ilerleme çubukları, kapatma */}
@@ -212,16 +218,28 @@ export function StoryViewer({
             </button>
           </div>
 
-          {/* Her haber için bir segment */}
+          {/* Her haber için bir segment (Instagram tarzı dolan akış çizgisi) */}
           <div className="mt-3 flex gap-1" aria-hidden="true">
             {items.map((n, i) => (
-              <span
+              <div
                 key={n.id}
-                className={clsx(
-                  'h-[3px] flex-1 rounded-full transition duration-500',
-                  i === index ? 'bg-white' : i < index ? 'bg-white/30' : 'bg-white/15',
+                className="h-[3px] flex-1 overflow-hidden rounded-full bg-white/25"
+              >
+                {i < index ? (
+                  <div className="size-full bg-white" />
+                ) : i === index ? (
+                  <div
+                    key={`bar-${n.id}-${index}`}
+                    className="size-full origin-left bg-white"
+                    style={{
+                      animation: `story-progress ${SLIDE_MS}ms linear forwards`,
+                      animationPlayState: isPaused ? 'paused' : 'running',
+                    }}
+                  />
+                ) : (
+                  <div className="h-full w-0 bg-white" />
                 )}
-              />
+              </div>
             ))}
           </div>
         </div>

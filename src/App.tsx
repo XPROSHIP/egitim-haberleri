@@ -25,7 +25,7 @@ import { PodcastPage } from './pages/PodcastPage'
 import { LegalPage, LoginPage, NotFoundPage } from './pages/LegalPages'
 import { MobileTabBar } from './components/MobileTabBar'
 import { bus, EVENTS } from './lib/bus'
-import { completeSignIn, restoreSession, watchSession } from './lib/auth'
+import { completeSignIn, restoreSession, setSessionTokens, watchSession } from './lib/auth'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -58,20 +58,48 @@ function AuthBootstrap() {
       if (done.current) return
       done.current = true
 
-      if (code) {
-        const session = await completeSignIn(code)
+      // URL hash'inde (#access_token=...&refresh_token=...) dönebilir
+      const hash = window.location.hash.replace(/^#/, '')
+      const hashParams = new URLSearchParams(hash)
+      const accessToken = hashParams.get('access_token')
+      const refreshToken = hashParams.get('refresh_token')
+
+      let session = null
+
+      if (accessToken) {
+        session = await setSessionTokens(accessToken, refreshToken || undefined)
+      } else if (code) {
+        session = await completeSignIn(code)
+      }
+
+      if (session) {
+        // workers.dev adresinde oturum açıldıysa ama asıl alan adı corummesem.com.tr ise:
+        // Oturumu corummesem.com.tr'ye güvenle aktar!
+        const isWorkersDev = window.location.hostname.endsWith('workers.dev')
+        if (isWorkersDev && session.accessToken) {
+          const nextTarget = new URLSearchParams(window.location.search).get('next') || '/profil'
+          const transferUrl = `https://corummesem.com.tr/giris#access_token=${encodeURIComponent(session.accessToken)}&refresh_token=${encodeURIComponent(session.refreshToken || '')}&next=${encodeURIComponent(nextTarget)}`
+          window.location.replace(transferUrl)
+          return
+        }
+
         // Adres çubuğu temizlenir: yenilemede aynı kod tekrar denenmesin.
-        if (alive) window.history.replaceState({}, '', window.location.pathname)
-        if (alive && session) {
+        if (alive) {
+          window.history.replaceState({}, '', window.location.pathname)
           setUser(session.user)
-          // Giriş başarılı: kullanıcıyı profiline götür, "Giriş Yap" ekranında bırakma.
-          const next = new URLSearchParams(window.location.search).get('next')
+          // Giriş başarılı: kullanıcıyı profiline götür
+          const next = new URLSearchParams(window.location.search).get('next') || hashParams.get('next')
           navigate(next && next.startsWith('/') ? next : '/profil', { replace: true })
           return
         }
+      } else if (code || accessToken) {
         // Başarısız dönüş: kullanıcı sebebi görsün diye giriş penceresini aç.
-        if (alive) bus.emit(EVENTS.openLogin)
+        if (alive) {
+          window.history.replaceState({}, '', window.location.pathname)
+          bus.emit(EVENTS.openLogin)
+        }
       }
+
       const existing = await restoreSession()
       if (alive && existing) setUser(existing.user)
     }
@@ -85,7 +113,7 @@ function AuthBootstrap() {
       alive = false
       off()
     }
-  }, [code, setUser])
+  }, [code, setUser, navigate])
 
   return null
 }

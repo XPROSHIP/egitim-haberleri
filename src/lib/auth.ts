@@ -60,7 +60,7 @@ function getClient(): Promise<SbClient | null> {
   return clientPromise
 }
 
-export type Session = { accessToken: string; user: User }
+export type Session = { accessToken: string; refreshToken?: string; user: User }
 
 function toUser(u: SbSession['user']): User {
   const meta = (u.user_metadata ?? {}) as { full_name?: string; name?: string; avatar_url?: string }
@@ -76,7 +76,7 @@ function toUser(u: SbSession['user']): User {
 }
 
 function toSession(s: SbSession): Session {
-  return { accessToken: s.access_token, user: toUser(s.user) }
+  return { accessToken: s.access_token, refreshToken: s.refresh_token, user: toUser(s.user) }
 }
 
 /** Son giriş hatası; giriş penceresinde gösterilir. */
@@ -124,6 +124,22 @@ export function watchSession(fn: (s: Session | null) => void): () => void {
   sessionListeners.add(fn)
   if (hasStoredSession()) void ensureSubscription()
   return () => sessionListeners.delete(fn)
+}
+
+export async function setSessionTokens(accessToken: string, refreshToken?: string): Promise<Session | null> {
+  const client = await getClient()
+  if (!client) return null
+  setAuthError('')
+  const { data, error } = await client.auth.setSession({
+    access_token: accessToken,
+    refresh_token: refreshToken || '',
+  })
+  if (error || !data.session) {
+    if (error) setAuthError(`Oturum açılamadı: ${error.message}`)
+    return null
+  }
+  current = toSession(data.session)
+  return current
 }
 
 /** Google'a yönlendirir. Dönüşte istemci `?code=`'ı kendisi işler. */

@@ -159,6 +159,8 @@ export async function collectForeign({
   for (const d of out ?? []) {
     const c = byIndex.get(d.id)
     if (!c || !d.title) continue
+    const img = c.localImage || c.image
+    if (!img) continue
     // Model bazen "[1] " gibi girdi numaralarını metne yansıtır.
     const paras = (d.paragraphs ?? [])
       .map((p) => String(p ?? '').replace(/^\s*\[\d+\]\s*/, '').trim())
@@ -176,7 +178,7 @@ export async function collectForeign({
       body: paras.length ? paras : [d.excerpt || d.title],
       category: 'yabanci',
       tags: [...new Set(['yabancı eğitim', ...(d.tags ?? [])])],
-      source: { name: c.siteName ?? c.sourceName, url: c.link, image: c.localImage },
+      source: { name: c.siteName ?? c.sourceName, url: c.link, image: img },
       publishedAt: c.publishedAt ?? new Date().toISOString(),
       views: 0,
       likes: 0,

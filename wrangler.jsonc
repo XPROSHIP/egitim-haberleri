@@ -22,11 +22,17 @@
       "binding": "DB",
       "database_name": "egitim-haberleri",
       "database_id": "6d96cbf2-3732-4d43-bc0f-db17b9bb2c12"
+    },
+    // Podcast MP3'ü doğrudan buradan sunuluyor; sesler ayrı veritabanında.
+    {
+      "binding": "DB_AUDIO",
+      "database_name": "egitim-haberleri-audio",
+      "database_id": "45b0d7fe-eb3a-44bf-b976-1dddad94034b"
     }
   ],
 
   "vars": {
-    "SITE_URL": "https://egitim.omerzen.workers.dev",
+    "SITE_URL": "https://corummesem.com.tr",
     "API_URL": "https://egitim-haberleri-api.omerzen.workers.dev"
   }
 }

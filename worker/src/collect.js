@@ -383,7 +383,7 @@ export async function collect({
           ...detectExtraTags(`${title} ${cluster.description ?? ''}`),
         ]),
       ],
-      source: { name: sourceName, url: cluster.link, image: cluster.localImage },
+      source: { name: sourceName, url: cluster.link, image: cluster.localImage || cluster.image || null },
       publishedAt: cluster.publishedAt,
       views: 0,
       likes: 0,

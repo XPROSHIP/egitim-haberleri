@@ -25,7 +25,7 @@ export function Cover({
 }) {
   if (image) {
     return (
-      <div className={clsx('overflow-hidden bg-surface-2', className)}>
+      <div className={clsx('relative overflow-hidden bg-surface-2', className)}>
         <img
           src={image}
           alt=""
@@ -48,7 +48,7 @@ export function Cover({
     <FallbackCover
       id={id}
       category={category}
-      className={clsx('overflow-hidden', className)}
+      className={clsx('relative overflow-hidden', className)}
       iconScale={iconScale}
       showIcon={showIcon}
     />
@@ -85,17 +85,11 @@ function FallbackCover({
   )
 
   return (
-    <div className={className} style={style} aria-hidden="true">
-      <div
-        className="absolute inset-0 opacity-[0.09]"
-        style={{
-          backgroundImage:
-            'repeating-linear-gradient(115deg, rgba(255,255,255,.7) 0 1px, transparent 1px 18px)',
-        }}
-      />
+    <div className={clsx('relative overflow-hidden select-none', className)} style={style} aria-hidden="true">
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-white/10" />
       {showIcon && (
         <div
-          className="absolute grid place-items-center text-white/20"
+          className="pointer-events-none absolute grid place-items-center text-white/20"
           style={{
             right: '7%',
             bottom: '6%',

@@ -14,17 +14,37 @@
     "crons": ["0 */3 * * *"]
   },
 
+  // Depolama bölümleri: D1'in ÜCRETSİZ kademesinde tek veritabanı 500 MB,
+  // hesap toplamı 5 GB (10 veritabanına kadar). Ses ve görseller ana
+  // veritabanından ayrı tutulur:
+  //   DB        → haber metni, yorum, beğeni, analitik (yıllarca küçük kalır)
+  //   DB_AUDIO  → ses dosyaları (500 MB, dolunca en eski sesler silinir)
+  //   DB_IMAGES → görseller      (500 MB, dolunca en eski görseller silinir)
+  // Böylece medya kotası dolduğunda haber metni silinmez: haber kalıcıdır,
+  // yalnızca sesi/görseli gider.
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "egitim-haberleri",
       "database_id": "6d96cbf2-3732-4d43-bc0f-db17b9bb2c12",
       "migrations_dir": "migrations"
+    },
+    {
+      "binding": "DB_AUDIO",
+      "database_name": "egitim-haberleri-audio",
+      "database_id": "45b0d7fe-eb3a-44bf-b976-1dddad94034b",
+      "migrations_dir": "migrations-audio"
+    },
+    {
+      "binding": "DB_IMAGES",
+      "database_name": "egitim-haberleri-images",
+      "database_id": "c384063d-731c-4a46-8284-9a84f6e8ac5a",
+      "migrations_dir": "migrations-images"
     }
   ],
 
   "vars": {
-    "SITE_URL": "https://egitim.omerzen.workers.dev",
+    "SITE_URL": "https://corummesem.com.tr",
     // Oturum jetonunu doğrulamak için gerekir (jeton Supabase imzalıdır).
     "SUPABASE_URL": "https://jbcwqlymikipgsuvineb.supabase.co",
     "SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpiY3dxbHltaWtpcGdzdXZpbmViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIzODM4MjIsImV4cCI6MjEwNzk1OTgyMn0.ZlJpgeOf51-Wset59bLYRBdnmO3bi5xYWU7eKyYEnaU"

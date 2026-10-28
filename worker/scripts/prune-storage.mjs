@@ -26,12 +26,16 @@ if (!API || !SECRET) {
   process.exit(1)
 }
 
-/** MB cinsinden bütçeler. 320 + 100 ≈ 420 MB; kalanı metin ve emniyet payı. */
+/**
+ * MB cinsinden bütçeler. Ses ve görseller AYRI veritabanlarında; her birinin
+ * ücretsiz kademe tavanı 500 MB. 480'de tetiklenip 440'a iner: tur arasında
+ * biriken yeni medya (~15-20 MB) rahat sığsın diye 40 MB emniyet payı var.
+ */
 const LIMITS = {
-  audioBudget: 320,
-  audioTarget: 290,
-  imageBudget: 100,
-  imageTarget: 85,
+  audioBudget: 480,
+  audioTarget: 440,
+  imageBudget: 480,
+  imageTarget: 440,
   audioMinAgeDays: 5,
   imageMinAgeDays: 7,
   podcastKeep: 30,
@@ -64,7 +68,7 @@ console.log(
   `[prune] görsel: ${mb(r.images.before)} · silinen ${r.images.deleted} dosya (${mb(r.images.freed)}) · kalan ${mb(r.images.after)}`,
 )
 const total = r.audio.after + r.images.after
-console.log(`[prune] medya toplamı: ${mb(total)} / 500 MB D1 sınırı`)
+console.log(`[prune] medya toplamı: ${mb(total)} · her veritabanı 500 MB, hesap toplamı 5 GB`)
 if (r.audio.deleted === 0 && r.images.deleted === 0 && !r.podcast?.deleted) {
   console.log('[prune] kotalar dolmadı, hiçbir şey silinmedi')
 } else if (dryRun) {

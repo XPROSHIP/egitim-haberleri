@@ -352,6 +352,15 @@ html[data-reader-font='serif'] .article-prose h2 {
   }
 }
 
+@keyframes story-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 .skeleton {
   position: relative;
   overflow: hidden;

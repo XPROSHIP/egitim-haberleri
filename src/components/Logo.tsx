@@ -7,7 +7,17 @@ export function Logo({ compact = false }: { compact?: boolean }) {
   const { t } = useTranslation()
   const word = 'Haberleri'
   return (
-    <a href="/" className="group flex shrink-0 items-center gap-2" aria-label="Eğitim Haberleri">
+    <a
+      href="https://corummesem.com.tr/"
+      onClick={(e) => {
+        if (window.location.origin === 'https://corummesem.com.tr' && window.location.pathname === '/') {
+          e.preventDefault()
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        }
+      }}
+      className="group flex shrink-0 items-center gap-2"
+      aria-label="Eğitim Haberleri"
+    >
       <span className="h-6 w-[3px] rounded-full bg-accent transition-transform group-hover:scale-y-125" />
       <span className="flex flex-col leading-none">
         <span className="text-[1.0625rem] font-extrabold tracking-tight text-fg">

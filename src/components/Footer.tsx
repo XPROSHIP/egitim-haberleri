@@ -140,6 +140,8 @@ export function Footer() {
                 <li key={href}>
                   <a
                     href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-[0.75rem] text-muted transition hover:text-fg"
                   >
                     {label}
@@ -162,8 +164,16 @@ export function Footer() {
               {automationOk ? sourceLabel[dataSource] : 'Güncelleme bekliyor — otomasyon durakladı'}
             </span>
             <span>
-              © 2026 Eğitim Haberleri — {t('legal.preparedBy')}{' '}
+              © 2026 Eğitim Haberleri ·{' '}
+              <a
+                href="https://corummesem.com.tr"
+                className="underline hover:text-fg"
+              >
+                www.corummesem.com.tr
+              </a>{' '}
+              · {t('legal.preparedBy')}{' '}
               <span className="font-semibold tracking-wide text-muted">OMERZEN</span>
+              {' '}· Tüm hakları saklıdır.
             </span>
           </p>
           <p className="max-w-2xl text-[0.625rem] leading-relaxed text-faint/70">
