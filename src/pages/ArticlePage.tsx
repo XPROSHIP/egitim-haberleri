@@ -25,6 +25,18 @@ export function ArticlePage() {
   const related = useRelated(item)
   const { markRead, signedIn } = useStore()
   const [views, setViews] = useState<number | null>(null)
+  const [scrollProgress, setScrollProgress] = useState(0)
+
+  useEffect(() => {
+    const onScroll = () => {
+      const total = document.documentElement.scrollHeight - window.innerHeight
+      if (total > 0) {
+        setScrollProgress(Math.min(1, Math.max(0, window.scrollY / total)))
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   useEffect(() => {
     if (item) markRead(item.id)
@@ -95,6 +107,14 @@ export function ArticlePage() {
 
   return (
     <div className="mx-auto max-w-[1180px] px-3 pb-20 sm:px-4">
+      {/* Okuma ilerleme çizgisi (Kantan tarzı) */}
+      <div className="fixed top-0 left-0 right-0 z-50 h-1 bg-transparent pointer-events-none">
+        <div
+          className="h-full bg-gradient-to-r from-primary via-accent to-primary transition-[width] duration-100 ease-out"
+          style={{ width: `${Math.round(scrollProgress * 100)}%` }}
+        />
+      </div>
+
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
         <article className="min-w-0">
           {/* Başlık bloğu: sayfa kaydırılırken üstte sabit kalır */}
@@ -152,6 +172,11 @@ export function ArticlePage() {
               {t('news.shareOnX')}
               <ExternalLink size={12} />
             </button>
+          </div>
+
+          {/* Haberi dinle / Ses oynatıcı (başlık ve sürenin hemen altında) */}
+          <div className="mt-5">
+            <AudioReader item={item} />
           </div>
 
           {hasImage && (
@@ -234,10 +259,6 @@ export function ArticlePage() {
               ))}
             </div>
           )}
-
-          <div className="mt-6 max-w-md">
-            <AudioReader item={item} />
-          </div>
 
           <CommentSection item={item} />
 

@@ -69,6 +69,7 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
   const [currentTime, setCurrentTime] = useState(0)
   const utterRef = useRef<SpeechSynthesisUtterance | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const barRef = useRef<HTMLDivElement | null>(null)
   const cancelRef = useRef(false)
 
   const audioUrl = useMemo(() => audioUrlFor(item), [item])
@@ -128,15 +129,19 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
     }
   }, [item.id])
 
-  // Hazır ses oynarken geçen süreyi takip et
+  // Hazır ses oynarken geçen süreyi ve ilerlemeyi takip et
   useEffect(() => {
-    if (state !== 'playing' || mode !== 'audio') return
+    if (mode !== 'audio') return
     const el = audioRef.current
     if (!el) return
-    const onTime = () => setCurrentTime(el.currentTime)
+    const onTime = () => {
+      setCurrentTime(el.currentTime)
+      const dur = el.duration || item.audioDuration || 1
+      if (dur > 0) setProgress(el.currentTime / dur)
+    }
     el.addEventListener('timeupdate', onTime)
     return () => el.removeEventListener('timeupdate', onTime)
-  }, [state, mode])
+  }, [mode, item.audioDuration])
 
   // Tarayıcı seslendirmesinde süreyi saniyelik say (kalan süre göstergesi)
   useEffect(() => {
@@ -253,6 +258,22 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
     if (state !== 'idle') setTimeout(speak, 60)
   }
 
+  const seek = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = audioRef.current
+    const bar = barRef.current
+    if (!el || !bar) return
+    const total = el.duration || totalSeconds || item.audioDuration || 0
+    if (!total || !Number.isFinite(total)) return
+    const rect = bar.getBoundingClientRect()
+    const ratio = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width))
+    const target = ratio * total
+    try {
+      el.currentTime = target
+      setCurrentTime(target)
+      setProgress(ratio)
+    } catch {}
+  }
+
   const supported =
     typeof window !== 'undefined' && ('speechSynthesis' in window || Boolean(audioUrl))
 
@@ -290,18 +311,36 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
                 {formatTime(totalSeconds)} · {state === 'idle' ? 'kaldı' : `${formatTime(remaining)} kaldı`}
               </>
             ) : mode === 'audio' ? (
-              'Sentezlenmiş ses'
+              'Sesli bülten'
             ) : audioUrl ? (
               (voices[voiceIdx]?.name ?? (supported ? 'Türkçe ses bulunamadı' : 'Desteklenmiyor'))
             ) : (
-              'Tarayıcı sesi · hazırlanan ses bir sonraki turda gelir'
+              'Tarayıcı sesi'
             )}
           </p>
-          <div className="mt-1.5 h-[3px] overflow-hidden rounded-full bg-surface-3">
-            <div
-              className="h-full rounded-full bg-fg transition-[width] duration-200"
-              style={{ width: `${Math.round(progress * 100)}%` }}
-            />
+
+          {/* İlerleme çubuğu / Slider: Tıklanınca istenen saniyeye atlanır */}
+          <div
+            ref={barRef}
+            role="slider"
+            tabIndex={0}
+            aria-label="Ses konumu"
+            aria-valuemin={0}
+            aria-valuemax={Math.round(totalSeconds)}
+            aria-valuenow={Math.round(currentTime)}
+            onClick={seek}
+            className="group mt-2 cursor-pointer select-none py-0.5"
+          >
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-surface-3">
+              <div
+                className="h-full rounded-full bg-primary transition-[width] duration-150 group-hover:bg-accent"
+                style={{ width: `${Math.round(Math.min(1, Math.max(0, progress)) * 100)}%` }}
+              />
+            </div>
+            <div className="tnum mt-1 flex justify-between text-[0.625rem] text-faint">
+              <span>{formatTime(currentTime)}</span>
+              <span>{formatTime(totalSeconds)}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -352,17 +391,6 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
             className="rounded-full border border-line px-2.5 py-1 text-[0.6875rem] font-semibold text-muted transition hover:text-fg"
           >
             {rate}×
-          </button>
-        )}
-        {audioUrl && mode === 'tts' && (
-          <button
-            type="button"
-            onClick={() => {
-              if (playAudio()) setState('playing')
-            }}
-            className="rounded-full border border-line px-2.5 py-1 text-[0.6875rem] font-medium text-muted transition hover:text-fg"
-          >
-            Sentezlenmiş sesi dene
           </button>
         )}
         {state !== 'idle' && (

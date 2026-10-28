@@ -16,6 +16,17 @@
           if (t === 'light') {
             document.documentElement.classList.remove('dark');
             document.documentElement.classList.add('light');
+            document.documentElement.dataset.theme = 'light';
+          } else if (t === 'sepia') {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('sepia');
+            document.documentElement.dataset.theme = 'sepia';
+          } else {
+            document.documentElement.classList.add('dark');
+            document.documentElement.dataset.theme = 'dark';
+          }
+          if (s.readerFont) {
+            document.documentElement.dataset.readerFont = s.readerFont;
           }
           // Yazı boyutu ölçeği (rem tabanlı metinler büyür).
           var pct = { '1': 100, '1.25': 106, '1.5': 112 }[s.fontScale] || 100;
@@ -23,6 +34,9 @@
         } catch (e) {}
       })();
     </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Playpen+Sans:wght@300..700&display=swap" rel="stylesheet" />
     <title>Eğitim Haberleri — Mesleki Eğitim, MEB ve Çorum Eğitim Gündemi</title>
     <meta name="description" content="Mesleki Eğitim, MESEM, MEB, Çorum Eğitim, Ortaöğretim, Maarif Modeli ve yabancı eğitim gündeminden güncel haberler." />
     <link rel="canonical" href="https://corummesem.com.tr/" />

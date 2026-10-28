@@ -258,11 +258,31 @@ export function TopBar({
           </button>
           <button
             type="button"
-            onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
-            aria-label="Tema"
+            onClick={() => {
+              if (resolvedTheme === 'light') setTheme('sepia')
+              else if (resolvedTheme === 'sepia') setTheme('dark')
+              else setTheme('light')
+            }}
+            title={
+              resolvedTheme === 'light'
+                ? 'Aydınlık mod (Sepya için tıkla)'
+                : resolvedTheme === 'sepia'
+                  ? 'Sepya mod (Karanlık için tıkla)'
+                  : 'Karanlık mod (Aydınlık için tıkla)'
+            }
+            aria-label="Tema değiştir"
             className="grid size-9 place-items-center rounded-full text-muted transition hover:text-fg"
           >
-            <Icon name={resolvedTheme === 'dark' ? 'Sun' : 'Moon'} size={17} />
+            <Icon
+              name={
+                resolvedTheme === 'light'
+                  ? 'Sun'
+                  : resolvedTheme === 'sepia'
+                    ? 'BookOpen'
+                    : 'Moon'
+              }
+              size={17}
+            />
           </button>
           <button
             type="button"

@@ -18,8 +18,28 @@ import { bus, EVENTS } from '../lib/bus'
 import { playLike, playSave, playTick } from '../lib/sound'
 import { Icon } from './Icon'
 
-/** Nötr, tek renkli avatar — renkli daireler yerine sade bir monogram. */
-function Avatar({ name, mine }: { name: string; mine?: boolean }) {
+/** Profil fotoğrafı varsa onu, yoksa baş harfli monogramı gösterir. */
+function Avatar({
+  name,
+  avatarUrl,
+  mine,
+}: {
+  name: string
+  avatarUrl?: string
+  mine?: boolean
+}) {
+  const { user } = useStore()
+  const photo = avatarUrl || (mine ? user?.avatarUrl : undefined)
+  if (photo) {
+    return (
+      <img
+        src={photo}
+        alt={name}
+        className="size-7 shrink-0 rounded-full object-cover border border-line select-none"
+        referrerPolicy="no-referrer"
+      />
+    )
+  }
   return (
     <span
       className={clsx(
@@ -70,7 +90,7 @@ function CommentRow({
   return (
     <div className="border-b border-line-soft py-4 last:border-b-0">
       <div className="flex gap-3">
-        <Avatar name={c.authorName} mine={c.authorId === 'me'} />
+        <Avatar name={c.authorName} avatarUrl={c.avatarUrl} mine={c.authorId === 'me'} />
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <span className="text-[0.8125rem] font-semibold text-fg">{c.authorName}</span>
@@ -101,7 +121,7 @@ function CommentRow({
             <div className="mt-3 space-y-3 border-l border-line pl-3.5">
               {replies.map((r) => (
                 <div key={r.id} className="flex gap-2.5">
-                  <Avatar name={r.authorName} mine={r.authorId === 'me'} />
+                  <Avatar name={r.authorName} avatarUrl={r.avatarUrl} mine={r.authorId === 'me'} />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                       <span className="text-[0.75rem] font-semibold text-fg">{r.authorName}</span>
@@ -121,7 +141,7 @@ function CommentRow({
 
 export function CommentSection({ item }: { item: NewsItem }) {
   const { t } = useTranslation()
-  const { signedIn } = useStore()
+  const { signedIn, user } = useStore()
   const { data, refetch } = useComments(item.id)
   const { data: engagement } = useEngagement(item.id)
   const [text, setText] = useState('')
@@ -167,28 +187,31 @@ export function CommentSection({ item }: { item: NewsItem }) {
       {/* Üye olmadan yorum yazılamaz */}
       <div className="mt-4 rounded-xl border border-line bg-surface p-4">
         {signedIn ? (
-          <>
-            <textarea
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              maxLength={600}
-              rows={3}
-              placeholder={t('comments.placeholder')}
-              className="w-full resize-none rounded-lg border border-line bg-surface-2 p-3 text-[0.84375rem] leading-relaxed text-fg outline-none placeholder:text-faint focus:border-primary/50"
-            />
-            {error && <p className="mt-1.5 text-[0.6875rem] text-accent">{error}</p>}
-            <div className="mt-2.5 flex items-center justify-between">
-              <span className="tnum text-[0.6875rem] text-faint">{text.length}/500</span>
-              <button
-                type="button"
-                onClick={submit}
-                disabled={!text.trim() || sending}
-                className="rounded-full bg-fg px-4 py-1.5 text-[0.8125rem] font-semibold text-bg transition hover:opacity-90 disabled:opacity-40"
-              >
-                {t('comments.submit')}
-              </button>
+          <div className="flex items-start gap-3">
+            <Avatar name={user?.name ?? 'Ben'} avatarUrl={user?.avatarUrl} mine />
+            <div className="min-w-0 flex-1">
+              <textarea
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                maxLength={600}
+                rows={3}
+                placeholder={t('comments.placeholder')}
+                className="w-full resize-none rounded-lg border border-line bg-surface-2 p-3 text-[0.84375rem] leading-relaxed text-fg outline-none placeholder:text-faint focus:border-primary/50"
+              />
+              {error && <p className="mt-1.5 text-[0.6875rem] text-accent">{error}</p>}
+              <div className="mt-2.5 flex items-center justify-between">
+                <span className="tnum text-[0.6875rem] text-faint">{text.length}/500</span>
+                <button
+                  type="button"
+                  onClick={submit}
+                  disabled={!text.trim() || sending}
+                  className="rounded-full bg-fg px-4 py-1.5 text-[0.8125rem] font-semibold text-bg transition hover:opacity-90 disabled:opacity-40"
+                >
+                  {t('comments.submit')}
+                </button>
+              </div>
             </div>
-          </>
+          </div>
         ) : (
           <div className="flex flex-col items-center gap-3 py-2 text-center">
             <p className="text-[0.8125rem] text-muted">{t('comments.loginToComment')}</p>

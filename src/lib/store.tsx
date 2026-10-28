@@ -10,11 +10,11 @@ import {
 import type { Lang } from './format'
 import type { User } from '../types'
 
-export type ThemeMode = 'dark' | 'light' | 'system'
+export type ThemeMode = 'dark' | 'light' | 'sepia' | 'system'
 export type FontScale = '1' | '1.25' | '1.5'
 export type FeedMode = 'latest' | 'featured' | 'following' | 'foryou'
 /** Okuma konforu: yazı tipi, satır genişliği, satır aralığı. */
-export type ReaderFont = 'sans' | 'serif'
+export type ReaderFont = 'sans' | 'serif' | 'handwriting'
 export type ReaderWidth = 'narrow' | 'normal' | 'wide'
 export type ReaderLine = 'compact' | 'normal' | 'relaxed'
 
@@ -87,7 +87,7 @@ function load(): Persisted {
 }
 
 type Store = Persisted & {
-  resolvedTheme: 'dark' | 'light'
+  resolvedTheme: 'dark' | 'light' | 'sepia'
   signedIn: boolean
   toggleBookmark: (id: string) => void
   toggleLike: (id: string) => void
@@ -123,13 +123,15 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     return () => mq.removeEventListener('change', onChange)
   }, [])
 
-  const resolvedTheme: 'dark' | 'light' =
+  const resolvedTheme: 'dark' | 'light' | 'sepia' =
     state.theme === 'system' ? (systemDark ? 'dark' : 'light') : state.theme
 
   useEffect(() => {
     const el = document.documentElement
     el.classList.toggle('dark', resolvedTheme === 'dark')
     el.classList.toggle('light', resolvedTheme === 'light')
+    el.classList.toggle('sepia', resolvedTheme === 'sepia')
+    el.dataset.theme = resolvedTheme
   }, [resolvedTheme])
 
   useEffect(() => {

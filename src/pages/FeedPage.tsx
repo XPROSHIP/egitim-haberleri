@@ -38,19 +38,19 @@ function FeedCard({ item }: { item: NewsItem }) {
   const likeCount = item.likes + (liked ? 1 : 0)
 
   const actionBtn =
-    'flex items-center gap-1.5 rounded-full px-2 py-1 text-[0.75rem] transition hover:bg-surface-3'
+    'flex items-center gap-1.5 rounded-full px-2 py-1 text-[0.75rem] transition-all duration-150 hover:bg-surface-3 active:scale-90'
 
   return (
     <Link
       to={`/haber/${item.slug}`}
-      className="group block bg-surface p-4 transition hover:bg-surface-2"
+      className="group block bg-surface p-4 transition-all duration-200 hover:bg-surface-2 hover:shadow-md"
     >
       <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-surface-2">
         <Cover
           id={item.id}
           category={item.category}
           image={item.source.image}
-          className="absolute inset-0 size-full"
+          className="absolute inset-0 size-full transition-transform duration-500 ease-out group-hover:scale-[1.03]"
         />
         <div className="absolute top-2 left-2">
           <CategoryBadge slug={item.category} size="sm" overlay />

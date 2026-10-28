@@ -81,7 +81,7 @@ function QuickActions({ item }: { item: NewsItem }) {
   const [pop, setPop] = useState(0)
 
   const btn =
-    'grid size-8 place-items-center rounded-full bg-black/45 text-white ring-1 ring-white/15 backdrop-blur-md transition hover:bg-black/70'
+    'grid size-8 place-items-center rounded-full bg-black/45 text-white ring-1 ring-white/15 backdrop-blur-md transition-all duration-150 hover:bg-black/70 active:scale-90'
 
   const onLike = async (e: React.MouseEvent) => {
     e.preventDefault()
@@ -178,14 +178,14 @@ export function NewsCard({
     return (
       <Link
         to={`/haber/${item.slug}`}
-        className="group relative block overflow-hidden rounded-2xl border border-line bg-surface-2 transition hover:border-line/80"
+        className="group relative block overflow-hidden rounded-2xl border border-line bg-surface-2 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:border-line/80"
       >
-        <div className={clsx('relative w-full', isHero ? 'aspect-[4/3] sm:aspect-[2.05/1]' : 'aspect-[4/3]')}>
+        <div className={clsx('relative w-full overflow-hidden', isHero ? 'aspect-[4/3] sm:aspect-[2.05/1]' : 'aspect-[4/3]')}>
           <Cover
             id={item.id}
             category={item.category}
             image={item.source.image}
-            className="absolute inset-0 size-full"
+            className="absolute inset-0 size-full transition-transform duration-500 ease-out group-hover:scale-[1.03]"
           />
           <div
             className={clsx(
@@ -202,7 +202,7 @@ export function NewsCard({
             <CategoryBadge slug={item.category} size="sm" overlay />
             <h2
               className={clsx(
-                'mt-2.5 font-bold tracking-tight text-white',
+                'mt-2.5 font-bold tracking-tight text-white transition-colors group-hover:text-white/95',
                 isHero
                   ? 'text-xl leading-[1.2] sm:text-[1.75rem]'
                   : 'line-clamp-3x text-[0.9375rem] leading-[1.28]',
@@ -226,14 +226,14 @@ export function NewsCard({
     return (
       <Link
         to={`/haber/${item.slug}`}
-        className="group flex flex-col overflow-hidden rounded-xl border border-line bg-surface transition hover:border-faint/30"
+        className="group flex flex-col overflow-hidden rounded-xl border border-line bg-surface transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-faint/40"
       >
         <div className="relative aspect-[16/10] overflow-hidden">
           <Cover
             id={item.id}
             category={item.category}
             image={item.source.image}
-            className="absolute inset-0 size-full"
+            className="absolute inset-0 size-full transition-transform duration-500 ease-out group-hover:scale-[1.04]"
           />
           <div className="absolute top-2.5 left-2.5">
             <CategoryBadge slug={item.category} size="sm" overlay />
@@ -243,7 +243,7 @@ export function NewsCard({
           </div>
         </div>
         <div className="flex flex-1 flex-col gap-2 p-3.5">
-          <h3 className="line-clamp-3x text-[0.9375rem] leading-[1.32] font-semibold text-fg">
+          <h3 className="line-clamp-3x text-[0.9375rem] leading-[1.32] font-semibold text-fg transition-colors group-hover:text-primary">
             {item.title}
           </h3>
           {showExcerpt && (
@@ -259,19 +259,19 @@ export function NewsCard({
     return (
       <Link
         to={`/haber/${item.slug}`}
-        className="group flex items-start gap-3 rounded-lg p-2 transition hover:bg-surface-2"
+        className="group flex items-start gap-3 rounded-lg p-2 transition-all duration-150 hover:bg-surface-2 hover:translate-x-0.5"
       >
         <div className="size-16 shrink-0 overflow-hidden rounded-lg">
           <Cover
             id={item.id}
             category={item.category}
             image={item.source.image}
-            className="size-full"
+            className="size-full transition-transform duration-300 ease-out group-hover:scale-105"
             showIcon={false}
           />
         </div>
         <div className="min-w-0 flex-1">
-          <h4 className="line-clamp-2x text-[0.8125rem] leading-snug font-medium text-fg group-hover:text-primary">
+          <h4 className="line-clamp-2x text-[0.8125rem] leading-snug font-medium text-fg transition-colors group-hover:text-primary">
             {item.title}
           </h4>
           <div className="tnum mt-1 flex items-center gap-1.5 text-[0.65625rem] text-faint">

@@ -220,8 +220,9 @@ export function SettingsPage() {
   }
 
   const themes: { key: ThemeMode; label: string; icon: string }[] = [
-    { key: 'dark', label: t('settings.themeDark'), icon: 'Moon' },
     { key: 'light', label: t('settings.themeLight'), icon: 'Sun' },
+    { key: 'sepia', label: 'Sepya', icon: 'BookOpen' },
+    { key: 'dark', label: t('settings.themeDark'), icon: 'Moon' },
     { key: 'system', label: t('settings.themeAuto'), icon: 'Settings' },
   ]
   const scales: { key: FontScale; label: string; size: number }[] = [
@@ -281,7 +282,8 @@ export function SettingsPage() {
               value={store.readerFont}
               options={[
                 { key: 'sans', label: 'Modern' },
-                { key: 'serif', label: 'Klasik' },
+                { key: 'serif', label: 'Klasik (Fraunces)' },
+                { key: 'handwriting', label: 'El Yazısı (Playpen)' },
               ]}
               onChange={store.setReaderFont}
             />

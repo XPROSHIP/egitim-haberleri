@@ -23,7 +23,7 @@
 }
 
 .light {
-  /* Krem / vintage kâğıt tonu — saf beyaz göz yorar, editoryal his zayıflar. */
+  /* Temiz editoryal aydınlık ton */
   --bg: #faf7f0;
   --surface: #fffdf8;
   --surface-2: #f4efe4;
@@ -38,6 +38,25 @@
   --primary: #1f5ae0;
   --primary-fg: #ffffff;
   --ring: rgba(27, 23, 16, 0.12);
+}
+
+.sepia,
+[data-theme="sepia"] {
+  /* Vintage sepya / eskimiş kitap kağıdı tonu */
+  --bg: #f4ecd8;
+  --surface: #fbf5e6;
+  --surface-2: #eae0c8;
+  --surface-3: #ded2b6;
+  --line: #d1c4a5;
+  --line-soft: #e3d8be;
+  --fg: #3d2e1e;
+  --muted: #6e5841;
+  --faint: #9c8366;
+  --accent: #b03a2e;
+  --accent-soft: #f9e2df;
+  --primary: #935116;
+  --primary-fg: #fbf5e6;
+  --ring: rgba(61, 46, 30, 0.15);
 }
 
 @theme inline {
@@ -379,4 +398,49 @@ html[data-reader-font='serif'] .article-prose h2 {
   .skeleton::after {
     animation: none;
   }
+}
+
+/* Yazı tipi tercihleri: Modern (Geist), Klasik (Fraunces), El Yazısı (Playpen Sans) */
+html[data-reader-font="serif"],
+html[data-reader-font="serif"] body,
+html[data-reader-font="serif"] .article-prose {
+  font-family: 'Fraunces', ui-serif, Georgia, serif;
+}
+
+html[data-reader-font="handwriting"],
+html[data-reader-font="handwriting"] body,
+html[data-reader-font="handwriting"] .article-prose {
+  font-family: 'Playpen Sans', cursive, ui-sans-serif, sans-serif;
+}
+
+/* Görsel mikro-etkileşimler */
+.interactive-card {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+.interactive-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.12);
+}
+.dark .interactive-card:hover {
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.6);
+}
+.sepia .interactive-card:hover {
+  box-shadow: 0 8px 24px -8px rgba(61, 46, 30, 0.18);
+}
+.interactive-card:active {
+  transform: translateY(0);
+}
+
+.interactive-cover {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.group:hover .interactive-cover {
+  transform: scale(1.03);
+}
+
+.action-press {
+  transition: transform 0.14s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.action-press:active {
+  transform: scale(0.88);
 }
