@@ -103,19 +103,14 @@ export function createGemini(rawKeys, modelOrModels = GEMINI_MODEL) {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
-const SYSTEM_PROMPT = `Sen Türkiye eğitim basınının kıdemli editörüsün. sana ham haber başlıkları ve kaynak künyesi verilir.
-KURALLAR:
-- Yalnızca verilen kaynak bilgilerine dayan; uydurma bilgi, sayı, tarih veya kurum ekleme.
-- Başlık: Türkçe ve doğal yazımla yaz, 8-14 kelime. Cümle başı büyük harfle başlar. Özel adlar (şehir, okul, bakanlık, kurum adları) büyük harfle yazılır. Reklam ve clickbait yok, kaynaktaki olgunluğu korunur.
-- Özet: tek paragraf, en fazla 2 cümle, okuru bilgilendirir.
-- Gövde: 2-3 kısa paragraf (her biri 2-3 cümle), kaynakta olmayan ayrıntıyı yazma.
+const SYSTEM_PROMPT = `Sen Türkiye eğitim basınının kıdemli editörüsün. Sana ham haber başlıkları ve kaynak bilgisi verilir.
+GÖREVİN — PARAPHRASE & EDİTÖRYEL YENİDEN YAZIM:
+- Başlık: Haberin özünü ve ana iletisini koruyarak ÖZGÜN BİR DİLLE YENİDEN İFADE ET (paraphrase). Kaynaktaki başlığı birebir kopyalama; Türkçe, akıcı, merak uyandıran ama clickbait olmayan 8-14 kelimelik bir başlık yaz. Cümle başı büyük harfle başlar, özel adlar büyük harfle yazılır.
+- Özet: Haberi aşırı kısaltmadan, en can alıcı noktaları, kimin ne yaptığını ve sonucunu anlatan 2-3 doyurucu ve zengin cümle yaz.
+- Gövde: Kaynak metindeki bilgileri KESİNLİKLE EKSİLTME. Olayı, sayıları, tarihleri, kurum ve kişi isimlerini eksiksiz koruyarak, özgün bir editoryal dille ve akıcı paragraflarla aktar. Kısaltarak kuşa çevirme; okurun tüm detayları öğrenebileceği dolgun bir metin olsun.
 - Etiketler: 2-4 adet, Türkçe, büyük harf, en fazla 3 kelime.
-- Kategori: verilen listeden birini seç.
-- featured yalnızca gerçekten önemli ve geniş etkili bir gelişme için true olsun.
-BAŞLIK ÖRNEKLERİ (doğru biçim):
-  ✓ "Milli eğitim bakanlığı 2026-2027 öğretmen ataması takvimini açıkladı"
-  ✓ "Çorum'da 12 yeni mesleki eğitim laboratuvarı açıldı"
-  ✗ "Milli Eğitim Bakanlığı 2026-2027 Öğretmen Ataması Takvimini Açıkladı" (her kelime büyük harf olmaz)
+- Kategori: Verilen listeden birini seç.
+- featured: Yalnızca gerçekten önemli ve geniş etkili bir gelişme için true olsun.
 JSON dizisi döndür; id alanı girdi numarasıyla aynı olmalı.`
 
 const CLEAN_SCHEMA = {
@@ -145,14 +140,14 @@ Reklam, "ilgili haberler", "en çok okunanlar", menü, arama kutusu, künye, yaz
 paylaşım butonları, "abone ol", adres/telefon/e-posta bilgileri, erişilebilirlik araçları,
 yazı tipi / sayfa genişliği seçenekleri, tarih-saat satırları hep alaksızdır: text boş olsun.
 
-KURAL 3 — HABER METNİ KORUNUR:
-- Habere ait paragrafların text'ini TAMAMEN yaz; KISAĞINA KISALTMA, özetleme.
-  Yalnızca bozuk cümleleri ve yazımı düzelt.
+KURAL 3 — HABER METNİ VE AYRINTILAR KORUNUR:
+- Habere ait paragrafların text'ini TAMAMEN yaz; KESİNLİKLE KISALTMA veya eksiltme yapma.
+  Gerektiğinde ifadeyi daha akıcı kılmak için editoryal olarak zenginleştir (paraphrase et), ancak hiçbir bilgiyi ve olguyu dışarıda bırakma.
 - Sayıları, tarihleri, yer adlarını, kurum adlarını ve alıntıları BİREBİR koru.
-- NOKTALAMAYI KORU: cümle sonu nokta, virgül, iki nokta, tırnak ve ünlem
+- NOKTALAMAYI KORU: Cümle sonu nokta, virgül, iki nokta, tırnak ve ünlem
   işaretlerini kaynaktaki gibi bırak. Bu metin seslendirilecek; noktalama
-  duraklamayı sağlıyor, noktalama olmayan metin yapay ve hızlı okunuyor.
-- Yorum, reklam ya da yeni bilgi ekleme.
+  duraklamayı sağlar, eksik noktalama metni robotik yapar.
+- Yorum veya kaynaktan bağımsız uydurma bilgi ekleme.
 
 ÇIKTI: Her girdi paragrafı için bir kayıt üret: id = paragrafın sırası (1'den başlar),
 text = o paragrafın temizlenmiş metni (alaksızsa boş string).

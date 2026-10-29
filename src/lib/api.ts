@@ -40,7 +40,7 @@ async function fetchAll(): Promise<NewsItem[]> {
     // Başlık "x-refresh" göndermiyordu: Worker'da tazeleme anlamına geliyordu ve
     // ücretsiz kademede her sayfa açılışında CPU limitini patlatıyordu. Toplama
     // artık GitHub Actions'ta, tek bir POST ile yapılıyor.
-    const res = await fetch(`${BASE}/api/news?limit=500`)
+    const res = await fetch(`${BASE}/api/news?limit=1000`)
     if (!res.ok) throw new Error(String(res.status))
     const data = (await res.json()) as { items: NewsItem[] }
     return data.items.map((i) => decodeItem(withImageBase(i)))

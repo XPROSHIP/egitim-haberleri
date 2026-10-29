@@ -143,7 +143,7 @@ export function createD1Store(db) {
       const inserted = result.reduce((sum, r) => sum + (r?.meta?.changes ?? 0), 0)
       return { inserted, skipped: items.length - inserted, items }
     },
-    async all(limit = 500, includeBody = false) {
+    async all(limit = 1000, includeBody = false) {
       const sql = includeBody
         ? `SELECT * FROM news WHERE status = 'published' ORDER BY published_at DESC LIMIT ?`
         : `SELECT id, slug, title, excerpt, category, tags, source_name, source_url,

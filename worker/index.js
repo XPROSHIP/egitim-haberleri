@@ -1249,7 +1249,8 @@ export default {
 
     if (url.pathname === '/api/news') {
       const includeBody = url.searchParams.get('include_body') === '1' || url.searchParams.get('full') === '1'
-      const items = await store(env).all(Math.min(Number(url.searchParams.get('limit') ?? 500), 500), includeBody)
+      const reqLimit = Math.min(Number(url.searchParams.get('limit') ?? 1000), 2000)
+      const items = await store(env).all(reqLimit, includeBody)
       return reply(
         { items, count: items.length },
         200,

@@ -17,6 +17,35 @@ const EXAMPLES_TR = [
   'Öğretmen ataması takvimi ne zaman açıklandı?',
 ]
 
+/** Asistan mesajlarındaki [Başlık](/haber/slug) linklerini ve **kalın** yazılarını tıklanabilir HTML bileşenine çevirir. */
+function FormattedMessage({ text, onClose }: { text: string; onClose: () => void }) {
+  const parts = text.split(/(\[[^\]]+\]\(\/haber\/[^)]+\)|\*\*[^*]+\*\*)/g)
+  return (
+    <>
+      {parts.map((p, idx) => {
+        const linkMatch = p.match(/^\[([^\]]+)\]\((\/haber\/[^)]+)\)$/)
+        if (linkMatch) {
+          return (
+            <Link
+              key={idx}
+              to={linkMatch[2]}
+              onClick={onClose}
+              className="font-semibold text-primary underline underline-offset-2 hover:text-accent"
+            >
+              {linkMatch[1]}
+            </Link>
+          )
+        }
+        const boldMatch = p.match(/^\*\*([^*]+)\*\*$/)
+        if (boldMatch) {
+          return <strong key={idx} className="font-bold text-fg">{boldMatch[1]}</strong>
+        }
+        return p
+      })}
+    </>
+  )
+}
+
 export function AssistantPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t } = useTranslation()
   const { signedIn } = useStore()
@@ -70,8 +99,15 @@ export function AssistantPanel({ open, onClose }: { open: boolean; onClose: () =
       setMsgs((m) => [...m, { role: 'assistant', text: res.text, sources: res.sources }])
       setQuota(res.quota)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Asistan yanıt veremedi.')
-      setMsgs((m) => m.filter((x) => !(x.role === 'user' && x.text === q)))
+      const msg = err instanceof Error ? err.message : 'Asistan geçici olarak yanıt veremedi.'
+      setError(msg)
+      setMsgs((m) => [
+        ...m,
+        {
+          role: 'assistant',
+          text: `⚠️ Yanıt alınamadı (${msg}). Arşivden bilgi almak için sorunuzu tekrar gönderebilir veya kelimeleri sadeleştirebilirsiniz.`,
+        },
+      ])
     } finally {
       setBusy(false)
     }
@@ -176,7 +212,7 @@ export function AssistantPanel({ open, onClose }: { open: boolean; onClose: () =
                           : 'bg-primary/8 text-fg'
                       }`}
                     >
-                      {m.text}
+                      <FormattedMessage text={m.text} onClose={onClose} />
                     </div>
                     {m.sources && m.sources.length > 0 && (
                       <details className="mt-1.5">

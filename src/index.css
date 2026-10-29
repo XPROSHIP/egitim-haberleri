@@ -42,21 +42,21 @@
 
 .sepia,
 [data-theme="sepia"] {
-  /* ReadEra tarzı göz dinlendirici sıcak sepya / kitap kağıdı tonu */
-  --bg: #ebd7b9;
-  --surface: #f3e4d2;
-  --surface-2: #e4cfb7;
-  --surface-3: #d7bfa5;
-  --line: #cbb194;
-  --line-soft: #dec8af;
-  --fg: #3a2412;
-  --muted: #6e4f35;
-  --faint: #917255;
-  --accent: #a83824;
-  --accent-soft: #f6ddd7;
-  --primary: #874614;
-  --primary-fg: #fdf6ed;
-  --ring: rgba(58, 36, 18, 0.2);
+  /* Vintage antika el yazması / parşömen kağıdı tonu (gözü yormayan sıcak arka plan) */
+  --bg: #dfbe94;
+  --surface: #e8caa1;
+  --surface-2: #dfbe94;
+  --surface-3: #d1ad80;
+  --line: #be996c;
+  --line-soft: #d3b084;
+  --fg: #3d2811;
+  --muted: #5e432a;
+  --faint: #856548;
+  --accent: #9e361b;
+  --accent-soft: #eed8c7;
+  --primary: #753b13;
+  --primary-fg: #f5e8d5;
+  --ring: rgba(61, 40, 17, 0.25);
 }
 
 @theme inline {
@@ -139,6 +139,25 @@ h3,
   widows: 2;
   max-width: var(--reader-width, none);
   margin-inline: auto;
+}
+
+/**
+ * Drop Cap (Başlangıç Harfi Büyütme):
+ * İlk paragrafın ilk harfi 3 satıra denk gelecek büyüklükte, şık bir
+ * editoryal tipografi ile solarak akar.
+ */
+.article-prose > p:first-of-type::first-letter {
+  -webkit-initial-letter: 3;
+  initial-letter: 3;
+  float: left;
+  font-size: 3.4em;
+  line-height: 0.85;
+  margin-top: 0.06em;
+  margin-right: 0.15em;
+  padding-bottom: 0.02em;
+  font-weight: 700;
+  color: var(--primary, var(--fg));
+  font-family: var(--font-display, inherit);
 }
 
 .article-prose h2 {
