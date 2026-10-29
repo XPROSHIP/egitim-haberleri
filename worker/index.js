@@ -1068,11 +1068,13 @@ export default {
       return reply(result, result.ok ? 200 : 502)
     }
 
-    if (url.pathname === '/api/news') {      const items = await store(env).all(Math.min(Number(url.searchParams.get('limit') ?? 500), 500))
+    if (url.pathname === '/api/news') {
+      const includeBody = url.searchParams.get('include_body') === '1' || url.searchParams.get('full') === '1'
+      const items = await store(env).all(Math.min(Number(url.searchParams.get('limit') ?? 500), 500), includeBody)
       return reply(
         { items, count: items.length },
         200,
-        { 'cache-control': 'public, max-age=120, stale-while-revalidate=900' },
+        { 'cache-control': includeBody ? 'no-store' : 'public, max-age=120, stale-while-revalidate=900' },
       )
     }
 

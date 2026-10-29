@@ -26,10 +26,8 @@ function rankVoices(voices: Voice[]): Voice[] {
   return [...voices].filter((v) => v.lang.toLowerCase().startsWith('tr')).sort((a, b) => score(b) - score(a))
 }
 
-/** Okuma hızları. 0,9 çok ağırdı; en hızlı seçenek 2×. */
 const RATES = [1, 1.25, 1.5, 2]
 
-/** Saniyeyi "d:sn" biçimine çevirir. */
 function formatTime(seconds: number): string {
   const s = Math.max(0, Math.round(seconds))
   const m = Math.floor(s / 60)
@@ -37,62 +35,43 @@ function formatTime(seconds: number): string {
 }
 
 /**
- * Aynı anda tek ses çalsın.
- *
- * Sayfadan başka bir habere geçildiğinde ya da ikinci bir oynatıcı açıldığında
- * önceki ses durur. Hem tarayıcı TTS'i hem de hazır MP3 için geçerlidir
- * (MP3, bileşen çıkarılınca susturulmazdı).
- */
-let aktifOynatici: (() => void) | null = null
-
-function digeriniDurdur() {
-  if (aktifOynatici) {
-    aktifOynatici()
-    aktifOynatici = null
-  }
-}
-
-/**
  * Haber seslendirici.
  *
- * Sunucuda hazır üretilmiş ses varsa (EMA Lightning) onu çalar; yoksa
- * tarayıcının kendi Türkçe sesine düşer. Ses hazır olana kadar tarayıcı
- * TTS'i kullanılabilir.
+ * Hazır üretilmiş yüksek kaliteli ses kaydı (MP3) doğrudan DOM <audio> elementi
+ * üzerinden çalınır. Bu sayede mobil tarayıcılarda (iOS Safari, Android Chrome)
+ * kesintisiz çalışır, ileri/geri sarma (seek) hassas çalışır ve arka planda çalmaya devam eder.
  */
 export function AudioReader({ item, className }: { item: NewsItem; className?: string }) {
+  const audioUrl = useMemo(() => audioUrlFor(item), [item])
+  const [hasMp3, setHasMp3] = useState<boolean>(Boolean(audioUrl))
+  const [state, setState] = useState<'idle' | 'playing' | 'paused'>('idle')
+  const [rate, setRate] = useState<number>(1)
+  const [progress, setProgress] = useState(0)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState<number>(item.audioDuration || 0)
+
+  // Tarayıcı yedek TTS durumları (yalnızca henüz hazır MP3 bulunmayan yeni haberler için)
   const [voices, setVoices] = useState<Voice[]>([])
   const [voiceIdx, setVoiceIdx] = useState(0)
-  const [state, setState] = useState<'idle' | 'playing' | 'paused'>('idle')
-  const [rate, setRate] = useState(1)
-  const [progress, setProgress] = useState(0)
-  const [mode, setMode] = useState<'audio' | 'tts'>('tts')
-  const [currentTime, setCurrentTime] = useState(0)
+  const [mode, setMode] = useState<'audio' | 'tts'>(audioUrl ? 'audio' : 'tts')
   const utterRef = useRef<SpeechSynthesisUtterance | null>(null)
+
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const barRef = useRef<HTMLDivElement | null>(null)
-  const cancelRef = useRef(false)
 
-  const audioUrl = useMemo(() => audioUrlFor(item), [item])
+  useEffect(() => {
+    const available = Boolean(audioUrl)
+    setHasMp3(available)
+    setMode(available ? 'audio' : 'tts')
+    if (item.audioDuration) setDuration(item.audioDuration)
+  }, [audioUrl, item.audioDuration])
 
   const script = useMemo(() => {
-    const body = item.fullText ? item.body : [item.excerpt]
+    const body = item.fullText && item.body?.length ? item.body : [item.excerpt]
     return cleanForTts(`${item.title}. ${body.join(' ')}`)
   }, [item])
 
-  /** Bu oynatıcıyı durduran fonksiyon (kayıt defterinde kullanılır). */
-  const durdur = useCallback(() => {
-    cancelRef.current = true
-    window.speechSynthesis?.cancel()
-    const el = audioRef.current
-    if (el) {
-      el.pause()
-      el.currentTime = 0
-    }
-    setState('idle')
-    setProgress(0)
-    setCurrentTime(0)
-  }, [])
-
+  // Tarayıcı seslerini yükle
   useEffect(() => {
     if (!('speechSynthesis' in window)) return
     const load = () => {
@@ -108,17 +87,8 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
     }
   }, [])
 
-  // Bileşen çıkarılırken (başka habere geçildiğinde) ses de dursun.
+  // Haber değiştiğinde oynatıcıyı sıfırla
   useEffect(() => {
-    return () => {
-      durdur()
-      if (aktifOynatici === durdur) aktifOynatici = null
-    }
-  }, [durdur])
-
-  // Haber değişince durdur: aynı anda iki ses çalmamalı.
-  useEffect(() => {
-    cancelRef.current = true
     setState('idle')
     setProgress(0)
     setCurrentTime(0)
@@ -129,21 +99,57 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
     }
   }, [item.id])
 
-  // Hazır ses oynarken geçen süreyi ve ilerlemeyi takip et
+  // Sayfadan ayrılınca durdur
   useEffect(() => {
-    if (mode !== 'audio') return
+    return () => {
+      window.speechSynthesis?.cancel()
+      if (audioRef.current) {
+        audioRef.current.pause()
+      }
+    }
+  }, [])
+
+  // DOM <audio> olayları
+  useEffect(() => {
     const el = audioRef.current
     if (!el) return
-    const onTime = () => {
-      setCurrentTime(el.currentTime)
-      const dur = el.duration || item.audioDuration || 1
-      if (dur > 0) setProgress(el.currentTime / dur)
-    }
-    el.addEventListener('timeupdate', onTime)
-    return () => el.removeEventListener('timeupdate', onTime)
-  }, [mode, item.audioDuration])
 
-  // Tarayıcı seslendirmesinde süreyi saniyelik say (kalan süre göstergesi)
+    const onTimeUpdate = () => {
+      setCurrentTime(el.currentTime)
+      const d = el.duration || duration || item.audioDuration || 0
+      if (d > 0) setProgress(Math.min(1, Math.max(0, el.currentTime / d)))
+    }
+    const onLoadedMetadata = () => {
+      if (Number.isFinite(el.duration) && el.duration > 0) {
+        setDuration(el.duration)
+      }
+    }
+    const onEnded = () => {
+      setState('idle')
+      setProgress(1)
+      setCurrentTime(0)
+    }
+    const onError = () => {
+      if (mode === 'audio') {
+        // MP3 yüklenemezse tarayıcı TTS'ine geç
+        setMode('tts')
+        setState('idle')
+      }
+    }
+
+    el.addEventListener('timeupdate', onTimeUpdate)
+    el.addEventListener('loadedmetadata', onLoadedMetadata)
+    el.addEventListener('ended', onEnded)
+    el.addEventListener('error', onError)
+    return () => {
+      el.removeEventListener('timeupdate', onTimeUpdate)
+      el.removeEventListener('loadedmetadata', onLoadedMetadata)
+      el.removeEventListener('ended', onEnded)
+      el.removeEventListener('error', onError)
+    }
+  }, [mode, duration, item.audioDuration])
+
+  // Tarayıcı TTS saniyelik sayaç
   useEffect(() => {
     if (state !== 'playing' || mode !== 'tts') return
     const timer = window.setInterval(() => setCurrentTime((c) => c + 1), 1000)
@@ -151,59 +157,37 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
   }, [state, mode])
 
   const stop = useCallback(() => {
-    cancelRef.current = true
     window.speechSynthesis?.cancel()
-    audioRef.current?.pause()
-    if (audioRef.current) audioRef.current.currentTime = 0
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
+    }
     setState('idle')
     setProgress(0)
     setCurrentTime(0)
   }, [])
 
-  /* --- Sunucuda hazır olan ses --- */
-  const playAudio = useCallback(() => {
-    if (!audioUrl) return false
-    // Başka bir ses çalıyorsa onu durdur (aynı anda tek ses).
-    digeriniDurdur()
-    let el = audioRef.current
-    if (!el) {
-      el = new Audio()
-      audioRef.current = el
-    }
-    el.src = audioUrl
+  const playMp3 = () => {
+    const el = audioRef.current
+    if (!el) return
+    // Sayfadaki diğer tüm sesleri durdur
+    document.querySelectorAll('audio').forEach((a) => {
+      if (a !== el) a.pause()
+    })
+    window.speechSynthesis?.cancel()
+
     el.playbackRate = rate
-    el.onended = () => {
-      if (!cancelRef.current) {
-        setState('idle')
-        setProgress(1)
-      }
-    }
-    el.ontimeupdate = () => {
-      if (el.duration) setProgress(Math.min(1, el.currentTime / el.duration))
-    }
-    el.onerror = () => {
-      // Hazır ses açılamadıysa tarayıcı TTS'ine düş.
-      setMode('tts')
-      setState('idle')
-    }
-    cancelRef.current = false
-    void el.play().catch(() => {
-      setMode('tts')
+    void el.play().then(() => {
+      setState('playing')
+    }).catch(() => {
+      // Oynatma başarısız olduysa
       setState('idle')
     })
-    setMode('audio')
-    setState('playing')
-    // Bu oynatıcıyı kaydet: başka bir oynatıcı açılırsa durdurulsun.
-    aktifOynatici = durdur
-    return true
-  }, [audioUrl, rate, durdur])
+  }
 
-  /* --- Tarayıcı TTS --- */
-  const speak = useCallback(() => {
+  const playTts = () => {
     if (!('speechSynthesis' in window)) return
-    // Başka bir ses çalıyorsa onu durdur (aynı anda tek ses).
-    digeriniDurdur()
-    cancelRef.current = false
+    document.querySelectorAll('audio').forEach((a) => a.pause())
     window.speechSynthesis.cancel()
 
     const u = new SpeechSynthesisUtterance(script)
@@ -212,114 +196,134 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
     u.lang = list[voiceIdx]?.lang ?? 'tr-TR'
     u.rate = rate
 
-    let char = 0
     u.onboundary = (e) => {
       if (typeof e.charIndex === 'number') {
-        char = e.charIndex
-        setProgress(Math.min(1, char / Math.max(script.length, 1)))
+        setProgress(Math.min(1, e.charIndex / Math.max(script.length, 1)))
       }
     }
     u.onend = () => {
-      if (!cancelRef.current) {
-        setState('idle')
-        setProgress(1)
-      }
+      setState('idle')
+      setProgress(1)
     }
     u.onerror = () => setState('idle')
 
     utterRef.current = u
     window.speechSynthesis.speak(u)
-    setMode('tts')
     setState('playing')
-    // Bu oynatıcıyı kaydet: başka bir oynatıcı açılırsa durdurulsun.
-    aktifOynatici = durdur
-  }, [script, voices, voiceIdx, rate, durdur])
+  }
 
   const toggle = () => {
     if (state === 'playing') {
-      if (mode === 'audio') audioRef.current?.pause()
-      else window.speechSynthesis.pause()
+      if (mode === 'audio' && audioRef.current) {
+        audioRef.current.pause()
+      } else {
+        window.speechSynthesis?.pause()
+      }
       setState('paused')
     } else if (state === 'paused') {
-      if (mode === 'audio') void audioRef.current?.play()
-      else window.speechSynthesis.resume()
+      if (mode === 'audio' && audioRef.current) {
+        void audioRef.current.play()
+      } else {
+        window.speechSynthesis?.resume()
+      }
       setState('playing')
     } else {
-      // Öncelik hazır sentezlenmiş ses: daha doğal ve tutarlı.
-      // Yoksa tarayıcının kendi Türkçe sesine düşülür.
-      if (audioUrl && playAudio()) return
-      speak()
+      if (hasMp3 && audioUrl) {
+        setMode('audio')
+        playMp3()
+      } else {
+        playTts()
+      }
+    }
+  }
+
+  const seek = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
+    const bar = barRef.current
+    if (!bar) return
+    const total = duration || audioRef.current?.duration || item.audioDuration || (script.length / 14)
+    if (!total || !Number.isFinite(total)) return
+
+    const rect = bar.getBoundingClientRect()
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
+    const ratio = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width))
+    const target = ratio * total
+
+    if (mode === 'audio' && audioRef.current) {
+      try {
+        audioRef.current.currentTime = target
+      } catch {}
+    }
+    setCurrentTime(target)
+    setProgress(ratio)
+  }
+
+  const cycleRate = () => {
+    const i = RATES.indexOf(rate)
+    const next = RATES[(i + 1) % RATES.length]
+    setRate(next)
+    if (audioRef.current) audioRef.current.playbackRate = next
+    if (mode === 'tts' && state === 'playing') {
+      setTimeout(playTts, 60)
     }
   }
 
   const changeVoice = (delta: number) => {
     const next = (voiceIdx + delta + voices.length) % Math.max(voices.length, 1)
     setVoiceIdx(next)
-    if (state !== 'idle') setTimeout(speak, 60)
+    if (state === 'playing') setTimeout(playTts, 60)
   }
 
-  const seek = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = audioRef.current
-    const bar = barRef.current
-    if (!el || !bar) return
-    const total = el.duration || totalSeconds || item.audioDuration || 0
-    if (!total || !Number.isFinite(total)) return
-    const rect = bar.getBoundingClientRect()
-    const ratio = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width))
-    const target = ratio * total
-    try {
-      el.currentTime = target
-      setCurrentTime(target)
-      setProgress(ratio)
-    } catch {}
-  }
-
-  const supported =
-    typeof window !== 'undefined' && ('speechSynthesis' in window || Boolean(audioUrl))
-
-  // Süre bilgisi: hazır seste sunucudan, tarayıcı sesinde metin uzunluğundan.
-  const estimatedSeconds = useMemo(
-    () => Math.round(script.length / 14), // Türkçe TTS için yaklaşık 14 karakter/saniye
-    [script],
-  )
-  const totalSeconds =
-    mode === 'audio'
-      ? (audioRef.current?.duration || item.audioDuration || 0)
-      : estimatedSeconds
+  const estimatedTtsSeconds = useMemo(() => Math.round(script.length / 14), [script])
+  const totalSeconds = mode === 'audio' ? (duration || item.audioDuration || 0) : estimatedTtsSeconds
   const remaining = Math.max(0, Math.round(totalSeconds - currentTime))
 
   return (
     <div className={clsx('rounded-xl border border-line bg-surface p-3.5', className)}>
+      {/* Gerçek in-DOM Audio elementi — mobil tarayıcılar ve arka planda oynatma için şart */}
+      {audioUrl && (
+        <audio
+          ref={audioRef}
+          src={audioUrl}
+          preload="metadata"
+          playsInline
+        />
+      )}
+
       <div className="flex items-center gap-3">
         <button
           type="button"
           onClick={toggle}
-          disabled={!supported}
-          aria-label={state === 'playing' ? 'Duraklat' : 'Oku'}
-          className="grid size-10 shrink-0 place-items-center rounded-full bg-fg text-bg transition hover:opacity-90 disabled:opacity-40"
+          aria-label={state === 'playing' ? 'Duraklat' : 'Haberi Dinle'}
+          className="grid size-10 shrink-0 place-items-center rounded-full bg-fg text-bg transition hover:opacity-90 active:scale-95"
         >
           <Icon name={state === 'playing' ? 'Pause' : 'Play'} size={16} />
         </button>
 
         <div className="min-w-0 flex-1">
-          <p className="text-[0.8125rem] font-semibold text-fg">
-            {state === 'idle' ? 'Haberi dinle' : state === 'playing' ? 'Okunuyor…' : 'Duraklatıldı'}
-          </p>
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-[0.8125rem] font-semibold text-fg">
+              {state === 'idle' ? 'Haberi dinle' : state === 'playing' ? 'Okunuyor…' : 'Duraklatıldı'}
+            </p>
+            {!hasMp3 && (
+              <span className="rounded-full bg-surface-2 px-2 py-0.5 text-[0.625rem] font-medium text-muted">
+                Ses hazırlanıyor
+              </span>
+            )}
+          </div>
+
           <p className="tnum truncate text-[0.6875rem] text-faint">
             {totalSeconds > 0 ? (
               <>
-                {formatTime(totalSeconds)} · {state === 'idle' ? 'kaldı' : `${formatTime(remaining)} kaldı`}
+                {formatTime(totalSeconds)} · {state === 'idle' ? 'süre' : `${formatTime(remaining)} kaldı`}
               </>
-            ) : mode === 'audio' ? (
-              'Sesli bülten'
-            ) : audioUrl ? (
-              (voices[voiceIdx]?.name ?? (supported ? 'Türkçe ses bulunamadı' : 'Desteklenmiyor'))
+            ) : hasMp3 ? (
+              'Ses kaydı hazır'
             ) : (
-              'Tarayıcı sesi'
+              'Ses hazırlanıyor'
             )}
           </p>
 
-          {/* İlerleme çubuğu / Slider: Tıklanınca istenen saniyeye atlanır */}
+          {/* İlerleme çubuğu / Slider: Tıklanınca veya dokunulunca istenen saniyeye atlar */}
           <div
             ref={barRef}
             role="slider"
@@ -329,11 +333,12 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
             aria-valuemax={Math.round(totalSeconds)}
             aria-valuenow={Math.round(currentTime)}
             onClick={seek}
-            className="group mt-2 cursor-pointer select-none py-0.5"
+            onTouchStart={seek}
+            className="group mt-2 cursor-pointer select-none py-1"
           >
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-surface-3">
               <div
-                className="h-full rounded-full bg-primary transition-[width] duration-150 group-hover:bg-accent"
+                className="h-full rounded-full bg-primary transition-[width] duration-100 group-hover:bg-accent"
                 style={{ width: `${Math.round(Math.min(1, Math.max(0, progress)) * 100)}%` }}
               />
             </div>
@@ -345,59 +350,41 @@ export function AudioReader({ item, className }: { item: NewsItem; className?: s
         </div>
       </div>
 
-      <div className="mt-3 flex items-center gap-1.5">
-        {mode === 'tts' && (
+      <div className="mt-2.5 flex items-center gap-1.5">
+        <button
+          type="button"
+          onClick={cycleRate}
+          className="rounded-full border border-line px-2.5 py-1 text-[0.6875rem] font-semibold text-muted transition hover:text-fg active:scale-95"
+        >
+          {rate}×
+        </button>
+
+        {mode === 'tts' && !hasMp3 && voices.length > 1 && (
           <>
             <button
               type="button"
               onClick={() => changeVoice(-1)}
-              disabled={voices.length < 2}
               aria-label="Önceki ses"
-              className="grid size-7 place-items-center rounded-full border border-line text-muted transition hover:text-fg disabled:opacity-30"
+              className="grid size-7 place-items-center rounded-full border border-line text-muted transition hover:text-fg"
             >
               <Icon name="SkipForward" size={13} className="rotate-180" />
             </button>
             <button
               type="button"
-              onClick={() => {
-                const i = RATES.indexOf(rate)
-                setRate(RATES[(i + 1) % RATES.length])
-                if (state !== 'idle') setTimeout(speak, 60)
-              }}
-              className="rounded-full border border-line px-2.5 py-1 text-[0.6875rem] font-semibold text-muted transition hover:text-fg"
-            >
-              {rate}×
-            </button>
-            <button
-              type="button"
               onClick={() => changeVoice(1)}
-              disabled={voices.length < 2}
               aria-label="Sonraki ses"
-              className="grid size-7 place-items-center rounded-full border border-line text-muted transition hover:text-fg disabled:opacity-30"
+              className="grid size-7 place-items-center rounded-full border border-line text-muted transition hover:text-fg"
             >
               <Icon name="SkipForward" size={13} />
             </button>
           </>
         )}
-        {mode === 'audio' && (
-          <button
-            type="button"
-            onClick={() => {
-              const i = RATES.indexOf(rate)
-              const next = RATES[(i + 1) % RATES.length]
-              setRate(next)
-              if (audioRef.current) audioRef.current.playbackRate = next
-            }}
-            className="rounded-full border border-line px-2.5 py-1 text-[0.6875rem] font-semibold text-muted transition hover:text-fg"
-          >
-            {rate}×
-          </button>
-        )}
+
         {state !== 'idle' && (
           <button
             type="button"
             onClick={stop}
-            className="ml-auto rounded-full border border-line px-2.5 py-1 text-[0.6875rem] font-medium text-muted transition hover:text-fg"
+            className="ml-auto rounded-full border border-line px-2.5 py-1 text-[0.6875rem] font-medium text-muted transition hover:text-fg active:scale-95"
           >
             Durdur
           </button>

@@ -168,7 +168,7 @@ def main():
         log("GEMINI_API_KEYS yok")
         return
 
-    data = api_json("/api/news?limit=500")
+    data = api_json("/api/news?limit=500&include_body=1")
     items = [i for i in data.get("items", []) if i.get("lang") == "en"]
     log(f"{len(items)} yabancı haber, ilk {limit} işlenecek")
 

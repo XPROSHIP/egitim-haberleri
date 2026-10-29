@@ -22,6 +22,7 @@ export const RSS_FEEDS = [
   { name: 'Habertürk', url: 'https://www.haberturk.com/rss', weight: 1 },
   { name: 'Dünya', url: 'https://www.dunya.com/rss', weight: 1 },
   { name: 'Ege Haber', url: 'https://www.egehaber.com/rss', weight: 1 },
+  { name: 'Bianet', url: 'https://bianet.org/rss/bianet', weight: 3 },
 ]
 
 /**
@@ -81,6 +82,13 @@ export const SECTION_PAGES = [
   { name: 'Sözcü', url: 'https://www.sozcu.com.tr/egitim', prefix: '', weight: 3 },
   { name: 'Yeni Çağrı', url: 'https://www.yenicagri.com/', prefix: '', weight: 3 },
   { name: 'Yeni Çağrı', url: 'https://www.yenicagri.com/egitim', prefix: '', weight: 3 },
+  {
+    name: 'Bianet Çocuk',
+    url: 'https://bianet.org/kategori/cocuk-518',
+    prefix: '/haber/',
+    weight: 4,
+    category: 'mesleki',
+  },
 ]
 
 /** Google News — yalnızca tekrar tespiti ve kapsam genişletme, yayın yok. */
@@ -143,6 +151,10 @@ export const MESEM_TERMS = [
   'kaynakçılık',
   'nitelikli eleman',
   'iş gücü',
+  'çocuk işçi',
+  'çocuk işçiliği',
+  'stajyer',
+  'sanayi sitesi',
 ]
 
 /**
@@ -272,6 +284,7 @@ export const VOCATIONAL_TERMS = [
   'bilişim teknolojileri', 'elektrik tesisat', 'makine teknolojisi', 'mobilya ve doğrama',
   'gıda teknolojisi', 'bina tesisat', 'otomotiv', 'kaynakçılık', 'güzellik', 'çoğrafya',
   'sağlık bilgisi', 'tarım teknolojileri', 'mesleki eğitim merkezi', 'bilişim',
+  'çocuk işçi', 'çocuk işçiliği', 'stajyer', 'sanayi sitesi',
 ]
 
 export const GEMINI_MODEL = 'gemini-3.8-flash'

@@ -25,8 +25,8 @@ export async function fetchSectionLinks(url, prefix = '', { timeoutMs = 20000 } 
     const host = new URL(url).hostname.replace(/^www\./, '')
     const found = new Set()
 
-    for (const m of html.matchAll(/href=["']([^"'#]+)["']/gi)) {
-      let href = m[1].trim()
+    for (const m of html.matchAll(/href=(?:["']([^"'#\s>]+)["']|([^\s"'#>]+))/gi)) {
+      let href = (m[1] || m[2]).trim()
       // "//ornek.com/yol" protokol-göreli adrestir; "/yol" değil.
       if (href.startsWith('//')) href = `https:${href}`
       else if (href.startsWith('/')) href = `https://${host}${href}`

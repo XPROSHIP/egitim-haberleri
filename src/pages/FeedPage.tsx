@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import clsx from 'clsx'
 import type { NewsItem } from '../types'
@@ -120,6 +120,36 @@ export function FeedPage() {
   const feed = useMemo(
     () => (feedMode === 'foryou' && data ? selectForYou(data, likes) : items),
     [data, feedMode, items, likes],
+  )
+
+  const PAGE_SIZE = 24
+  const [visibleCount, setVisibleCount] = useState<number>(PAGE_SIZE)
+  const sentinelRef = useRef<HTMLDivElement | null>(null)
+
+  // Filtre veya mod değiştiğinde ilk sayfaya dön
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE)
+  }, [feedMode])
+
+  // Aşağı kaydırıldıkça haberleri 20'şer 20'şer yükle (akıcı sonsuz kaydırma)
+  useEffect(() => {
+    const el = sentinelRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setVisibleCount((prev) => Math.min(prev + 20, feed.length))
+        }
+      },
+      { rootMargin: '400px' },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [feed.length])
+
+  const visibleFeed = useMemo(
+    () => feed.slice(0, visibleCount),
+    [feed, visibleCount],
   )
 
   const counts = useMemo(() => {
@@ -262,20 +292,32 @@ export function FeedPage() {
           ) : (
             <>
               <div className="grid gap-px bg-line sm:grid-cols-2">
-                {feed.map((item) => (
+                {visibleFeed.map((item) => (
                   <FeedCard key={item.id} item={item} />
                 ))}
               </div>
 
-              <div className="flex items-center gap-3 px-4 py-6">
-                <span className="h-px flex-1 bg-line" />
-                <span className="tnum text-[0.6875rem] text-faint">
-                  Daha fazla yüklendi · {feed.length} haber
-                </span>
-                <span className="h-px flex-1 bg-line" />
-              </div>
+              {visibleCount < feed.length ? (
+                <div ref={sentinelRef} className="py-6 text-center">
+                  <button
+                    type="button"
+                    onClick={() => setVisibleCount((prev) => Math.min(prev + 20, feed.length))}
+                    className="rounded-full border border-line bg-surface px-5 py-2.5 text-xs font-semibold text-fg transition hover:bg-surface-2 active:scale-95"
+                  >
+                    Daha fazla haber yükle ({feed.length - visibleCount} haber daha var)
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-3 px-4 py-6">
+                  <span className="h-px flex-1 bg-line" />
+                  <span className="tnum text-[0.6875rem] text-faint">
+                    Tüm haberler görüntülendi · Toplam {feed.length} haber
+                  </span>
+                  <span className="h-px flex-1 bg-line" />
+                </div>
+              )}
               <p className="pb-10 text-center text-[0.6875rem] text-faint">
-                Yeni haberler geldiğinde yukarıda
+                Yeni haberler geldiğinde yukarıda listelenir
               </p>
             </>
           )}

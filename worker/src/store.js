@@ -143,16 +143,14 @@ export function createD1Store(db) {
       const inserted = result.reduce((sum, r) => sum + (r?.meta?.changes ?? 0), 0)
       return { inserted, skipped: items.length - inserted, items }
     },
-    async all(limit = 500) {
-      const { results } = await db
-        .prepare(
-          `SELECT id, slug, title, excerpt, category, tags, source_name, source_url,
+    async all(limit = 500, includeBody = false) {
+      const sql = includeBody
+        ? `SELECT * FROM news WHERE status = 'published' ORDER BY published_at DESC LIMIT ?`
+        : `SELECT id, slug, title, excerpt, category, tags, source_name, source_url,
                   source_image, published_at, views, likes, featured, province, score,
                   status, raw_title, full_text, lang, audio_id, audio_duration
-           FROM news WHERE status = 'published' ORDER BY published_at DESC LIMIT ?`,
-        )
-        .bind(limit)
-        .all()
+           FROM news WHERE status = 'published' ORDER BY published_at DESC LIMIT ?`
+      const { results } = await db.prepare(sql).bind(limit).all()
       return results.map(fromRow)
     },
     async bySlug(slug) {

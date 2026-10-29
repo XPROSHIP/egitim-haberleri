@@ -111,7 +111,7 @@ def main():
     recipe = recipe_version()
     log(f"okuma tarifi: {recipe}")
 
-    data = api_json("/api/news?limit=500")
+    data = api_json("/api/news?limit=500&include_body=1")
     items = data.get("items", [])
     fresh, _ = select_queue(items, recipe)
     log(f"sesi olmayan: {len(fresh)} · mevcut sesler korunuyor (yeniden üretim yok)")
