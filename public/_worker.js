@@ -450,13 +450,29 @@ export default {
     if (pathname.startsWith('/podcast/') && pathname.endsWith('.mp3')) {
       const id = pathname.slice('/podcast/'.length, -4)
       let row = null
-      try {
-        const dbAudio = env.DB_AUDIO ?? env.DB
-        row = await dbAudio
-          ?.prepare('SELECT data, type FROM news_audio WHERE article_id = ?')
-          .bind(id)
-          .first()
-      } catch {}
+      const audioDbs = [
+        env.DB_AUDIO,
+        env.DB_AUDIO_2,
+        env.DB_AUDIO_3,
+        env.DB_AUDIO_4,
+        env.DB_AUDIO_5,
+        env.DB_AUDIO_6,
+        env.DB_AUDIO_7,
+        env.DB,
+      ].filter(Boolean)
+
+      for (let i = audioDbs.length - 1; i >= 0; i--) {
+        try {
+          const r = await audioDbs[i]
+            .prepare('SELECT data, type FROM news_audio WHERE article_id = ?')
+            .bind(id)
+            .first()
+          if (r && r.data) {
+            row = r
+            break
+          }
+        } catch {}
+      }
 
       if (!row || !row.data) {
         // Doğrudan API Worker'dan proxy dene

@@ -185,6 +185,94 @@ async function dispatchCollect(env) {
   }
 }
 
+/** 500 MB tavanı olan tek bir D1 veritabanı için güvenli yazma sınırı (460 MB) */
+const SHARD_LIMIT_BYTES = 460 * 1024 * 1024
+
+/** Tüm bağlı ses veritabanlarını sırayla döndürür (7 adede kadar) */
+function getAudioDbs(env) {
+  return [
+    env.DB_AUDIO,
+    env.DB_AUDIO_2,
+    env.DB_AUDIO_3,
+    env.DB_AUDIO_4,
+    env.DB_AUDIO_5,
+    env.DB_AUDIO_6,
+    env.DB_AUDIO_7,
+  ].filter(Boolean)
+}
+
+/** Tüm bağlı görsel veritabanlarını sırayla döndürür (2 adede kadar) */
+function getImageDbs(env) {
+  return [
+    env.DB_IMAGES,
+    env.DB_IMAGES_2,
+  ].filter(Boolean)
+}
+
+/** Sesi tüm ses veritabanlarında arar (en güncelden eskiye doğru) */
+async function findAudio(env, id) {
+  const dbs = getAudioDbs(env)
+  for (let i = dbs.length - 1; i >= 0; i--) {
+    try {
+      const row = await dbs[i]
+        .prepare('SELECT data, type, duration, recipe FROM news_audio WHERE article_id = ?')
+        .bind(id)
+        .first()
+      if (row && row.data) return { row, db: dbs[i], index: i }
+    } catch {}
+  }
+  return null
+}
+
+/** Görseli tüm görsel veritabanlarında arar (en güncelden eskiye doğru) */
+async function findImage(env, key) {
+  const dbs = getImageDbs(env)
+  for (let i = dbs.length - 1; i >= 0; i--) {
+    try {
+      const row = await dbs[i]
+        .prepare('SELECT data, type FROM images WHERE key = ?')
+        .bind(key)
+        .first()
+      if (row && row.data) return { row, db: dbs[i], index: i }
+    } catch {}
+  }
+  return null
+}
+
+/** Yeni ses için yazılabilir veritabanını seçer. 460 MB doldukça bir sonrakine geçer. */
+async function getWritableAudioDb(env) {
+  const dbs = getAudioDbs(env)
+  for (const db of dbs) {
+    try {
+      const res = await db.prepare('SELECT COALESCE(SUM(bytes), 0) AS total FROM news_audio').first()
+      const total = Number(res?.total ?? 0)
+      if (total < SHARD_LIMIT_BYTES) {
+        return db
+      }
+    } catch {
+      return db
+    }
+  }
+  return dbs[dbs.length - 1]
+}
+
+/** Yeni görsel için yazılabilir veritabanını seçer. 460 MB doldukça bir sonrakine geçer. */
+async function getWritableImageDb(env) {
+  const dbs = getImageDbs(env)
+  for (const db of dbs) {
+    try {
+      const res = await db.prepare('SELECT COALESCE(SUM(bytes), 0) AS total FROM images').first()
+      const total = Number(res?.total ?? 0)
+      if (total < SHARD_LIMIT_BYTES) {
+        return db
+      }
+    } catch {
+      return db
+    }
+  }
+  return dbs[dbs.length - 1]
+}
+
 export default {
   /**
    * Zamanlayıcı: GitHub iş akışını tetikler.
@@ -216,12 +304,11 @@ export default {
     // Not: D1, BLOB sütununu normal sorguda sayı dizisi olarak döndürüyor;
     // new Response() onu boş gövdeye çeviriyor. Dönüş biçimi sürüme göre
     // değişebildiği için hepsini karşılayacak şekilde dönüştürüyoruz.
-    // Haber sesi (EMA Lightning ile üretilmiş MP3)
+    // Haber sesi (EMA Lightning ile üretilmiş MP3 - 7 veritabanı shard'ında aranır)
     if (url.pathname.startsWith('/api/audio/') && request.method === 'GET') {
       const id = decodeURIComponent(url.pathname.slice('/api/audio/'.length))
-      const row = await env.DB_AUDIO?.prepare('SELECT data, type FROM news_audio WHERE article_id = ?')
-        .bind(id)
-        .first()
+      const found = await findAudio(env, id)
+      const row = found?.row
       const bytes = toBytes(row?.data)
       if (!bytes) return new Response('Not found', { status: 404 })
 
@@ -277,7 +364,10 @@ export default {
       // Üretildiği "okuma tarifi" sürümü: hangi sesler bayat, hangiler güncel
       // bununla bilinir.
       const recipe = (request.headers.get('x-audio-recipe') ?? '').slice(0, 64) || null
-      await env.DB_AUDIO.prepare(
+      const existing = await findAudio(env, id)
+      const targetDb = existing?.db ?? (await getWritableAudioDb(env))
+
+      await targetDb.prepare(
         `INSERT INTO news_audio (article_id, data, type, duration, bytes, recipe)
          VALUES (?,?,?,?,?,?)
          ON CONFLICT(article_id) DO UPDATE SET data=excluded.data, type=excluded.type,
@@ -398,111 +488,197 @@ export default {
         }
       }
 
-      const audioBefore = await sizeOf(env.DB_AUDIO, 'news_audio')
-      const imageBefore = await sizeOf(env.DB_IMAGES, 'images')
+      const audioDbs = getAudioDbs(env)
+      const imageDbs = getImageDbs(env)
 
-      // ── Sesler ────────────────────────────────────────────────────────────
+      // Tüm ses veritabanlarının boyutlarını topla
+      const audioShards = []
+      let totalAudioBytes = 0
+      for (let i = 0; i < audioDbs.length; i++) {
+        const s = await sizeOf(audioDbs[i], 'news_audio')
+        audioShards.push({ shard: i + 1, db: audioDbs[i], ...s })
+        totalAudioBytes += s.bytes
+      }
+
+      // Tüm görsel veritabanlarının boyutlarını topla
+      const imageShards = []
+      let totalImageBytes = 0
+      for (let i = 0; i < imageDbs.length; i++) {
+        const s = await sizeOf(imageDbs[i], 'images')
+        imageShards.push({ shard: i + 1, db: imageDbs[i], ...s })
+        totalImageBytes += s.bytes
+      }
+
+      // ── Sesler: YALNIZCA TÜM VERİTABANLARI DOLDUYSA SİLİNİR ───────────────
+      // Kullanıcı kuralı: "biri dolunca diğer db den devam etsin, ancak tamamı dolarsa en eskiden başlayarak ses temizliği yapılsın"
       let audioDeleted = 0
       let audioFreed = 0
-      if (audioBefore.bytes > audioBudget) {
-        // Podcast bölümleri burada aday değil: sayıları yukarıda sabitlendi.
-        //
-        // Ses artık ayrı veritabanında olduğu için `news` ile JOIN edilemez;
-        // sıra sesin üretildiği zamana göre (created_at). Ses, haber toplandıktan
-        // hemen sonra üretildiği için bu, yayın sırasıyla aynı şeydir.
-        const { results } = await env.DB_AUDIO.prepare(
-          `SELECT article_id AS id, LENGTH(data) AS b
-             FROM news_audio
-            WHERE article_id NOT LIKE 'zenpod-%'
-              AND julianday(created_at) < julianday('now', ?)
-            ORDER BY julianday(created_at) ASC
-            LIMIT 500`,
-        )
-          .bind(`-${audioAge} days`)
-          .all()
+      // En az bir ses veritabanında boş yer varsa (audioTarget altında ise), yeni haberler oraya yazılabilir.
+      // Yalnızca TÜM veritabanları dolduysa en eskiden silme başlar.
+      const allAudioFull = audioShards.every((s) => s.bytes >= audioTarget)
 
-        const ids = []
-        let remaining = audioBefore.bytes
-        for (const row of results ?? []) {
-          if (remaining <= audioTarget) break
-          ids.push(row.id)
-          remaining -= Number(row.b ?? 0)
-          audioFreed += Number(row.b ?? 0)
-        }
-        audioDeleted = ids.length
-        if (!dryRun && ids.length > 0) {
-          await chunky(
-            ids,
-            (n) => `DELETE FROM news_audio WHERE article_id IN (${marks(n)})`,
-            env.DB_AUDIO,
+      if (allAudioFull) {
+        for (const shard of audioShards) {
+          if (shard.bytes <= audioTarget) continue
+          const { results } = await shard.db.prepare(
+            `SELECT article_id AS id, LENGTH(data) AS b
+               FROM news_audio
+              WHERE article_id NOT LIKE 'zenpod-%'
+                AND julianday(created_at) < julianday('now', ?)
+              ORDER BY julianday(created_at) ASC
+              LIMIT 500`,
           )
-          await chunky(
-            ids,
-            (n) =>
-              `UPDATE news SET audio_id = NULL, audio_duration = NULL, audio_retired = 1
-                WHERE id IN (${marks(n)})`,
-            env.DB,
-          )
+            .bind(`-${audioAge} days`)
+            .all()
+
+          const ids = []
+          let remaining = shard.bytes
+          for (const row of results ?? []) {
+            if (remaining <= audioTarget) break
+            ids.push(row.id)
+            remaining -= Number(row.b ?? 0)
+            audioFreed += Number(row.b ?? 0)
+          }
+          if (ids.length > 0) {
+            audioDeleted += ids.length
+            if (!dryRun) {
+              await chunky(
+                ids,
+                (n) => `DELETE FROM news_audio WHERE article_id IN (${marks(n)})`,
+                shard.db,
+              )
+              await chunky(
+                ids,
+                (n) =>
+                  `UPDATE news SET audio_id = NULL, audio_duration = NULL, audio_retired = 1
+                    WHERE id IN (${marks(n)})`,
+                env.DB,
+              )
+            }
+          }
+          if (audioFreed > 0) break
         }
       }
 
-      // ── Görseller ─────────────────────────────────────────────────────────
+      // ── Görseller: YALNIZCA TÜM GÖRSEL VERİTABANLARI DOLDUYSA SİLİNİR ─────
       let imageDeleted = 0
       let imageFreed = 0
-      if (imageBefore.bytes > imageBudget) {
-        const { results } = await env.DB_IMAGES.prepare(
-          `SELECT key, LENGTH(data) AS b FROM images
-            WHERE julianday(created_at) < julianday('now', ?)
-            ORDER BY julianday(created_at) ASC
-            LIMIT 500`,
-        )
-          .bind(`-${imageAge} days`)
-          .all()
+      const allImagesFull = imageShards.every((s) => s.bytes >= imageTarget)
 
-        const keys = []
-        let remaining = imageBefore.bytes
-        for (const row of results ?? []) {
-          if (remaining <= imageTarget) break
-          keys.push(row.key)
-          remaining -= Number(row.b ?? 0)
-          imageFreed += Number(row.b ?? 0)
-        }
-        imageDeleted = keys.length
-        if (!dryRun && keys.length > 0) {
-          await chunky(
-            keys,
-            (n) => `DELETE FROM images WHERE key IN (${marks(n)})`,
-            env.DB_IMAGES,
+      if (allImagesFull) {
+        for (const shard of imageShards) {
+          if (shard.bytes <= imageTarget) continue
+          const { results } = await shard.db.prepare(
+            `SELECT key, LENGTH(data) AS b FROM images
+              WHERE julianday(created_at) < julianday('now', ?)
+              ORDER BY julianday(created_at) ASC
+              LIMIT 500`,
           )
-          // Haber kaydı silinmiş görsele işaret etmesin: arayüz zaten
-          // kategori renkli yedeği gösteriyor, boşa 404 isteği olmasın.
-          await chunky(
-            keys.map((k) => `/img/${k}`),
-            (n) => `UPDATE news SET source_image = NULL WHERE source_image IN (${marks(n)})`,
-            env.DB,
-          )
+            .bind(`-${imageAge} days`)
+            .all()
+
+          const keys = []
+          let remaining = shard.bytes
+          for (const row of results ?? []) {
+            if (remaining <= imageTarget) break
+            keys.push(row.key)
+            remaining -= Number(row.b ?? 0)
+            imageFreed += Number(row.b ?? 0)
+          }
+          if (keys.length > 0) {
+            imageDeleted += keys.length
+            if (!dryRun) {
+              await chunky(
+                keys,
+                (n) => `DELETE FROM images WHERE key IN (${marks(n)})`,
+                shard.db,
+              )
+              await chunky(
+                keys.map((k) => `/img/${k}`),
+                (n) => `UPDATE news SET source_image = NULL WHERE source_image IN (${marks(n)})`,
+                env.DB,
+              )
+            }
+          }
+          if (imageFreed > 0) break
         }
       }
 
       return reply({
         ok: true,
         dryRun,
+        shards: {
+          audio: audioShards.map((s) => ({ shard: s.shard, count: s.count, bytes: s.bytes })),
+          images: imageShards.map((s) => ({ shard: s.shard, count: s.count, bytes: s.bytes })),
+        },
         podcast: {
           keep: podcastKeep,
           deleted: podcastDeleted,
           freed: podcastFreed,
         },
         audio: {
-          before: audioBefore.bytes,
-          after: audioBefore.bytes - audioFreed,
+          before: totalAudioBytes,
+          after: totalAudioBytes - audioFreed,
           deleted: audioDeleted,
           freed: audioFreed,
         },
         images: {
-          before: imageBefore.bytes,
-          after: imageBefore.bytes - imageFreed,
+          before: totalImageBytes,
+          after: totalImageBytes - imageFreed,
           deleted: imageDeleted,
           freed: imageFreed,
+        },
+      })
+    }
+
+    // 10 Veritabanının canlı doluluk ve shard durumunu raporlar
+    if (url.pathname === '/api/storage/status' && request.method === 'GET') {
+      const audioDbs = getAudioDbs(env)
+      const imageDbs = getImageDbs(env)
+      const sizeOf = async (db, table) => {
+        try {
+          const r = await db.prepare(`SELECT COUNT(*) AS n, COALESCE(SUM(LENGTH(data)), 0) AS b FROM ${table}`).first()
+          return { count: Number(r?.n ?? 0), bytes: Number(r?.b ?? 0) }
+        } catch {
+          return { count: 0, bytes: 0 }
+        }
+      }
+      const audioShards = []
+      let totalAudioBytes = 0
+      let totalAudioCount = 0
+      for (let i = 0; i < audioDbs.length; i++) {
+        const s = await sizeOf(audioDbs[i], 'news_audio')
+        audioShards.push({ shard: i + 1, count: s.count, bytes: s.bytes, mb: +(s.bytes / 1048576).toFixed(1), percent: +((s.bytes / (500 * 1048576)) * 100).toFixed(1) })
+        totalAudioBytes += s.bytes
+        totalAudioCount += s.count
+      }
+      const imageShards = []
+      let totalImageBytes = 0
+      let totalImageCount = 0
+      for (let i = 0; i < imageDbs.length; i++) {
+        const s = await sizeOf(imageDbs[i], 'images')
+        imageShards.push({ shard: i + 1, count: s.count, bytes: s.bytes, mb: +(s.bytes / 1048576).toFixed(1), percent: +((s.bytes / (500 * 1048576)) * 100).toFixed(1) })
+        totalImageBytes += s.bytes
+        totalImageCount += s.count
+      }
+      const newsCount = (await env.DB.prepare('SELECT COUNT(*) AS c FROM news').first())?.c ?? 0
+      return reply({
+        totalDatabases: 1 + imageDbs.length + audioDbs.length,
+        allocatedStorageMB: (1 + imageDbs.length + audioDbs.length) * 500,
+        news: { count: newsCount },
+        audio: {
+          totalShards: audioDbs.length,
+          totalCount: totalAudioCount,
+          totalBytes: totalAudioBytes,
+          totalMB: +(totalAudioBytes / 1048576).toFixed(1),
+          shards: audioShards,
+        },
+        images: {
+          totalShards: imageDbs.length,
+          totalCount: totalImageCount,
+          totalBytes: totalImageBytes,
+          totalMB: +(totalImageBytes / 1048576).toFixed(1),
+          shards: imageShards,
         },
       })
     }
@@ -604,7 +780,6 @@ export default {
      */
     if (url.pathname === '/api/storage/put' && request.method === 'POST') {
       if (!authorized(request, env)) return reply({ error: 'unauthorized' }, 401)
-      if (!env.DB_AUDIO) return reply({ error: 'no_split_db' }, 500)
       const id = url.searchParams.get('id') ?? ''
       if (!id || id.length > 120) return reply({ error: 'invalid_id' }, 400)
       const buf = await request.arrayBuffer()
@@ -612,7 +787,11 @@ export default {
       const duration = Number(request.headers.get('x-audio-duration') ?? 0) || null
       const recipe = (request.headers.get('x-audio-recipe') ?? '').slice(0, 64) || null
       const createdAt = (request.headers.get('x-audio-created') ?? '').slice(0, 32) || null
-      await env.DB_AUDIO.prepare(
+
+      const existing = await findAudio(env, id)
+      const targetDb = existing?.db ?? (await getWritableAudioDb(env))
+
+      await targetDb.prepare(
         `INSERT INTO news_audio (article_id, data, type, duration, bytes, created_at, recipe)
          VALUES (?,?,'audio/mpeg',?,?,COALESCE(?, datetime('now')),?)
          ON CONFLICT(article_id) DO UPDATE SET data=excluded.data, type=excluded.type,
@@ -1119,8 +1298,22 @@ export default {
 
     if (url.pathname === '/api/health') {
       const news = await env.DB?.prepare('SELECT COUNT(*) AS n FROM news').all()
-      const images = await env.DB_IMAGES?.prepare('SELECT COUNT(*) AS n FROM images').all()
-      const audioRows = await env.DB_AUDIO?.prepare('SELECT COUNT(*) AS n FROM news_audio').all()
+      const audioDbs = getAudioDbs(env)
+      const imageDbs = getImageDbs(env)
+      let totalAudioCount = 0
+      for (const db of audioDbs) {
+        try {
+          const r = await db.prepare('SELECT COUNT(*) AS n FROM news_audio').first()
+          totalAudioCount += Number(r?.n ?? 0)
+        } catch {}
+      }
+      let totalImageCount = 0
+      for (const db of imageDbs) {
+        try {
+          const r = await db.prepare('SELECT COUNT(*) AS n FROM images').first()
+          totalImageCount += Number(r?.n ?? 0)
+        } catch {}
+      }
       const dispatch = await readState(env, 'dispatch')
       const collect = await readState(env, 'collect')
       // Ses üretim durumu operatör içindir; ziyaretçi arayüzü göstermez.
@@ -1128,8 +1321,12 @@ export default {
       return reply({
         ok: true,
         news: news?.results?.[0]?.n ?? 0,
-        images: images?.results?.[0]?.n ?? 0,
-        audioFiles: audioRows?.results?.[0]?.n ?? 0,
+        images: totalImageCount,
+        audioFiles: totalAudioCount,
+        databases: {
+          audioShards: audioDbs.length,
+          imageShards: imageDbs.length,
+        },
         // Otomasyon durumu: erişim anahtarı bozulursa site bunu gösterir.
         automation: { dispatch, collect },
         // Ses üretim durumu operatör içindir (ziyaretçi arayüzü göstermez).

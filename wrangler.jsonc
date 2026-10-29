@@ -23,11 +23,40 @@
       "database_name": "egitim-haberleri",
       "database_id": "6d96cbf2-3732-4d43-bc0f-db17b9bb2c12"
     },
-    // Podcast MP3'ü doğrudan buradan sunuluyor; sesler ayrı veritabanında.
     {
       "binding": "DB_AUDIO",
       "database_name": "egitim-haberleri-audio",
       "database_id": "45b0d7fe-eb3a-44bf-b976-1dddad94034b"
+    },
+    {
+      "binding": "DB_AUDIO_2",
+      "database_name": "egitim-haberleri-audio-2",
+      "database_id": "ac4fce36-4c27-4a81-b2b7-bcf8a63685d7"
+    },
+    {
+      "binding": "DB_AUDIO_3",
+      "database_name": "egitim-haberleri-audio-3",
+      "database_id": "23af8794-0657-43f0-857f-c10a1d283fd8"
+    },
+    {
+      "binding": "DB_AUDIO_4",
+      "database_name": "egitim-haberleri-audio-4",
+      "database_id": "585e5a72-23f9-4829-88e6-57898a34e8ec"
+    },
+    {
+      "binding": "DB_AUDIO_5",
+      "database_name": "egitim-haberleri-audio-5",
+      "database_id": "800d076d-4db6-41e3-a936-38e2f2aec5be"
+    },
+    {
+      "binding": "DB_AUDIO_6",
+      "database_name": "egitim-haberleri-audio-6",
+      "database_id": "3a1c2f0b-f77d-4651-bde2-870e1eeb5c4f"
+    },
+    {
+      "binding": "DB_AUDIO_7",
+      "database_name": "egitim-haberleri-audio-7",
+      "database_id": "1425a28a-8a85-4d1b-b40a-c943fcfc07ba"
     }
   ],
 
