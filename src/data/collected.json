@@ -1,5 +1,39 @@
 [
   {
+    "id": "f_1obe0sq_mvsth9s8",
+    "slug": "yabanci-yeni-sendika-baskani-egitimcileri-parti-siyasetinden-uzak-tu-1obe0s",
+    "title": "Yeni sendika başkanı eğitimcileri parti siyasetinden uzak tutmayı hedefliyor",
+    "excerpt": "Ülkenin en büyük işçi sendikasının yeni başkanı Princess Moss, eğitimcilerin karşılaştığı zorlukları ve Ulusal Eğitim Derneği'nin sonraki adımlarını anlatıyor.",
+    "body": [
+      "Ülkenin en büyük işçi sendikasının yeni başkanı Princess Moss, eğitimcilerin karşılaştığı zorlukları ve Ulusal Eğitim Derneği'nin sonraki adımlarını anlatıyor.",
+      "NPR, haber veya röportajlar için para teklif etmez veya kabul etmez.",
+      "Böyle bir teklif veya talepte bulunan herhangi biri NPR çalışan değildir ve NPR'yi temsil etmez."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "EĞİTİM",
+      "SENDİKA",
+      "POLİTİKA"
+    ],
+    "source": {
+      "name": "NPR Education",
+      "url": "https://www.npr.org/2026/10/28/nx-s1-5953069-e1/new-teachers-union-president-wants-to-steer-educators-away-from-partisan-politics",
+      "image": "/img/new-teachers-union-president-wants-to-steer-educators-away-f-mlgs0q.jpg"
+    },
+    "publishedAt": "2026-10-28T21:34:36.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1obe0sq",
+    "rawTitle": "New teachers union president wants to steer educators away from partisan politics",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "f_14djdde_mvss5zte",
     "slug": "yabanci-bir-maryland-bolgesi-zamir-politikasini-degistirdi-ancak-ada-14djdd",
     "title": "Bir Maryland bölgesi zamir politikasını değiştirdi ancak Adalet Bakanlığı dava açtı",
@@ -21894,6 +21928,40 @@
     "score": 7.9,
     "dedupeKey": "1dgqrr5",
     "rawTitle": "MESLEKİ VE TEKNİK EĞİTİM GENEL MÜDÜR V. SALİH KAYGUSUZ'UN GAZİANTEP'TE OKUL ZİYARETİ",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
+    "id": "n_1h14ult_mvsth4sr",
+    "slug": "bakan-yardimcisi-m-bilal-macit-ve-salih-kaygusuz-gaziantep-te-okul-ziyar-1h7y1m",
+    "title": "Bakan yardımcısı m. bilal macit ve salih kaygusuz Gaziantep'te okul Ziyareti gerçekleştirdi",
+    "excerpt": "Milli Eğitim Bakan Yardımcısı M. Bilal Macit ile Mesleki ve Teknik Eğitim Genel Müdür Vekili Salih Kaygusuz Gaziantep'te okul ziyareti gerçekleştirdi. Ziyarette okullardaki çalışmalar yerinde incelendi.",
+    "body": [
+      "Millî Eğitim Bakan Yardımcımız M. Bilal MACİT, Mesleki ve Teknik Eğitim Genel Müdür Vekilimiz Salih KAYGUSUZ ve beraberindeki heyet Gaziantep Şehitkamil ilçesinde eğitim ve öğretim faaliyetlerini yerinde değerlendirmek amacıyla Hacı Sani Konukoğlu Mesleki ve Teknik Anadolu Lisesini ziyaret ettiler.",
+      "Ziyaret kapsamında Bakan Yardımcımız M. Bilal MACİT, okulda yürütülen eğitim ve öğretim faaliyetlerine ilişkin bilgiler alarak, atölye ve laboratuvarlarda yapılan çalışmaları yakından inceledi.",
+      "Ziyarette, öğrenci ve öğretmenlerimizle bir araya gelerek yürütülen çalışmalara ilişkin değerlendirmelerde bulunan Bakan Yardımcımız M. Bilal MACİT, öğrencilerimize başarılar dileyerek öğretmenlerimize emeklerinden dolayı teşekkür etti."
+    ],
+    "category": "mesleki",
+    "tags": [
+      "GAZİANTEP",
+      "MESLEKİ EĞİTİM",
+      "OKUL ZİYARETİ"
+    ],
+    "source": {
+      "name": "MEB Mesleki Eğitim Duyurular",
+      "url": "https://mtegm.meb.gov.tr/www/bakan-yardimcimiz-m-bilal-macit-ile-mesleki-ve-teknik-egitim-genel-mudur-v-salih-kaygusuzun-gaziantepte-okul-ziyareti/icerik/3776",
+      "image": "/img/bakan-yard-mc-m-z-m-bilal-macit-ile-mesleki-ve-teknik-e-itim-izdbdf.jpg"
+    },
+    "publishedAt": "2025-09-26T10:32:02.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "province": "Gaziantep",
+    "fullText": true,
+    "score": 7.9,
+    "dedupeKey": "1h7y1m9",
+    "rawTitle": "BAKAN YARDIMCIMIZ M. BİLAL MACİT İLE MESLEKİ VE TEKNİK EĞİTİM GENEL MÜDÜR V. SALİH KAYGUSUZ'UN GAZİANTEP'TE OKUL ZİYARETİ",
     "status": "published",
     "lang": "tr"
   }
