@@ -19,11 +19,13 @@
 import { createD1Store, createMemoryStore, fromRow } from './src/store.js'
 import {
   answer,
+  bumpQuota,
   listMessages,
   quotaOf,
   saveMessage,
   searchNews,
 } from './src/assistant.js'
+import { getGazeteler } from './src/gazeteler.js'
 
 /**
  * CORS basliklari istege gore uretilir.
@@ -1035,39 +1037,56 @@ export default {
       return reply({ ok: true, likes, liked: Boolean(on) })
     }
 
+    /* ── Günlük e-Gazeteler & Manşetler ─────────────────────────────────── */
+    if (url.pathname === '/api/gazeteler' && request.method === 'GET') {
+      const data = await getGazeteler(env)
+      return reply(data, 200, {
+        'cache-control': 'public, max-age=900, stale-while-revalidate=1800',
+      })
+    }
+
     /* ── ZEN Asistan ────────────────────────────────────────────────────── */
     if (url.pathname === '/api/assistant/history' && request.method === 'GET') {
       const user = await currentUser(request, env)
-      if (!user) return reply({ error: 'unauthorized' }, 401)
+      const userId = user
+        ? user.id
+        : 'guest_' + (request.headers.get('cf-connecting-ip') || 'anon').replace(/[^a-zA-Z0-9]/g, '_').slice(0, 32)
       const [messages, quota] = await Promise.all([
-        listMessages(env, user.id),
-        quotaOf(env, user.id),
+        listMessages(env, userId),
+        quotaOf(env, userId),
       ])
       return reply({ messages, quota })
     }
 
     if (url.pathname === '/api/assistant' && request.method === 'POST') {
-      const user = await currentUser(request, env)
-      if (!user) return reply({ error: 'unauthorized' }, 401)
-      const payload = await request.json().catch(() => ({}))
-      const question = String(payload?.question ?? '').trim()
-      if (!question) return reply({ error: 'missing_question' }, 400)
+      try {
+        const user = await currentUser(request, env)
+        const userId = user
+          ? user.id
+          : 'guest_' + (request.headers.get('cf-connecting-ip') || 'anon').replace(/[^a-zA-Z0-9]/g, '_').slice(0, 32)
+        const payload = await request.json().catch(() => ({}))
+        const question = String(payload?.question ?? '').trim()
+        if (!question) return reply({ error: 'missing_question' }, 400)
 
-      const quota = await quotaOf(env, user.id)
-      if (quota.remaining <= 0) return reply({ error: 'quota', quota }, 429)
+        const quota = await quotaOf(env, userId)
+        if (quota.remaining <= 0) return reply({ error: 'quota', quota }, 429)
 
-      const history = await listMessages(env, user.id)
-      const archive = await searchNews(env, question)
-      const result = await answer(env, question, history, archive)
-      if (!result.text) {
-        console.error('[assistant] yanit alinamadi:', String(result.error ?? '').slice(0, 160))
-        return reply({ error: 'model_hatasi' }, 502)
+        const history = await listMessages(env, userId)
+        const archive = await searchNews(env, question)
+        const result = await answer(env, question, history, archive)
+        if (!result.text) {
+          console.error('[assistant] yanit alinamadi:', String(result.error ?? '').slice(0, 160))
+          return reply({ error: 'model_hatasi' }, 502)
+        }
+        await bumpQuota(env, userId)
+        await saveMessage(env, userId, 'user', question)
+        await saveMessage(env, userId, 'assistant', result.text, result.sources)
+        const after = await quotaOf(env, userId)
+        return reply({ text: result.text, sources: result.sources, quota: after })
+      } catch (err) {
+        console.error('[assistant error]', err)
+        return reply({ error: String(err?.message ?? err), stack: String(err?.stack ?? '') }, 500)
       }
-      await bumpQuota(env, user.id)
-      await saveMessage(env, user.id, 'user', question)
-      await saveMessage(env, user.id, 'assistant', result.text, result.sources)
-      const after = await quotaOf(env, user.id)
-      return reply({ text: result.text, sources: result.sources, quota: after })
     }
 
     /* ── Sistem durumu (operatör için; ziyaretçi arayüzüne dokunmaz) ── */

@@ -379,6 +379,12 @@ export default {
     // Örneğin https://egitim.omerzen.workers.dev//sitemap.xml -> /sitemap.xml
     const pathname = url.pathname.replace(/\/+/g, '/') || '/'
 
+    // /api/* çağrılarını canlı API Worker'a doğrudan yönlendir (aynı domain üzerinde çalışır, CORS ve Failed to fetch hatasını tamamen önler)
+    if (pathname.startsWith('/api/')) {
+      const targetUrl = new URL(`${api}${pathname}${url.search}`)
+      return fetch(new Request(targetUrl, request))
+    }
+
     if (pathname === '/robots.txt') {
       return new Response(robots(site), {
         headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=3600' },

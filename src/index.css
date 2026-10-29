@@ -42,21 +42,21 @@
 
 .sepia,
 [data-theme="sepia"] {
-  /* Vintage antika el yazması / parşömen kağıdı tonu (gözü yormayan sıcak arka plan) */
-  --bg: #dfbe94;
-  --surface: #e8caa1;
-  --surface-2: #dfbe94;
-  --surface-3: #d1ad80;
-  --line: #be996c;
-  --line-soft: #d3b084;
-  --fg: #3d2811;
-  --muted: #5e432a;
-  --faint: #856548;
-  --accent: #9e361b;
-  --accent-soft: #eed8c7;
-  --primary: #753b13;
-  --primary-fg: #f5e8d5;
-  --ring: rgba(61, 40, 17, 0.25);
+  /* ReadEra & Antika Kitap Parşömeni tonu (yumuşak, gözü yormayan sıcak mat sepya) */
+  --bg: #e6cead;
+  --surface: #eed8ba;
+  --surface-2: #dfc49f;
+  --surface-3: #d3b48b;
+  --line: #c4a37b;
+  --line-soft: #d8bb95;
+  --fg: #38200f;
+  --muted: #5c3b1e;
+  --faint: #855f3a;
+  --accent: #9c3c18;
+  --accent-soft: #f4e3cd;
+  --primary: #733612;
+  --primary-fg: #fcf7ef;
+  --ring: rgba(56, 32, 15, 0.22);
 }
 
 @theme inline {
@@ -156,7 +156,7 @@ h3,
   margin-right: 0.15em;
   padding-bottom: 0.02em;
   font-weight: 700;
-  color: var(--primary, var(--fg));
+  color: var(--fg);
   font-family: var(--font-display, inherit);
 }
 

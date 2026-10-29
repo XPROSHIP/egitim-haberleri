@@ -307,12 +307,16 @@ export function useAssistantHistory(enabled: boolean) {
   return useQuery({
     queryKey: ['assistant', 'history'],
     queryFn: async (): Promise<{ messages: AssistantMessage[]; quota: AssistantQuota }> => {
-      if (!BASE) return { messages: [], quota: { used: 0, limit: 20, remaining: 20 } }
-      const res = await fetch(`${BASE}/api/assistant/history`, { headers: authHeaders() })
-      if (!res.ok) return { messages: [], quota: { used: 0, limit: 20, remaining: 20 } }
-      return await res.json()
+      const endpoints = ['/api/assistant/history', `${BASE}/api/assistant/history`].filter(Boolean)
+      for (const ep of endpoints) {
+        try {
+          const res = await fetch(ep, { headers: authHeaders() })
+          if (res.ok) return await res.json()
+        } catch {}
+      }
+      return { messages: [], quota: { used: 0, limit: 20, remaining: 20 } }
     },
-    enabled: enabled && Boolean(BASE),
+    enabled: enabled,
     staleTime: 60_000,
   })
 }
@@ -321,16 +325,70 @@ export function useAssistantHistory(enabled: boolean) {
 export async function askAssistant(
   question: string,
 ): Promise<{ text: string; sources: AssistantSource[]; quota: AssistantQuota }> {
-  if (!BASE) throw new Error('Sunucuya bağlanılamadı')
-  const res = await fetch(`${BASE}/api/assistant`, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json', ...authHeaders() },
-    body: JSON.stringify({ question }),
+  const endpoints = ['/api/assistant', `${BASE}/api/assistant`].filter(Boolean)
+  let lastErr: any = null
+
+  for (const ep of endpoints) {
+    try {
+      const res = await fetch(ep, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', ...authHeaders() },
+        body: JSON.stringify({ question }),
+      })
+      if (res.status === 401) throw new Error('Giriş yapmalısın.')
+      if (res.status === 429) throw new Error('Günlük soru hakkın doldu.')
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        throw new Error(data?.error || 'Asistan şu an yanıt veremiyor.')
+      }
+      return await res.json()
+    } catch (err: any) {
+      lastErr = err
+      if (err?.message?.includes('Giriş') || err?.message?.includes('doldu')) throw err
+    }
+  }
+  throw lastErr || new Error('Asistan şu an yanıt veremiyor.')
+}
+
+export interface TamSayiGazete {
+  id: string
+  name: string
+  title: string
+  date: string
+  thumb: string
+  pdf: string
+}
+
+export interface MansetGazete {
+  name: string
+  slug: string
+  thumb: string
+  full: string
+  date: string
+}
+
+export interface GazetelerResponse {
+  tam_sayi: TamSayiGazete[]
+  mansetler: MansetGazete[]
+  updated_at: string
+}
+
+/** Günlük e-gazeteler ve günün manşetlerini çeker. */
+export function useGazeteler() {
+  return useQuery({
+    queryKey: ['gazeteler'],
+    queryFn: async (): Promise<GazetelerResponse> => {
+      const endpoints = ['/api/gazeteler', `${BASE}/api/gazeteler`].filter(Boolean)
+      for (const ep of endpoints) {
+        try {
+          const res = await fetch(ep)
+          if (res.ok) return await res.json()
+        } catch {}
+      }
+      throw new Error('Gazeteler yüklenemedi')
+    },
+    staleTime: 10 * 60 * 1000,
   })
-  if (res.status === 401) throw new Error('Giriş yapmalısın.')
-  if (res.status === 429) throw new Error('Günlük soru hakkın doldu.')
-  if (!res.ok) throw new Error('Asistan şu an yanıt veremiyor.')
-  return await res.json()
 }
 
 /** Görüntülenme sayacını bir kez artırır (oturum başına). */

@@ -38,7 +38,7 @@ async function getKeys(env) {
   const fromEnv = String(env.GEMINI_API_KEYS ?? '')
     .split(',')
     .map((k) => k.trim())
-    .filter((k) => k && !k.startsWith('AIzaSyDdF-cEVH'))
+    .filter(Boolean)
 
   let fromDb = []
   try {
@@ -76,7 +76,7 @@ export async function quotaOf(env, userId) {
   }
 }
 
-async function bumpQuota(env, userId) {
+export async function bumpQuota(env, userId) {
   try {
     await env.DB.prepare(
       `INSERT INTO assistant_usage (user_id, day, count) VALUES (?,?,1)

@@ -200,6 +200,19 @@ export function TopBar({
                       <Icon name="Mic" size={16} />
                       Podcast
                     </button>
+
+                    {/* eGazete kısayolu */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setModeOpen(false)
+                        navigate('/gazete')
+                      }}
+                      className="flex w-full items-center gap-2.5 border-t border-line-soft px-3.5 py-2.5 text-sm text-fg transition hover:bg-surface-2"
+                    >
+                      <Icon name="Newspaper" size={16} />
+                      eGazete
+                    </button>
                   </div>
                 </>
               )}
