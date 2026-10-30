@@ -1,5 +1,71 @@
 [
   {
+    "id": "n_ddvbr6_mvv4gg54",
+    "slug": "mill-egitim-bakanligi-kasim-donemi-ogretmen-seminerlerinin-cevrim-ici-ya-4p50ck",
+    "title": "Millî Eğitim Bakanlığı kasım dönemi öğretmen Seminerlerinin çevrim içi yapılacağını açıkladı",
+    "excerpt": "T.C. Millî Eğitim Bakanlığı, kasım ara tatiline denk gelen öğretmen seminer programının uzaktan eğitim yöntemiyle yapılacağını ilan etti. Öğretmenler mesleki gelişim faaliyetlerini Öğretmen Bilişim Ağı üzerinden tamamlayacak.",
+    "body": [
+      "Millî Eğitim Bakanlığına bağlı her derece ve türdeki eğitim kurumlarında görev yapan öğretmenler, 2026 kasım dönemi mesleki çalışmalarını Öğretmen Bilişim Ağı (ÖBA) üzerinden yapabilecek.",
+      "Öğretmenler, 16-20 Kasım 2026 tarihleri arasında yapılacak mesleki çalışmalarını ÖBA platformunda yayına alınacak uzaktan eğitim içeriklerine katılarak tamamlayacak.",
+      "16 Kasım Pazartesi günü saat 08.00'de başlayacak olan kasım dönemi mesleki çalışmaları, 22 Kasım 2026 Pazar günü saat 23.59'a kadar erişime açık olacak. Bu süre içerisinde eğitimini tamamlayan öğretmenler, 2026-2027 eğitim öğretim yılı kasım dönemi mesleki çalışmalarını yerine getirmiş sayılacak."
+    ],
+    "category": "meb",
+    "tags": [
+      "MEB",
+      "ÖBA",
+      "MESLEKİ ÇALIŞMA"
+    ],
+    "source": {
+      "name": "Milli Eğitim Bakanlığı",
+      "url": "https://meb.gov.tr/ogretmenlerin-kasim-donemi-mesleki-calismalari-oba-uzerinden-gerceklestirilecek/haber/42351/tr",
+      "image": "/img/retmenlerin-kas-m-d-nemi-mesleki-al-malar-ba-zerinden-ger-ek-ozm65n.jpg"
+    },
+    "publishedAt": "2026-10-30T15:01:26.020Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 5.2,
+    "dedupeKey": "4p50ck",
+    "rawTitle": "ÖĞRETMENLERİN KASIM DÖNEMİ MESLEKİ ÇALIŞMALARI ÖBA ÜZERİNDEN GERÇEKLEŞTİRİLECEK",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
+    "id": "n_70a6fb_mvv4gg52",
+    "slug": "ogretmenlerin-kasim-ara-tatili-mesleki-calisma-programi-oba-uzerinden-uz-17ilej",
+    "title": "Öğretmenlerin kasım ara tatili mesleki çalışma programı ÖBA üzerinden uzaktan yürütülecek",
+    "excerpt": "Millî Eğitim Bakanlığına bağlı eğitim kurumlarında görev yapan öğretmenlerin 2026-2027 eğitim öğretim yılı kasım dönemi mesleki çalışmaları uzaktan eğitimle tamamlanacak. Eğitimciler, 16-20 Kasım 2026 tarihleri arasında planlanan seminer faaliyetlerine Öğretmen Bilişim Ağı platformundan katılabilecek.",
+    "body": [
+      "## Haberin Devamı",
+      "Millî Eğitim Bakanlığına (MEB) bağlı her derece ve türdeki eğitim kurumlarında görev yapan öğretmenler, 2026 kasım dönemi mesleki çalışmalarını Öğretmen Bilişim Ağı (ÖBA) üzerinden yapabilecek. Öğretmenler, 16-20 Kasım 2026 tarihleri arasında yapılacak mesleki çalışmalarını ÖBA platformunda yayına alınacak uzaktan eğitim içeriklerine katılarak tamamlayacak. 16 Kasım Pazartesi günü saat 08.00'de başlayacak olan kasım dönemi mesleki çalışmaları, 22 Kasım 2026 Pazar günü saat 23.59'a kadar erişime açık olacak. Bu süre içerisinde eğitimini tamamlayan öğretmenler, 2026-2027 eğitim öğretim yılı kasım dönemi mesleki çalışmalarını yerine getirmiş sayılacak."
+    ],
+    "category": "meb",
+    "tags": [
+      "ÖĞRETMEN BİLİŞİM AĞI",
+      "MESLEKİ ÇALIŞMA",
+      "ARA TATİL",
+      "MEB"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/ara-tatilde-mesleki-calismalar-oba-uzerinden-43360771",
+      "image": "/img/ara-tatilde-mesleki-al-malar-ba-zerinden-mqry7f.jpg"
+    },
+    "publishedAt": "2026-10-30T13:15:08.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": true,
+    "fullText": true,
+    "score": 6.6,
+    "dedupeKey": "17ilejn",
+    "rawTitle": "Ara tatilde mesleki çalışmalar ÖBA üzerinden",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_u2kq50_mvuxo09l",
     "slug": "ortaogretime-geciste-takvim-netlesti-2027-lgs-merkezi-sinavi-13-haziran--wud2av",
     "title": "Ortaöğretime geçişte takvim netleşti: 2027 LGS merkezi sınavı 13 haziran pazar günü uygulanacak",
@@ -374,6 +440,63 @@
     "rawTitle": "Bakan Tekin'den okul güvenliği açıklaması",
     "status": "published",
     "lang": "tr"
+  },
+  {
+    "id": "f_1lqydax_mvv4u306",
+    "slug": "yabanci-universiteler-futbol-programlarini-genisletmeye-ve-yeniden-c-1lqyda",
+    "title": "Üniversiteler Futbol Programlarını Genişletmeye ve Yeniden Canlandırmaya Devam Ediyor",
+    "excerpt": "Üniversite futbolu hızla büyüyor ve ulusal düzeyde yeni takımlar sahaya çıkıyor. Uzmanlar bu hamley تسجيل öğrenci sayısını artırma stratejisi olarak değerlendiriyor.",
+    "body": [
+      "Üniversite futbol programını 2022'de kapattıktan sonra Poets, bu sonbaharda 96 oyunculuk bir kadroyla sahaya geri döndü. Bu durum, Kaliforniya'daki 1.000'den az öğrencisi olan III. Lig (Division III) koleji için anlamlı bir kayıt artışı anlamına geliyor.",
+      "Kolej sporlarının karamsar anlatımlarla boğuştuğu bir dönemde, Whittier yetkilileri kayıt artışını saha dışı bir zafer olarak kutluyor.",
+      "Eleştirmenler, transfer kapısının döner kapı sistemi, sporcular için dudak uçuklatan ad, imaj ve benzerlik anlaşmaları ve önceden ücret almayan oyunculara milyonlarca dolar dağıtan yeni bir gelir paylaşımı anlaşması nedeniyle kolej atletizminin durumunu sıklıkla kural tanımayan Vahşi Batı'ya benzetiyor. Üstelik kolej atletizm departmanlarının çoğunluğu para kaybediyor ve akademik girişim tarafından ağır bir şekilde sübvanse ediliyor, bazıları öğrencilerden binlerce dolar ücret alıyor.",
+      "Bu durum, aynı anda hem en kazançlı kolej sporu hem de en büyük para tuzağı olan futbol için özellikle geçerlidir. Atletizmden kâr elde eden o çok küçük kurum payında, futbol ve erkek basketbolu ezici bir şekilde bu gelirleri artırmaktadır.",
+      "Yine de kolejler, sporun sıklıkla göz ardı edilen alt seviyelerinde şaşırtıcı bir hızla yeni futbol programları ekliyor: NCAA'nın III. Lig'i (atletik bursları yasaklar) ve Ulusal Kolejlerarası Atletizm Birliği. National Football Foundation tarafından toplanan verilere göre, bu sonbaharda çoğu alt seviyelerde olmak üzere on yeni veya yeniden canlandırılmış takım sahalara çıkıyor ve bu, 2013'ten bu yana kolej sıralarındaki sporun en büyük genişlemesine işaret ediyor. Yakın gelecekte yedi programın daha başlatılması planlanıyor.",
+      "Futbol ekleyen veya geri getiren kurumsal liderler, kendilerini milyonlarca dolarlık bütçelerle rekabet eden (ve genellikle milyonlarca dolarlık operasyonel zararlar biriktiren) en üst düzeydeki kolejlerden hızla ayırıyorlar. Argümanları bunun yerine futbolu bir kayıt stratejisi olarak görmelerine dayanıyor; bu hamle birçok kurumda denenmiş ve karışık sonuçlar vermiştir.",
+      "Whittier College 2022 sezonundan sonra futbolu kaldırdığında öğrenciler ve mezunlar şoke olmuştu.",
+      "Program muhtemelen Poets forması giyen en ünlü oyuncu olan Başkan Richard Nixon ile tanınıyor. (Gelecekteki bazı NFL koçları da Whittier'dan geçti.) Whittier Başkanı Kristine E. Dillon, topluluktaki birçok kişinin programı öğrenci deneyimleri için hayati öneme sahip olarak gördüğünü ve programın kaldırılmasının kayıtları etkilediğini söyledi.",
+      "Şaşırtıcı olmayan bir şekilde, futbolcular hemen başka bir yere transfer oldu. Dillon, \"[Ancak] futbolcu olmayan ve kolej deneyimlerinde bunu istedikleri için ayrılan öğrencilerimiz de oldu\" dedi.",
+      "Dillon, 2023'te ilk olarak geçici bir kapasiteyle başkanlığa getirildiğinde, programı yeniden canlandırmak isteyen mezunlardan tutkulu talepler duymaya başladığını söyledi. Ancak Whittier'daki mali tablo sallantıdaydı ve futbol takımı için bütçe ortadan kaldırılmıştı. Whittier halihazırda acil ihtiyaçlarını karşılamak için bağış toplarken, Dillon bu fonlara dokunmak istemediğini söyledi; eğer futbol geri dönecekse, destekçilerin bunun parasını ödemenin bir yolunu bulması gerekecekti.",
+      "Başlangıç maliyetlerinin analiz edilmesinin ardından Dillon bir bağış toplama hedefi belirledi: 750.000 dolar. Whittier bu hedefe ulaşmakla kalmadı; hedefi 75.000 dolar aşarak kolejin bu sonbaharda takımını yeniden başlatmasını sağladı. Futbol eklemek kayıtları yaklaşık yüzde 10 artırdı.",
+      "Dillon, \"Bunun kayıtlarım üzerinde kesinlikle bir etkisi var\" dedi. \"Ve ayrıca Whittier College'da bir futbol takımı olduğu için okumak isteyen insanların olduğunu da gördük.\"",
+      "Yaklaşık 2.000 mil uzakta, Alabama'daki Stillman College da benzer bir strateji izliyor. Bu ayın başlarında kolej yetkilileri, 2015'ten beri faaliyette olmayan futbol programını yeniden canlandırdıklarını duyurdular. Dirilişin itici gücü, tarihi açıdan Siyah bir kolej olan kurumdaki kayıtları artırmaktır.",
+      "Mütevelli Heyeti Başkanı Joe Hampton, Inside Higher Ed'e futbolu geri getirme etrafındaki görüşmelerin birkaç yıldır dolaşımda olduğunu söyledi. Hampton, programı yeniden canlandırırken heyetin bunun \"mali açıdan sorumlu bir şey olup olmadığını\" ve zaman içinde sürdürülebilirliğini tartmak zorunda kaldığını belirtti. Kolejin halihazırda tesisleri olduğunu, bunun da başlangıç maliyetlerini düşük tutmaya yardımcı olacağını kaydetti.",
+      "2030 yılına kadar kayıtları yaklaşık 750'den 1.000 öğrenciye çıkarma çabasının ortasında Stillman yetkilileri, futbolun kampüse 100'den fazla sporcunun yanı sıra diğer öğrencileri de getirmesine güveniyor. Üniversite, eyaletteki futbolun muazzam popülaritesine güveniyor.",
+      "Hampton, \"Alabama futbol için bir üs\" dedi. \"Lise futbolu oynayan ve gerçekten iyi sporcular olan, ama daha da önemlisi lisenin ötesinde katılım fırsatını sevecek gerçekten iyi insanlar ve gerçekten iyi öğrenciler olan binlerce genç erkek var.\"",
+      "Herkes bir futbol programı eklemenin kayıtları artıracağı fikrini satın almıyor.",
+      "Kolej sporları hakkında birkaç kitap yazmış bir Smith College ekonomi profesörü olan Andrew Zimbalist, futbol eklemenin sıklıkla zor durumdaki kurumlar için umutsuz bir eylem olduğuna inanıyor.",
+      "Zimbalist, \"Amerikan kolejleri iyi durumda değil. Demografi bize yardımcı olmuyor; yabancıların Amerika Birleşik Devletleri'ne gelmesini ve vize almasını zorlaştıran Trump etkisi bize yardımcı olmuyor. Bunun da ötesinde, kolej sporlarında tamamen düzensiz ve öngörülemez bir durumunuz var. Sanırım genel bir 'Lanet olsun, şimdi ne yapabiliriz?' hissi var. Bu yüzden futbolun görkemine ve futbolun Amerika Birleşik Devletleri'ndeki en popüler spor olmasına sığınıyorsunuz\" dedi.",
+      "Mevcut araştırma karışık sonuçlar gösteriyor ancak şüphecileri destekleme eğiliminde. Bir çalışma, futbolun zamanla solan mütevazı kayıt kazanımları sağladığını ve yalnızca kısa vadeli öğrenim ücreti gelir artışları sağladığını ortaya koydu. Bir diğeri, III. Lig futbolu eklemenin önemli bir kayıt avantajı sağlamadığını kaydetti. Ancak başka bir çalışma, futbol programlarına sahip III. Lig kolejlerinin olmayanlara göre daha güçlü kayıtlara sahip olduğunu buldu, ancak bu kazanımların atletizme atfedildiğini kanıtlamadı.",
+      "Dillon, Whittier'ın futbolu restore etme bağış toplama çabasının acil sonuçlarından memnun. Ancak mali durum zaten zor durumdaysa bunun her yerde işe yaramayabileceğini kabul ediyor.",
+      "Dillon, \"Bunun ekonomisi şu olmalı: Kayıt artışı için net öğrenim geliriniz nedir? Program bütçeniz nedir? Kontrolden çıkamaz. Bir futbol programını çalıştırmak için harcadığımız para, tüm önceliklerimiz boyunca makul bir şekilde destekleyebileceğimiz öğrenim ücreti dolarlarından fazlaysa, bu elbette kötü bir fikirdir\" dedi. \"Ama sanırım - en azından bizim durumumuzda - bu çok iyi bir fikir.\"",
+      "(Whittier ayrıca spor dalı ulusal çapta yükselirken 2028'de kadın bayrak futbolu programı da ekliyor.)",
+      "Zimbalist, futbol eklemenin her zaman bir fiyasko olmadığını kabul ediyor, ancak kolejleri temkinli olmaya ve her zaman karşılığını vermeyen bir atletizm stratejisine büyük oynamadan önce diğer yolları değerlendirmeye çağırıyor.",
+      "Zimbalist, \"Bazı durumlarda, belirli koşullarda, ülkenin belirli bölgelerinde bunun işe yarayabileceğine inanmaya hazırım\" dedi. \"Bu her zaman işe yarayacağı anlamına gelmez.\"",
+      "Whittier, Stillman ve futbol ekleyen diğer kolejler için sonuçlar henüz kesinleşmedi."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "ÜNİVERSİTE SPORLARI",
+      "AMERİKAN FUTBOLU",
+      "KAYIT STRATEJİSİ"
+    ],
+    "source": {
+      "name": "Inside Higher Ed",
+      "url": "https://www.insidehighered.com/news/admissions/traditional-age/2026/10/30/colleges-keep-adding-football-programs",
+      "image": "/img/colleges-keep-adding-football-programs-117dux.jpg"
+    },
+    "publishedAt": "2026-10-30T07:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1lqydax",
+    "rawTitle": "Colleges Keep Adding Football Programs",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "f_15v9z1p_mvuxw4iu",
@@ -13768,6 +13891,60 @@
     "score": 4,
     "dedupeKey": "foreign:s3zs9f",
     "rawTitle": "The $42,000 Question",
+    "status": "published",
+    "lang": "en"
+  },
+  {
+    "id": "f_1lj6i98_mvv4u305",
+    "slug": "yabanci-cocuk-koruma-hizmetleriyle-temas-eden-ogrencilerde-devamsizl-1lj6i9",
+    "title": "Çocuk Koruma Hizmetleriyle Temas Eden Öğrencilerde Devamsızlık Oranı Artıyor",
+    "excerpt": "Araştırmacılar, okula aidiyet hissinin ve hedef odaklı desteğin dezavantajlı öğrencileri sınıfta tutabileceğini belirtiyor. Yeni bir çalışma, çocuk koruma süreçleriyle karşılaşan öğrencilerin devamsızlık riskinin daha yüksek olduğunu ortaya koydu.",
+    "body": [
+      "Araştırmacılar, okula aidiyet hissinin ve hedef odaklı desteğin dezavantajlı öğrencileri sınıfta tutabileceğini belirtiyor.",
+      "Children and Youth Services Review dergisinde geçen ay yayımlanan bir araştırmaya göre, 15 yaşına kadar Çocuk Koruma Hizmetleri (CPS) ile teması olmuş öğrenciler, herhangi bir CPS teması bulunmayan öğrencilere kıyasla hem mazeretli (sağlık odaklı) hem de mazeretsiz (okul aşma) nedenlerle okula gelmeme konusunda daha büyük risk altındadır.",
+      "Bazı tahminler, ABD'deki çocukların üçte birinden fazlasının 18 yaşına kadar bir CPS soruşturmasından geçtiğini öne sürmektedir. Çalışma, CPS teması olan gençlerin neden daha fazla devamsızlık biriktirdiğine dair bir sonuca varmamış ve ek araştırmalara ihtiyaç duyulduğunu belirtmiştir.",
+      "Ohio State University insan gelişimi ve aile bilimi doçenti ve baş araştırmacı Arya Ansari, \"Devamsızlık o kadar karmaşık bir konu ki çocuklar pek çok nedenle ve benzersiz neden kombinasyonları yüzünden okula gelmiyorlar\" diyor.",
+      "Çalışmanın incelediği faktörlerden biri, \"okula aidiyet\" duygusunun CPS teması ile yüksek devamsızlık arasındaki bağlantıyı hafifletip hafifletmediğidir. Okula aidiyet müdahaleleri, CPS teması olan çocuklara diğerlerinden daha fazla fayda sağlamasa da, çalışma tüm çocukların bundan yararlandığını ortaya koymuştur.",
+      "Ansari'nin çalışması, CPS soruşturmalarından etkilenen öğrencilerin akranlarına göre daha düşük düzeyde okula aidiyet bildirdiklerini ve daha düşük aidiyetin daha yüksek devamsızlıkla ilişkili olduğunu bulmuştur.",
+      "Çalışma, katılımı artırmak için güçlü bir okula aidiyet duygusu oluşturulmasını \"tek kilit strateji\" olarak önermektedir. Etkili aidiyet yaklaşımları arasında kapsayıcı ortamlar yaratmak, ders dışı etkinlikler sunmak ve öğretmenlerin öğrencilerle güçlü ilişkiler kurmasını desteklemek yer almaktadır, diyor çalışma. Bulgular, salgın öncesi seviyelere dönmeyen devamsızlığı azaltmak için ülke çapındaki okulların çabaları ortasında gelmekte ve bazı öğrencileri sınıfa geri getirmenin ne kadar zor olabileceğini vurgulamaktadır.",
+      "Çalışma ayrıca CPS teması olan öğrencilerin, öğretmenlerinin okul devamsızlıklarını aileleriyle tartışma olasılığının daha yüksek olduğunu ortaya koymaktadır.",
+      "Ansari, ebeveynleri çocukların okula gelmediği konusunda bilgilendiren erken uyarı sistemlerinin ortalama etki düzeyinin küçük olduğunu ve yıl boyunca 40 güne varan devamsızlık yapan, hanede istikrarsızlık ve gıda güvensizliği gibi sorunlarla karşı karşıya kalabilecek çocukların katılımını artırmadığını söylüyor. CPS, çocuk istismarı veya ihmali iddiasını soruşturmak için bir aileyle iletişime geçer. CPS'nin müdahalesi genellikle yoksulluk, madde bağımlılığı, aile içi şiddet ve okul katılımını zayıflatan sağlık sorunları gibi diğer sistemik engellerle karakterize edilen yüksek riskli bir ev ortamına işaret eder.",
+      "Çalışma için Ansari, 1998 ile 2000 yılları arasında doğan 3.334 ergeni doğumdan 15 yaşına kadar 20 şehirde takip eden Future of Families and Child Wellbeing Study verilerini kullandı. Çalışma, devam durumuna ilişkin öğrenci ve ebeveyn raporlarını ile öğrencilerin \"okuldaki insanlara yakın hissetme, okulun bir parçası gibi hissetme, okulda olmaktan mutlu hissetme ve okulda güvende hissetme\" olarak tanımladıkları okula aidiyet hakkındaki öğrenci anketlerini kullandı.",
+      "ABD Sağlık ve İnsan Hizmetleri Bakanlığı'nın çocuk istismarına ilişkin bir raporuna göre CPS, 2024 yılında yaklaşık 3 milyon çocuğu soruşturdu. CPS ile teması olan öğrencilerin Siyah, ABD'de doğmuş ve İngilizce konuşan annelerden doğma olasılığı daha yüksekti. Ek olarak, anneleri de daha genç ve daha kötü sağlık koşullarına sahip olma eğilimindeydi ve hamilelik sırasında madde kullanımı geçmişine sahip olma olasılıkları daha yüksekti.",
+      "Ansari, \"Bazı aileler CPS ile temas kurduklarında, kurum ve sistem korkusu nedeniyle daha kopuk hale gelebilirler\" diyor. Okulu CPS ile iletişime geçtiği için suçlayabilir veya eğitim sistemi de dahil olmak üzere genel olarak kurumlara güvenmeyebilirler. Öte yandan, bazı ailelerin ise gözetimi önlemek için daha fazla angaje olduğunu belirtiyor.",
+      "CPS teması yaşamış öğrenciler, özellikle yönlendirmeler okul personelinden kaynaklandığında, okul ortamlarına daha az bağlı hissedebilirler ve bu nedenle okula gelme olasılıkları daha düşüktür. Ansari, CPS ile temasın, öğrencilerin okulları hakkında daha az olumlu duygular yaşamasıyla bağlantılı olduğunu ekliyor.",
+      "Çalışma, CPS soruşturması yaşamış olanlar da dahil olmak üzere tüm öğrenciler için okula aidiyetin koruyucu bir faktör olarak rolünü vurgulamaktadır. Ansari, \"Okula aidiyet duygusunu teşvik etmek, bu öğrenci popülasyonu arasında devamı iyileştirmek için çok önemli olabilir\" diye yazıyor. \"Nihayetinde, okula aidiyetin CPS temasıyla nasıl etkileşime girdiğini anlamak, eğitimcilerin bu öğrencilerin devamını ve genel refahını destekleyen daha hedefli stratejiler geliştirmesine yardımcı olabilir.\"",
+      "Çalışma, okulların öğrencileriyle aidiyetlerini güçlendirmek için kullanabilecekleri kaynaklara işaret etmektedir. Applied Developmental Science dergisinde yayımlanan 2023 tarihli bir çalışma, ders dışı etkinliklere katılımın öğrencilerin aidiyet hissetmelerine yardımcı olabileceğini ortaya koymuştur.",
+      "Çalışma ayrıca okulun aile bireyleriyle bağlarını güçlendirmesini ve öğretmenlere desteği artırmasını önermektedir. Örneğin, koruyucu ailelere yerleştirilen çocukların, okulun bağ kurabileceği yeni vasileri olabilir ve CPS müdahalesini ciddiye alan bazı ebeveynler, çocuklarının eğitimine daha fazla dahil olmak için motive olabilir.",
+      "Ansari, \"Okulların başlayabileceği yerin temelinde ilişkiler yatar. Bir çocuk okulda güvende hissederse ve bir öğretmeninin önemsendiğini bilirse, gelmeye daha istekli olacaktır\" diyor.",
+      "Attendance Works Başkanı ve CEO'su Hedy Chang, \"Devamsızlığı iyileştirmenin anahtarı ilişkiler geliştirmektir, çünkü güçlü, şefkatli ilişkiler CPS ile temas edenler de dahil olmak üzere tüm öğrencileri katılmaya motive etmeye yardımcı olur\" diyerek bu görüşe katılıyor. Yetişkinlerin, okula katılımın altında yatan engelleri ancak ilişkiler yoluyla keşfedebileceğini ve ardından bunları ele almak için öğrenciler ve ailelerle ortaklık kurabileceğini ekliyor.",
+      "Harvard Graduate School of Education'da uygulama profesörü olan Karen Mapp, proaktif iletişim duyulan ihtiyacı vurguluyor. Bir aileyle iletişim kurma girişiminin \"yalnızca bir olay meydana geldikten sonra veya öğrenci kronik olarak devamsız olduğunda gerçekleştiğini\" söyleyen Mapp, bunun bir soruna işaret ettiğini belirtiyor. Bunun yerine okulların ailelerle düzenli olarak iletişim kurmak, ailelerle ilişkiler kurmak ve onları tanımak için \"aktif bir stratejiye\" sahip olması gerektiğini ifade ediyor.",
+      "Devamsızlığı azaltmak da düzenli katılımın önündeki engelleri kaldıran kapsamlı, okul temelli ve okul dışı stratejiler gerektirir. Ansari, \"Çevrelenmiş hizmetler sağlamalı veya ailelerin bu bağlantıları toplum kaynaklarıyla kurmasına yardımcı olmalıyız\" diyor.",
+      "Ansari, desteğe öncelik vermenin eğitimcilerin ve öğrencilerin gelmesine ve anlamlı bir şekilde katılmasına yardımcı olabileceğini, okullarda hem öğrencilerin hem de öğretmenlerin hak ettiği bir topluluk duygusunu teşvik edebileceğini ekliyor.",
+      "EdSurge operasyonları, etiği ve politikaları hakkında daha fazla bilgiyi burada bulabilirsiniz. EdSurge destekçileri hakkında daha fazla bilgiyi burada bulabilirsiniz.",
+      "Geleneksel Hizmet İçi Eğitim Yetersiz Kaldı. Ben de İlgi Çekici Bir Alternatif Yaratmak İçin TikTok'u Kullandım"
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "OKUL DEVAMSIZLIĞI",
+      "ÇOCUK KORUMA",
+      "EĞİTİM ARAŞTIRMASI"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://www.edsurge.com/news/child-protective-services-contact-linked-to-higher-absenteeism-study-finds",
+      "image": "/img/child-protective-services-contact-linked-to-higher-absenteei-1o450k.jpg"
+    },
+    "publishedAt": "2026-10-14T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1lj6i98",
+    "rawTitle": "Child Protective Services Contact Linked to Higher Absenteeism, Study Finds",
     "status": "published",
     "lang": "en"
   },
