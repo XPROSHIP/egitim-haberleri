@@ -2,7 +2,7 @@
 @import '@fontsource-variable/geist/index.css';
 @import '@fontsource-variable/geist-mono/index.css';
 
-@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant dark (.dark &);
 
 :root,
 .dark {
@@ -462,4 +462,26 @@ html[data-reader-font="handwriting"] .article-prose {
 }
 .action-press:active {
   transform: scale(0.88);
+}
+
+/* Eski cihazlar ve tarayıcılar (Android 5, Chrome < 88) için geriye dönük uyumluluk katmanı */
+@supports not (aspect-ratio: 1 / 1) {
+  .aspect-3\/4,
+  [class*="aspect-3/4"] {
+    position: relative;
+    min-height: 240px;
+    height: auto;
+  }
+  .aspect-video,
+  [class*="aspect-video"] {
+    position: relative;
+    min-height: 180px;
+    height: auto;
+  }
+  .aspect-square,
+  [class*="aspect-square"] {
+    position: relative;
+    min-height: 120px;
+    height: auto;
+  }
 }

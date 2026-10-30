@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import type { Comment, NewsItem } from '../types'
 import { categories, resolveCategory } from '../data/categories'
-import collectedRaw from '../data/collected.json'
 import { authHeaders } from './auth'
 import { decodeItem } from './entities'
 
@@ -12,7 +11,15 @@ type CollectedItem = NewsItem & {
   fullText?: boolean
 }
 
-const collected = (collectedRaw as CollectedItem[]).filter((i) => i.status === 'published')
+async function getFallbackNews(): Promise<NewsItem[]> {
+  try {
+    const mod = await import('../data/collected.json')
+    const list = ((mod.default || mod) as CollectedItem[]).filter((i) => i.status === 'published')
+    return (list as NewsItem[]).map(decodeItem)
+  } catch {
+    return []
+  }
+}
 
 /**
  * Veri kaynağı sırası:
@@ -35,7 +42,7 @@ function withImageBase(item: NewsItem): NewsItem {
 }
 
 async function fetchAll(): Promise<NewsItem[]> {
-  if (!BASE) return (collected as NewsItem[]).map(decodeItem)
+  if (!BASE) return await getFallbackNews()
   try {
     // Başlık "x-refresh" göndermiyordu: Worker'da tazeleme anlamına geliyordu ve
     // ücretsiz kademede her sayfa açılışında CPU limitini patlatıyordu. Toplama
@@ -45,7 +52,7 @@ async function fetchAll(): Promise<NewsItem[]> {
     const data = (await res.json()) as { items: NewsItem[] }
     return data.items.map((i) => decodeItem(withImageBase(i)))
   } catch {
-    return (collected as NewsItem[]).map(decodeItem)
+    return await getFallbackNews()
   }
 }
 
