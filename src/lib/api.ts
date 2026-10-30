@@ -398,6 +398,35 @@ export function useGazeteler() {
   })
 }
 
+export interface GztNewspaper {
+  id: number
+  name: string
+  imgSrc: string
+}
+
+export interface GztMansetlerResponse {
+  success: boolean
+  date: string
+  formattedDate: string
+  fileName: string
+  count: number
+  newspapers: GztNewspaper[]
+}
+
+/** GZT üzerinden günün tüm ulusal gazete manşet listesini çeker. */
+export async function fetchGztMansetler(): Promise<GztMansetlerResponse> {
+  const endpoints = ['/api/gzt-mansetler', `${BASE}/api/gzt-mansetler`].filter(Boolean)
+  for (const ep of endpoints) {
+    try {
+      const res = await fetch(ep)
+      if (res.ok) {
+        return (await res.json()) as GztMansetlerResponse
+      }
+    } catch {}
+  }
+  throw new Error('GZT Manşet verisi alınamadı')
+}
+
 /** Görüntülenme sayacını bir kez artırır (oturum başına). */
 export async function countView(articleId: string): Promise<number | null> {
   if (!BASE) return null

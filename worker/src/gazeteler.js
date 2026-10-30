@@ -23,7 +23,7 @@ export const TARGET_NEWSPAPERS = [
   { name: 'Birgün', slug: 'birgun-gazetesi-manseti' },
   { name: 'Evrensel', slug: 'evrensel-gazetesi-manseti' },
   { name: 'Yeniçağ', slug: 'yenicag-gazetesi-manseti' },
-  { name: 'Oksijen', slug: 'oksijen' },
+  { name: 'Oksijen', slug: 'oksijen-gazetesi-gazetesi-manseti' },
   { name: 'Posta', slug: 'posta-gazetesi-manseti' },
   { name: 'Hürriyet', slug: 'hurriyet-gazetesi-manseti' },
   { name: 'Milliyet', slug: 'milliyet-gazetesi-manseti' },
@@ -74,10 +74,10 @@ const FALLBACK_MANSETLER = {
     full: 'https://i.gazeteoku.com/storage/files/images/2026/10/30/yenicag-2026-10-30-cod4.jpg',
     date: '30 Ekim 2026',
   },
-  oksijen: {
-    thumb: 'https://i.gazeteoksijen.com/storage/files/images/2026/10/09/whatsapp-image-2026-10-07-at-16-v5rq.jpg',
-    full: 'https://i.gazeteoksijen.com/storage/files/images/2026/10/09/whatsapp-image-2026-10-07-at-16-v5rq.jpg',
-    date: 'Haftalık Sayı',
+  'oksijen-gazetesi-gazetesi-manseti': {
+    thumb: 'https://i.gazeteoku.com/3/230/336/storage/files/images/2026/10/30/oksijen-2026-10-30-4uz2.jpg',
+    full: 'https://i.gazeteoku.com/storage/files/images/2026/10/30/oksijen-2026-10-30-4uz2.jpg',
+    date: '30 Ekim 2026',
   },
   'posta-gazetesi-manseti': {
     thumb: 'https://i.gazeteoku.com/3/230/336/storage/files/images/2026/10/29/posta-2026-10-29-kqfd.jpg',
@@ -210,21 +210,6 @@ async function fetchMansetler(prevMap = {}) {
   for (const t of TARGET_NEWSPAPERS) {
     if (map.has(t.slug) && map.get(t.slug)?.thumb) continue
 
-    if (t.slug === 'oksijen') {
-      try {
-        const res = await fetch('https://gazeteoksijen.com/e-gazete', { headers: { 'User-Agent': UA } })
-        if (res.ok) {
-          const html = await res.text()
-          const m = html.match(/https:\/\/i\.gazeteoksijen\.com\/storage\/files\/images\/[^\s"']+\.jpg/i)
-          if (m) {
-            map.set('oksijen', { thumb: m[0], full: m[0], date: 'Haftalık Sayı' })
-            continue
-          }
-        }
-      } catch {}
-      continue
-    }
-
     try {
       const res = await fetch(`https://www.gazeteoku.com/gazeteler/${t.slug}`, { headers: { 'User-Agent': UA } })
       if (res.ok) {
@@ -314,4 +299,121 @@ export async function getGazeteler(env) {
   }
 
   return payload
+}
+
+// Türkçe aylar
+const TR_MONTHS = [
+  'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+  'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık',
+]
+
+function formatTurkishDate(dateStr) {
+  const parts = dateStr.split('-')
+  if (parts.length !== 3) return dateStr
+  const year = parts[0]
+  const month = parseInt(parts[1], 10)
+  const day = parseInt(parts[2], 10)
+  const monthName = TR_MONTHS[month - 1] || parts[1]
+  return `${day} ${monthName} ${year}`
+}
+
+/**
+ * GZT (gazetemanset.gzt.com) üzerinden günün tüm ulusal gazete manşetlerini çeker.
+ * D1 system_settings tablosunda günlük önbelleğe alınır.
+ */
+export async function getGztMansetler(env) {
+  const now = new Date()
+  const y = now.getFullYear()
+  const m = String(now.getMonth() + 1).padStart(2, '0')
+  const d = String(now.getDate()).padStart(2, '0')
+  const dateStr = `${y}-${m}-${d}`
+  const formattedDate = formatTurkishDate(dateStr)
+  const fileName = `ZEN Gazete Manşetleri - ${formattedDate}.pdf`
+
+  const CACHE_KEY = `gzt_mansetler_${dateStr}`
+
+  // 1. D1 önbellek kontrolü
+  try {
+    const row = await env.DB.prepare('SELECT value FROM system_settings WHERE key = ?')
+      .bind(CACHE_KEY)
+      .first()
+    if (row?.value) {
+      const parsed = JSON.parse(row.value)
+      if (Array.isArray(parsed.newspapers) && parsed.newspapers.length > 0) {
+        return parsed
+      }
+    }
+  } catch {}
+
+  // 2. GZT sayfasından canlı çekim
+  try {
+    const res = await fetch('https://gazetemanset.gzt.com/', {
+      headers: {
+        'User-Agent': UA,
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
+      },
+    })
+    if (!res.ok) throw new Error(`GZT HTTP ${res.status}`)
+    const html = await res.text()
+
+    const articles = html.split('<article class="newspaper-headline-card">').slice(1)
+    const items = []
+
+    for (const art of articles) {
+      const content = art.split('</article>')[0]
+      const srcM = content.match(/src=["']([^"']+)["']/)
+      const nameM = content.match(/<span class="newspaper-headline-card-name-line">([^<]+)<\/span>/)
+      const altM = content.match(/alt=["']([^"']*)["']/)
+
+      let name = nameM ? nameM[1].trim() : altM ? altM[1].split('Gazetesi')[0].trim() : 'Gazete'
+      name = name
+        .replace(/&#39;/g, "'")
+        .replace(/&quot;/g, '"')
+        .replace(/&amp;/g, '&')
+        .replace(/&nbsp;/g, ' ')
+
+      const imgSrc = srcM ? srcM[1] : ''
+      if (imgSrc && imgSrc.startsWith('http')) {
+        items.push({
+          id: items.length + 1,
+          name,
+          imgSrc,
+        })
+      }
+    }
+
+    const result = {
+      success: true,
+      date: dateStr,
+      formattedDate,
+      fileName,
+      count: items.length,
+      newspapers: items,
+    }
+
+    if (items.length > 0) {
+      try {
+        await env.DB.prepare(
+          `INSERT INTO system_settings (key, value) VALUES (?, ?)
+           ON CONFLICT(key) DO UPDATE SET value = excluded.value`,
+        )
+          .bind(CACHE_KEY, JSON.stringify(result))
+          .run()
+      } catch {}
+    }
+
+    return result
+  } catch (err) {
+    console.error('[gzt-mansetler] Canli tarama hatasi:', err)
+    return {
+      success: false,
+      error: String(err?.message ?? err),
+      date: dateStr,
+      formattedDate,
+      fileName,
+      count: 0,
+      newspapers: [],
+    }
+  }
 }

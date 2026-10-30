@@ -112,15 +112,30 @@ const Ctx = createContext<Store | null>(null)
 
 export function StoreProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<Persisted>(load)
-  const [systemDark, setSystemDark] = useState(
-    () => !window.matchMedia('(prefers-color-scheme: light)').matches,
-  )
+  const [systemDark, setSystemDark] = useState(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return true
+    try {
+      return !window.matchMedia('(prefers-color-scheme: light)').matches
+    } catch {
+      return true
+    }
+  })
 
   useEffect(() => {
-    const mq = window.matchMedia('(prefers-color-scheme: light)')
-    const onChange = () => setSystemDark(!mq.matches)
-    mq.addEventListener('change', onChange)
-    return () => mq.removeEventListener('change', onChange)
+    if (typeof window === 'undefined' || !window.matchMedia) return
+    try {
+      const mq = window.matchMedia('(prefers-color-scheme: light)')
+      const onChange = () => setSystemDark(!mq.matches)
+      if (mq.addEventListener) {
+        mq.addEventListener('change', onChange)
+        return () => mq.removeEventListener('change', onChange)
+      } else if ('addListener' in mq) {
+        // Eski Safari / eski Android WebView uyumluluğu
+        const legacyMq = mq as unknown as { addListener: (cb: () => void) => void; removeListener: (cb: () => void) => void }
+        legacyMq.addListener(onChange)
+        return () => legacyMq.removeListener(onChange)
+      }
+    } catch {}
   }, [])
 
   const resolvedTheme: 'dark' | 'light' | 'sepia' =
@@ -128,9 +143,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const el = document.documentElement
-    el.classList.toggle('dark', resolvedTheme === 'dark')
-    el.classList.toggle('light', resolvedTheme === 'light')
-    el.classList.toggle('sepia', resolvedTheme === 'sepia')
+    el.classList.remove('dark', 'light', 'sepia')
+    el.classList.add(resolvedTheme)
     el.dataset.theme = resolvedTheme
   }, [resolvedTheme])
 
@@ -155,8 +169,21 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     }
   }, [state])
 
+  // Eşzamanlı yerel kayıt: state değiştiği anda localStorage'a yazılır.
+  const updateState = (updater: (prev: Persisted) => Persisted) => {
+    setState((prev) => {
+      const next = updater(prev)
+      try {
+        localStorage.setItem(KEY, JSON.stringify(next))
+      } catch (err) {
+        console.warn('Storage save failed:', err)
+      }
+      return next
+    })
+  }
+
   const toggleIn = (key: 'bookmarks' | 'likes' | 'readMarks', id: string) =>
-    setState((s) => ({
+    updateState((s) => ({
       ...s,
       [key]: s[key].includes(id) ? s[key].filter((x) => x !== id) : [...s[key], id],
     }))
@@ -168,34 +195,34 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       toggleBookmark: (id) => toggleIn('bookmarks', id),
       toggleLike: (id) => toggleIn('likes', id),
       markRead: (id) =>
-        setState((s) => (s.readMarks.includes(id) ? s : { ...s, readMarks: [...s.readMarks, id] })),
+        updateState((s) => (s.readMarks.includes(id) ? s : { ...s, readMarks: [...s.readMarks, id] })),
       markAllRead: (ids) =>
-        setState((s) => ({ ...s, readMarks: [...new Set([...s.readMarks, ...ids])] })),
+        updateState((s) => ({ ...s, readMarks: [...new Set([...s.readMarks, ...ids])] })),
       toggleFollow: (slug) =>
-        setState((s) => ({
+        updateState((s) => ({
           ...s,
           followed: s.followed.includes(slug)
             ? s.followed.filter((x) => x !== slug)
             : [...s.followed, slug],
         })),
       toggleHideCategory: (slug) =>
-        setState((s) => ({
+        updateState((s) => ({
           ...s,
           hiddenCategories: s.hiddenCategories.includes(slug)
             ? s.hiddenCategories.filter((x) => x !== slug)
             : [...s.hiddenCategories, slug],
         })),
-      setTheme: (theme) => setState((s) => ({ ...s, theme })),
-      setFontScale: (fontScale) => setState((s) => ({ ...s, fontScale })),
-      setLang: (lang) => setState((s) => ({ ...s, lang })),
-      setConsent: (consent) => setState((s) => ({ ...s, consent })),
-      setFeedMode: (feedMode) => setState((s) => ({ ...s, feedMode })),
-      setHideRead: (hideRead) => setState((s) => ({ ...s, hideRead })),
-      setReaderFont: (readerFont) => setState((s) => ({ ...s, readerFont })),
-      setReaderWidth: (readerWidth) => setState((s) => ({ ...s, readerWidth })),
-      setReaderLine: (readerLine) => setState((s) => ({ ...s, readerLine })),
-      setPushEnabled: (pushEnabled) => setState((s) => ({ ...s, pushEnabled })),
-      setUser: (user, demo = false) => setState((s) => ({ ...s, user, demoUser: demo })),
+      setTheme: (theme) => updateState((s) => ({ ...s, theme })),
+      setFontScale: (fontScale) => updateState((s) => ({ ...s, fontScale })),
+      setLang: (lang) => updateState((s) => ({ ...s, lang })),
+      setConsent: (consent) => updateState((s) => ({ ...s, consent })),
+      setFeedMode: (feedMode) => updateState((s) => ({ ...s, feedMode })),
+      setHideRead: (hideRead) => updateState((s) => ({ ...s, hideRead })),
+      setReaderFont: (readerFont) => updateState((s) => ({ ...s, readerFont })),
+      setReaderWidth: (readerWidth) => updateState((s) => ({ ...s, readerWidth })),
+      setReaderLine: (readerLine) => updateState((s) => ({ ...s, readerLine })),
+      setPushEnabled: (pushEnabled) => updateState((s) => ({ ...s, pushEnabled })),
+      setUser: (user, demo = false) => updateState((s) => ({ ...s, user, demoUser: demo })),
     }),
     [state, resolvedTheme],
   )

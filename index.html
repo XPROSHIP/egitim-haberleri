@@ -11,26 +11,19 @@
           var s = raw ? JSON.parse(raw) : {};
           var t = s.theme || 'system';
           if (t === 'system') {
-            t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+            var m = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : null;
+            t = (m && m.matches) ? 'light' : 'dark';
           }
-          if (t === 'light') {
-            document.documentElement.classList.remove('dark');
-            document.documentElement.classList.add('light');
-            document.documentElement.dataset.theme = 'light';
-          } else if (t === 'sepia') {
-            document.documentElement.classList.remove('dark');
-            document.documentElement.classList.add('sepia');
-            document.documentElement.dataset.theme = 'sepia';
-          } else {
-            document.documentElement.classList.add('dark');
-            document.documentElement.dataset.theme = 'dark';
-          }
-          if (s.readerFont) {
-            document.documentElement.dataset.readerFont = s.readerFont;
-          }
+          var root = document.documentElement;
+          root.classList.remove('dark', 'light', 'sepia');
+          root.classList.add(t);
+          root.dataset.theme = t;
+          if (s.readerFont) root.dataset.readerFont = s.readerFont;
+          if (s.readerWidth) root.dataset.readerWidth = s.readerWidth;
+          if (s.readerLine) root.dataset.readerLine = s.readerLine;
           // Yazı boyutu ölçeği (rem tabanlı metinler büyür).
           var pct = { '1': 100, '1.25': 106, '1.5': 112 }[s.fontScale] || 100;
-          if (pct !== 100) document.documentElement.style.fontSize = pct + '%';
+          if (pct !== 100) root.style.fontSize = pct + '%';
         } catch (e) {}
       })();
     </script>

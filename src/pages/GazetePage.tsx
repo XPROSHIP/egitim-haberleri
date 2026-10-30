@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
+import clsx from 'clsx'
 import { Icon } from '../components/Icon'
-import { useGazeteler, type TamSayiGazete, type MansetGazete } from '../lib/api'
+import { useGazeteler, fetchGztMansetler, type TamSayiGazete, type MansetGazete } from '../lib/api'
 
 export function GazetePage() {
   const { data, isLoading, isError, refetch } = useGazeteler()
@@ -17,6 +18,114 @@ export function GazetePage() {
 
   const [zoomLevel, setZoomLevel] = useState<number>(1)
   const [searchTerm, setSearchTerm] = useState('')
+
+  // GZT PDF Birleştirici Durumları
+  const [pdfStatus, setPdfStatus] = useState<'idle' | 'loading' | 'ready'>('idle')
+  const [pdfProgress, setPdfProgress] = useState('')
+  const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null)
+  const [pdfFileName, setPdfFileName] = useState('ZEN Gazete Manşetleri.pdf')
+
+  const handlePdfAction = async () => {
+    // Hazırsa doğrudan indir
+    if (pdfStatus === 'ready' && pdfBlobUrl) {
+      const a = document.createElement('a')
+      a.href = pdfBlobUrl
+      a.download = pdfFileName
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      return
+    }
+
+    if (pdfStatus === 'loading') return
+
+    try {
+      setPdfStatus('loading')
+      setPdfProgress('Hazırlanıyor, lütfen bekleyiniz... (1/32)')
+
+      // 1. GZT manşet listesini çek
+      const gztData = await fetchGztMansetler()
+      const total = gztData.newspapers?.length || 0
+      if (!total) throw new Error('Gazete listesi alınamadı')
+
+      const dateStr = gztData.formattedDate || 'Bugün'
+      const finalFileName = gztData.fileName || `ZEN Gazete Manşetleri - ${dateStr}.pdf`
+      setPdfFileName(finalFileName)
+
+      // 2. pdf-lib'i dinamik olarak yükle (ilk açılış boyutunu şişirmemek için)
+      const { PDFDocument } = await import('pdf-lib')
+      const pdfDoc = await PDFDocument.create()
+
+      // 3. Görselleri paralel indir (concurrency = 6)
+      const downloadedBuffers: { arrayBuffer: ArrayBuffer }[] = new Array(total)
+      let loadedCount = 0
+      const concurrency = 6
+      const BASE = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '')
+
+      for (let i = 0; i < total; i += concurrency) {
+        const chunkIndices = []
+        for (let c = i; c < Math.min(i + concurrency, total); c++) chunkIndices.push(c)
+
+        await Promise.all(
+          chunkIndices.map(async (idx) => {
+            const item = gztData.newspapers[idx]
+            try {
+              let ab: ArrayBuffer | null = null
+              try {
+                const res = await fetch(item.imgSrc)
+                if (res.ok) ab = await res.arrayBuffer()
+              } catch {
+                // Fallback via worker proxy (CORS engelini aşar)
+                const proxyUrl = `${BASE}/api/proxy-image?url=${encodeURIComponent(item.imgSrc)}`
+                const pRes = await fetch(proxyUrl)
+                if (pRes.ok) ab = await pRes.arrayBuffer()
+              }
+              if (ab) downloadedBuffers[idx] = { arrayBuffer: ab }
+            } catch (err) {
+              console.warn(`[PDF] ${item.name} atlandı:`, err)
+            } finally {
+              loadedCount++
+              setPdfProgress(`Hazırlanıyor, lütfen bekleyiniz... (${loadedCount}/${total})`)
+            }
+          }),
+        )
+      }
+
+      setPdfProgress('Sayfalar birleştiriliyor...')
+
+      // 4. Görselleri PDF sayfalarına dönüştür
+      for (const entry of downloadedBuffers) {
+        if (!entry?.arrayBuffer) continue
+        try {
+          const jpg = await pdfDoc.embedJpg(entry.arrayBuffer)
+          const page = pdfDoc.addPage([jpg.width, jpg.height])
+          page.drawImage(jpg, { x: 0, y: 0, width: jpg.width, height: jpg.height })
+        } catch (embedErr) {
+          console.warn('[PDF] Embed hatası:', embedErr)
+        }
+      }
+
+      const pdfBytes = await pdfDoc.save()
+      const blob = new Blob([pdfBytes as unknown as BlobPart], { type: 'application/pdf' })
+      const url = URL.createObjectURL(blob)
+
+      setPdfBlobUrl(url)
+      setPdfStatus('ready')
+
+      // İlk tıklamada hazır olur olmaz hemen indirmeyi tetikle
+      const a = document.createElement('a')
+      a.href = url
+      a.download = finalFileName
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err)
+      console.error('[PDF] Oluşturma hatası:', err)
+      setPdfStatus('idle')
+      alert(`PDF hazırlanamadı: ${msg || 'Bilinmeyen hata'}`)
+    }
+  }
 
   // Klavyeden gezinme ve kapatma (Sol/Sağ ok ve Escape)
   useEffect(() => {
@@ -268,9 +377,44 @@ export function GazetePage() {
                   <h2 className="text-lg font-bold tracking-tight text-fg sm:text-xl">
                     Günün Gazete Manşetleri
                   </h2>
-                  <span className="text-xs text-muted">
-                    İlk sayfa manşetleri (büyütmek için kapağa tıklayın)
-                  </span>
+                  <div className="mt-1.5 flex flex-wrap items-center gap-2.5">
+                    <button
+                      type="button"
+                      onClick={handlePdfAction}
+                      disabled={pdfStatus === 'loading'}
+                      className={clsx(
+                        'inline-flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-semibold shadow-xs transition active:scale-98',
+                        pdfStatus === 'idle' &&
+                          'bg-accent text-white hover:bg-accent/90',
+                        pdfStatus === 'loading' &&
+                          'bg-accent/80 text-white cursor-wait animate-pulse',
+                        pdfStatus === 'ready' &&
+                          'bg-emerald-600 hover:bg-emerald-700 text-white',
+                      )}
+                      title="Bugünün tüm ulusal gazete manşetlerini tek PDF olarak indirin"
+                    >
+                      <Icon
+                        name={
+                          pdfStatus === 'loading'
+                            ? 'Clock'
+                            : pdfStatus === 'ready'
+                              ? 'CheckCircle'
+                              : 'Download'
+                        }
+                        size={14}
+                      />
+                      <span>
+                        {pdfStatus === 'idle' &&
+                          'Bugünün tüm gazete manşetlerini PDF olarak indirin'}
+                        {pdfStatus === 'loading' && pdfProgress}
+                        {pdfStatus === 'ready' &&
+                          'Günün Manşetleri Hazır! Tıklayıp PDF indirebilirsiniz.'}
+                      </span>
+                    </button>
+                    <span className="text-[0.7rem] text-faint hidden sm:inline">
+                      (Büyütmek için kapağa tıklayın)
+                    </span>
+                  </div>
                 </div>
               </div>
 

@@ -25,7 +25,7 @@ import {
   saveMessage,
   searchNews,
 } from './src/assistant.js'
-import { getGazeteler } from './src/gazeteler.js'
+import { getGazeteler, getGztMansetler } from './src/gazeteler.js'
 
 /**
  * CORS basliklari istege gore uretilir.
@@ -1043,6 +1043,40 @@ export default {
       return reply(data, 200, {
         'cache-control': 'public, max-age=900, stale-while-revalidate=1800',
       })
+    }
+
+    /* ── GZT Gazete Manşetleri (PDF Birleştirme Listesi) ─────────────────── */
+    if (url.pathname === '/api/gzt-mansetler' && request.method === 'GET') {
+      const data = await getGztMansetler(env)
+      return reply(data, 200, {
+        'cache-control': 'public, max-age=900, stale-while-revalidate=1800',
+      })
+    }
+
+    /* ── Görsel Proxy (PDF birleştirme için CORS engelsiz) ───────────────── */
+    if (url.pathname === '/api/proxy-image' && request.method === 'GET') {
+      const targetImgUrl = url.searchParams.get('url')
+      if (!targetImgUrl || !targetImgUrl.startsWith('http')) {
+        return reply({ error: 'Geçersiz görsel URL' }, 400)
+      }
+      try {
+        const imgRes = await fetch(targetImgUrl, {
+          headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' },
+        })
+        if (!imgRes.ok) throw new Error(`HTTP ${imgRes.status}`)
+        const contentType = imgRes.headers.get('content-type') || 'image/jpeg'
+        const buffer = await imgRes.arrayBuffer()
+        return new Response(buffer, {
+          status: 200,
+          headers: {
+            'content-type': contentType,
+            'access-control-allow-origin': '*',
+            'cache-control': 'public, max-age=86400',
+          },
+        })
+      } catch (err) {
+        return reply({ error: `Görsel yüklenemedi: ${err.message}` }, 502)
+      }
     }
 
     /* ── ZEN Asistan ────────────────────────────────────────────────────── */

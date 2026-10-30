@@ -23,6 +23,13 @@ export function shareToX(item: { title: string; slug: string }) {
   window.open(url, '_blank', 'noopener,noreferrer')
 }
 
+export function shareToWhatsApp(item: { title: string; slug: string }) {
+  const url = `${window.location.origin}/haber/${item.slug}`
+  const text = `${item.title}\n\n${url}`
+  const target = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`
+  window.open(target, '_blank', 'noopener,noreferrer')
+}
+
 export function absoluteUrl(slug: string): string {
   return `${window.location.origin}/haber/${slug}`
 }

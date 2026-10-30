@@ -42,21 +42,21 @@
 
 .sepia,
 [data-theme="sepia"] {
-  /* ReadEra & Antika Kitap Parşömeni tonu (yumuşak, gözü yormayan sıcak mat sepya) */
-  --bg: #e6cead;
-  --surface: #eed8ba;
-  --surface-2: #dfc49f;
-  --surface-3: #d3b48b;
-  --line: #c4a37b;
-  --line-soft: #d8bb95;
-  --fg: #38200f;
-  --muted: #5c3b1e;
-  --faint: #855f3a;
-  --accent: #9c3c18;
-  --accent-soft: #f4e3cd;
-  --primary: #733612;
-  --primary-fg: #fcf7ef;
-  --ring: rgba(56, 32, 15, 0.22);
+  /* Gerçek antika el yazması & mat parşömen tonu (gözü hiç yormayan sıcak, doğal kağıt tonu) */
+  --bg: #dcc19c;
+  --surface: #e5cbab;
+  --surface-2: #d2b38c;
+  --surface-3: #c5a378;
+  --line: #bba078;
+  --line-soft: #cdb490;
+  --fg: #2c1c10;
+  --muted: #533924;
+  --faint: #795b40;
+  --accent: #8b3c1b;
+  --accent-soft: #ebd6be;
+  --primary: #633211;
+  --primary-fg: #f5eedf;
+  --ring: rgba(44, 28, 16, 0.25);
 }
 
 @theme inline {

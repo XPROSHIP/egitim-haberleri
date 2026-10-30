@@ -1,51 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import clsx from 'clsx'
 import { categories } from '../data/categories'
-import { dataSource } from '../lib/api'
 import { CategoryMark } from './CategoryMark'
 import { Icon } from './Icon'
 import { Logo } from './Logo'
 
-const sourceLabel: Record<string, string> = {
-  api: 'Canlı veri · otomatik güncelleme açık',
-  collected: 'Toplayıcıdan otomatik derlenmiş güncel haberler',
-  demo: 'Demo veri · toplayıcı henüz çalışmadı',
-}
-
 export function Footer() {
   const { t } = useTranslation()
-  // Otomasyon durumu: erişim anahtarı bozulursa site kendisi uyarır,
-  // böylece hatırlamaya gerek kalmaz.
-  const [automationOk, setAutomationOk] = useState(true)
-
-  useEffect(() => {
-    let alive = true
-    const BASE = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '')
-    if (!BASE) return
-    const check = async () => {
-      try {
-        const res = await fetch(`${BASE}/api/health`)
-        if (!res.ok) return
-        const data = (await res.json()) as {
-          automation?: { dispatch?: { ok?: boolean } | null }
-        }
-        if (!alive) return
-        const d = data.automation?.dispatch
-        // Hiç kayıt yoksa (ilk kurulum) uyarı göstermeyelim.
-        if (d && d.ok === false) setAutomationOk(false)
-      } catch {
-        /* ağ hatası: mevcut durumu koru */
-      }
-    }
-    void check()
-    const timer = setInterval(check, 10 * 60_000)
-    return () => {
-      alive = false
-      clearInterval(timer)
-    }
-  }, [])
 
   return (
     <footer className="mt-16 border-t border-line bg-surface">
@@ -118,51 +80,10 @@ export function Footer() {
               ))}
             </ul>
           </nav>
-
-          <nav>
-            <h3 className="mb-3 text-[0.75rem] font-bold tracking-wide text-fg uppercase">
-              Takip et
-            </h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  to="/podcast"
-                  className="text-[0.75rem] text-muted transition hover:text-fg"
-                >
-                  ZENPOD Eğitim
-                </Link>
-              </li>
-              {[
-                ['/feed.xml', 'RSS (tüm haberler)'],
-                ['/podcast.xml', 'Podcast RSS'],
-                ['/sitemap.xml', 'Site haritası'],
-              ].map(([href, label]) => (
-                <li key={href}>
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[0.75rem] text-muted transition hover:text-fg"
-                  >
-                    {label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
         </div>
 
         <div className="mt-10 flex flex-col items-center gap-2 border-t border-line pt-6 text-center">
           <p className="flex flex-wrap items-center justify-center gap-2 text-[0.6875rem] text-faint">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-line px-2.5 py-1">
-              <span
-                className={clsx(
-                  'size-1.5 rounded-full',
-                  automationOk ? 'bg-emerald-500' : 'bg-amber-500',
-                )}
-              />
-              {automationOk ? sourceLabel[dataSource] : 'Güncelleme bekliyor — otomasyon durakladı'}
-            </span>
             <span>
               © 2026 Eğitim Haberleri ·{' '}
               <a
@@ -175,11 +96,6 @@ export function Footer() {
               <span className="font-semibold tracking-wide text-muted">OMERZEN</span>
               {' '}· Tüm hakları saklıdır.
             </span>
-          </p>
-          <p className="max-w-2xl text-[0.625rem] leading-relaxed text-faint/70">
-            Haberler ilgili kaynaklardan otomatik olarak derlenir. Başlıklar ve özetler
-            yayıncıların kendi ifadelerine dayanır; resmî bilgi için kaynak kurumların
-            sitelerini esas alınız.
           </p>
         </div>
       </div>
