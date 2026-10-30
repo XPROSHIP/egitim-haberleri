@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import clsx from 'clsx'
 import { Icon } from '../components/Icon'
 import { useGazeteler, fetchGztMansetler, type TamSayiGazete, type MansetGazete } from '../lib/api'
@@ -19,6 +19,30 @@ export function GazetePage() {
   } | null>(null)
 
   const [zoomLevel, setZoomLevel] = useState<number>(1)
+  const [panOffset, setPanOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 })
+  const [isDragging, setIsDragging] = useState(false)
+  const dragStartRef = useRef<{ startX: number; startY: number; initialPanX: number; initialPanY: number }>({
+    startX: 0,
+    startY: 0,
+    initialPanX: 0,
+    initialPanY: 0,
+  })
+
+  const resetZoomAndPan = () => {
+    setZoomLevel(1)
+    setPanOffset({ x: 0, y: 0 })
+    setIsDragging(false)
+  }
+
+  const zoomIn = () => setZoomLevel((z) => Math.min(+(z + 0.35).toFixed(2), 3.5))
+  const zoomOut = () =>
+    setZoomLevel((z) => {
+      const next = Math.max(+(z - 0.35).toFixed(2), 0.75)
+      if (next <= 1) setPanOffset({ x: 0, y: 0 })
+      return next
+    })
+  const zoomReset = () => resetZoomAndPan()
+
   const [searchTerm, setSearchTerm] = useState('')
 
   // GZT PDF Birleştirici Durumları
@@ -76,7 +100,8 @@ export function GazetePage() {
               try {
                 const res = await fetch(item.imgSrc)
                 if (res.ok) ab = await res.arrayBuffer()
-              } catch {
+              } catch {}
+              if (!ab) {
                 // Fallback via worker proxy (CORS engelini aşar)
                 const proxyUrl = `${BASE}/api/proxy-image?url=${encodeURIComponent(item.imgSrc)}`
                 const pRes = await fetch(proxyUrl)
@@ -133,9 +158,14 @@ export function GazetePage() {
   const [postaPdfStatus, setPostaPdfStatus] = useState<'idle' | 'loading' | 'ready'>('idle')
   const [postaPdfProgress, setPostaPdfProgress] = useState('')
   const [postaPdfBlobUrl, setPostaPdfBlobUrl] = useState<string | null>(null)
+  const [postaPdfPageCount, setPostaPdfPageCount] = useState<number>(0)
 
   const handleDownloadPostaPdf = async (g: TamSayiGazete) => {
-    if (postaPdfStatus === 'ready' && postaPdfBlobUrl) {
+    const pages = g.pages || []
+    if (pages.length === 0) return
+
+    // Eğer daha önce eksiksiz olarak (tüm sayfalar) oluşturulmuşsa doğrudan indir
+    if (postaPdfStatus === 'ready' && postaPdfBlobUrl && postaPdfPageCount === pages.length) {
       const a = document.createElement('a')
       a.href = postaPdfBlobUrl
       a.download = `Posta Gazetesi - ${g.date}.pdf`
@@ -147,41 +177,56 @@ export function GazetePage() {
 
     if (postaPdfStatus === 'loading') return
 
-    const pages = g.pages || []
-    if (pages.length === 0) return
-
     try {
       setPostaPdfStatus('loading')
-      setPostaPdfProgress(`(1/${pages.length})`)
+      setPostaPdfProgress(`(0/${pages.length})`)
 
       const { PDFDocument } = await import('pdf-lib')
       const pdfDoc = await PDFDocument.create()
 
-      const downloadedBuffers: { arrayBuffer: ArrayBuffer }[] = new Array(pages.length)
+      const downloadedBuffers: (ArrayBuffer | null)[] = new Array(pages.length).fill(null)
       let loaded = 0
-      const concurrency = 6
+      const concurrency = 3
       const BASE = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '')
 
+      const fetchPageBuffer = async (imgUrl: string, maxRetries = 2): Promise<ArrayBuffer> => {
+        // i.hurimg.com CORS başlığı göndermediğinden her zaman worker proxy kullanılır
+        const proxyUrl = `${BASE}/api/proxy-image?url=${encodeURIComponent(imgUrl)}`
+        let lastErr: unknown = null
+        for (let attempt = 0; attempt <= maxRetries; attempt++) {
+          try {
+            const controller = new AbortController()
+            const timer = setTimeout(() => controller.abort(), 20000)
+            const res = await fetch(proxyUrl, { signal: controller.signal })
+            clearTimeout(timer)
+            if (!res.ok) throw new Error(`HTTP ${res.status}`)
+            const buf = await res.arrayBuffer()
+            if (buf && buf.byteLength > 1000) return buf
+            throw new Error('Eksik görsel içeriği')
+          } catch (e) {
+            lastErr = e
+            if (attempt < maxRetries) {
+              await new Promise((r) => setTimeout(r, 600 * (attempt + 1)))
+            }
+          }
+        }
+        throw lastErr || new Error('Görsel indirilemedi')
+      }
+
       for (let i = 0; i < pages.length; i += concurrency) {
-        const chunkIndices = []
-        for (let c = i; c < Math.min(i + concurrency, pages.length); c++) chunkIndices.push(c)
+        const chunkIndices: number[] = []
+        for (let c = i; c < Math.min(i + concurrency, pages.length); c++) {
+          chunkIndices.push(c)
+        }
 
         await Promise.all(
           chunkIndices.map(async (idx) => {
             const p = pages[idx]
             try {
-              let ab: ArrayBuffer | null = null
-              try {
-                const res = await fetch(p.img)
-                if (res.ok) ab = await res.arrayBuffer()
-              } catch {
-                const proxyUrl = `${BASE}/api/proxy-image?url=${encodeURIComponent(p.img)}`
-                const pRes = await fetch(proxyUrl)
-                if (pRes.ok) ab = await pRes.arrayBuffer()
-              }
-              if (ab) downloadedBuffers[idx] = { arrayBuffer: ab }
+              const buf = await fetchPageBuffer(p.img)
+              downloadedBuffers[idx] = buf
             } catch (err) {
-              console.warn(`[Posta PDF] Sayfa ${p.page} atlandı:`, err)
+              console.warn(`[Posta PDF] Sayfa ${idx + 1} indirilemedi:`, err)
             } finally {
               loaded++
               setPostaPdfProgress(`(${loaded}/${pages.length})`)
@@ -190,16 +235,26 @@ export function GazetePage() {
         )
       }
 
-      setPostaPdfProgress('Birleştiriliyor...')
+      // 16 sayfanın eksiksiz indirildiğini doğrula!
+      const successfulBuffers = downloadedBuffers.filter((b): b is ArrayBuffer => Boolean(b))
+      if (successfulBuffers.length < pages.length) {
+        throw new Error(
+          `${pages.length} sayfanın yalnızca ${successfulBuffers.length} tanesi indirilebildi. Eksik PDF oluşturulmadı; lütfen tekrar deneyiniz.`
+        )
+      }
 
-      for (const entry of downloadedBuffers) {
-        if (!entry?.arrayBuffer) continue
+      setPostaPdfProgress('Sayfalar birleştiriliyor...')
+
+      for (let i = 0; i < downloadedBuffers.length; i++) {
+        const buf = downloadedBuffers[i]
+        if (!buf) continue
         try {
-          const jpg = await pdfDoc.embedJpg(entry.arrayBuffer)
+          const jpg = await pdfDoc.embedJpg(buf)
           const page = pdfDoc.addPage([jpg.width, jpg.height])
           page.drawImage(jpg, { x: 0, y: 0, width: jpg.width, height: jpg.height })
         } catch (embedErr) {
-          console.warn('[Posta PDF] Embed hatası:', embedErr)
+          console.warn(`[Posta PDF] Sayfa ${i + 1} embed hatası:`, embedErr)
+          throw new Error(`Sayfa ${i + 1} PDF'e dönüştürülemedi`)
         }
       }
 
@@ -208,6 +263,7 @@ export function GazetePage() {
       const url = URL.createObjectURL(blob)
 
       setPostaPdfBlobUrl(url)
+      setPostaPdfPageCount(pages.length)
       setPostaPdfStatus('ready')
 
       const a = document.createElement('a')
@@ -229,11 +285,89 @@ export function GazetePage() {
     const cur = activeCover.pageIndex ?? 0
     const next = cur + delta
     if (next < 0 || next >= activeCover.pages.length) return
+    resetZoomAndPan()
     setActiveCover({
       ...activeCover,
       pageIndex: next,
       fullUrl: activeCover.pages[next].img,
     })
+  }
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (e.button !== 0) return
+    setIsDragging(true)
+    dragStartRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      initialPanX: panOffset.x,
+      initialPanY: panOffset.y,
+    }
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return
+    const dx = e.clientX - dragStartRef.current.startX
+    const dy = e.clientY - dragStartRef.current.startY
+    setPanOffset({
+      x: dragStartRef.current.initialPanX + dx,
+      y: dragStartRef.current.initialPanY + dy,
+    })
+  }
+
+  const handleMouseUp = () => {
+    setIsDragging(false)
+  }
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 1) {
+      setIsDragging(true)
+      dragStartRef.current = {
+        startX: e.touches[0].clientX,
+        startY: e.touches[0].clientY,
+        initialPanX: panOffset.x,
+        initialPanY: panOffset.y,
+      }
+    }
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging || e.touches.length !== 1) return
+    const dx = e.touches[0].clientX - dragStartRef.current.startX
+    const dy = e.touches[0].clientY - dragStartRef.current.startY
+    setPanOffset({
+      x: dragStartRef.current.initialPanX + dx,
+      y: dragStartRef.current.initialPanY + dy,
+    })
+  }
+
+  const handleTouchEnd = () => {
+    setIsDragging(false)
+  }
+
+  const handleWheel = (e: React.WheelEvent) => {
+    if (e.ctrlKey) {
+      e.preventDefault()
+      const delta = e.deltaY > 0 ? -0.25 : 0.25
+      setZoomLevel((z) => {
+        const next = Math.max(0.75, Math.min(3.5, +(z + delta).toFixed(2)))
+        if (next <= 1) setPanOffset({ x: 0, y: 0 })
+        return next
+      })
+    } else if (zoomLevel > 1) {
+      e.preventDefault()
+      setPanOffset((p) => ({
+        x: p.x - (e.shiftKey ? e.deltaY : e.deltaX),
+        y: p.y - (e.shiftKey ? 0 : e.deltaY),
+      }))
+    }
+  }
+
+  const handleDoubleClick = () => {
+    if (zoomLevel > 1.1) {
+      zoomReset()
+    } else {
+      setZoomLevel(1.85)
+    }
   }
 
   // Klavyeden gezinme ve kapatma (Sol/Sağ ok ve Escape)
@@ -242,7 +376,7 @@ export function GazetePage() {
       if (!activeCover) return
       if (e.key === 'Escape') {
         setActiveCover(null)
-        setZoomLevel(1)
+        resetZoomAndPan()
       } else if (e.key === 'ArrowRight') {
         if (activeCover.pages && typeof activeCover.pageIndex === 'number') {
           stepPostaPage(1)
@@ -256,9 +390,11 @@ export function GazetePage() {
           goPrev()
         }
       } else if (e.key === '+' || e.key === '=') {
-        setZoomLevel((z) => Math.min(z + 0.25, 2.5))
+        zoomIn()
       } else if (e.key === '-') {
-        setZoomLevel((z) => Math.max(z - 0.25, 0.75))
+        zoomOut()
+      } else if (e.key === '0') {
+        zoomReset()
       }
     }
     window.addEventListener('keydown', onKeyDown)
@@ -278,6 +414,7 @@ export function GazetePage() {
     const list = activeCover.listType === 'tam' ? tamSayiList : (data.mansetler ?? [])
     const nextIdx = (activeCover.index + 1) % list.length
     const item = list[nextIdx]
+    resetZoomAndPan()
     if (activeCover.listType === 'tam') {
       const g = item as TamSayiGazete
       setActiveCover({
@@ -298,7 +435,6 @@ export function GazetePage() {
         listType: 'manset',
       })
     }
-    setZoomLevel(1)
   }
 
   function goPrev() {
@@ -306,6 +442,7 @@ export function GazetePage() {
     const list = activeCover.listType === 'tam' ? tamSayiList : (data.mansetler ?? [])
     const prevIdx = (activeCover.index - 1 + list.length) % list.length
     const item = list[prevIdx]
+    resetZoomAndPan()
     if (activeCover.listType === 'tam') {
       const g = item as TamSayiGazete
       setActiveCover({
@@ -326,7 +463,6 @@ export function GazetePage() {
         listType: 'manset',
       })
     }
-    setZoomLevel(1)
   }
 
   return (
@@ -408,7 +544,7 @@ export function GazetePage() {
                     <div
                       className="relative aspect-3/4 w-full cursor-pointer overflow-hidden bg-surface-2 sm:w-48 sm:shrink-0"
                       onClick={() => {
-                        setZoomLevel(1)
+                        resetZoomAndPan()
                         if (g.pages && g.pages.length > 0) {
                           setActiveCover({
                             name: g.name,
@@ -467,7 +603,7 @@ export function GazetePage() {
                             <button
                               type="button"
                               onClick={() => {
-                                setZoomLevel(1)
+                                resetZoomAndPan()
                                 setActiveCover({
                                   name: g.name,
                                   date: g.date,
@@ -620,7 +756,8 @@ export function GazetePage() {
               {mansetList.map((m, idx) => (
                 <div
                   key={m.slug || m.name}
-                  onClick={() =>
+                  onClick={() => {
+                    resetZoomAndPan()
                     setActiveCover({
                       name: m.name,
                       date: m.date,
@@ -628,7 +765,7 @@ export function GazetePage() {
                       index: idx,
                       listType: 'manset',
                     })
-                  }
+                  }}
                   className="group relative flex cursor-pointer flex-col overflow-hidden rounded-xl border border-line bg-surface p-2 shadow-2xs transition duration-200 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg"
                 >
                   <div className="relative aspect-3/4 w-full overflow-hidden rounded-lg bg-surface-2">
@@ -712,7 +849,7 @@ export function GazetePage() {
 
               <button
                 type="button"
-                onClick={() => setZoomLevel((z) => Math.max(z - 0.25, 0.75))}
+                onClick={zoomOut}
                 className="rounded-lg bg-white/10 p-2 text-white transition hover:bg-white/20"
                 title="Uzaklaştır (-)"
               >
@@ -720,7 +857,7 @@ export function GazetePage() {
               </button>
               <button
                 type="button"
-                onClick={() => setZoomLevel(1)}
+                onClick={zoomReset}
                 className="rounded-lg bg-white/10 px-2.5 py-1 text-xs text-white transition hover:bg-white/20"
                 title="Sıfırla"
               >
@@ -728,7 +865,7 @@ export function GazetePage() {
               </button>
               <button
                 type="button"
-                onClick={() => setZoomLevel((z) => Math.min(z + 0.25, 2.5))}
+                onClick={zoomIn}
                 className="rounded-lg bg-white/10 p-2 text-white transition hover:bg-white/20"
                 title="Yakınlaştır (+)"
               >
@@ -785,7 +922,7 @@ export function GazetePage() {
                 type="button"
                 onClick={() => {
                   setActiveCover(null)
-                  setZoomLevel(1)
+                  resetZoomAndPan()
                 }}
                 className="ml-2 rounded-lg bg-white/20 p-2 text-white transition hover:bg-white/30"
                 title="Kapat (Escape)"
@@ -814,27 +951,53 @@ export function GazetePage() {
             <Icon name="ChevronRight" size={24} />
           </button>
 
-          {/* Manşet Görseli (Kaydırılabilir & Yakınlaştırılabilir) */}
+          {/* Manşet Görseli (Kaydırılabilir & Yakınlaştırılabilir & Tutup Sürüklenebilir) */}
           <div
-            className="relative flex h-full w-full items-center justify-center overflow-auto pt-16 pb-8"
+            className="relative flex h-full w-full select-none items-center justify-center overflow-hidden pt-16 pb-8"
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onWheel={handleWheel}
             onClick={(e) => {
-              if (e.target === e.currentTarget) {
+              if (e.target === e.currentTarget && !isDragging) {
                 setActiveCover(null)
-                setZoomLevel(1)
+                resetZoomAndPan()
               }
             }}
+            style={{
+              cursor: zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
+            }}
           >
-            <img
-              src={activeCover.fullUrl}
-              alt={`${activeCover.name} Gazete Manşeti`}
+            {zoomLevel > 1 && (
+              <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full bg-black/75 px-3 py-1 text-[0.7rem] font-medium text-white/90 shadow-lg backdrop-blur-md">
+                Tutup sürükleyerek veya fare tekerleğiyle sayfada gezinebilirsiniz
+              </div>
+            )}
+            <div
               style={{
-                transform: `scale(${zoomLevel})`,
-                transition: 'transform 0.15s ease-out',
-                maxWidth: '92vw',
-                maxHeight: '85vh',
+                transform: `translate3d(${panOffset.x}px, ${panOffset.y}px, 0) scale(${zoomLevel})`,
+                transformOrigin: 'center center',
+                transition: isDragging ? 'none' : 'transform 0.12s ease-out',
+                willChange: 'transform',
               }}
-              className="rounded-md object-contain shadow-2xl select-none"
-            />
+              className="flex items-center justify-center"
+              onDoubleClick={handleDoubleClick}
+            >
+              <img
+                src={activeCover.fullUrl}
+                alt={`${activeCover.name} Gazete Manşeti`}
+                draggable={false}
+                style={{
+                  maxWidth: '92vw',
+                  maxHeight: '85vh',
+                }}
+                className="pointer-events-none select-none rounded-md object-contain shadow-2xl"
+              />
+            </div>
           </div>
         </div>
       )}
