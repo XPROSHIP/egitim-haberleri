@@ -13970,6 +13970,45 @@
     "lang": "en"
   },
   {
+    "id": "f_wohgo6_mvvgkkuz",
+    "slug": "yabanci-k-12-siniflarinda-yapay-zekanin-temel-altyapisini-kim-insa-e-wohgo6",
+    "title": "K-12 Sınıflarında Yapay Zekanın Temel Altyapısını Kim İnşa Ediyor ve Standartları Belirliyor?",
+    "excerpt": "Learning Commons tarafından geliştirilen yeni açık platformun, eğitim teknolojisi şirketlerine ve okullara yapay zeka entegrasyonunda nasıl rehberlik edebileceği masaya yatırılıyor.",
+    "body": [
+      "Learning Commons'ın yeni açık platformunun eğitim teknolojisi şirketlerine ve okullara teknolojiyi uygulamada nasıl yardımcı olabileceği ele alınıyor.",
+      "Yapay zeka araçları artık saniyeler içinde bir ders içeriği oluşturabiliyor ve sonuçlar genellikle kulağa ikna edici geliyor. Ancak öğretmenler ve bölge yöneticileri, üretilen içeriğin eyalet standartlarıyla ya da araştırmaların öğrencilerin nasıl öğrendiğine dair ortaya koyduğu bulgularla uyumlu olup olmadığını teyit edecek güvenilir bir yöntemden hala yoksun bulunuyor. Chan Zuckerberg Girişimi tarafından desteklenen kâr amacı gütmeyen Learning Commons kuruluşu, yeni kullanıma sunduğu açık platform sayesinde bu eksik temeli inşa ettiğine inanıyor. Aralarında OpenAI ve Anthropic'in de yer aldığı 70'ten fazla ortak bu girişime katıldı. Fakat açık altyapı sınıflara girdikçe bazı eğitimciler şu kritik soruyu soruyor: K-12 düzeyindeki yapay zekanın temellerini kim atacak?",
+      "Sandra ayrıca, eyalet standartlarına uyum sağladığını iddia eden bir yapay zeka tedarikçisine her bölge yöneticisinin sorması gerektiğine inandığı temel soruları; verilerin kaynağından ve güncelleme sıklığından, eyalet standartlarının araçlarının temel dayanağını oluşturup oluşturmadığına kadar detaylarıyla paylaşıyor.",
+      "Açıklama: Learning Commons, EdSurge'ün maddi destekçilerinden biridir. Bu yayın bağımsız olarak EdSurge tarafından hazırlanmıştır ve Learning Commons'ın yayının kaydı, yapımı veya kurgusu üzerinde hiçbir editoryal rolü ya da etkisi bulunmamaktadır.",
+      "EdSurge tarafından hazırlanan haftalık bir podcast yayınıdır. Eğitim ve teknoloji üzerine daha fazla haber ve analiz için EdSurge bültenlerine abone olabilirsiniz.",
+      "EdSurge'ün işleyişi, etik ilkeleri ve politikaları hakkında daha fazla bilgiyi buradan edinebilirsiniz. EdSurge'ün destekçileri hakkında daha fazla bilgiyi buradan edinebilirsiniz.",
+      "Bir Okul Müdürü ve Bir Öğrenci Gençler İçin Geliştirilen Yeni ChatGPT'yi İnceledi: Söyleyecek Çok Şeyleri Vardı",
+      "New York ve Los Angeles Öğrencilere Yönelik Yapay Zekayı (Şimdilik) Yasakladı. Diğer Okullar da Bu Adımı Takip Etmeli mi?"
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "YAPAY ZEKA",
+      "EĞİTİM TEKNOLOJİSİ",
+      "K-12 EĞİTİMİ"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://www.edsurge.com/news/who-is-building-the-ai-foundation-for-k-12-classrooms",
+      "image": "/img/who-s-building-the-a-foundation-for-k-12-classrooms-nikvfw.jpg"
+    },
+    "publishedAt": "2026-10-14T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:wohgo6",
+    "rawTitle": "Who Is Building the AI Foundation for K-12 Classrooms?",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "f_16k550a_mvva45x1",
     "slug": "yabanci-teknoloji-bagimliligi-hem-ogrencim-hem-de-benim-icin-ciddi-b-16k550",
     "title": "Teknoloji bağımlılığı hem öğrencim hem de benim için ciddi bir sorundu",
