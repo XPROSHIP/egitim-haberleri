@@ -14,6 +14,8 @@ export function GazetePage() {
     pdfUrl?: string
     index: number
     listType: 'tam' | 'manset'
+    pages?: { page: number; img: string; thumb: string }[]
+    pageIndex?: number
   } | null>(null)
 
   const [zoomLevel, setZoomLevel] = useState<number>(1)
@@ -127,6 +129,113 @@ export function GazetePage() {
     }
   }
 
+  // Posta Gazetesi PDF Birleştirici Durumları
+  const [postaPdfStatus, setPostaPdfStatus] = useState<'idle' | 'loading' | 'ready'>('idle')
+  const [postaPdfProgress, setPostaPdfProgress] = useState('')
+  const [postaPdfBlobUrl, setPostaPdfBlobUrl] = useState<string | null>(null)
+
+  const handleDownloadPostaPdf = async (g: TamSayiGazete) => {
+    if (postaPdfStatus === 'ready' && postaPdfBlobUrl) {
+      const a = document.createElement('a')
+      a.href = postaPdfBlobUrl
+      a.download = `Posta Gazetesi - ${g.date}.pdf`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      return
+    }
+
+    if (postaPdfStatus === 'loading') return
+
+    const pages = g.pages || []
+    if (pages.length === 0) return
+
+    try {
+      setPostaPdfStatus('loading')
+      setPostaPdfProgress(`(1/${pages.length})`)
+
+      const { PDFDocument } = await import('pdf-lib')
+      const pdfDoc = await PDFDocument.create()
+
+      const downloadedBuffers: { arrayBuffer: ArrayBuffer }[] = new Array(pages.length)
+      let loaded = 0
+      const concurrency = 6
+      const BASE = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '')
+
+      for (let i = 0; i < pages.length; i += concurrency) {
+        const chunkIndices = []
+        for (let c = i; c < Math.min(i + concurrency, pages.length); c++) chunkIndices.push(c)
+
+        await Promise.all(
+          chunkIndices.map(async (idx) => {
+            const p = pages[idx]
+            try {
+              let ab: ArrayBuffer | null = null
+              try {
+                const res = await fetch(p.img)
+                if (res.ok) ab = await res.arrayBuffer()
+              } catch {
+                const proxyUrl = `${BASE}/api/proxy-image?url=${encodeURIComponent(p.img)}`
+                const pRes = await fetch(proxyUrl)
+                if (pRes.ok) ab = await pRes.arrayBuffer()
+              }
+              if (ab) downloadedBuffers[idx] = { arrayBuffer: ab }
+            } catch (err) {
+              console.warn(`[Posta PDF] Sayfa ${p.page} atlandı:`, err)
+            } finally {
+              loaded++
+              setPostaPdfProgress(`(${loaded}/${pages.length})`)
+            }
+          }),
+        )
+      }
+
+      setPostaPdfProgress('Birleştiriliyor...')
+
+      for (const entry of downloadedBuffers) {
+        if (!entry?.arrayBuffer) continue
+        try {
+          const jpg = await pdfDoc.embedJpg(entry.arrayBuffer)
+          const page = pdfDoc.addPage([jpg.width, jpg.height])
+          page.drawImage(jpg, { x: 0, y: 0, width: jpg.width, height: jpg.height })
+        } catch (embedErr) {
+          console.warn('[Posta PDF] Embed hatası:', embedErr)
+        }
+      }
+
+      const pdfBytes = await pdfDoc.save()
+      const blob = new Blob([pdfBytes as unknown as BlobPart], { type: 'application/pdf' })
+      const url = URL.createObjectURL(blob)
+
+      setPostaPdfBlobUrl(url)
+      setPostaPdfStatus('ready')
+
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `Posta Gazetesi - ${g.date}.pdf`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err)
+      console.error('[Posta PDF] Hata:', err)
+      setPostaPdfStatus('idle')
+      alert(`Posta PDF hazırlanamadı: ${msg || 'Bilinmeyen hata'}`)
+    }
+  }
+
+  function stepPostaPage(delta: number) {
+    if (!activeCover?.pages) return
+    const cur = activeCover.pageIndex ?? 0
+    const next = cur + delta
+    if (next < 0 || next >= activeCover.pages.length) return
+    setActiveCover({
+      ...activeCover,
+      pageIndex: next,
+      fullUrl: activeCover.pages[next].img,
+    })
+  }
+
   // Klavyeden gezinme ve kapatma (Sol/Sağ ok ve Escape)
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
@@ -135,9 +244,17 @@ export function GazetePage() {
         setActiveCover(null)
         setZoomLevel(1)
       } else if (e.key === 'ArrowRight') {
-        goNext()
+        if (activeCover.pages && typeof activeCover.pageIndex === 'number') {
+          stepPostaPage(1)
+        } else {
+          goNext()
+        }
       } else if (e.key === 'ArrowLeft') {
-        goPrev()
+        if (activeCover.pages && typeof activeCover.pageIndex === 'number') {
+          stepPostaPage(-1)
+        } else {
+          goPrev()
+        }
       } else if (e.key === '+' || e.key === '=') {
         setZoomLevel((z) => Math.min(z + 0.25, 2.5))
       } else if (e.key === '-') {
@@ -281,7 +398,7 @@ export function GazetePage() {
                 <span className="text-xs font-medium text-muted">Tam baskı, tüm sayfalar</span>
               </div>
 
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {tamSayiList.map((g, idx) => (
                   <div
                     key={g.id || g.name}
@@ -290,16 +407,29 @@ export function GazetePage() {
                     {/* Dikey Kapak Görseli */}
                     <div
                       className="relative aspect-3/4 w-full cursor-pointer overflow-hidden bg-surface-2 sm:w-48 sm:shrink-0"
-                      onClick={() =>
-                        setActiveCover({
-                          name: g.name,
-                          date: g.date,
-                          fullUrl: g.thumb,
-                          pdfUrl: g.pdf,
-                          index: idx,
-                          listType: 'tam',
-                        })
-                      }
+                      onClick={() => {
+                        setZoomLevel(1)
+                        if (g.pages && g.pages.length > 0) {
+                          setActiveCover({
+                            name: g.name,
+                            date: g.date,
+                            fullUrl: g.pages[0].img,
+                            index: idx,
+                            listType: 'tam',
+                            pages: g.pages,
+                            pageIndex: 0,
+                          })
+                        } else {
+                          setActiveCover({
+                            name: g.name,
+                            date: g.date,
+                            fullUrl: g.thumb,
+                            pdfUrl: g.pdf,
+                            index: idx,
+                            listType: 'tam',
+                          })
+                        }
+                      }}
                     >
                       <img
                         src={g.thumb}
@@ -332,7 +462,57 @@ export function GazetePage() {
                       </div>
 
                       <div className="mt-6 flex flex-wrap items-center gap-2.5 border-t border-line-soft pt-4">
-                        {g.pdf ? (
+                        {g.pages && g.pages.length > 0 ? (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setZoomLevel(1)
+                                setActiveCover({
+                                  name: g.name,
+                                  date: g.date,
+                                  fullUrl: g.pages![0].img,
+                                  index: idx,
+                                  listType: 'tam',
+                                  pages: g.pages,
+                                  pageIndex: 0,
+                                })
+                              }}
+                              className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-accent/90"
+                            >
+                              <Icon name="BookOpen" size={14} />
+                              <span>Gazeteyi Oku ({g.pages.length} Sayfa)</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleDownloadPostaPdf(g)}
+                              disabled={postaPdfStatus === 'loading'}
+                              className={clsx(
+                                'inline-flex items-center justify-center gap-1.5 rounded-lg border border-line px-3 py-2 text-xs font-semibold transition',
+                                postaPdfStatus === 'ready'
+                                  ? 'bg-emerald-600 text-white hover:bg-emerald-700'
+                                  : 'bg-surface-2 text-fg hover:bg-surface-3',
+                              )}
+                              title="Tüm Sayfaları PDF Olarak İndir"
+                            >
+                              <Icon
+                                name={
+                                  postaPdfStatus === 'loading'
+                                    ? 'Clock'
+                                    : postaPdfStatus === 'ready'
+                                      ? 'CheckCircle'
+                                      : 'Download'
+                                }
+                                size={14}
+                              />
+                              <span className="hidden sm:inline">
+                                {postaPdfStatus === 'idle' && 'İndir'}
+                                {postaPdfStatus === 'loading' && postaPdfProgress}
+                                {postaPdfStatus === 'ready' && 'İndir'}
+                              </span>
+                            </button>
+                          </>
+                        ) : g.pdf ? (
                           <>
                             <a
                               href={g.pdf}
@@ -489,16 +669,47 @@ export function GazetePage() {
       {/* LIGHTBOX / MANŞET BÜYÜTÜCÜ MODAL */}
       {activeCover && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-2 backdrop-blur-xs sm:p-4">
-          {/* Üst Bar: Başlık, Yakınlaştırma ve Kapatma */}
+          {/* Üst Bar: Başlık, Sayfa Göstergesi, Yakınlaştırma ve Kapatma */}
           <div className="absolute top-0 right-0 left-0 z-10 flex items-center justify-between border-b border-white/10 bg-black/60 px-4 py-3 text-white backdrop-blur-md">
             <div className="flex items-center gap-3">
               <span className="rounded-md bg-accent px-2 py-0.5 text-xs font-bold tracking-wide text-white uppercase">
                 {activeCover.name}
               </span>
               <span className="text-xs text-white/70">{activeCover.date}</span>
+              {activeCover.pages && (
+                <span className="rounded-full bg-white/20 px-2.5 py-0.5 text-xs font-semibold text-white">
+                  Sayfa {(activeCover.pageIndex ?? 0) + 1} / {activeCover.pages.length}
+                </span>
+              )}
             </div>
 
             <div className="flex items-center gap-2">
+              {activeCover.pages && (
+                <div className="mr-2 flex items-center gap-1 rounded-lg bg-white/10 p-1">
+                  <button
+                    type="button"
+                    onClick={() => stepPostaPage(-1)}
+                    disabled={(activeCover.pageIndex ?? 0) <= 0}
+                    className="rounded p-1 text-white hover:bg-white/20 disabled:opacity-40"
+                    title="Önceki Sayfa (Sol Ok)"
+                  >
+                    <Icon name="ChevronLeft" size={16} />
+                  </button>
+                  <span className="px-1 text-xs font-medium">
+                    {(activeCover.pageIndex ?? 0) + 1} / {activeCover.pages.length}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => stepPostaPage(1)}
+                    disabled={(activeCover.pageIndex ?? 0) >= activeCover.pages.length - 1}
+                    className="rounded p-1 text-white hover:bg-white/20 disabled:opacity-40"
+                    title="Sonraki Sayfa (Sağ Ok)"
+                  >
+                    <Icon name="ChevronRight" size={16} />
+                  </button>
+                </div>
+              )}
+
               <button
                 type="button"
                 onClick={() => setZoomLevel((z) => Math.max(z - 0.25, 0.75))}
@@ -530,10 +741,34 @@ export function GazetePage() {
                 rel="noreferrer"
                 download
                 className="rounded-lg bg-white/10 p-2 text-white transition hover:bg-white/20"
-                title="Resmi İndir / Yeni Sekmede Aç"
+                title="Bu Sayfayı İndir (JPG)"
               >
                 <Icon name="Download" size={16} />
               </a>
+
+              {activeCover.pages && activeCover.pages.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const currentGazete = tamSayiList.find((g) => g.name === activeCover.name)
+                    if (currentGazete) handleDownloadPostaPdf(currentGazete)
+                  }}
+                  disabled={postaPdfStatus === 'loading'}
+                  className={clsx(
+                    'rounded-lg px-3 py-1.5 text-xs font-semibold text-white shadow-xs transition',
+                    postaPdfStatus === 'ready'
+                      ? 'bg-emerald-600 hover:bg-emerald-700'
+                      : 'bg-accent hover:bg-accent/90',
+                  )}
+                  title="Tüm Sayfaları PDF Olarak İndir"
+                >
+                  {postaPdfStatus === 'loading'
+                    ? `İndiriliyor ${postaPdfProgress}`
+                    : postaPdfStatus === 'ready'
+                      ? 'PDF İndirildi (Tekrar İndir)'
+                      : 'Tam PDF İndir'}
+                </button>
+              )}
 
               {activeCover.pdfUrl && (
                 <a
@@ -563,18 +798,18 @@ export function GazetePage() {
           {/* Sol / Sağ Gezinme Düğmeleri */}
           <button
             type="button"
-            onClick={goPrev}
+            onClick={activeCover.pages ? () => stepPostaPage(-1) : goPrev}
             className="absolute left-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-black/60 text-white shadow-lg backdrop-blur-md transition hover:bg-black/90 hover:scale-105"
-            title="Önceki Gazete (Sol Ok)"
+            title={activeCover.pages ? 'Önceki Sayfa (Sol Ok)' : 'Önceki Gazete (Sol Ok)'}
           >
             <Icon name="ChevronLeft" size={24} />
           </button>
 
           <button
             type="button"
-            onClick={goNext}
+            onClick={activeCover.pages ? () => stepPostaPage(1) : goNext}
             className="absolute right-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-black/60 text-white shadow-lg backdrop-blur-md transition hover:bg-black/90 hover:scale-105"
-            title="Sonraki Gazete (Sağ Ok)"
+            title={activeCover.pages ? 'Sonraki Sayfa (Sağ Ok)' : 'Sonraki Gazete (Sağ Ok)'}
           >
             <Icon name="ChevronRight" size={24} />
           </button>

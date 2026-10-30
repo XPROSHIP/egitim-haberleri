@@ -357,6 +357,12 @@ export async function askAssistant(
   throw lastErr || new Error('Asistan şu an yanıt veremiyor.')
 }
 
+export interface GazetePageItem {
+  page: number
+  img: string
+  thumb: string
+}
+
 export interface TamSayiGazete {
   id: string
   name: string
@@ -364,6 +370,8 @@ export interface TamSayiGazete {
   date: string
   thumb: string
   pdf: string
+  pageCount?: number
+  pages?: GazetePageItem[]
 }
 
 export interface MansetGazete {

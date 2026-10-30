@@ -111,6 +111,22 @@ const FALLBACK_MANSETLER = {
   },
 }
 
+// Türkçe aylar
+const TR_MONTHS = [
+  'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+  'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık',
+]
+
+function formatTurkishDate(dateStr) {
+  const parts = dateStr.split('-')
+  if (parts.length !== 3) return dateStr
+  const year = parts[0]
+  const month = parseInt(parts[1], 10)
+  const day = parseInt(parts[2], 10)
+  const monthName = TR_MONTHS[month - 1] || parts[1]
+  return `${day} ${monthName} ${year}`
+}
+
 /** Akşam gazetesinin en güncel sayısını esmedya üzerinden bulur. */
 async function fetchAksam() {
   for (let id = 17280; id >= 17268; id--) {
@@ -177,6 +193,62 @@ async function fetchCumhuriyet() {
     } catch {}
   }
   return null
+}
+
+/** Posta gazetesinin en güncel tam sayısını Voltran e-Gazete API'sinden çeker. */
+async function fetchPosta() {
+  try {
+    const deviceId = 'a1b2c3d4e5f60718'
+    const pubUrl = `https://voltran-egazeteapi.hurriyet.com.tr/api/v1/content/publication/?appcode=posta&deviceid=${deviceId}&machine=Samsung&model=SM-S918B&platform=android&userid=null&ssoid=null`
+    const pubRes = await fetch(pubUrl, {
+      headers: { 'User-Agent': 'okhttp/4.9.1', Accept: 'application/json' },
+    })
+    if (!pubRes.ok) return null
+    const pubData = await pubRes.json()
+    const latestIssue = pubData?.latestIssue
+    if (!latestIssue) return null
+
+    const issueUrl = `https://voltran-egazeteapi.hurriyet.com.tr/api/v1/content/issue/?appcode=posta&deviceid=${deviceId}&machine=Samsung&model=SM-S918B&platform=android&userid=null&ssoid=null&issue=${latestIssue}`
+    const issueRes = await fetch(issueUrl, {
+      headers: { 'User-Agent': 'okhttp/4.9.1', Accept: 'application/json' },
+    })
+    if (!issueRes.ok) return null
+    const issueData = await issueRes.json()
+
+    const parts = issueData?.parts || []
+    const mainPart = parts[0]
+    const rawPages = mainPart?.pages || []
+    if (rawPages.length === 0) return null
+
+    const pages = rawPages.map((p) => {
+      let highUrl = p.fullNameUrl || ''
+      if (!highUrl && p.fullThumbNameUrl) {
+        highUrl = p.fullThumbNameUrl.replace('/90/0x300/', '/80/1433x2424/').replace('/0x300/', '/1433x2424/')
+      }
+      return {
+        page: p.page,
+        img: highUrl.replace('http://', 'https://'),
+        thumb: (p.fullThumbNameUrl || highUrl).replace('http://', 'https://'),
+      }
+    })
+
+    const formattedDate = formatTurkishDate(latestIssue)
+    const coverThumb = pages[0]?.thumb || pages[0]?.img || ''
+
+    return {
+      id: `posta_${latestIssue}`,
+      name: 'Posta',
+      title: 'Posta Gazetesi',
+      date: formattedDate,
+      thumb: coverThumb,
+      pdf: '',
+      pageCount: pages.length,
+      pages,
+    }
+  } catch (err) {
+    console.warn('[gazeteler] Posta cekilemedi:', String(err?.message ?? err).slice(0, 100))
+    return null
+  }
 }
 
 /** Gazeteoku ve ilgili kaynaklardan günün manşetlerini derler. */
@@ -269,15 +341,17 @@ export async function getGazeteler(env) {
     }
   }
 
-  const [aksam, cumhuriyet, mansetler] = await Promise.all([
+  const [aksam, cumhuriyet, posta, mansetler] = await Promise.all([
     fetchAksam().catch(() => null),
     fetchCumhuriyet().catch(() => null),
+    fetchPosta().catch(() => null),
     fetchMansetler(prevMap).catch(() => []),
   ])
 
   const tamSayiList = [
     aksam || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Akşam'),
     cumhuriyet || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Cumhuriyet'),
+    posta || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Posta'),
   ].filter(Boolean)
 
   const payload = {
@@ -299,22 +373,6 @@ export async function getGazeteler(env) {
   }
 
   return payload
-}
-
-// Türkçe aylar
-const TR_MONTHS = [
-  'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
-  'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık',
-]
-
-function formatTurkishDate(dateStr) {
-  const parts = dateStr.split('-')
-  if (parts.length !== 3) return dateStr
-  const year = parts[0]
-  const month = parseInt(parts[1], 10)
-  const day = parseInt(parts[2], 10)
-  const monthName = TR_MONTHS[month - 1] || parts[1]
-  return `${day} ${monthName} ${year}`
 }
 
 /**
