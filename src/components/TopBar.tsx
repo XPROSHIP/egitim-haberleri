@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+﻿import { useEffect, useRef, useState } from 'react'
 import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
@@ -235,6 +235,20 @@ export function TopBar({
                   {c.name}
                 </NavLink>
               ))}
+                            <NavLink
+                to="/kose"
+                className={({ isActive }) =>
+                  clsx(
+                    'flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-[0.8125rem] font-medium transition',
+                    isActive
+                      ? 'bg-fg text-bg'
+                      : 'text-muted hover:bg-surface-2 hover:text-fg',
+                  )
+                }
+              >
+                <Icon name="Feather" size={14} />
+                Köşe Yazıları
+              </NavLink>
               <NavLink
                 to="/kategoriler"
                 className={({ isActive }) =>

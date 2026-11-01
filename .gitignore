@@ -36,3 +36,5 @@ worker/.collect-secret
 !.dev.vars.example
 __pycache__/
 *.pyc
+
+backups/

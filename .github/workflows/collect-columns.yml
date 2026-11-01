@@ -1,0 +1,36 @@
+﻿# Günde 2 kez (sabah 08:00 ve akşam 20:00 TSİ) eğitim köşe yazılarını derler.
+name: Köşe Yazıları Topla
+
+on:
+  schedule:
+    # 05:00 ve 17:00 UTC -> 08:00 ve 20:00 TSİ
+    - cron: '0 5,17 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: collect-columns
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  collect-columns:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Bağımlılıkları kur
+        run: npm ci
+
+      - name: Köşe yazılarını topla ve API'ye aktar
+        env:
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
+          COLLECT_SECRET: ${{ secrets.COLLECT_SECRET }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+        run: node worker/scripts/collect-columns.mjs

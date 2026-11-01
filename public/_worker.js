@@ -55,6 +55,19 @@ const dayKey = () => new Date().toISOString().slice(0, 10)
 
 /* ── Veritabanı ─────────────────────────────────────────────────────────── */
 
+async function findColumnArticle(env, slug) {
+  try {
+    return await env.DB.prepare(
+      `SELECT slug, title, excerpt, body, author_name, author_image, source_name, source_url, published_at
+       FROM column_articles WHERE slug = ? LIMIT 1`,
+    )
+      .bind(slug)
+      .first()
+  } catch {
+    return null
+  }
+}
+
 async function findArticle(env, slug) {
   try {
     return await env.DB.prepare(
@@ -536,9 +549,10 @@ export default {
     }
 
     // Meta yazımı yalnızca haber ve kategori adreslerinde gerekir.
+        const colArticle = pathname.match(/^\/kose\/([^/]+)$/)
     const article = pathname.match(/^\/haber\/([^/]+)$/)
     const cat = pathname.match(/^\/kategori\/([^/]+)$/)
-    if (!article && !cat) {
+    if (!article && !cat && !colArticle) {
       // Dosya uzantısı olan bilinmeyen bir yol (mp3, mp4, pdf, zip...):
       // SPA kabuğu DEĞİL, temiz 404 dönsün. Aksi halde indirilen dosyanın
       // içine HTML yazılıyor.
@@ -565,6 +579,19 @@ export default {
         meta = articleMeta(a, site, api)
         pre = prerenderArticle(a, site, api)
         await track(env, `/haber/${a.slug}`)
+      }
+    } else if (colArticle) {
+      const c = await findColumnArticle(env, decodeURIComponent(colArticle[1]))
+      if (c) {
+        meta = {
+          title: `${c.title} — ${c.author_name} | Eğitim Köşe Yazıları`,
+          description: c.excerpt || `${c.author_name} tarafından kaleme alınan eğitim köşe yazısı.`,
+          canonical: `${site}/kose/${c.slug}`,
+          image: c.author_image || `${site}/icon-512.png`,
+          type: 'article',
+          publishedAt: c.published_at,
+        }
+        await track(env, `/kose/${c.slug}`)
       }
     } else {
       meta = categoryMeta(decodeURIComponent(cat[1]), site, api)

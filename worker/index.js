@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Cloudflare Worker — Eğitim Haberleri
  *
  *  · GET  /api/news        → yayındaki haberler (CDN önbellekli)
@@ -26,6 +26,8 @@ import {
   searchNews,
 } from './src/assistant.js'
 import { getGazeteler, getGztMansetler } from './src/gazeteler.js'
+import { createColumnsStore } from './src/columns.js'
+
 
 /**
  * CORS basliklari istege gore uretilir.
@@ -49,6 +51,11 @@ const json = (body, status = 200, extra = {}, cors = {}) =>
     status,
     headers: { 'content-type': 'application/json; charset=utf-8', ...cors, ...extra },
   })
+
+function columnsStore(env) {
+  if (env.DB) return createColumnsStore(env.DB)
+  return null
+}
 
 function store(env) {
   if (env.DB) return createD1Store(env.DB)
@@ -1298,6 +1305,67 @@ export default {
       if (!authorized(request, env)) return reply({ error: 'unauthorized' }, 401)
       const result = await dispatchCollect(env)
       return reply(result, result.ok ? 200 : 502)
+    }
+
+    if (url.pathname === '/api/columns/authors' && request.method === 'GET') {
+      const cs = columnsStore(env)
+      if (!cs) return reply({ authors: [] })
+      const authors = await cs.listAuthors()
+      return reply({ authors }, 200, { 'cache-control': 'public, max-age=600' })
+    }
+
+    if (url.pathname === '/api/columns' && request.method === 'GET') {
+      const cs = columnsStore(env)
+      if (!cs) return reply({ items: [], total: 0 })
+      const author = url.searchParams.get('author') || ''
+      const q = url.searchParams.get('q') || ''
+      const limit = Math.min(Number(url.searchParams.get('limit') || 30), 100)
+      const offset = Number(url.searchParams.get('offset') || 0)
+      const includeBody = url.searchParams.get('include_body') === '1'
+      const data = await cs.list({ author, q, limit, offset, includeBody })
+      return reply(data, 200, { 'cache-control': 'public, max-age=120, stale-while-revalidate=600' })
+    }
+
+    if (url.pathname.startsWith('/api/columns/') && request.method === 'GET') {
+      const slug = decodeURIComponent(url.pathname.slice('/api/columns/'.length))
+      const cs = columnsStore(env)
+      if (!cs) return reply({ error: 'not_found' }, 404)
+      const row = await cs.bySlug(slug)
+      if (!row) return reply({ error: 'not_found' }, 404)
+      return reply(row, 200, { 'cache-control': 'public, max-age=300' })
+    }
+
+    if (url.pathname === '/api/collect-columns' && request.method === 'POST') {
+      if (!authorized(request, env)) return reply({ error: 'unauthorized' }, 401)
+      const cs = columnsStore(env)
+      if (!cs) return reply({ error: 'no_db' }, 500)
+      let payload
+      try {
+        payload = await request.json()
+      } catch {
+        return reply({ error: 'invalid_json' }, 400)
+      }
+      const items = Array.isArray(payload?.items) ? payload.items : []
+      if (items.length === 0) return reply({ ok: true, inserted: 0, skipped: 0 })
+      const CHUNK = 50
+      let inserted = 0
+      let skipped = 0
+      for (let i = 0; i < items.length; i += CHUNK) {
+        const chunk = items.slice(i, i + CHUNK)
+        const result = await cs.upsert(chunk)
+        inserted += result.inserted
+        skipped += result.skipped
+      }
+      console.log(`[worker:columns] ${inserted} yeni kose yazisi, ${skipped} tekrar`)
+      return reply({ ok: true, inserted, skipped })
+    }
+
+    if (url.pathname === '/api/column-like' && request.method === 'POST') {
+      const { id } = await request.json().catch(() => ({}))
+      if (!id) return reply({ error: 'missing_id' }, 400)
+      await env.DB.prepare('UPDATE column_articles SET likes = likes + 1 WHERE id = ?').bind(id).run()
+      const row = await env.DB.prepare('SELECT likes FROM column_articles WHERE id = ?').bind(id).first()
+      return reply({ ok: true, likes: row?.likes ?? 0 })
     }
 
     if (url.pathname === '/api/news') {

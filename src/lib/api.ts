@@ -509,3 +509,85 @@ export function useProvinces() {
 }
 
 export { categories }
+
+import type { ColumnArticle, ColumnAuthor } from '../types'
+
+export async function fetchColumns({ author = '', q = '', limit = 30, offset = 0 } = {}): Promise<{ items: ColumnArticle[]; total: number }> {
+  if (!BASE) return { items: [], total: 0 }
+  try {
+    const params = new URLSearchParams()
+    if (author) params.set('author', author)
+    if (q) params.set('q', q)
+    params.set('limit', String(limit))
+    params.set('offset', String(offset))
+    const res = await fetch(`${BASE}/api/columns?${params.toString()}`)
+    if (!res.ok) throw new Error(String(res.status))
+    return await res.json()
+  } catch {
+    return { items: [], total: 0 }
+  }
+}
+
+export function useColumns(options: { author?: string; q?: string; limit?: number; offset?: number } = {}) {
+  return useQuery({
+    queryKey: ['columns', options.author ?? '', options.q ?? '', options.limit ?? 30, options.offset ?? 0],
+    queryFn: () => fetchColumns(options),
+    staleTime: 60_000,
+  })
+}
+
+export async function fetchColumnArticle(slug: string): Promise<ColumnArticle | null> {
+  if (!BASE || !slug) return null
+  try {
+    const res = await fetch(`${BASE}/api/columns/${encodeURIComponent(slug)}`)
+    if (!res.ok) return null
+    return await res.json()
+  } catch {
+    return null
+  }
+}
+
+export function useColumnArticle(slug: string | undefined) {
+  return useQuery({
+    queryKey: ['column', slug],
+    queryFn: () => (slug ? fetchColumnArticle(slug) : null),
+    enabled: Boolean(slug),
+    staleTime: 120_000,
+  })
+}
+
+export async function fetchColumnAuthors(): Promise<ColumnAuthor[]> {
+  if (!BASE) return []
+  try {
+    const res = await fetch(`${BASE}/api/columns/authors`)
+    if (!res.ok) return []
+    const data = await res.json()
+    return data.authors || []
+  } catch {
+    return []
+  }
+}
+
+export function useColumnAuthors() {
+  return useQuery({
+    queryKey: ['columns', 'authors'],
+    queryFn: fetchColumnAuthors,
+    staleTime: 300_000,
+  })
+}
+
+export async function likeColumnArticle(id: string): Promise<number | null> {
+  if (!BASE || !id) return null
+  try {
+    const res = await fetch(`${BASE}/api/column-like`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ id }),
+    })
+    if (!res.ok) return null
+    const data = await res.json()
+    return data.likes ?? null
+  } catch {
+    return null
+  }
+}

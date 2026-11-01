@@ -87,3 +87,32 @@ export type CollectorRun = {
   published: number
   errors: string[]
 }
+
+export type ColumnArticle = {
+  id: string
+  slug: string
+  title: string
+  author_name: string
+  author_image?: string | null
+  author_title?: string | null
+  source_name: string
+  source_url: string
+  excerpt: string
+  body?: string[]
+  published_at: string
+  views: number
+  likes: number
+  lang: string
+  original_lang?: string | null
+  translated: number
+  tags: string[]
+  created_at?: string
+}
+
+export type ColumnAuthor = {
+  name: string
+  image?: string | null
+  source: string
+  count: number
+  last_published?: string
+}
