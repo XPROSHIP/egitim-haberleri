@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useParams, Link, useNavigate, useSearchParams } from 'react-router-dom'
 import clsx from 'clsx'
 import {
   useColumns,
@@ -21,23 +21,51 @@ export function KosePage() {
 }
 
 function ColumnList() {
-  const [selectedAuthor, setSelectedAuthor] = useState<string>('')
-  const [searchQuery, setSearchQuery] = useState<string>('')
-  const [debouncedQ, setDebouncedQ] = useState<string>('')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const initialQ = searchParams.get('q') || searchParams.get('tag') || ''
+  const initialAuthor = searchParams.get('author') || ''
+
+  const [selectedAuthor, setSelectedAuthor] = useState<string>(initialAuthor)
+  const [searchQuery, setSearchQuery] = useState<string>(initialQ)
+  const [debouncedQ, setDebouncedQ] = useState<string>(initialQ)
+
+  // URL'deki tag veya q parametresi değiştiğinde güncelle
+  useEffect(() => {
+    const qParam = searchParams.get('q') || searchParams.get('tag') || ''
+    const aParam = searchParams.get('author') || ''
+    setSearchQuery(qParam)
+    setDebouncedQ(qParam)
+    setSelectedAuthor(aParam)
+  }, [searchParams])
 
   useEffect(() => {
-    const t = setTimeout(() => setDebouncedQ(searchQuery.trim()), 300)
+    const t = setTimeout(() => {
+      const trimmed = searchQuery.trim()
+      setDebouncedQ(trimmed)
+      // URL parametrelerini güncelle
+      const p = new URLSearchParams()
+      if (trimmed) p.set('q', trimmed)
+      if (selectedAuthor) p.set('author', selectedAuthor)
+      setSearchParams(p, { replace: true })
+    }, 300)
     return () => clearTimeout(t)
-  }, [searchQuery])
+  }, [searchQuery, selectedAuthor, setSearchParams])
 
   const { data: authors = [] } = useColumnAuthors()
   const { data: colData, isLoading: articlesLoading } = useColumns({
     author: selectedAuthor,
     q: debouncedQ,
-    limit: 50,
+    limit: 60,
   })
 
   const articles = colData?.items || []
+
+  const handleClearFilters = () => {
+    setSelectedAuthor('')
+    setSearchQuery('')
+    setDebouncedQ('')
+    setSearchParams({}, { replace: true })
+  }
 
   return (
     <div className="mx-auto max-w-[1300px] px-3 py-6 sm:px-6 sm:py-8">
@@ -68,13 +96,13 @@ function ColumnList() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Yazar veya konu ara..."
+              placeholder="Yazar, konu veya #etiket ara..."
               className="w-full rounded-full border border-line bg-surface py-2 pl-10 pr-4 text-sm text-fg outline-none transition placeholder:text-faint focus:border-primary"
             />
             {searchQuery && (
               <button
                 type="button"
-                onClick={() => setSearchQuery('')}
+                onClick={handleClearFilters}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-faint hover:text-fg"
               >
                 <Icon name="X" size={14} />
@@ -88,13 +116,13 @@ function ColumnList() {
           <div className="mt-6">
             <div className="mb-2 flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-muted">
               <span>Öne Çıkan Yazarlar</span>
-              {selectedAuthor && (
+              {(selectedAuthor || debouncedQ) && (
                 <button
                   type="button"
-                  onClick={() => setSelectedAuthor('')}
+                  onClick={handleClearFilters}
                   className="font-medium text-primary hover:underline"
                 >
-                  Filtreyi Temizle ({selectedAuthor})
+                  Filtreleri Temizle {selectedAuthor && `(${selectedAuthor})`}
                 </button>
               )}
             </div>
@@ -179,10 +207,7 @@ function ColumnList() {
           {(selectedAuthor || debouncedQ) && (
             <button
               type="button"
-              onClick={() => {
-                setSelectedAuthor('')
-                setSearchQuery('')
-              }}
+              onClick={handleClearFilters}
               className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-fg px-4 py-2 text-xs font-semibold text-bg transition hover:opacity-90"
             >
               Filtreleri Temizle
@@ -244,15 +269,31 @@ function ColumnCard({ item }: { item: ColumnArticle }) {
 
         {/* Yazı Başlığı */}
         <Link to={`/kose/${item.slug}`} className="block">
-          <h3 className="font-serif text-lg font-bold leading-snug text-fg transition group-hover:text-primary">
+          <h3 className="font-display text-lg font-bold leading-snug text-fg transition group-hover:text-primary">
             {item.title}
           </h3>
         </Link>
 
         {/* Özet / Giriş */}
-        <p className="mt-2.5 line-clamp-3 text-xs leading-relaxed text-muted">
+        <p className="mt-2.5 line-clamp-3 text-xs leading-relaxed text-muted text-justify">
           {item.excerpt}
         </p>
+
+        {/* Etiketler (#Hashtag'ler) */}
+        {item.tags && item.tags.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {item.tags.slice(0, 4).map((tag) => (
+              <Link
+                key={tag}
+                to={`/kose?tag=${encodeURIComponent(tag)}`}
+                className="rounded-md bg-surface-2 px-2 py-0.5 text-[0.625rem] font-medium text-muted transition hover:bg-primary/10 hover:text-primary"
+                onClick={(e) => e.stopPropagation()}
+              >
+                #{tag}
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Alt Bilgi */}
@@ -359,12 +400,12 @@ function ColumnDetail({ slug }: { slug: string }) {
 
         {/* Yazı Boyutu Seçici */}
         <div className="flex items-center gap-1 text-xs">
-          <span className="text-muted mr-1">Metin:</span>
+          <span className="text-muted mr-1">Boyut:</span>
           <button
             type="button"
             onClick={() => setFontSize('normal')}
             className={clsx(
-              'size-7 rounded border font-serif transition',
+              'size-7 rounded border font-medium transition',
               fontSize === 'normal'
                 ? 'border-primary bg-primary text-white'
                 : 'border-line text-muted hover:text-fg'
@@ -376,7 +417,7 @@ function ColumnDetail({ slug }: { slug: string }) {
             type="button"
             onClick={() => setFontSize('large')}
             className={clsx(
-              'size-7 rounded border font-serif text-sm font-bold transition',
+              'size-7 rounded border text-sm font-bold transition',
               fontSize === 'large'
                 ? 'border-primary bg-primary text-white'
                 : 'border-line text-muted hover:text-fg'
@@ -388,7 +429,7 @@ function ColumnDetail({ slug }: { slug: string }) {
             type="button"
             onClick={() => setFontSize('huge')}
             className={clsx(
-              'size-7 rounded border font-serif text-base font-black transition',
+              'size-7 rounded border text-base font-black transition',
               fontSize === 'huge'
                 ? 'border-primary bg-primary text-white'
                 : 'border-line text-muted hover:text-fg'
@@ -436,48 +477,60 @@ function ColumnDetail({ slug }: { slug: string }) {
       </div>
 
       {/* Makale Başlığı */}
-      <h1 className="font-serif text-2xl font-black leading-tight text-fg sm:text-3xl md:text-4xl">
+      <h1 className="font-display text-2xl font-black leading-tight text-fg sm:text-3xl md:text-4xl">
         {item.title}
       </h1>
 
       {/* Vurgulu Özet / Spot */}
       {item.excerpt && (
-        <div className="my-6 border-l-4 border-primary pl-4 font-serif text-base italic leading-relaxed text-fg/80 sm:text-lg">
+        <div className="my-6 border-l-4 border-primary pl-4 text-base italic leading-relaxed text-fg/85 sm:text-lg text-justify">
           {item.excerpt}
         </div>
       )}
 
-      {/* Makale Gövdesi */}
+      {/* Makale Gövdesi: .article-prose sınıfı ile iki yana yaslı, drop-cap ve ayarlardaki font (Modern/Klasik/El Yazısı) ile tam uyumlu */}
       <div
         className={clsx(
-          'mt-6 font-serif leading-relaxed text-fg space-y-5',
-          fontSize === 'normal' && 'text-base sm:text-[1.0625rem]',
-          fontSize === 'large' && 'text-lg sm:text-xl',
-          fontSize === 'huge' && 'text-xl sm:text-2xl'
+          'article-prose mt-8 space-y-5',
+          fontSize === 'normal' && '[&_p]:!text-[0.9375rem] sm:[&_p]:!text-base',
+          fontSize === 'large' && '[&_p]:!text-[1.0625rem] sm:[&_p]:!text-[1.1875rem]',
+          fontSize === 'huge' && '[&_p]:!text-[1.1875rem] sm:[&_p]:!text-[1.3125rem]'
         )}
+        lang="tr"
       >
         {item.body && item.body.length > 0 ? (
-          item.body.map((paragraph, idx) => (
-            <p key={idx} className="tracking-normal">
-              {paragraph}
-            </p>
-          ))
+          item.body.map((paragraph, idx) =>
+            paragraph.startsWith('## ') ? (
+              <h2 key={idx} className="text-lg font-bold tracking-tight text-fg sm:text-xl">
+                {paragraph.slice(3).trim()}
+              </h2>
+            ) : (
+              <p key={idx}>{paragraph}</p>
+            )
+          )
         ) : (
           <p>{item.excerpt}</p>
         )}
       </div>
 
-      {/* Etiketler */}
+      {/* Etiketler (#Hashtag'ler - Tıklanınca o etiketi süzer) */}
       {item.tags && item.tags.length > 0 && (
-        <div className="mt-10 flex flex-wrap gap-2 border-t border-line pt-6">
-          {item.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-lg border border-line bg-surface px-3 py-1 text-xs font-medium text-muted"
-            >
-              #{tag}
-            </span>
-          ))}
+        <div className="mt-10 border-t border-line pt-6">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted">
+            İlgili Konular & Etiketler
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {item.tags.map((tag) => (
+              <button
+                key={tag}
+                type="button"
+                onClick={() => navigate(`/kose?tag=${encodeURIComponent(tag)}`)}
+                className="inline-flex items-center gap-1 rounded-lg border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-fg transition hover:border-primary hover:bg-primary/10 hover:text-primary"
+              >
+                <span>#{tag}</span>
+              </button>
+            ))}
+          </div>
         </div>
       )}
 

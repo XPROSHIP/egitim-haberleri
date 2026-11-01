@@ -1,4 +1,4 @@
-﻿import { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
@@ -92,6 +92,20 @@ export function SideDrawer({
           >
             <Icon name="Mic" size={17} />
             ZENPOD Eğitim
+          </NavLink>
+
+          <NavLink
+            to="/kose"
+            onClick={onClose}
+            className={({ isActive }) =>
+              clsx(
+                'mb-1 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition',
+                isActive ? 'bg-surface-2 text-fg' : 'text-muted hover:bg-surface-2 hover:text-fg',
+              )
+            }
+          >
+            <Icon name="Feather" size={17} />
+            Köşe Yazıları
           </NavLink>
 
           <NavLink

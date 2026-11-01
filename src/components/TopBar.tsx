@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
@@ -201,6 +201,19 @@ export function TopBar({
                       Podcast
                     </button>
 
+                    {/* Köşe Yazıları kısayolu */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setModeOpen(false)
+                        navigate('/kose')
+                      }}
+                      className="flex w-full items-center gap-2.5 border-t border-line-soft px-3.5 py-2.5 text-sm text-fg transition hover:bg-surface-2"
+                    >
+                      <Icon name="Feather" size={16} />
+                      Köşe Yazıları
+                    </button>
+
                     {/* eGazete kısayolu */}
                     <button
                       type="button"
@@ -235,20 +248,6 @@ export function TopBar({
                   {c.name}
                 </NavLink>
               ))}
-                            <NavLink
-                to="/kose"
-                className={({ isActive }) =>
-                  clsx(
-                    'flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-[0.8125rem] font-medium transition',
-                    isActive
-                      ? 'bg-fg text-bg'
-                      : 'text-muted hover:bg-surface-2 hover:text-fg',
-                  )
-                }
-              >
-                <Icon name="Feather" size={14} />
-                Köşe Yazıları
-              </NavLink>
               <NavLink
                 to="/kategoriler"
                 className={({ isActive }) =>

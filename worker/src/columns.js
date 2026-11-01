@@ -14,9 +14,9 @@ export function createColumnsStore(db) {
       }
 
       if (q) {
-        conditions.push('(title LIKE ? OR author_name LIKE ? OR source_name LIKE ?)')
+        conditions.push('(title LIKE ? OR author_name LIKE ? OR source_name LIKE ? OR tags LIKE ?)')
         const pattern = `%${q}%`
-        bindings.push(pattern, pattern, pattern)
+        bindings.push(pattern, pattern, pattern, pattern)
       }
 
       const where = conditions.length ? 'WHERE ' + conditions.join(' AND ') : ''

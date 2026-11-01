@@ -1,9 +1,12 @@
 /**
- * Köşe Yazıları Tarama Motoru
+ * Köşe Yazıları ve Analiz Tarama Motoru
  *
- * Yerli basından eğitimle alakalı köşe yazılarını derler.
- * Yetersiz kaldığında yabancı saygın kaynaklardan eğitim yazılarını
- * Gemini ile 1:1 (özetlemesiz) çevirerek zenginleştirir.
+ * Yerli basından (Cumhuriyet, BirGün, Gazete Duvar, Diken, Medyascope, BBC Türkçe,
+ * Euronews, DW Türkçe, soL Haber, Independent Türkçe, Odatv, Hürriyet, Habertürk vb.)
+ * eğitimle alakalı köşe yazılarını, görüşleri ve analizleri derler.
+ *
+ * Yetersiz kaldığında yabancı saygın kaynaklardan (The Guardian, BBC, Der Spiegel, Le Monde)
+ * eğitim yazılarını Gemini ile 1:1 (özetlemesiz) çevirerek zenginleştirir.
  */
 import { fetchFeed } from './rss.js'
 import { fetchArticle } from './article.js'
@@ -11,14 +14,22 @@ import { createGemini } from './gemini.js'
 import { slugify, hash } from './text.js'
 
 export const COLUMN_FEEDS_TR = [
-  { name: 'Cumhuriyet', url: 'https://www.cumhuriyet.com.tr/rss/yazarlar' },
-  { name: 'Hürriyet', url: 'https://www.hurriyet.com.tr/rss/yazarlar' },
-  { name: 'Habertürk', url: 'https://www.haberturk.com/rss/kategori/yazarlar.xml' },
-  { name: 'Diriliş Postası', url: 'https://www.dirilispostasi.com/rss/yazarlar' },
-  { name: 'Milat Gazetesi', url: 'https://www.milatgazetesi.com/rss/yazarlar.xml' },
-  { name: 'Gazete Duvar Forum', url: 'https://www.gazeteduvar.com.tr/rss/kategori/forum' },
-  { name: 'Gazete Duvar Eğitim', url: 'https://www.gazeteduvar.com.tr/rss/kategori/egitim' },
-  { name: 'MEB Personel', url: 'https://www.mebpersonel.org/rss' },
+  // Köşe Yazarları & Görüş Odaklı
+  { name: 'Cumhuriyet', url: 'https://www.cumhuriyet.com.tr/rss/yazarlar', isColumn: true },
+  { name: 'BirGün', url: 'https://www.birgun.net/xml/rss.xml', isColumn: true },
+  { name: 'Hürriyet', url: 'https://www.hurriyet.com.tr/rss/yazarlar', isColumn: true },
+  { name: 'Habertürk', url: 'https://www.haberturk.com/rss/kategori/yazarlar.xml', isColumn: true },
+  { name: 'Gazete Duvar', url: 'https://www.gazeteduvar.com.tr/rss', isColumn: true },
+  { name: 'Diken', url: 'https://www.diken.com.tr/feed/', isColumn: true },
+  { name: 'Medyascope', url: 'https://medyascope.tv/feed/', isColumn: true },
+  { name: 'Independent Türkçe', url: 'https://www.indyturk.com/rss.xml', isColumn: true },
+  { name: 'soL Haber', url: 'https://haber.sol.org.tr/rss.xml', isColumn: true },
+  { name: 'BBC Türkçe', url: 'https://feeds.bbci.co.uk/turkce/rss.xml', isColumn: false },
+  { name: 'Euronews Türkçe', url: 'https://tr.euronews.com/rss', isColumn: false },
+  { name: 'DW Türkçe', url: 'https://rss.dw.com/xml/rss-tur-all', isColumn: false },
+  { name: 'Odatv', url: 'https://www.odatv.com/rss.xml', isColumn: true },
+  { name: 'Diriliş Postası', url: 'https://www.dirilispostasi.com/rss/yazarlar', isColumn: true },
+  { name: 'Milat Gazetesi', url: 'https://www.milatgazetesi.com/rss/yazarlar.xml', isColumn: true },
 ]
 
 export const COLUMN_FEEDS_FOREIGN = [
@@ -45,6 +56,32 @@ export const EDU_TERMS_FOREIGN = [
   'təhsil', 'məktəb', 'müəllim', 'tələbə'
 ]
 
+export const TAG_KEYWORDS = [
+  { term: 'mesem', tag: 'MESEM' },
+  { term: 'maarif', tag: 'Maarif' },
+  { term: 'meb', tag: 'MEB' },
+  { term: 'ösym', tag: 'ÖSYM' },
+  { term: 'kpss', tag: 'KPSS' },
+  { term: 'lgs', tag: 'LGS' },
+  { term: 'yks', tag: 'YKS' },
+  { term: 'üniversite', tag: 'Üniversite' },
+  { term: 'öğretmen', tag: 'Öğretmen' },
+  { term: 'öğrenci', tag: 'Öğrenci' },
+  { term: 'lise', tag: 'Lise' },
+  { term: 'ilkokul', tag: 'İlkokul' },
+  { term: 'ortaokul', tag: 'Ortaokul' },
+  { term: 'müfredat', tag: 'Müfredat' },
+  { term: 'pedagoji', tag: 'Pedagoji' },
+  { term: 'akademisyen', tag: 'Akademi' },
+  { term: 'yazılı sınav', tag: 'Yazılı Sınav' },
+  { term: 'burs', tag: 'Burs' },
+  { term: 'kolej', tag: 'Kolej' },
+  { term: 'yök', tag: 'YÖK' },
+  { term: 'rektör', tag: 'Rektör' },
+  { term: 'dekan', tag: 'Fakülte' },
+  { term: 'ders', tag: 'Ders' },
+]
+
 export function isEduTr(text = '') {
   if (!text) return false
   const lower = text.toLowerCase()
@@ -64,11 +101,29 @@ export function isEduForeign(text = '') {
 }
 
 /**
+ * Başlık ve metin içinden akıllı hashtag'ler çıkarır.
+ */
+export function extractSmartTags(title = '', paragraphs = [], sourceName = '') {
+  const full = (title + ' ' + (Array.isArray(paragraphs) ? paragraphs.join(' ') : '')).toLowerCase()
+  const tags = new Set(['Eğitim'])
+
+  for (const item of TAG_KEYWORDS) {
+    const reg = new RegExp('(?<![a-zçğıöşü])' + item.term + '(?![a-zçğıöşü])', 'i')
+    if (reg.test(full)) {
+      tags.add(item.tag)
+    }
+  }
+
+  if (sourceName) tags.add(sourceName)
+  return Array.from(tags).slice(0, 8)
+}
+
+/**
  * Başlık veya URL'den yazar adı ve temiz başlığı ayıklar.
  */
-export function extractAuthorAndTitle(rawTitle = '', url = '', defaultSource = '') {
+export function extractAuthorAndTitle(rawTitle = '', url = '', defaultSource = '', domAuthor = '') {
   let title = rawTitle.trim()
-  let author = ''
+  let author = domAuthor ? domAuthor.trim() : ''
 
   // "Yazar Adı yazdı : Başlık" (Cumhuriyet formatı)
   const yazdiMatch = title.match(/^(.+?)\s+yazdı\s*:\s*(.+)$/i)
@@ -86,9 +141,9 @@ export function extractAuthorAndTitle(rawTitle = '', url = '', defaultSource = '
     }
   }
 
-  // URL'den yazar slug'ı: /yazarlar/ad-soyad/
+  // URL'den yazar slug'ı: /yazarlar/ad-soyad/ veya /yazar/ad-soyad/
   if (!author && url) {
-    const urlMatch = url.match(/\/yazarlar\/([a-z0-9-]+)\//i)
+    const urlMatch = url.match(/\/(?:yazarlar|yazar|author)\/([a-z0-9-]+)(?:\/|$)/i)
     if (urlMatch && urlMatch[1] && !urlMatch[1].includes('kategori')) {
       author = urlMatch[1]
         .split('-')
@@ -132,17 +187,17 @@ JSON nesnesi döndür.`
 export async function collectColumns({
   geminiKeys = [],
   logger = console,
-  targetMin = 12,
+  targetMin = 15,
   knownUrls = new Set(),
 } = {}) {
   const articles = []
   const seenUrls = new Set(knownUrls)
 
-  logger.log('[columns] Yerli köşe yazarları taranıyor...')
+  logger.log('[columns] Yerli ve bağımsız basın taranıyor...')
 
   for (const feed of COLUMN_FEEDS_TR) {
     try {
-      const items = await fetchFeed(feed.url, { timeoutMs: 8000 })
+      const items = await fetchFeed(feed.url, { timeoutMs: 7000 })
       logger.log(`[columns] ${feed.name}: ${items.length} potansiyel yazı`)
 
       for (const item of items) {
@@ -164,9 +219,14 @@ export async function collectColumns({
 
           if (paragraphs.length === 0) continue
 
-          const { author, title } = extractAuthorAndTitle(art.title || item.title, item.link, feed.name)
+          const { author, title } = extractAuthorAndTitle(
+            art.title || item.title,
+            item.link,
+            feed.name
+          )
           const dedupeKey = hash(`${author}:${title}`)
           const itemSlug = slugify(title) + '-' + dedupeKey.slice(0, 6)
+          const smartTags = extractSmartTags(title, paragraphs, feed.name)
 
           articles.push({
             id: 'col_' + dedupeKey.slice(0, 16),
@@ -183,7 +243,7 @@ export async function collectColumns({
             lang: 'tr',
             original_lang: 'tr',
             translated: 0,
-            tags: ['EĞİTİM', 'KÖŞE YAZISI', feed.name.toUpperCase()],
+            tags: smartTags,
             dedupe_key: dedupeKey,
           })
         } catch (err) {
@@ -197,17 +257,17 @@ export async function collectColumns({
 
   logger.log(`[columns] Toplanan yerli yazı sayısı: ${articles.length}`)
 
-  // Eğer hedef sayıya ulaşılamadıysa ya da uluslararası eğitim köşelerini eklemek için
+  // Hedef sayıya ulaşılamadıysa yabancı basından eğitim yazıları tamamla
   if (articles.length < targetMin && geminiKeys && geminiKeys.length > 0) {
     logger.log(`[columns] Yabancı basından eğitim köşe yazıları taranıyor...`)
     const gemini = createGemini(geminiKeys)
 
     for (const feed of COLUMN_FEEDS_FOREIGN) {
-      if (articles.length >= targetMin + 4) break
+      if (articles.length >= targetMin + 5) break
       try {
         const items = await fetchFeed(feed.url, { timeoutMs: 10000 })
         for (const item of items) {
-          if (articles.length >= targetMin + 4) break
+          if (articles.length >= targetMin + 5) break
           if (!item.link || seenUrls.has(item.link)) continue
 
           const text = (item.title + ' ' + (item.description || '')).toLowerCase()
@@ -238,6 +298,7 @@ export async function collectColumns({
               const { author } = extractAuthorAndTitle(art.title || item.title, item.link, feed.name)
               const dedupeKey = hash(`${author}:${res.title}`)
               const itemSlug = slugify(res.title) + '-' + dedupeKey.slice(0, 6)
+              const smartTags = extractSmartTags(res.title, res.paragraphs, feed.name)
 
               articles.push({
                 id: 'col_' + dedupeKey.slice(0, 16),
@@ -254,7 +315,7 @@ export async function collectColumns({
                 lang: 'tr',
                 original_lang: feed.lang,
                 translated: 1,
-                tags: ['EĞİTİM', 'DÜNYA', feed.name.toUpperCase()],
+                tags: smartTags,
                 dedupe_key: dedupeKey,
               })
               logger.log(`[columns:Translate] Başarılı: "${res.title}"`)
