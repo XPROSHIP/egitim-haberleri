@@ -1,5 +1,41 @@
 [
   {
+    "id": "n_1bjznwe_mvxo8x8i",
+    "slug": "meb-den-yeni-adim-ortaokul-ve-liselerde-ogrenci-becerileri-okul-tabanli--ppq8zp",
+    "title": "MEB'den yeni adım: ortaokul ve liselerde öğrenci becerileri okul tabanlı izleme sistemiyle takip edilecek",
+    "excerpt": "Milli Eğitim Bakanlığı, 2027 Yılı Cumhurbaşkanlığı Yıllık Programı doğrultusunda ortaokul ve lise düzeyinde Türkçe, matematik ve fen bilimleri derslerinde okul tabanlı izleme sürecini başlatıyor. Çoktan seçmeli ve açık uçlu soruların yer alacağı uygulamayla öğrencilerin öğrenme çıktıları ile beceri düzeyleri doğrudan tespit edilecek. Bu sayede eğitim kalitesinin artırılması ve öğrenme eksikliklerinin anında giderilmesi hedefleniyor.",
+    "body": [
+      "MEBİ İÇERİKLERİ GENİŞLETİLECEK",
+      "Yıllık programda, olağanüstü durumlarda eğitimin kesintiye uğramasının yol açtığı öğrenme kayıplarını telafi etmeye yönelik çalışmalar da yer aldı. Uzaktan eğitim altyapısının iyileştirilmesi ve bireyselleştirilmiş öğrenme sisteminin etkinleştirilmesi hedefleniyor.",
+      "MEBİ Bireysel Öğrenme Platformu için 11 ve 12’nci sınıflara yönelik içerikler hazırlanacak. Öğrenme analitiği ve yapay zekâ destekli asistan geliştirilerek dijital eğitim platformlarıyla entegre edilecek. Türkiye Yüzyılı Maarif Modeli’ne uygun 9 ve 10’uncu sınıf e-içerikleri de MEBİ’ye eklenecek. EBA’da ise öğretim materyali, eğitsel video, simülasyon, zenginleştirilmiş kitap ve TRT EBA TV programlarının üretimi sürecek. Uygulamalı eğitimde ölçme ve değerlendirme yöntemlerinin çeşitlendirilmesi, iş başı eğitimlerin ve uygulamaya dayalı sınavların dijital ortamda yapılabilmesi için çalışmalar yürütülmesi de programda yer aldı.",
+      "OKUL YÖNETİCİLİĞİ İÇİN SERTİFİKA PROGRAMI",
+      "Program, öğretmenlerin mesleğe kabulünden kariyer gelişimine kadar uzanan sürecin yeniden yapılandırılmasını da öngörüyor. Mesleki gelişim toplulukları, okul temelli gelişim çalışmaları ve öğretmen-yönetici hareketlilik programlarını içeren işbirliğine dayalı bir model geliştirilecek. Öğretmenlik mesleği genel yeterlikleri güncel ihtiyaçlara göre yenilenecek. Eğitim yöneticiliğinin profesyonel bir meslek olarak düzenlenmesi ve okul yöneticisi olacak öğretmenler için kurumsal bir yapı kurulması hedefleniyor. Bu kapsamda yönetici sertifika programları uygulanacak."
+    ],
+    "category": "meb",
+    "tags": [
+      "OKUL TABANLI İZLEME",
+      "MEB",
+      "ÖĞRENME BECERİLERİ",
+      "ÖLÇME DEĞERLENDİRME"
+    ],
+    "source": {
+      "name": "Hürriyet",
+      "url": "https://www.hurriyet.com.tr/egitim/ogrencilerin-ogrenme-becerileri-okulda-izlenecek-43362304",
+      "image": "/img/rencilerin-renme-becerileri-okulda-izlenecek-lzigj9.jpg"
+    },
+    "publishedAt": "2026-11-01T09:02:50.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": true,
+    "fullText": true,
+    "score": 8.8,
+    "dedupeKey": "ppq8zp",
+    "rawTitle": "Öğrencilerin öğrenme becerileri okulda izlenecek",
+    "status": "published",
+    "lang": "tr"
+  },
+  {
     "id": "n_zlq46q_mvxlvyjn",
     "slug": "milli-egitim-bakanligindan-acik-uclu-sorularin-degerlendirilmesinde-yapa-1c0qzz",
     "title": "Milli Eğitim Bakanlığından açık uçlu soruların değerlendirilmesinde yapay zeka hamlesi",
@@ -22909,6 +22945,68 @@
     "lang": "en",
     "audioId": "f_188wlt3_mvha2xnw",
     "audioDuration": 30.47
+  },
+  {
+    "id": "f_4o92u9_mvxoc5lv",
+    "slug": "yabanci-gelecegi-dokumak-teknolojiyi-kutsal-bir-emanet-ve-sorumluluk-4o92u9",
+    "title": "Geleceği Dokumak: Teknolojiyi Kutsal Bir Emanet ve Sorumluluk Olarak Görmek",
+    "excerpt": "Dijital stratejilerimizi köklü kültürel değerlere dayandırarak teknolojinin okul topluluğunu tüketmek yerine ona hizmet etmesini sağlayabiliriz. Bu yaklaşım, yapay zekâ çağında yerli mirası ve veri egemenliğini korumayı mümkün kılıyor.",
+    "body": [
+      "Dijital stratejimizi atalarımızla aynı değerlere dayandırarak, teknolojinin okul topluluğumuzu tüketmek yerine ona hizmet etmesini sağlayabiliriz.",
+      "Yapay zekânın tek bir tuşla insan kültürünü arşivlemeyi vadettiği bir dönemde, Yerli topluluklar hayati bir soruyla karşı karşıya: Kutsal bilgiye sahip olma, onu şekillendirme ve dijitalleştirme hakkı kime aittir?",
+      "Yapay zekâ eğitimde manşetlere çıkmadan çok önce, bu soru Indian Community School bünyesindeki öğretim teknolojileri koordinatörü olarak yürüttüğüm çalışmaları kökten şekillendirdi. Ancak topluluğumuzun dijital geleceğini nasıl koruyacağımızı anlamak bir bilgisayar laboratuvarında başlamadı; Wisconsin'deki sakin bir vadide, büyükannemin yarım kalmış yorganı ve bilgiye dair bildiğim her şeyi değiştiren bir kurdele etek atölyesiyle başladı.",
+      "Wisconsin'in Driftless Bölgesi'nde, virajlı yolların dik kayalıklar ve derin vadiler arasında kaybolduğu, her tepenin nefes kesici bir başka manzarayı sunduğu küçük bir kırsal köyde büyüdüm. Burası buzullarla değil, zamanla şekillenmiş bir yerdi. Güzel olduğu kadar engebeli bir coğrafyaydı.",
+      "Burası aynı zamanda büyükannemin de eviydi; peynir ustası eşi olan güçlü bir kadındı ve bazı yönleriyle tam anlamıyla örnek bir büyükanne figürüydü. Pazar günleri aile yemekleri düzenler, taze ekmek pişirir, yerel gıda bankasında gönüllü olarak çalışır ve haftada iki kez kilisedeki diğer kadınlarla yorgan dikerdi. Ayrıca bir denizci gibi küfreder, sevgisini ve sarılmalarını asla esirgemezdi.",
+      "Gençlik yıllarımda bana bir sığınak oldu; kaotik bir ev ortamından kaçıp sığındığım sessiz bir liman ve en zor dönemlerde bile sevginin var olduğunu hatırlatan bir güçtü. Üniversiteye gittiğimde, bana sadece benim için özel olarak diktiği ve her birimizin ömründe yalnızca bir kez alabileceği o özel hediye olan bir yorgan verdi. Bir yetişkin olduğumda ise Driftless Bölgesi'ni ziyaret etme sebebimiz ve ailelerimizi bir arada tutan en önemli bağ haline geldi. O süreçte, kendisine hayran olan çocuklarıma da aynı sevgiyi gösterdi.",
+      "Bir bakımevinde uzun süre kaldıktan ve sağlığının yıllarca kötüleşmesinin ardından büyükannem geçen yıl vefat etti. Vefatının ardından ikiz kız kardeşim ve ben, unutulmuş bir saklama kutusuna kaldırılmış son yarım yorganını keşfettik. Elleri uzun süredir kumaşı tutamıyor veya dikiş makinesini çalıştıramıyordu; biz de tüm yorganların çoktan paylaşıldığını sanıyorduk. Yarım kalmış da olsa bir tane daha bulmak bize bir lütuf gibi geldi.",
+      "Aşağı yukarı aynı dönemde, ikiz kız kardeşimle birlikte Yerli topluluk üyelerinin bize sadece kurdele etek dikmeyi değil, aynı zamanda bunları nasıl saygıyla ve gerçek bir müttefik olarak giyeceğimize dair öğretileri paylaşacağı bir personel kurdele etek atölyesine kaydolduk. Büyükannemizin yarım kalmış yorganından parçaları yanımıza alarak, onun anısına kurdele etekler üretmek için yola çıktık.",
+      "O dersten önce, kurdele etekler hakkında okul kutlamalarında ve topluluk etkinliklerinde giyildiklerini görmenin ötesinde çok az şey biliyordum. Bunların tek bir kabileye ait olmadığını, her biri kendi geleneklerine, öğretilerine ve hikâyelerine sahip birçok Yerli ulustan kadın tarafından giyildiğini çabucak öğrendim. Ayrıca bir kurdele eteğin güzel bir giysi parçasından çok daha fazlası olduğunu da anladım; kimliği, direnci ve Yerli kadınların kalıcı gücünü temsil ediyordu.",
+      "Bugün Kuzey Amerika genelindeki topluluklar, her ocak ayında Kurdele Etek Günü'nü kutlayarak, yalnızca etekleri değil, Yerli halkların kültürlerini silmeyi amaçlayan nesiller boyu süren politikalardan sonra bunları gururla giyme hakkını da onurlandırıyor.",
+      "Beni en çok şaşırtan şey, sınıfımızın asıl amacının etek dikmek olmamasıydı. Asıl mesele, bu eteklerle birlikte gelen sorumluluğu öğrenmekti. Kurdele eteği ne zaman giymenin uygun olduğunu, bir müttefik olarak giymenin ne anlama geldiğini ve bu öğretilerin neden dikişin kendisi kadar önemli olduğunu öğrendik. Herkes internetten bir kurdele etek satın alabilir; ancak bilgilerini cömertçe paylaşan topluluk üyeleriyle birlikte bir tane üretmek, süreci tamamen farklı bir şeye dönüştürdü. Her bir dikiş; güven, saygı ve öğrenme isteği üzerine kurulu bir ilişkinin parçası haline geldi.",
+      "Bu deneyim bilgiye bakış açımı değiştirdi. Bazı şeylerin sahip olunabildikleri, satın alınabildikleri ya da korunabildikleri için değil; tek bir bireyin çok ötesine uzanan hikâyeler, ilişkiler ve sorumluluklar taşıdıkları için değerli olduğunu fark ettim. Bu değerler, onları şekillendiren topluluklara ve onları devralacak gelecek nesillere aittir.",
+      "Bilgiye sahip olmak ile ona koruyuculuk etmek arasındaki gerilim, Indian Community School bünyesindeki öğretim teknolojileri koordinatörü olarak yürüttüğüm çalışmaların tam merkezinde yer alıyor. Bilgi şayet güven ve topluluk ilişkileri üzerine inşa ediliyorsa, teknoloji yalnızca veri çıkarmaya, ölçeklendirmeye veya veriden para kazanmaya yarayan bir araç olamaz. Bu inanç; üretken yapay zekâ henüz günlük sohbetlerin bir parçası haline gelmeden çok önce, 2021 yılında bir şirketin dil ve kültür departmanımıza sıra dışı bir teklifle gelmesiyle sınandı.",
+      "Bir yenilik vadediyorlardı: Yaşayan kabile büyüklerinin hikâyeleri, sesleri ve bilgelikleri üzerinden eğitilmiş yapay zekâ destekli 'sanal atalar' aracılığıyla dili ve kültürü ölümsüzleştirmenin bir yolu. Öğretim teknolojileri koordinatörü olarak, okulumuzu modern teknolojinin ön saflarına taşıyacak ne kadar olağanüstü bir fırsat olacağını düşünerek başlangıçta oldukça heyecanlanmıştım!",
+      "Ancak çalışma arkadaşlarımla birlikte bu teklifi derinlemesine inceledikçe, heyecanımızın yerini derin bir endişe aldı. Teklif çok ciddi tehlike işaretleriyle doluydu: fikri mülkiyete dair muğlak vaatler, veri gizliliği konusunda sıfır hesap verebilirlik ve kutsal topluluk bilgisini elde etmeye yönelik sömürücü bir yaklaşım. Ancak bu tehlike işaretlerini fark etmek mücadelenin yalnızca yarısıydı.",
+      "Bu denli karmaşık bir araçla karşılaşmak, o dönemde yapay zekâ konusundaki kendi bilgi eksikliklerimi de gözler önüne serdi. Bu teklifi gerektiği gibi incelemenin ve okulumuzun teknoloji programının sağlam ve doğru bir temelde ilerlemesini sağlamanın sadece temkinli olmaktan fazlasını gerektirdiğini anladım. Topluluğumuzun verileri için bilgili bir muhafız olarak durabilmem, kendi yapay zekâ okuryazarlığımı geliştirmemi zorunlu kılıyordu.",
+      "2021'deki o teklif, o günden bu yana yaptığım çalışmaları tanımlayan bir yolculuğun kıvılcımı oldu. Kendi anlayışımdaki boşlukları fark ederek yapay zekâ okuryazarlığına, dijital etiğe ve Yerli veri egemenliği çerçevelerine odaklandım. 2026-27 eğitim-öğretim yılına başlarken, yapay zekâ artık uzak bir ihtimal değil; hikâyelerin nasıl anlatıldığını, bilginin nasıl üretildiğini ve verilerin nasıl toplandığını aktif olarak şekillendiriyor.",
+      "Buna karşılık benim rolüm de yalnızca teknoloji altyapısını yönetmekten çıkıp okulumuzun etik bir dijital sığınak inşa etmesine yardımcı olmaya doğru evrildi. Öğretmenlerimizin yapay zekâ araçlarını kültürel güvenlik ve veri gizliliği merceğinden eleştirel bir şekilde değerlendirmelerini sağlayan mesleki gelişim oturumları düzenlemeye başladık. Sınıfta ise pasif tüketim yerine aktif dijital koruyuculuğa olan bağlılığımızı yeniden teyit ettik.",
+      "Öğrencilerimiz artık Yerli deneyimlerini üçüncü taraf algoritmaların dikte etmesine veya özetlemesine izin vermek yerine uygulamalı dijital hikâye anlatımıyla meşgul oluyor; kişisel ve kültürel verilerini nasıl koruyacaklarını öğrenirken modern araçları kullanarak özgün seslerini kendi belirledikleri koşullarla duyuruyorlar.",
+      "O kurdele etek atölyesinde öğrendiğim temel ders yol gösterici ilkem olmaya devam ediyor: Teknoloji de tıpkı bilgi gibi, yalnızca arkasındaki ilişkiler ve güven kadar değerlidir. Bu hızla değişen dünyada yolunu bulmaya çalışan eğitimciler, liderler ve topluluklar için hikâyelerimiz üzerindeki denetimi korumak, herhangi bir sözleşme imzalamadan veya bir aracı benimsemeden önce şu zor soruları sormayı gerektirir:",
+      "## Bu sistemi eğitmek için kullanılan verilerin sahibi kim?",
+      "Okulumda, okula açıkça tam fikri mülkiyet hakkı tanımayan yazılım platformlarını kararlılıkla reddediyoruz.",
+      "## Bu araç, hizmet ettiği topluluğun egemenliğine ve yaşayan kültürüne saygı duyuyor mu?",
+      "Yazılımların ve platformların öğrenci ya da personel verileri üzerinden eğitilmemesini sağlamak için paydaşlarla birlikte çalışıyor ve çevreye en az etkisi olan araçlara öncelik veriyorum.",
+      "## Teknolojiyi insan ilişkilerini geliştirmek için mi yoksa onların yerini alması için mi benimsiyoruz?",
+      "Yaşlıları, öğretmenleri ve öğrencileri gerçek dünyadaki diyaloglarda bir araya getiren araçlara öncelik veriyor, teknolojiyi insan varlığının bir alternatifi olarak değil, bağ kurmayı sağlayan bir köprü olarak kullanıyoruz.",
+      "Kız kardeşimle birlikte büyükannemizin yarım kalmış yorganından parçaları kurdele eteklerimize diktiğimizde, sadece onun hatırasını korumuyorduk; sevgi, onur ve süreklilikten kök alan bir ilişkiyi devam ettiriyorduk. Koruyuculuğun gerçek özü de budur. Teknolojik inovasyona geleceği sömürme yarışı olarak değil, bize miras bırakılanı korumaya dair kutsal bir görev olarak yaklaştığımızda, modern araçların geldiğimiz yeri onurlandırmasını sağlarız. Yapay zekâ çağında sorumluluğumuz değişmedi: Teknolojiyi topluluklarımızın yaşayan dokusuna doğru bir şekilde işlemek, hikâyelerimizin eksiksiz, özgün ve tartışmasız biçimde bize ait kalmasını güvence altına almaktır.",
+      "Bu hikâye, eğitimcilerin deneyimlerini aktaran bir EdSurge serisinin parçasıdır. Bu içerikler Learning Commons desteğiyle kamuya açık olarak sunulmaktadır. EdSurge tüm içerik üzerindeki editoryal kontrolünü korur. (Etik beyanımızı buradan okuyabilirsiniz.) Bu çalışma CC BY-NC-ND 4.0 kapsamında lisanslanmıştır.",
+      "EdSurge operasyonları, etik ilkeleri ve politikaları hakkında daha fazla bilgiyi buradan edinebilirsiniz. EdSurge destekçileri hakkında daha fazla bilgiyi buradan edinebilirsiniz.",
+      "Geleneksel Mesleki Gelişim Yetersizdi. Ben de İlgi Çekici Bir Alternatif Oluşturmak İçin TikTok Kullandım"
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "EĞİTİM TEKNOLOJİSİ",
+      "YAPAY ZEKÂ",
+      "VERİ EGEMENLİĞİ",
+      "DİJİTAL ETİK"
+    ],
+    "source": {
+      "name": "EdSurge",
+      "url": "https://www.edsurge.com/news/stitching-the-future-technology-as-a-sacred-trust",
+      "image": "/img/stitching-the-future-technology-as-a-sacred-trust-1na47n.jpg"
+    },
+    "publishedAt": "2026-09-09T00:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:4o92u9",
+    "rawTitle": "Stitching the Future: Technology as a Sacred Trust",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "f_4ayfqw_mvhauk4x",
