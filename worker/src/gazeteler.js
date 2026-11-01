@@ -127,6 +127,32 @@ function formatTurkishDate(dateStr) {
   return `${day} ${monthName} ${year}`
 }
 
+function getTurkeyDate(offsetDays = 0) {
+  const now = new Date()
+  const trNow = new Date(now.getTime() + 3 * 3600 * 1000 + offsetDays * 86400 * 1000)
+  const y = trNow.getUTCFullYear()
+  const m = String(trNow.getUTCMonth() + 1).padStart(2, '0')
+  const d = String(trNow.getUTCDate()).padStart(2, '0')
+  const yy = String(y).slice(-2)
+  return { y, m, d, yy, yymmdd: `${yy}${m}${d}`, iso: `${y}-${m}-${d}`, display: `${d}.${m}.${y}` }
+}
+
+async function probeUrl(url, timeoutMs = 4000) {
+  try {
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), timeoutMs)
+    const res = await fetch(url, {
+      method: 'HEAD',
+      headers: { 'User-Agent': UA },
+      signal: controller.signal,
+    })
+    clearTimeout(timer)
+    return res.ok ? url : null
+  } catch {
+    return null
+  }
+}
+
 /** Akşam gazetesinin en güncel sayısını esmedya üzerinden bulur. */
 async function fetchAksam() {
   for (let id = 17280; id >= 17268; id--) {
@@ -251,6 +277,122 @@ async function fetchPosta() {
   }
 }
 
+/** Sözcü gazetesinin en güncel tam sayısını web edisyonundan çeker (20 sayfa yüksek çözünürlük). */
+async function fetchSozcu() {
+  try {
+    const res = await fetch('https://www.sozcu.com.tr/e-gazete', {
+      headers: {
+        'User-Agent': UA,
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      },
+    })
+    if (!res.ok) return null
+    const html = await res.text()
+
+    // PhotoSwipe / Swiper slide ögelerinden yüksek çözünürlüklü ve küçük görselleri al
+    const slideRegex = /<a[^>]+data-pswp-src=["']([^"']+)["'][^>]*>[\s\S]*?<img[^>]+src=["']([^"']+)["']/gi
+    const pages = []
+    let match
+    let pageNum = 1
+    while ((match = slideRegex.exec(html)) !== null) {
+      const full = match[1].replace(/&amp;/g, '&')
+      const thumb = match[2].replace(/&amp;/g, '&')
+      pages.push({
+        page: pageNum++,
+        img: full,
+        thumb: thumb || full,
+      })
+    }
+
+    if (pages.length === 0) return null
+
+    const trDate = getTurkeyDate(0)
+    const formattedDate = formatTurkishDate(trDate.iso)
+
+    return {
+      id: `sozcu_${trDate.iso}`,
+      name: 'Sözcü',
+      title: 'Sözcü Gazetesi',
+      date: formattedDate,
+      thumb: pages[0]?.thumb || pages[0]?.img || '',
+      pdf: '',
+      pageCount: pages.length,
+      pages,
+    }
+  } catch (err) {
+    console.warn('[gazeteler] Sozcu cekilemedi:', String(err?.message ?? err).slice(0, 100))
+    return null
+  }
+}
+
+/** Aydınlık gazetesinin en güncel sayısını (resmi tek parça tam PDF) bulur. */
+async function fetchAydinlik() {
+  try {
+    // 1. Probing stratejisi: Bugün, dün, 2 gün önce kontrol et
+    for (let dayOffset = 0; dayOffset <= 3; dayOffset++) {
+      const target = getTurkeyDate(-dayOffset)
+
+      // Drupal klasör yükleme tarihi adayı: 1 gün önce, aynı gün, 2 gün önce
+      const uploadCandidates = [1, 0, 2].map((upOffset) => {
+        const up = getTurkeyDate(-(dayOffset + upOffset))
+        return `${up.y}/${up.m}/${up.d}`
+      })
+
+      const pdfPromises = uploadCandidates.map(async (folder) => {
+        const url = `https://egazete.aydinlik.com.tr/sites/default/files/gazeteler/${folder}/Aydinlik-${target.yymmdd}.pdf`
+        const okUrl = await probeUrl(url)
+        return okUrl ? { folder, pdfUrl: okUrl } : null
+      })
+
+      const results = await Promise.all(pdfPromises)
+      const match = results.find(Boolean)
+      if (match) {
+        const coverCandidate = `https://egazete.aydinlik.com.tr/sites/default/files/gazete-gorselleri/${match.folder}/Aydinlik-${target.yymmdd}1.jpeg`
+        const isCoverOk = await probeUrl(coverCandidate)
+        const formattedDate = formatTurkishDate(target.iso)
+
+        return {
+          id: `aydinlik_${target.iso}`,
+          name: 'Aydınlık',
+          title: 'Aydınlık Gazetesi',
+          date: formattedDate,
+          thumb: isCoverOk || coverCandidate,
+          pdf: match.pdfUrl,
+        }
+      }
+    }
+
+    // 2. Yedek Strateji: e-gazete HTML sayfasından regex ile çek
+    const listingRes = await fetch('https://egazete.aydinlik.com.tr/e-gazete', {
+      headers: { 'User-Agent': UA },
+    })
+    if (listingRes.ok) {
+      const html = await listingRes.text()
+      const m = html.match(/gazete-gorselleri\/(\d{4})\/(\d{2})\/(\d{2})\/Aydinlik-(\d{2})(\d{2})(\d{2})1\.jpeg/)
+      if (m) {
+        const [, upY, upM, upD, issYY, issM, issD] = m
+        const folder = `${upY}/${upM}/${upD}`
+        const yymmdd = `${issYY}${issM}${issD}`
+        const fullYear = `20${issYY}`
+        const iso = `${fullYear}-${issM}-${issD}`
+        const pdfUrl = `https://egazete.aydinlik.com.tr/sites/default/files/gazeteler/${folder}/Aydinlik-${yymmdd}.pdf`
+        const coverUrl = `https://egazete.aydinlik.com.tr/sites/default/files/gazete-gorselleri/${folder}/Aydinlik-${yymmdd}1.jpeg`
+        return {
+          id: `aydinlik_${iso}`,
+          name: 'Aydınlık',
+          title: 'Aydınlık Gazetesi',
+          date: formatTurkishDate(iso),
+          thumb: coverUrl,
+          pdf: pdfUrl,
+        }
+      }
+    }
+  } catch (err) {
+    console.warn('[gazeteler] Aydinlik cekilemedi:', String(err?.message ?? err).slice(0, 100))
+  }
+  return null
+}
+
 /** Gazeteoku ve ilgili kaynaklardan günün manşetlerini derler. */
 async function fetchMansetler(prevMap = {}) {
   const map = new Map(Object.entries(prevMap || {}))
@@ -341,17 +483,21 @@ export async function getGazeteler(env) {
     }
   }
 
-  const [aksam, cumhuriyet, posta, mansetler] = await Promise.all([
+  const [aksam, cumhuriyet, sozcu, posta, aydinlik, mansetler] = await Promise.all([
     fetchAksam().catch(() => null),
     fetchCumhuriyet().catch(() => null),
+    fetchSozcu().catch(() => null),
     fetchPosta().catch(() => null),
+    fetchAydinlik().catch(() => null),
     fetchMansetler(prevMap).catch(() => []),
   ])
 
   const tamSayiList = [
     aksam || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Akşam'),
     cumhuriyet || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Cumhuriyet'),
+    sozcu || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Sözcü'),
     posta || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Posta'),
+    aydinlik || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Aydınlık'),
   ].filter(Boolean)
 
   const payload = {

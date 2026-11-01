@@ -154,32 +154,44 @@ export function GazetePage() {
     }
   }
 
-  // Posta Gazetesi PDF Birleştirici Durumları
-  const [postaPdfStatus, setPostaPdfStatus] = useState<'idle' | 'loading' | 'ready'>('idle')
-  const [postaPdfProgress, setPostaPdfProgress] = useState('')
-  const [postaPdfBlobUrl, setPostaPdfBlobUrl] = useState<string | null>(null)
-  const [postaPdfPageCount, setPostaPdfPageCount] = useState<number>(0)
+  // Çok Sayfalı Gazeteler (Posta, Sözcü vb.) PDF Birleştirici Durumları
+  interface MultiPdfState {
+    status: 'idle' | 'loading' | 'ready'
+    progress: string
+    blobUrl: string | null
+    pageCount: number
+  }
+  const [multiPdfStates, setMultiPdfStates] = useState<Record<string, MultiPdfState>>({})
 
-  const handleDownloadPostaPdf = async (g: TamSayiGazete) => {
+  const getGazetePdfState = (name: string): MultiPdfState => {
+    return multiPdfStates[name] || { status: 'idle', progress: '', blobUrl: null, pageCount: 0 }
+  }
+
+  const handleDownloadPagesPdf = async (g: TamSayiGazete) => {
     const pages = g.pages || []
     if (pages.length === 0) return
 
+    const key = g.name
+    const currentState = getGazetePdfState(key)
+
     // Eğer daha önce eksiksiz olarak (tüm sayfalar) oluşturulmuşsa doğrudan indir
-    if (postaPdfStatus === 'ready' && postaPdfBlobUrl && postaPdfPageCount === pages.length) {
+    if (currentState.status === 'ready' && currentState.blobUrl && currentState.pageCount === pages.length) {
       const a = document.createElement('a')
-      a.href = postaPdfBlobUrl
-      a.download = `Posta Gazetesi - ${g.date}.pdf`
+      a.href = currentState.blobUrl
+      a.download = `${g.name} Gazetesi - ${g.date}.pdf`
       document.body.appendChild(a)
       a.click()
       document.body.removeChild(a)
       return
     }
 
-    if (postaPdfStatus === 'loading') return
+    if (currentState.status === 'loading') return
 
     try {
-      setPostaPdfStatus('loading')
-      setPostaPdfProgress(`(0/${pages.length})`)
+      setMultiPdfStates((prev) => ({
+        ...prev,
+        [key]: { status: 'loading', progress: `(0/${pages.length})`, blobUrl: null, pageCount: pages.length },
+      }))
 
       const { PDFDocument } = await import('pdf-lib')
       const pdfDoc = await PDFDocument.create()
@@ -190,7 +202,7 @@ export function GazetePage() {
       const BASE = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '')
 
       const fetchPageBuffer = async (imgUrl: string, maxRetries = 2): Promise<ArrayBuffer> => {
-        // i.hurimg.com CORS başlığı göndermediğinden her zaman worker proxy kullanılır
+        // CDN CORS engellerini aşmak için worker proxy kullanılır
         const proxyUrl = `${BASE}/api/proxy-image?url=${encodeURIComponent(imgUrl)}`
         let lastErr: unknown = null
         for (let attempt = 0; attempt <= maxRetries; attempt++) {
@@ -226,16 +238,23 @@ export function GazetePage() {
               const buf = await fetchPageBuffer(p.img)
               downloadedBuffers[idx] = buf
             } catch (err) {
-              console.warn(`[Posta PDF] Sayfa ${idx + 1} indirilemedi:`, err)
+              console.warn(`[${g.name} PDF] Sayfa ${idx + 1} indirilemedi:`, err)
             } finally {
               loaded++
-              setPostaPdfProgress(`(${loaded}/${pages.length})`)
+              setMultiPdfStates((prev) => ({
+                ...prev,
+                [key]: {
+                  ...(prev[key] || { status: 'loading', blobUrl: null, pageCount: pages.length }),
+                  status: 'loading',
+                  progress: `(${loaded}/${pages.length})`,
+                },
+              }))
             }
           }),
         )
       }
 
-      // 16 sayfanın eksiksiz indirildiğini doğrula!
+      // Tüm sayfaların eksiksiz indirildiğini doğrula!
       const successfulBuffers = downloadedBuffers.filter((b): b is ArrayBuffer => Boolean(b))
       if (successfulBuffers.length < pages.length) {
         throw new Error(
@@ -243,7 +262,13 @@ export function GazetePage() {
         )
       }
 
-      setPostaPdfProgress('Sayfalar birleştiriliyor...')
+      setMultiPdfStates((prev) => ({
+        ...prev,
+        [key]: {
+          ...(prev[key] || { status: 'loading', blobUrl: null, pageCount: pages.length }),
+          progress: 'Sayfalar birleştiriliyor...',
+        },
+      }))
 
       for (let i = 0; i < downloadedBuffers.length; i++) {
         const buf = downloadedBuffers[i]
@@ -253,7 +278,7 @@ export function GazetePage() {
           const page = pdfDoc.addPage([jpg.width, jpg.height])
           page.drawImage(jpg, { x: 0, y: 0, width: jpg.width, height: jpg.height })
         } catch (embedErr) {
-          console.warn(`[Posta PDF] Sayfa ${i + 1} embed hatası:`, embedErr)
+          console.warn(`[${g.name} PDF] Sayfa ${i + 1} embed hatası:`, embedErr)
           throw new Error(`Sayfa ${i + 1} PDF'e dönüştürülemedi`)
         }
       }
@@ -262,25 +287,34 @@ export function GazetePage() {
       const blob = new Blob([pdfBytes as unknown as BlobPart], { type: 'application/pdf' })
       const url = URL.createObjectURL(blob)
 
-      setPostaPdfBlobUrl(url)
-      setPostaPdfPageCount(pages.length)
-      setPostaPdfStatus('ready')
+      setMultiPdfStates((prev) => ({
+        ...prev,
+        [key]: {
+          status: 'ready',
+          progress: 'Hazır',
+          blobUrl: url,
+          pageCount: pages.length,
+        },
+      }))
 
       const a = document.createElement('a')
       a.href = url
-      a.download = `Posta Gazetesi - ${g.date}.pdf`
+      a.download = `${g.name} Gazetesi - ${g.date}.pdf`
       document.body.appendChild(a)
       a.click()
       document.body.removeChild(a)
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err)
-      console.error('[Posta PDF] Hata:', err)
-      setPostaPdfStatus('idle')
-      alert(`Posta PDF hazırlanamadı: ${msg || 'Bilinmeyen hata'}`)
+      console.error(`[${g.name} PDF] Hata:`, err)
+      setMultiPdfStates((prev) => ({
+        ...prev,
+        [key]: { status: 'idle', progress: '', blobUrl: null, pageCount: 0 },
+      }))
+      alert(`${g.name} PDF hazırlanamadı: ${msg || 'Bilinmeyen hata'}`)
     }
   }
 
-  function stepPostaPage(delta: number) {
+  function stepPage(delta: number) {
     if (!activeCover?.pages) return
     const cur = activeCover.pageIndex ?? 0
     const next = cur + delta
@@ -379,13 +413,13 @@ export function GazetePage() {
         resetZoomAndPan()
       } else if (e.key === 'ArrowRight') {
         if (activeCover.pages && typeof activeCover.pageIndex === 'number') {
-          stepPostaPage(1)
+          stepPage(1)
         } else {
           goNext()
         }
       } else if (e.key === 'ArrowLeft') {
         if (activeCover.pages && typeof activeCover.pageIndex === 'number') {
-          stepPostaPage(-1)
+          stepPage(-1)
         } else {
           goPrev()
         }
@@ -621,11 +655,11 @@ export function GazetePage() {
                             </button>
                             <button
                               type="button"
-                              onClick={() => handleDownloadPostaPdf(g)}
-                              disabled={postaPdfStatus === 'loading'}
+                              onClick={() => handleDownloadPagesPdf(g)}
+                              disabled={getGazetePdfState(g.name).status === 'loading'}
                               className={clsx(
                                 'inline-flex items-center justify-center gap-1.5 rounded-lg border border-line px-3 py-2 text-xs font-semibold transition',
-                                postaPdfStatus === 'ready'
+                                getGazetePdfState(g.name).status === 'ready'
                                   ? 'bg-emerald-600 text-white hover:bg-emerald-700'
                                   : 'bg-surface-2 text-fg hover:bg-surface-3',
                               )}
@@ -633,18 +667,18 @@ export function GazetePage() {
                             >
                               <Icon
                                 name={
-                                  postaPdfStatus === 'loading'
+                                  getGazetePdfState(g.name).status === 'loading'
                                     ? 'Clock'
-                                    : postaPdfStatus === 'ready'
+                                    : getGazetePdfState(g.name).status === 'ready'
                                       ? 'CheckCircle'
                                       : 'Download'
                                 }
                                 size={14}
                               />
                               <span className="hidden sm:inline">
-                                {postaPdfStatus === 'idle' && 'İndir'}
-                                {postaPdfStatus === 'loading' && postaPdfProgress}
-                                {postaPdfStatus === 'ready' && 'İndir'}
+                                {getGazetePdfState(g.name).status === 'idle' && 'İndir'}
+                                {getGazetePdfState(g.name).status === 'loading' && getGazetePdfState(g.name).progress}
+                                {getGazetePdfState(g.name).status === 'ready' && 'İndir'}
                               </span>
                             </button>
                           </>
@@ -825,7 +859,7 @@ export function GazetePage() {
                 <div className="mr-2 flex items-center gap-1 rounded-lg bg-white/10 p-1">
                   <button
                     type="button"
-                    onClick={() => stepPostaPage(-1)}
+                    onClick={() => stepPage(-1)}
                     disabled={(activeCover.pageIndex ?? 0) <= 0}
                     className="rounded p-1 text-white hover:bg-white/20 disabled:opacity-40"
                     title="Önceki Sayfa (Sol Ok)"
@@ -837,7 +871,7 @@ export function GazetePage() {
                   </span>
                   <button
                     type="button"
-                    onClick={() => stepPostaPage(1)}
+                    onClick={() => stepPage(1)}
                     disabled={(activeCover.pageIndex ?? 0) >= activeCover.pages.length - 1}
                     className="rounded p-1 text-white hover:bg-white/20 disabled:opacity-40"
                     title="Sonraki Sayfa (Sağ Ok)"
@@ -888,20 +922,20 @@ export function GazetePage() {
                   type="button"
                   onClick={() => {
                     const currentGazete = tamSayiList.find((g) => g.name === activeCover.name)
-                    if (currentGazete) handleDownloadPostaPdf(currentGazete)
+                    if (currentGazete) handleDownloadPagesPdf(currentGazete)
                   }}
-                  disabled={postaPdfStatus === 'loading'}
+                  disabled={getGazetePdfState(activeCover.name).status === 'loading'}
                   className={clsx(
                     'rounded-lg px-3 py-1.5 text-xs font-semibold text-white shadow-xs transition',
-                    postaPdfStatus === 'ready'
+                    getGazetePdfState(activeCover.name).status === 'ready'
                       ? 'bg-emerald-600 hover:bg-emerald-700'
                       : 'bg-accent hover:bg-accent/90',
                   )}
                   title="Tüm Sayfaları PDF Olarak İndir"
                 >
-                  {postaPdfStatus === 'loading'
-                    ? `İndiriliyor ${postaPdfProgress}`
-                    : postaPdfStatus === 'ready'
+                  {getGazetePdfState(activeCover.name).status === 'loading'
+                    ? `İndiriliyor ${getGazetePdfState(activeCover.name).progress}`
+                    : getGazetePdfState(activeCover.name).status === 'ready'
                       ? 'PDF İndirildi (Tekrar İndir)'
                       : 'Tam PDF İndir'}
                 </button>
@@ -935,7 +969,7 @@ export function GazetePage() {
           {/* Sol / Sağ Gezinme Düğmeleri */}
           <button
             type="button"
-            onClick={activeCover.pages ? () => stepPostaPage(-1) : goPrev}
+            onClick={activeCover.pages ? () => stepPage(-1) : goPrev}
             className="absolute left-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-black/60 text-white shadow-lg backdrop-blur-md transition hover:bg-black/90 hover:scale-105"
             title={activeCover.pages ? 'Önceki Sayfa (Sol Ok)' : 'Önceki Gazete (Sol Ok)'}
           >
@@ -944,7 +978,7 @@ export function GazetePage() {
 
           <button
             type="button"
-            onClick={activeCover.pages ? () => stepPostaPage(1) : goNext}
+            onClick={activeCover.pages ? () => stepPage(1) : goNext}
             className="absolute right-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-black/60 text-white shadow-lg backdrop-blur-md transition hover:bg-black/90 hover:scale-105"
             title={activeCover.pages ? 'Sonraki Sayfa (Sağ Ok)' : 'Sonraki Gazete (Sağ Ok)'}
           >
