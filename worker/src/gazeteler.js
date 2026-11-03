@@ -118,12 +118,29 @@ const TR_MONTHS = [
 ]
 
 function formatTurkishDate(dateStr) {
-  const parts = dateStr.split('-')
-  if (parts.length !== 3) return dateStr
-  const year = parts[0]
-  const month = parseInt(parts[1], 10)
-  const day = parseInt(parts[2], 10)
-  const monthName = TR_MONTHS[month - 1] || parts[1]
+  if (!dateStr) return 'Bugün'
+  let day, month, year
+  if (dateStr.includes('-')) {
+    const parts = dateStr.split('-')
+    year = parts[0]
+    month = parseInt(parts[1], 10)
+    day = parseInt(parts[2], 10)
+  } else if (dateStr.includes('.')) {
+    const parts = dateStr.split('.')
+    day = parseInt(parts[0], 10)
+    month = parseInt(parts[1], 10)
+    year = parts[2]
+  } else {
+    const m = dateStr.match(/^(\d{1,2})\s+([^\s\d]+)\s+(\d{4})/)
+    if (m) {
+      day = parseInt(m[1], 10)
+      const monthName = m[2]
+      year = m[3]
+      return `${day} ${monthName} ${year}`
+    }
+    return dateStr
+  }
+  const monthName = TR_MONTHS[month - 1] || month
   return `${day} ${monthName} ${year}`
 }
 
@@ -168,8 +185,8 @@ async function fetchAksam() {
           return {
             id: `aksam_${id}`,
             name: 'Akşam',
-            title: item.name || 'Akşam Gazetesi',
-            date: dateMatch ? dateMatch[0] : (item.relDate || 'Bugün'),
+            title: 'Akşam',
+            date: formatTurkishDate(dateMatch ? dateMatch[0] : (item.relDate || 'Bugün')),
             thumb: item.thumb ? `https://members.esmedya.com.tr/${item.thumb}` : '',
             pdf: item.pdf ? `https://members.esmedya.com.tr/${item.pdf}` : '',
           }
@@ -209,8 +226,8 @@ async function fetchCumhuriyet() {
           return {
             id: `cumhuriyet_${first.IdNewspaperPage || dt.toISOString().slice(0, 10)}`,
             name: 'Cumhuriyet',
-            title: 'Cumhuriyet Gazetesi',
-            date: first.NewspaperDate || `${dt.getDate()}.${dt.getMonth() + 1}.${dt.getFullYear()}`,
+            title: 'Cumhuriyet',
+            date: formatTurkishDate(first.NewspaperDate || `${dt.getDate()}.${dt.getMonth() + 1}.${dt.getFullYear()}`),
             thumb: cover ? `https://egazete.cumhuriyet.com.tr${cover}` : '',
             pdf: pdf ? `https://egazete.cumhuriyet.com.tr${pdf}` : '',
           }
@@ -224,7 +241,7 @@ async function fetchCumhuriyet() {
 /** Posta gazetesinin en güncel tam sayısını Voltran e-Gazete API'sinden çeker. */
 async function fetchPosta() {
   try {
-    const deviceId = 'a1b2c3d4e5f60718'
+    const deviceId = 'posta_web_' + Date.now().toString(36)
     const pubUrl = `https://voltran-egazeteapi.hurriyet.com.tr/api/v1/content/publication/?appcode=posta&deviceid=${deviceId}&machine=Samsung&model=SM-S918B&platform=android&userid=null&ssoid=null`
     const pubRes = await fetch(pubUrl, {
       headers: { 'User-Agent': 'okhttp/4.9.1', Accept: 'application/json' },
@@ -242,17 +259,19 @@ async function fetchPosta() {
     const issueData = await issueRes.json()
 
     const parts = issueData?.parts || []
-    const mainPart = parts[0]
+    // Ana gazeteyi bul: Adı 'posta' olan veya en çok sayfası olan ana edisyon (ekleri ve 4 sayfalık bölge eklerini ele)
+    const mainPart = parts.find((p) => p.name && p.name.trim().toLowerCase() === 'posta')
+      || [...parts].sort((a, b) => (b.pages?.length || 0) - (a.pages?.length || 0))[0]
     const rawPages = mainPart?.pages || []
     if (rawPages.length === 0) return null
 
-    const pages = rawPages.map((p) => {
+    const pages = rawPages.map((p, idx) => {
       let highUrl = p.fullNameUrl || ''
       if (!highUrl && p.fullThumbNameUrl) {
         highUrl = p.fullThumbNameUrl.replace('/90/0x300/', '/80/1433x2424/').replace('/0x300/', '/1433x2424/')
       }
       return {
-        page: p.page,
+        page: p.page || (idx + 1),
         img: highUrl.replace('http://', 'https://'),
         thumb: (p.fullThumbNameUrl || highUrl).replace('http://', 'https://'),
       }
@@ -264,7 +283,7 @@ async function fetchPosta() {
     return {
       id: `posta_${latestIssue}`,
       name: 'Posta',
-      title: 'Posta Gazetesi',
+      title: 'Posta',
       date: formattedDate,
       thumb: coverThumb,
       pdf: '',
@@ -312,7 +331,7 @@ async function fetchSozcu() {
     return {
       id: `sozcu_${trDate.iso}`,
       name: 'Sözcü',
-      title: 'Sözcü Gazetesi',
+      title: 'Sözcü',
       date: formattedDate,
       thumb: pages[0]?.thumb || pages[0]?.img || '',
       pdf: '',
@@ -354,7 +373,7 @@ async function fetchAydinlik() {
         return {
           id: `aydinlik_${target.iso}`,
           name: 'Aydınlık',
-          title: 'Aydınlık Gazetesi',
+          title: 'Aydınlık',
           date: formattedDate,
           thumb: isCoverOk || coverCandidate,
           pdf: match.pdfUrl,
@@ -380,7 +399,7 @@ async function fetchAydinlik() {
         return {
           id: `aydinlik_${iso}`,
           name: 'Aydınlık',
-          title: 'Aydınlık Gazetesi',
+          title: 'Aydınlık',
           date: formatTurkishDate(iso),
           thumb: coverUrl,
           pdf: pdfUrl,
@@ -391,6 +410,182 @@ async function fetchAydinlik() {
     console.warn('[gazeteler] Aydinlik cekilemedi:', String(err?.message ?? err).slice(0, 100))
   }
   return null
+}
+
+/** Fanatik spor gazetesinin en güncel tam sayısını Voltran e-Gazete API'sinden çeker. */
+async function fetchFanatik() {
+  try {
+    const deviceId = 'fanatik_web_' + Date.now().toString(36)
+    const pubUrl = `https://voltran-egazeteapi.hurriyet.com.tr/api/v1/content/publication/?appcode=fanatik&deviceid=${deviceId}&machine=Samsung&model=SM-S918B&platform=android&userid=null&ssoid=null`
+    const pubRes = await fetch(pubUrl, {
+      headers: { 'User-Agent': 'okhttp/5.0.0-alpha.14', Accept: 'application/json' },
+    })
+    if (!pubRes.ok) return null
+    const pubData = await pubRes.json()
+    const latestIssue = pubData?.latestIssue
+    if (!latestIssue) return null
+
+    const issueUrl = `https://voltran-egazeteapi.hurriyet.com.tr/api/v1/content/issue/?appcode=fanatik&deviceid=${deviceId}&machine=Samsung&model=SM-S918B&platform=android&userid=null&ssoid=null&issue=${latestIssue}`
+    const issueRes = await fetch(issueUrl, {
+      headers: { 'User-Agent': 'okhttp/5.0.0-alpha.14', Accept: 'application/json' },
+    })
+    if (!issueRes.ok) return null
+    const issueData = await issueRes.json()
+
+    const parts = issueData?.parts || []
+    // Ana gazeteyi seç: adı fanatik olan veya en çok sayfası olan parça (ekleri filtrele)
+    const mainPart = parts.find((p) => p.name && p.name.trim().toLowerCase() === 'fanatik')
+      || [...parts].sort((a, b) => (b.pages?.length || 0) - (a.pages?.length || 0))[0]
+    const rawPages = mainPart?.pages || []
+    if (rawPages.length === 0) return null
+
+    const pages = rawPages.map((p, idx) => {
+      let highUrl = p.fullNameUrl || ''
+      if (!highUrl && p.fullThumbNameUrl) {
+        highUrl = p.fullThumbNameUrl.replace('/90/0x300/', '/80/1433x2424/').replace('/0x300/', '/1433x2424/')
+      }
+      return {
+        page: p.page || (idx + 1),
+        img: highUrl.replace('http://', 'https://'),
+        thumb: (p.fullThumbNameUrl || highUrl).replace('http://', 'https://'),
+      }
+    })
+
+    const formattedDate = formatTurkishDate(latestIssue)
+    const coverThumb = pages[0]?.thumb || pages[0]?.img || ''
+
+    return {
+      id: `fanatik_${latestIssue}`,
+      name: 'Fanatik',
+      title: 'Fanatik',
+      date: formattedDate,
+      thumb: coverThumb,
+      pdf: '',
+      pageCount: pages.length,
+      pages,
+    }
+  } catch (err) {
+    console.warn('[gazeteler] Fanatik cekilemedi:', String(err?.message ?? err).slice(0, 100))
+    return null
+  }
+}
+
+/** Yeniçağ gazetesinin en güncel sayısını (tüm yüksek çözünürlüklü sayfalar) çeker. */
+async function fetchYenicag() {
+  try {
+    const TR_MONTHS_LOWER = ['', 'ocak', 'subat', 'mart', 'nisan', 'mayis', 'haziran',
+      'temmuz', 'agustos', 'eylul', 'ekim', 'kasim', 'aralik']
+    const TR_WEEKDAYS_LOWER = ['pazartesi', 'sali', 'carsamba', 'persembe', 'cuma', 'cumartesi', 'pazar']
+
+    const dateToYenicagSlug = (dateStr) => {
+      const [y, m, d] = dateStr.split('-').map(Number)
+      const dt = new Date(Date.UTC(y, m - 1, d))
+      const day = d
+      const month = TR_MONTHS_LOWER[m]
+      const year = y
+      const dayOfWeek = (dt.getUTCDay() + 6) % 7
+      const weekday = TR_WEEKDAYS_LOWER[dayOfWeek]
+      return {
+        fullSlug: `${day}-${month}-${year}-${weekday}`,
+        simpleSlug: `${day}-${month}-${year}`,
+      }
+    }
+
+    let htmlContent = null
+    let resolvedDate = null
+
+    // 1. Doğrudan güncel slug adaylarını dene (bugün, dün, 2 gün önce)
+    for (let offset = 0; offset <= 2; offset++) {
+      const dtInfo = getTurkeyDate(-offset)
+      const { fullSlug, simpleSlug } = dateToYenicagSlug(dtInfo.iso)
+
+      for (const slug of [fullSlug, simpleSlug]) {
+        try {
+          const res = await fetch(`https://www.yenicaggazetesi.com/egazete/${slug}`, {
+            headers: { 'User-Agent': UA, Accept: 'text/html' },
+          })
+          if (res.ok) {
+            htmlContent = await res.text()
+            resolvedDate = dtInfo.iso
+            break
+          }
+        } catch {}
+      }
+      if (htmlContent) break
+    }
+
+    // 2. Bulunamadıysa arşiv listing sayfasından ilk bağlantıyı yakala
+    if (!htmlContent) {
+      const listRes = await fetch('https://www.yenicaggazetesi.com/egazete', {
+        headers: { 'User-Agent': UA, Accept: 'text/html' },
+      })
+      if (listRes.ok) {
+        const listHtml = await listRes.text()
+        const m = listHtml.match(/href=["']https?:\/\/www\.yenicaggazetesi\.com\/egazete\/([^"'#?]+)["']/i)
+        if (m && m[1]) {
+          const slug = m[1]
+          const pageRes = await fetch(`https://www.yenicaggazetesi.com/egazete/${slug}`, {
+            headers: { 'User-Agent': UA, Accept: 'text/html' },
+          })
+          if (pageRes.ok) {
+            htmlContent = await pageRes.text()
+            const sm = slug.match(/^(\d{1,2})-([a-z]+)-(\d{4})/i)
+            if (sm) {
+              const monthIdx = TR_MONTHS_LOWER.indexOf(sm[2].toLowerCase())
+              if (monthIdx > 0) {
+                resolvedDate = `${sm[3]}-${String(monthIdx).padStart(2, '0')}-${String(sm[1]).padStart(2, '0')}`
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (!htmlContent) return null
+
+    // Sayfa görsellerini ayıkla
+    const matches = htmlContent.match(/https:\/\/img\.yenicaggazetesi\.com\/(?:rcman\/[^/]+\/)?storage\/([^"'\s]+?\.jpg)/gi) || []
+    const uniquePaths = [...new Set(matches.map((m) => m.replace(/https:\/\/img\.yenicaggazetesi\.com\/(?:rcman\/[^/]+\/)?storage\//, '')))]
+
+    if (uniquePaths.length === 0) return null
+
+    const pagesWithNum = uniquePaths.map((p) => {
+      const m1 = p.match(/-(\d{1,2})-yc[-.]/i)
+      let pNum = 99
+      if (m1) {
+        pNum = parseInt(m1[1], 10)
+      } else {
+        const m2 = p.match(/\/(\d{1,2})\.jpg$/i)
+        if (m2) pNum = parseInt(m2[1], 10)
+      }
+      return { path: p, pNum }
+    })
+
+    pagesWithNum.sort((a, b) => a.pNum - b.pNum)
+
+    const pages = pagesWithNum.map((item, idx) => ({
+      page: idx + 1,
+      img: `https://img.yenicaggazetesi.com/rcman/Cw1433h2424q95gc/storage/${item.path}`,
+      thumb: `https://img.yenicaggazetesi.com/rcman/Cw356h600q90gc/storage/${item.path}`,
+    }))
+
+    const dateToUse = resolvedDate || getTurkeyDate(0).iso
+    const formattedDate = formatTurkishDate(dateToUse)
+
+    return {
+      id: `yenicag_${dateToUse}`,
+      name: 'Yeniçağ',
+      title: 'Yeniçağ',
+      date: formattedDate,
+      thumb: pages[0]?.thumb || pages[0]?.img || '',
+      pdf: '',
+      pageCount: pages.length,
+      pages,
+    }
+  } catch (err) {
+    console.warn('[gazeteler] Yenicag cekilemedi:', String(err?.message ?? err).slice(0, 100))
+    return null
+  }
 }
 
 /** Gazeteoku ve ilgili kaynaklardan günün manşetlerini derler. */
@@ -483,12 +678,14 @@ export async function getGazeteler(env) {
     }
   }
 
-  const [aksam, cumhuriyet, sozcu, posta, aydinlik, mansetler] = await Promise.all([
+  const [aksam, cumhuriyet, sozcu, posta, aydinlik, fanatik, yenicag, mansetler] = await Promise.all([
     fetchAksam().catch(() => null),
     fetchCumhuriyet().catch(() => null),
     fetchSozcu().catch(() => null),
     fetchPosta().catch(() => null),
     fetchAydinlik().catch(() => null),
+    fetchFanatik().catch(() => null),
+    fetchYenicag().catch(() => null),
     fetchMansetler(prevMap).catch(() => []),
   ])
 
@@ -498,6 +695,8 @@ export async function getGazeteler(env) {
     sozcu || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Sözcü'),
     posta || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Posta'),
     aydinlik || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Aydınlık'),
+    fanatik || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Fanatik'),
+    yenicag || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Yeniçağ'),
   ].filter(Boolean)
 
   const payload = {

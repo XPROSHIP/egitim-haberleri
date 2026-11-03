@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Cloudflare Worker — Eğitim Haberleri
  *
  *  · GET  /api/news        → yayındaki haberler (CDN önbellekli)
@@ -1067,8 +1067,14 @@ export default {
         return reply({ error: 'Geçersiz görsel URL' }, 400)
       }
       try {
+        const reqHeaders = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }
+        if (targetImgUrl.includes('yenicaggazetesi.com')) {
+          reqHeaders['Referer'] = 'https://www.yenicaggazetesi.com/'
+        } else if (targetImgUrl.includes('hurimg.com')) {
+          reqHeaders['Referer'] = 'https://egazete.hurriyet.com.tr/'
+        }
         const imgRes = await fetch(targetImgUrl, {
-          headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' },
+          headers: reqHeaders,
         })
         if (!imgRes.ok) throw new Error(`HTTP ${imgRes.status}`)
         const contentType = imgRes.headers.get('content-type') || 'image/jpeg'

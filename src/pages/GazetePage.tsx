@@ -3,6 +3,34 @@ import clsx from 'clsx'
 import { Icon } from '../components/Icon'
 import { useGazeteler, fetchGztMansetler, type TamSayiGazete, type MansetGazete } from '../lib/api'
 
+const TR_MONTHS_NAMES = [
+  'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+  'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık',
+]
+
+function formatDisplayDate(dateStr: string) {
+  if (!dateStr) return 'Bugün'
+  const m = dateStr.match(/^0?(\d{1,2})\s+([^\s\d]+)\s+(\d{4})/)
+  if (m) {
+    return `${parseInt(m[1], 10)} ${m[2]} ${m[3]}`
+  }
+  if (dateStr.includes('.')) {
+    const [d, mo, y] = dateStr.split('.')
+    const mIdx = parseInt(mo, 10) - 1
+    if (mIdx >= 0 && mIdx < 12) {
+      return `${parseInt(d, 10)} ${TR_MONTHS_NAMES[mIdx]} ${y}`
+    }
+  }
+  if (dateStr.includes('-')) {
+    const [y, mo, d] = dateStr.split('-')
+    const mIdx = parseInt(mo, 10) - 1
+    if (mIdx >= 0 && mIdx < 12) {
+      return `${parseInt(d, 10)} ${TR_MONTHS_NAMES[mIdx]} ${y}`
+    }
+  }
+  return dateStr
+}
+
 export function GazetePage() {
   const { data, isLoading, isError, refetch } = useGazeteler()
 
@@ -17,6 +45,32 @@ export function GazetePage() {
     pages?: { page: number; img: string; thumb: string }[]
     pageIndex?: number
   } | null>(null)
+
+  function openLightboxForGazete(g: TamSayiGazete, idx: number) {
+    resetZoomAndPan()
+    const cleanName = g.name.replace(/\s+Gazetesi?$/i, '')
+    const cleanDate = formatDisplayDate(g.date)
+    if (g.pages && g.pages.length > 0) {
+      setActiveCover({
+        name: cleanName,
+        date: cleanDate,
+        fullUrl: g.pages[0].img,
+        index: idx,
+        listType: 'tam',
+        pages: g.pages,
+        pageIndex: 0,
+      })
+    } else {
+      setActiveCover({
+        name: cleanName,
+        date: cleanDate,
+        fullUrl: g.thumb,
+        pdfUrl: g.pdf,
+        index: idx,
+        listType: 'tam',
+      })
+    }
+  }
 
   const [zoomLevel, setZoomLevel] = useState<number>(1)
   const [panOffset, setPanOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 })
@@ -174,11 +228,14 @@ export function GazetePage() {
     const key = g.name
     const currentState = getGazetePdfState(key)
 
+    const cleanName = g.name.replace(/\s+Gazetesi?$/i, '')
+    const cleanDate = formatDisplayDate(g.date)
+
     // Eğer daha önce eksiksiz olarak (tüm sayfalar) oluşturulmuşsa doğrudan indir
     if (currentState.status === 'ready' && currentState.blobUrl && currentState.pageCount === pages.length) {
       const a = document.createElement('a')
       a.href = currentState.blobUrl
-      a.download = `${g.name} Gazetesi - ${g.date}.pdf`
+      a.download = `${cleanName} - ${cleanDate}.pdf`
       document.body.appendChild(a)
       a.click()
       document.body.removeChild(a)
@@ -299,7 +356,7 @@ export function GazetePage() {
 
       const a = document.createElement('a')
       a.href = url
-      a.download = `${g.name} Gazetesi - ${g.date}.pdf`
+      a.download = `${cleanName} - ${cleanDate}.pdf`
       document.body.appendChild(a)
       a.click()
       document.body.removeChild(a)
@@ -452,18 +509,20 @@ export function GazetePage() {
     if (activeCover.listType === 'tam') {
       const g = item as TamSayiGazete
       setActiveCover({
-        name: g.name,
-        date: g.date,
-        fullUrl: g.thumb,
+        name: g.name.replace(/\s+Gazetesi?$/i, ''),
+        date: formatDisplayDate(g.date),
+        fullUrl: g.pages?.[0]?.img || g.thumb,
         pdfUrl: g.pdf,
         index: nextIdx,
         listType: 'tam',
+        pages: g.pages,
+        pageIndex: g.pages && g.pages.length > 0 ? 0 : undefined,
       })
     } else {
       const m = item as MansetGazete
       setActiveCover({
-        name: m.name,
-        date: m.date,
+        name: m.name.replace(/\s+Gazetesi?$/i, ''),
+        date: formatDisplayDate(m.date),
         fullUrl: m.full || m.thumb,
         index: nextIdx,
         listType: 'manset',
@@ -480,18 +539,20 @@ export function GazetePage() {
     if (activeCover.listType === 'tam') {
       const g = item as TamSayiGazete
       setActiveCover({
-        name: g.name,
-        date: g.date,
-        fullUrl: g.thumb,
+        name: g.name.replace(/\s+Gazetesi?$/i, ''),
+        date: formatDisplayDate(g.date),
+        fullUrl: g.pages?.[0]?.img || g.thumb,
         pdfUrl: g.pdf,
         index: prevIdx,
         listType: 'tam',
+        pages: g.pages,
+        pageIndex: g.pages && g.pages.length > 0 ? 0 : undefined,
       })
     } else {
       const m = item as MansetGazete
       setActiveCover({
-        name: m.name,
-        date: m.date,
+        name: m.name.replace(/\s+Gazetesi?$/i, ''),
+        date: formatDisplayDate(m.date),
         fullUrl: m.full || m.thumb,
         index: prevIdx,
         listType: 'manset',
@@ -568,150 +629,133 @@ export function GazetePage() {
                 <span className="text-xs font-medium text-muted">Tam baskı, tüm sayfalar</span>
               </div>
 
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {tamSayiList.map((g, idx) => (
-                  <div
-                    key={g.id || g.name}
-                    className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-xs transition duration-200 hover:border-accent/40 hover:shadow-lg sm:flex-row"
-                  >
-                    {/* Dikey Kapak Görseli */}
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {tamSayiList.map((g, idx) => {
+                  const cleanName = g.name.replace(/\s+Gazetesi?$/i, '')
+                  const cleanDate = formatDisplayDate(g.date)
+                  const pdfState = getGazetePdfState(g.name)
+
+                  return (
                     <div
-                      className="relative aspect-3/4 w-full cursor-pointer overflow-hidden bg-surface-2 sm:w-48 sm:shrink-0"
-                      onClick={() => {
-                        resetZoomAndPan()
-                        if (g.pages && g.pages.length > 0) {
-                          setActiveCover({
-                            name: g.name,
-                            date: g.date,
-                            fullUrl: g.pages[0].img,
-                            index: idx,
-                            listType: 'tam',
-                            pages: g.pages,
-                            pageIndex: 0,
-                          })
-                        } else {
-                          setActiveCover({
-                            name: g.name,
-                            date: g.date,
-                            fullUrl: g.thumb,
-                            pdfUrl: g.pdf,
-                            index: idx,
-                            listType: 'tam',
-                          })
-                        }
-                      }}
+                      key={g.id || g.name}
+                      className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-line bg-surface p-3.5 shadow-2xs transition duration-200 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg"
                     >
-                      <img
-                        src={g.thumb}
-                        alt={`${g.name} Gazetesi`}
-                        className="h-full w-full object-cover object-top transition duration-300 group-hover:scale-105"
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition group-hover:opacity-100 flex items-end p-3">
-                        <span className="inline-flex items-center gap-1 text-xs font-semibold text-white">
-                          <Icon name="Maximize2" size={13} /> Kapağı Büyüt
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Bilgi & İşlem Düğmeleri */}
-                    <div className="flex flex-1 flex-col justify-between p-5">
+                      {/* Üst Bilgi Barı: Gazete Adı, Tarih ve Rozet */}
                       <div>
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="rounded-full bg-accent/15 px-2.5 py-0.5 text-[0.7rem] font-bold tracking-wide text-accent uppercase">
-                            Tam Baskı PDF
+                        <div className="mb-1.5 flex items-center justify-between gap-1.5">
+                          <h3 className="truncate text-base font-extrabold tracking-tight text-fg group-hover:text-accent">
+                            {cleanName}
+                          </h3>
+                          <span className="shrink-0 rounded-full bg-accent/15 px-2 py-0.5 text-[0.68rem] font-bold tracking-wide text-accent uppercase">
+                            Tam Baskı
                           </span>
-                          <span className="text-xs text-faint">{g.date}</span>
                         </div>
-                        <h3 className="mt-2 text-xl font-extrabold text-fg group-hover:text-accent">
-                          {g.title || `${g.name} Gazetesi`}
-                        </h3>
-                        <p className="mt-1.5 text-xs text-muted">
-                          Günün en son çıkan tam nüshası. Tüm sayfalarıyla yüksek çözünürlüklü dijital baskıyı tarayıcınızda okuyabilir veya PDF olarak indirebilirsiniz.
-                        </p>
+
+                        <div className="mb-2.5 flex items-center justify-between text-xs text-muted">
+                          <span className="truncate">{cleanDate}</span>
+                          {g.pages && g.pages.length > 0 && (
+                            <span className="shrink-0 text-[0.7rem] font-medium text-faint">
+                              {g.pages.length} Sayfa
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Dikey Kapak Görseli: Gerçek Gazete Oranı (aspect-[1/1.42]) */}
+                        <div
+                          className="relative aspect-[1/1.42] w-full cursor-pointer overflow-hidden rounded-xl border border-line-soft bg-surface-2 shadow-xs"
+                          onClick={() => openLightboxForGazete(g, idx)}
+                          title="Büyütmek için tıklayın"
+                        >
+                          <img
+                            src={g.thumb}
+                            alt={cleanName}
+                            className="h-full w-full object-cover object-top transition duration-300 group-hover:scale-103"
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 backdrop-blur-[1px] transition duration-200 group-hover:opacity-100">
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-xs font-bold text-neutral-900 shadow-md">
+                              <Icon name="Maximize2" size={13} />
+                              <span>Büyüt</span>
+                            </span>
+                          </div>
+                        </div>
                       </div>
 
-                      <div className="mt-6 flex flex-wrap items-center gap-2.5 border-t border-line-soft pt-4">
+                      {/* Alt İşlem Düğmeleri: Oku ve İndir (Yan Yana, Sabit ve Dengeli) */}
+                      <div className="mt-3.5 flex items-center gap-2 border-t border-line-soft pt-3">
+                        {/* Oku Düğmesi */}
                         {g.pages && g.pages.length > 0 ? (
-                          <>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                resetZoomAndPan()
-                                setActiveCover({
-                                  name: g.name,
-                                  date: g.date,
-                                  fullUrl: g.pages![0].img,
-                                  index: idx,
-                                  listType: 'tam',
-                                  pages: g.pages,
-                                  pageIndex: 0,
-                                })
-                              }}
-                              className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-accent/90"
-                            >
-                              <Icon name="BookOpen" size={14} />
-                              <span>Gazeteyi Oku ({g.pages.length} Sayfa)</span>
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => handleDownloadPagesPdf(g)}
-                              disabled={getGazetePdfState(g.name).status === 'loading'}
-                              className={clsx(
-                                'inline-flex items-center justify-center gap-1.5 rounded-lg border border-line px-3 py-2 text-xs font-semibold transition',
-                                getGazetePdfState(g.name).status === 'ready'
-                                  ? 'bg-emerald-600 text-white hover:bg-emerald-700'
-                                  : 'bg-surface-2 text-fg hover:bg-surface-3',
-                              )}
-                              title="Tüm Sayfaları PDF Olarak İndir"
-                            >
-                              <Icon
-                                name={
-                                  getGazetePdfState(g.name).status === 'loading'
-                                    ? 'Clock'
-                                    : getGazetePdfState(g.name).status === 'ready'
-                                      ? 'CheckCircle'
-                                      : 'Download'
-                                }
-                                size={14}
-                              />
-                              <span className="hidden sm:inline">
-                                {getGazetePdfState(g.name).status === 'idle' && 'İndir'}
-                                {getGazetePdfState(g.name).status === 'loading' && getGazetePdfState(g.name).progress}
-                                {getGazetePdfState(g.name).status === 'ready' && 'İndir'}
-                              </span>
-                            </button>
-                          </>
+                          <button
+                            type="button"
+                            onClick={() => openLightboxForGazete(g, idx)}
+                            className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-accent px-2 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-accent/90"
+                            title="Gazeteyi Sayfa Sayfa Oku"
+                          >
+                            <Icon name="BookOpen" size={13} />
+                            <span className="truncate">Oku ({g.pages.length} Syf)</span>
+                          </button>
                         ) : g.pdf ? (
-                          <>
-                            <a
-                              href={g.pdf}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-accent/90"
-                            >
-                              <Icon name="BookOpen" size={14} />
-                              <span>Gazeteyi Oku</span>
-                            </a>
-                            <a
-                              href={g.pdf}
-                              download
-                              target="_blank"
-                              rel="noreferrer"
-                              className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-line bg-surface-2 px-3 py-2 text-xs font-semibold text-fg transition hover:bg-surface-3"
-                              title="PDF İndir"
-                            >
-                              <Icon name="Download" size={14} />
-                              <span className="hidden sm:inline">İndir</span>
-                            </a>
-                          </>
+                          <a
+                            href={g.pdf}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-accent px-2 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-accent/90"
+                            title="Resmi PDF Oku"
+                          >
+                            <Icon name="BookOpen" size={13} />
+                            <span>Oku</span>
+                          </a>
                         ) : (
-                          <span className="text-xs text-faint">PDF hazırlanıyor...</span>
+                          <span className="flex-1 text-center text-xs text-faint">Hazırlanıyor</span>
                         )}
+
+                        {/* İndir Düğmesi */}
+                        {g.pages && g.pages.length > 0 ? (
+                          <button
+                            type="button"
+                            onClick={() => handleDownloadPagesPdf(g)}
+                            disabled={pdfState.status === 'loading'}
+                            className={clsx(
+                              'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg border border-line px-3 py-2 text-xs font-semibold transition',
+                              pdfState.status === 'ready'
+                                ? 'bg-emerald-600 text-white hover:bg-emerald-700'
+                                : 'bg-surface-2 text-fg hover:bg-surface-3',
+                            )}
+                            title="Tüm Sayfaları PDF Olarak İndir"
+                          >
+                            <Icon
+                              name={
+                                pdfState.status === 'loading'
+                                  ? 'Clock'
+                                  : pdfState.status === 'ready'
+                                    ? 'CheckCircle'
+                                    : 'Download'
+                              }
+                              size={13}
+                            />
+                            <span>
+                              {pdfState.status === 'idle' && 'İndir'}
+                              {pdfState.status === 'loading' && pdfState.progress}
+                              {pdfState.status === 'ready' && 'İndir'}
+                            </span>
+                          </button>
+                        ) : g.pdf ? (
+                          <a
+                            href={g.pdf}
+                            download
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg border border-line bg-surface-2 px-3 py-2 text-xs font-semibold text-fg transition hover:bg-surface-3"
+                            title="PDF İndir"
+                          >
+                            <Icon name="Download" size={13} />
+                            <span>İndir</span>
+                          </a>
+                        ) : null}
                       </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             </section>
           )}
@@ -844,9 +888,9 @@ export function GazetePage() {
           <div className="absolute top-0 right-0 left-0 z-10 flex items-center justify-between border-b border-white/10 bg-black/60 px-4 py-3 text-white backdrop-blur-md">
             <div className="flex items-center gap-3">
               <span className="rounded-md bg-accent px-2 py-0.5 text-xs font-bold tracking-wide text-white uppercase">
-                {activeCover.name}
+                {activeCover.name.replace(/\s+Gazetesi?$/i, '')}
               </span>
-              <span className="text-xs text-white/70">{activeCover.date}</span>
+              <span className="text-xs text-white/70">{formatDisplayDate(activeCover.date)}</span>
               {activeCover.pages && (
                 <span className="rounded-full bg-white/20 px-2.5 py-0.5 text-xs font-semibold text-white">
                   Sayfa {(activeCover.pageIndex ?? 0) + 1} / {activeCover.pages.length}
@@ -921,7 +965,9 @@ export function GazetePage() {
                 <button
                   type="button"
                   onClick={() => {
-                    const currentGazete = tamSayiList.find((g) => g.name === activeCover.name)
+                    const currentGazete = tamSayiList.find(
+                      (g) => g.name.replace(/\s+Gazetesi?$/i, '') === activeCover.name || g.name === activeCover.name,
+                    )
                     if (currentGazete) handleDownloadPagesPdf(currentGazete)
                   }}
                   disabled={getGazetePdfState(activeCover.name).status === 'loading'}
