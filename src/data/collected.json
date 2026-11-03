@@ -1,5 +1,66 @@
 [
   {
+    "id": "f_1bo38j9_mw15w47c",
+    "slug": "yabanci-teknoloji-sirketleri-veri-merkezi-calisanlarini-egitmek-icin-1bo38j",
+    "title": "Teknoloji Şirketleri Veri Merkezi Çalışanlarını Eğitmek İçin Üniversitelerle İş Birliği Yapıyor",
+    "excerpt": "Yapay zeka yarışı veri merkezlerinin sayısını artırırken teknoloji devleri, nitelikli personel yetiştirmek için yükseköğretim kurumlarıyla ortaklık kuruyor.",
+    "body": [
+      "Yapay zeka yarışı, ülke genelinde genişleyen veri merkezleri topraktan yükselirken binlerce kişiyi istihdam ederek inşaat işçileri için bir nimet oldu.",
+      "Sonunda inşaat sesleri, raflar, sunucular, kablolar ve soğutma sistemleriyle dolu devasa, belirsiz binalardan yayılan sürekli bir vızıltıya veya sese yerini bırakacak. O zaman ne olacak?",
+      "Bu soru hem ekonomistleri hem de ilçe planlamacılarını aynı şekilde düşündürüyor. İnşaat bittikten sonra veri merkezlerinin bölgesel ekonomileri canlandırıp canlandırmayacağına dair görünüm belirsizliğini koruyor. Birkaç ay veya birkaç yıl boyunca binlerce inşaat işi yaratan bir saha, uzun vadede yalnızca birkaç yüz veya daha az kişiyi istihdam edebilir.",
+      "Ancak binaların çalışmasını sağlamak için en azından bazı işçilere ihtiyaç duyulacak. Giderek artan bir şekilde, veri merkezlerini inşa eden şirketlerin kendileri operasyonel iş gücünün eğitilmesinde kilit bir rol oynamaktadır. Microsoft, Amazon, Google ve Oracle, talep gören iş sözüyle birlikte veri merkezi teknisyenleri ve vasıflı zanaat işçileri yetiştirmek için yerel yükseköğretim kurumlarıyla ortaklık kuran şirketler arasındadır.",
+      "University of Wisconsin-Milwaukee'de ekonomi profesörü olan Scott Adams, \"Bunlar orta seviye işlerdir; sunucu teknisyenleri, donanım teknisyenleri, altyapıyı korumak zorunda olanlardır\" dedi. \"Gerekli olan yüzlerce bu tür iş var ve bu işlerin eğitime ihtiyacı var çünkü bir anlamda kimse bu açık işi daha önce tam olarak yapmadı.\"",
+      "İki haftada bir yayımlanan bültenimiz, derinlemesine rapor edilmiş yükseköğretim hikayelerini doğrudan gelen kutunuza getiriyor.",
+      "Eğitim programları Amerika Birleşik Devletleri'nin neredeyse tüm köşelerinde varlık gösteriyor. Sadece birkaçını adlandırmak gerekirse: Ohio'daki Columbus State Community College, Amazon Web Services ortaklığıyla bir veri merkezi teknisyen programı sunuyor. New Mexico State University ve University of New Mexico, Oracle Academy ile çalışıyor. Wisconsin'deki Gateway Technical College ise bir Microsoft Datacenter Academy'ye ev sahipliği yapıyor.",
+      "Louis Maxcy, Oregon'daki Blue Mountain Community College'da veri merkezi teknisyenleri yetiştiren bir programdan sertifika aldı. Kredi: Louis Maxcy'nin izniyle",
+      "Bu iş gücü eğitim programlarının potansiyel faydalarına rağmen, bunlar yalnızca birkaç basın bülteni veya çevrimiçi yayınlanan bilgiler aracılığıyla hafifçe duyuruluyor. Google, Oracle ve Microsoft, The Hechinger Report'un röportaj taleplerine ya yanıt vermedi ya da reddetti. Bu şirketler, yerel topluluklardan veri merkezlerinin inşasına karşı artan bir direnişle karşılaştı.",
+      "Ancak 30 yaşındaki Louis Maxcy, kariyeri burs destekli bir eğitim programıyla ivme kazanan artan sayıdaki veri merkezi teknisyeninden biri. Bu program için derslerine Eylül 2025'te Amazon Web Services ile ortaklık kuran Oregon'daki Blue Mountain Community College'da başladı. Şirket onu, eğitimine devam ederken ilkbaharda işe aldı ve programı tamamlaması için ihtiyaç duyduğu ortak çalışma deneyimini ona kazandırdı. Haziran ayında bir sertifika ve bir iş alarak mezun oldu.",
+      "Şimdi, kuzeydoğu Oregon'daki memleketi Umatilla'daki bir AWS veri merkezine 10 dakikadan kısa sürede araba ile gidiyor. Bölgenin ekonomisi büyük ölçüde tarıma dayalı ve en büyük işveren bir eyalet hapishanesi.",
+      "Maxcy, \"Bu bölgede başarılı olmak istiyorsanız ayrılmanız gerektiğine dair her zaman bir damgalama olmuştur\" diyor.",
+      "İlgili: Yükseköğretimdeki yeniliklerle ilgileniyor musunuz? Ücretsiz iki haftalık yükseköğretim bültenimize abone olun.",
+      "Devasa sermaye yatırımları ve güç ve su kullanımından gürültü kirliliğine kadar değişen endişeler sayesinde veri merkezi inşaatı çılgınlığı küresel manşetlere hakim oldu. 2007'den beri pazar araştırması derleyen Data Center Map, Virginia, Texas, Ohio, California, Georgia ve Illinois'de büyük kümelerle birlikte ABD genelinde 4,700'den fazla konum gösteriyor.",
+      "ABD Nüfus Sayım Bürosu, veri merkezlerindeki istihdamın 2016'dan 2023'e yüzde 60'tan fazla arttığını tahmin ediyor. Ancak veri merkezlerindeki sürekli operasyonel işlerin sayısı değişiyor.",
+      "Buna rağmen eğitim programları, veri merkezleri hızla çoğaldıkça ve şirketlerin bunları çalıştıracak kalifiye işçilere ihtiyacı olduğunda bir beceri açığını ele almaya çalışıyor.",
+      "2006 yılına dayanan bulut bilişim öncüsü Amazon Web Services'in iş gücü ve ekonomik kalkınmadan sorumlu yöneticisi Nicholas Lee-Romagnolo, şirketin veri merkezlerinin bilgisayar donanımının yanı sıra bina operasyonlarını ve makinelerini önemseyen teknisyenlere ihtiyacı olduğunu söylüyor. Bu pozisyonlar, sürekli evrilen bir ortamda değişen seviyelerde teknik beceri gerektirir.",
+      "Lee-Romagnolo, \"Bu sunucular her zaman değişiyor. Fiber her zaman değişiyor\" dedi. \"Veri merkezinin içindeki her şey, özellikle Amazon Web Services'in veri merkezlerinde sürekli olarak yükseltiliyor. Bu yüzden müfredatın 3 yaşında olmadığından, mevcut ihtiyacı karşılamak için sürekli güncellendiğinden emin olmalıyız.\"",
+      "Stone Ridge, Virginia'daki bir Amazon Web Services veri merkezi. Kredi: Nathan Howard/Getty Images",
+      "İlgili: Üniversite mezunları iş bulma konusunda endişelenirken, rekor düzeyde bir işçi açığı öngörülüyor",
+      "Geçtiğimiz sonbaharda, Racine, Wisconsin'deki Gateway Technical College bir Microsoft Datacenter Academy başlattı. Dünyadaki düzinelerce akademiden biri. Microsoft röportaj talebini reddetti, ancak teknoloji şirketinin web sitesi akademiyi \"veri merkezi endüstrisine yollar oluşturmak için yerel eğitim ortaklarıyla işbirliği yapan bir topluluk beceri kazandırma programı\" olarak tanımlıyor.",
+      "Zamanlama ve konum rastgele değil. Haziran ayında Microsoft, Milwaukee ve Chicago arasında Racine County'de yer alan Mount Pleasant Köyü'nde ilk veri merkezini açtı. İkinci, bitişik bir tesisin inşaatı devam ediyor.",
+      "Gateway'deki iki yarıyıl boyunca öğrenciler, Microsoft Veri Merkezi Sertifikası almak için BT Teknik Becerileri, Donanım/Yazılım Desteği, Sunucu Teknolojileri ve Veri Merkezi Teknisyeni olmak üzere dört dersi tamamlayabilirler.",
+      "Bu dersler kavramsal olmaktan çok beceri odaklı görünüyorsa, bütün mesele de bu. İşverenlerle ortaklıkları denetleyen Gateway’in İş ve İş Gücü Çözümleri dekanı ve İmalat, Mühendislik ve Bilgi Teknolojileri Okulu dekanı Mark Kappes, bir sınıfa adım attığınızda bağımsız bir bilgisayarın veya sunucunun organlarına bakan öğrenciler bulacağınızı söyledi.",
+      "\"Uygulamalı\" derslerin öğrencileri doğrudan veri merkezi teknisyenleri, BT destek uzmanları, bulut altyapı ortakları veya tesis operasyon teknisyenleri olarak rollerine adım atmaya hazırladığını söyledi. Büyük hiperskalerler ve veri depolama ihtiyaçları olan küçük şirketler, donanımı izlemek ve değiştirmek, sorunları gidermek ve genel tesis güvenliğini sağlamak için teknisyenler istihdam etmektedir.",
+      "Kappes, Mayıs sonuna kadar 14 öğrencinin Microsoft Veri Merkezi Sertifikası kazandığını ve başka bir 206 öğrencinin programa kayıtlı olduğunu söyledi. Microsoft'un program için ve bazı BT öğrencileri için finanse ettiği, 2,277 dolarlık öğrenim ücretini ve kitaplar için yaklaşık 760 doları kapsayan burslar sayesinde, yeni lise mezunları ve kariyer değişikliği arayan yetişkinler özellikle ilgi gösterdi.",
+      "Cazibenin bir diğer kısmı da ne? Gelişmekte olan bir sektörde bir işe giden hızlı yol. Sertifikayı tamamlayan öğrenciler doğrudan iş gücüne girebilir veya bir dereceye devam edebilir. Bazıları her ikisini de yapıyor.",
+      "Kappes, \"Üzerinde Microsoft'un adı var ve Microsoft bunun için burslara sponsor oluyor, ancak bu mutlaka insanları, öğrencileri veya mezunları Microsoft'a yönlendirmek için değil\" dedi. \"Genel topluluğun refahı içindir.\"",
+      "Nitekim, veri merkezleri hakkındaki itirazlar genellikle algılanan dezavantajlar etrafında, bu tür projeleri onaylamanın potansiyel topluluk faydalarına karşı döner. Bir düşünce kuruluşu olan Brookings Institution tarafından bu yılın başlarında yayınlanan bir rapor, yerel yönetimleri, teknoloji şirketleriyle anlaşma yaptıklarında, gelişen bir teknoloji istihdam ekosistemini teşvik edebilecek yerel sakinler için iş eğitimine yatırımlar gibi daha güçlü bölgesel faydalar müzakere etmeye çağırdı.",
+      "Raporun ortak yazarlarından Mark Muro, \"[İş gücü eğitiminin] doğada organik olarak ortaya çıktığını gördük\" dedi. \"Bir sonraki adım bunun müzakerelerin standart bir parçası haline gelmesidir.\""
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "Teknoloji Eğitimi",
+      "Veri Merkezi",
+      "Yapay Zeka"
+    ],
+    "source": {
+      "name": "Hechinger Report",
+      "url": "https://hechingerreport.org/tech-companies-enlist-colleges-to-help-them-train-data-center-workers/",
+      "image": "/img/tech-companies-enlist-colleges-to-help-them-train-data-cente-ugvoij.jpg"
+    },
+    "publishedAt": "2026-11-03T19:25:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:1bo38j9",
+    "rawTitle": "Tech companies enlist colleges to help them train data center workers",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "n_1yfrush_mw0zym1b",
     "slug": "kuvvetli-yagis-ve-sicaklik-dususu-uyarisi-dort-ilde-okul-tatili-beklenti-d1ncys",
     "title": "Kuvvetli yağış ve sıcaklık düşüşü uyarısı dört ilde okul tatili beklentisini artırdı",
@@ -514,6 +575,43 @@
     "rawTitle": "İmam hatip okullarının 75. yılına özel ebru atölyesi düzenlendi",
     "status": "published",
     "lang": "tr"
+  },
+  {
+    "id": "f_fk6qmj_mw15w47c",
+    "slug": "yabanci-new-college-borclanma-icin-gizemli-yatirimcidan-destek-aliyo-fk6qmj",
+    "title": "New College Borçlanma İçin Gizemli Yatırımcıdan Destek Alıyor",
+    "excerpt": "New College of Florida, genişleme planları kapsamında milyonlarca dolarlık borçlanmayı kabul etti ve fon sağlamak için gizemli bir yatırımcıya yöneldi.",
+    "body": [
+      "New College of Florida, yakındaki University of South Florida’nın Sarasota-Manatee kampüsünü devralmayı içeren bir genişleme planının parçası olarak milyonlarca dolarlık borçlanmayı kabul etti.",
+      "New College, USF'nin uydu kampüsünü bünyesine katarken, bu anlaşma nihayetinde okula, NCF'nin önceki inşaat projelerinden halihazırda borçlu olduğu 16 milyon doların üzerine 28.5 milyon dolarlık bir borç yükleyecek. Şimdi üniversite, 44 milyon doları aşan bu borcu ödemek için iki fon kaynağına başvurmaya çalışıyor.",
+      "WUSF'nin haberine göre mütevelli heyeti Cuma günü, eyalette merkezi bulunan BankUnited'dan 40 milyon dolarlık finansman ve ismi açıklanmayan bir yatırımcıdan 7.5 milyon dolara kadar destek içerecek bir plan açıkladı. Üniversite yetkililerinin kimliğini açıklamadığı yatırımcının, okula yaklaşık yüzde 6.2 faiz oranıyla 7.5 milyon dolara kadar borç vermeyi taahhüt ettiği bildirildi. Borcun ilk birkaç yılı sadece faiz ödemelerini içerecek.",
+      "NCF genelkurmay başkan yardımcısı Virginia Zimmermann, Inside Higher Ed'e yaptığı açıklamada, \"Yatırımcı bilgileri, kesinleşmiş kredi sözleşmesi hazır olduğunda önümüzdeki birkaç hafta içinde kamuoyuna açıklanacak\" dedi.",
+      "Mütevelli heyetinin onay için değerlendirdiği teklif, borç servisi ödemelerinin birkaç yıl içinde hızla artmasına yol açacak. NCF 2026 mali yılında mevcut konut borcu için yaklaşık 1.8 milyon dolar öderken, yıllık ödemelerin 2030'da 4.2 milyon dolara kadar çıkması öngörülüyor. Yetkililerin niyetinde olduklarını belirttiği gibi krediler yeniden finanse edilmezse, ödemeler 2033'te 5.2 milyon dolara ulaşabilir. Üniversite yetkilileri borcun ödenmesine yardımcı olmak için konut ücretlerini artırmayı planlıyor.",
+      "New College'ın gizemli finansman düzenlemesi, işletme maliyetlerine yönelik artan incelemelerin ortasında gerçekleşti. Geçtiğimiz yıl Florida Government Efficiency Departmanı, 12 üyeli State University System of Florida'nın öğrenci başına ortalama 22,217 dolar harcadığını, New College'ın ise 83,207 dolar harcadığını tespit etti. NCF ayrıca, Cumhuriyetçi Vali Ron DeSantis'in 2023 yılında kurumda muhafazakar bir yeniden yapılandırma düzenlemesinden bu yana U.S. News & World Report En İyi Üniversiteler sıralamasında büyük bir düşüş yaşayarak, o yıl ulusal liberal sanat kolejleri arasında 76. sıradan bu yıl 150. sıraya geriledi."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "New College",
+      "Üniversite Borcu",
+      "Eğitim Finansmanı"
+    ],
+    "source": {
+      "name": "Inside Higher Ed",
+      "url": "https://www.insidehighered.com/news/quick-takes/2026/11/03/new-college-taps-mystery-investor-loan",
+      "image": "/img/new-college-taps-mystery-nvestor-for-loan-1fffl3.jpg"
+    },
+    "publishedAt": "2026-11-03T08:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:fk6qmj",
+    "rawTitle": "New College Taps Mystery Investor for Loan",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "f_1t5jenu_mw0zzfxn",
