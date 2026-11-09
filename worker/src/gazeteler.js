@@ -103,8 +103,8 @@ const FALLBACK_MANSETLER = {
     date: '9 Kasım 2026',
   },
   'oksijen-gazetesi-gazetesi-manseti': {
-    thumb: 'https://gazeteoksijen.com/wp-content/uploads/2026/11/6-kasim-2026-manset-768x1161.jpg',
-    full: 'https://gazeteoksijen.com/wp-content/uploads/2026/11/6-kasim-2026-manset.jpg',
+    thumb: 'https://i.gazeteoksijen.com/3/340/600/storage/files/images/2026/11/06/sayi-304-6-12-kasim-2026-rpzh.jpg',
+    full: 'https://i.gazeteoksijen.com/storage/files/images/2026/11/06/sayi-304-6-12-kasim-2026-rpzh.jpg',
     date: '6 - 12 Kasım 2026',
   },
   'posta-gazetesi-manseti': {
@@ -164,26 +164,6 @@ const FALLBACK_YANKI = {
   ],
 }
 
-const FALLBACK_EKSPRES = {
-  id: 'ekspres_izmir-haber-ekspres-gazetesi-6-mayis-2025-sali-manseti',
-  name: 'Ekspres',
-  title: 'Haber Ekspres',
-  date: '6 Mayıs 2025',
-  thumb: '/api/proxy-image?url=https%3A%2F%2Fhabereksprescomtr.teimg.com%2Fhaberekspres-com-tr%2Fuploads%2F2025%2F05%2F6-mayis-sali-1.jpeg',
-  pdf: '',
-  pageCount: 8,
-  pages: [
-    { page: 1, img: '/api/proxy-image?url=https%3A%2F%2Fhabereksprescomtr.teimg.com%2Fhaberekspres-com-tr%2Fuploads%2F2025%2F05%2F6-mayis-sali-1.jpeg', thumb: '/api/proxy-image?url=https%3A%2F%2Fhabereksprescomtr.teimg.com%2Fhaberekspres-com-tr%2Fuploads%2F2025%2F05%2F6-mayis-sali-1.jpeg' },
-    { page: 2, img: '/api/proxy-image?url=https%3A%2F%2Fhabereksprescomtr.teimg.com%2Fhaberekspres-com-tr%2Fuploads%2F2025%2F05%2F6-mayis-sali-2.jpeg', thumb: '/api/proxy-image?url=https%3A%2F%2Fhabereksprescomtr.teimg.com%2Fhaberekspres-com-tr%2Fuploads%2F2025%2F05%2F6-mayis-sali-2.jpeg' },
-    { page: 3, img: '/api/proxy-image?url=https%3A%2F%2Fhabereksprescomtr.teimg.com%2Fhaberekspres-com-tr%2Fuploads%2F2025%2F05%2F6-mayis-sali-3.jpeg', thumb: '/api/proxy-image?url=https%3A%2F%2Fhabereksprescomtr.teimg.com%2Fhaberekspres-com-tr%2Fuploads%2F2025%2F05%2F6-mayis-sali-3.jpeg' },
-    { page: 4, img: '/api/proxy-image?url=https%3A%2F%2Fhabereksprescomtr.teimg.com%2Fhaberekspres-com-tr%2Fuploads%2F2025%2F05%2F6-mayis-sali-4.jpeg', thumb: '/api/proxy-image?url=https%3A%2F%2Fhabereksprescomtr.teimg.com%2Fhaberekspres-com-tr%2Fuploads%2F2025%2F05%2F6-mayis-sali-4.jpeg' },
-    { page: 5, img: '/api/proxy-image?url=https%3A%2F%2Fhabereksprescomtr.teimg.com%2Fhaberekspres-com-tr%2Fuploads%2F2025%2F05%2F6-mayis-sali-5.jpeg', thumb: '/api/proxy-image?url=https%3A%2F%2Fhabereksprescomtr.teimg.com%2Fhaberekspres-com-tr%2Fuploads%2F2025%2F05%2F6-mayis-sali-5.jpeg' },
-    { page: 6, img: '/api/proxy-image?url=https%3A%2F%2Fhabereksprescomtr.teimg.com%2Fhaberekspres-com-tr%2Fuploads%2F2025%2F05%2F6-mayis-sali-6.jpeg', thumb: '/api/proxy-image?url=https%3A%2F%2Fhabereksprescomtr.teimg.com%2Fhaberekspres-com-tr%2Fuploads%2F2025%2F05%2F6-mayis-sali-6.jpeg' },
-    { page: 7, img: '/api/proxy-image?url=https%3A%2F%2Fhabereksprescomtr.teimg.com%2Fhaberekspres-com-tr%2Fuploads%2F2025%2F05%2F6-mayis-sali-7.jpeg', thumb: '/api/proxy-image?url=https%3A%2F%2Fhabereksprescomtr.teimg.com%2Fhaberekspres-com-tr%2Fuploads%2F2025%2F05%2F6-mayis-sali-7.jpeg' },
-    { page: 8, img: '/api/proxy-image?url=https%3A%2F%2Fhabereksprescomtr.teimg.com%2Fhaberekspres-com-tr%2Fuploads%2F2025%2F05%2F6-mayis-sali-8.jpeg', thumb: '/api/proxy-image?url=https%3A%2F%2Fhabereksprescomtr.teimg.com%2Fhaberekspres-com-tr%2Fuploads%2F2025%2F05%2F6-mayis-sali-8.jpeg' },
-  ],
-}
-
 const FALLBACK_HURSES = {
   id: 'hurses_533128',
   name: 'Hürses',
@@ -201,12 +181,21 @@ const FALLBACK_HURSES = {
 }
 
 const FALLBACK_CORUMHABER = {
-  id: 'corumhaber_2026-11-09',
+  id: 'corumhaber_2026-11-10',
   name: 'Çorum Haber',
   title: 'Çorum Haber',
-  date: '9 Kasım 2026',
-  thumb: 'https://corumhabernet.teimg.com/resize/600x900/corumhaber-net/uploads/2026/11/egazete/9-kasim-23.jpg',
-  pdf: 'https://corumhabernet.teimg.com/corumhaber-net/uploads/2026/11/egazete/9-kasim-2026-pazartesi.pdf',
+  date: '10 Kasım 2026',
+  thumb: 'https://corumhabernet.teimg.com/resize/600x900/corumhaber-net/uploads/2026/11/egazete/9b8e4f1f-4fb2-4b8a-977f-82631528de59.jpg',
+  pdf: 'https://corumhabernet.teimg.com/corumhaber-net/uploads/2026/11/egazete/10-kasim-2026-sali.pdf',
+}
+
+const FALLBACK_YBKY = {
+  id: 'ybky_104',
+  name: 'Bilimkurgu Yükseliyor',
+  title: 'Bilimkurgu Yükseliyor - Sayı 104',
+  date: 'Ekim 2026 · 104. Sayı',
+  thumb: 'https://yerlibilimkurguyukseliyor.com/wp-content/uploads/2026/10/ekim_kapak_2026_104_site-768x998.jpg',
+  pdf: 'https://yerlibilimkurguyukseliyor.com/wp-content/uploads/2026/11/YBKY_ekim_sy_104_2.pdf',
 }
 
 // Türkçe aylar
@@ -1090,28 +1079,24 @@ async function fetchCorumHaber() {
     }
 
     // Detay sayfasından PDF bağlantısını çek
-
     let pdfUrl = ''
-
     try {
-
       const detailRes = await fetch(`https://corumhaber.net${detailPath}`, {
-
         headers: { 'User-Agent': UA, Accept: 'text/html' },
-
       })
-
       if (detailRes.ok) {
-
         const detailHtml = await detailRes.text()
-
-        const pdfMatch = detailHtml.match(/href=["'](https?:\/\/[^"'\s]+\.pdf)["']/i)
-
+        const pdfMatch = detailHtml.match(/href=["'](https?:\/\/[^"'\s]+\.pdf)["']/i) || detailHtml.match(/(https?:\/\/[^"'\s<>\\]+\.pdf)/i)
         if (pdfMatch) pdfUrl = pdfMatch[1]
-
       }
-
     } catch {}
+
+    if (!pdfUrl) {
+      pdfUrl = FALLBACK_CORUMHABER.pdf
+    }
+    if (!thumb) {
+      thumb = FALLBACK_CORUMHABER.thumb
+    }
 
     return {
 
@@ -1380,10 +1365,8 @@ async function fetchMansetler(prevMap = {}) {
     } catch {}
   }
 
-  // Oksijen haftalık gazetesinin güncel sayısını güvenli fallback veya güncel değerle besle
-  if (!map.has('oksijen-gazetesi-gazetesi-manseti') || map.get('oksijen-gazetesi-gazetesi-manseti')?.date?.includes('Ekim')) {
-    map.set('oksijen-gazetesi-gazetesi-manseti', FALLBACK_MANSETLER['oksijen-gazetesi-gazetesi-manseti'])
-  }
+  // Oksijen haftalık gazetesinin güncel sayısını güvenli CDN görseliyle besle (Gazeteoku'da Oksijen yer almaz)
+  map.set('oksijen-gazetesi-gazetesi-manseti', FALLBACK_MANSETLER['oksijen-gazetesi-gazetesi-manseti'])
 
   // Listeyi orijinal sırayla hazırla, eksik olanları güvenli yedekle tamamla
   return TARGET_NEWSPAPERS.map((t) => {
@@ -1750,7 +1733,18 @@ async function fetchAnaliz() {
     const day = String(m[2]).padStart(2, '0')
     const month = TR_MONTHS_MAP[m[3].toLowerCase()] || '01'
     const year = m[4]
-    const isoDate = `${year}-${month}-${day}`
+    let isoDate = `${year}-${month}-${day}`
+    let displayDate = formatTurkishDate(isoDate)
+
+    const rawIdx = html.indexOf(rawPath)
+    if (rawIdx !== -1) {
+      const chunk = html.slice(Math.max(0, rawIdx - 100), Math.min(html.length, rawIdx + 300))
+      const titleDate = chunk.match(/title=["'](\d{1,2}\s+[a-zA-ZçğıöşüÇĞİÖŞÜ]+\s+\d{4})["']/i) ||
+                        chunk.match(/class=["']overflow["']>(\d{1,2}\s+[a-zA-ZçğıöşüÇĞİÖŞÜ]+\s+\d{4})</i)
+      if (titleDate) {
+        displayDate = titleDate[1].trim()
+      }
+    }
 
     const detRes = await fetch(detailUrl, {
       headers: { 'User-Agent': UA, Accept: 'text/html' },
@@ -1779,7 +1773,7 @@ async function fetchAnaliz() {
       id: `analiz_${isoDate}`,
       name: 'Analiz',
       title: 'Analiz',
-      date: formatTurkishDate(isoDate),
+      date: displayDate,
       thumb: coverThumb,
       pdf: '',
       pageCount: pages.length,
@@ -1829,11 +1823,23 @@ async function fetchAnayurt() {
 
     if (sortedPages.length === 0) return null
 
+    let issueIso = targetDate.iso
+    const firstImg = matches[0]?.[1] || ''
+    const dateFromPath = firstImg.match(/uploads\/(\d{4})\/(\d{2})\/(\d{2})\//)
+    if (dateFromPath) {
+      issueIso = `${dateFromPath[1]}-${dateFromPath[2]}-${dateFromPath[3]}`
+    } else {
+      const dmMatch = firstImg.match(/(\d{1,2})(\d{2})(\d{4})-/)
+      if (dmMatch) {
+        issueIso = `${dmMatch[3]}-${dmMatch[2]}-${String(dmMatch[1]).padStart(2, '0')}`
+      }
+    }
+
     return {
-      id: `anayurt_${targetDate.iso}`,
+      id: `anayurt_${issueIso}`,
       name: 'Anayurt',
       title: 'Anayurt',
-      date: formatTurkishDate(targetDate.iso),
+      date: formatTurkishDate(issueIso),
       thumb: sortedPages[0]?.thumb || sortedPages[0]?.img || '',
       pdf: '',
       pageCount: sortedPages.length,
@@ -2280,26 +2286,57 @@ async function fetchTunaydin() {
 /** 12. Yeni Yaşam gazetesinin en güncel sayısını (PDF) çeker. */
 async function fetchYeniYasam() {
   try {
-    const res = await fetch('https://eyeniyasam.com/wp-json/wp/v2/media?search=pdf', {
-      headers: { 'User-Agent': UA },
-    })
-    if (!res.ok) return null
-    const items = await res.json()
-    const pdfItems = items.filter((it) => it.guid?.rendered?.endsWith('.pdf') || it.source_url?.endsWith('.pdf'))
-    if (!pdfItems.length) return null
+    const today = getTurkeyDate(0)
+    const yesterday = getTurkeyDate(-1)
+    const candidates = [
+      { d: today.d, mo: today.m, yr: today.y, iso: today.iso, url: `https://eyeniyasam.com/wp-content/uploads/${today.y}/${today.m}/${today.d}.${today.m}.${today.y}.pdf` },
+      { d: yesterday.d, mo: yesterday.m, yr: yesterday.y, iso: yesterday.iso, url: `https://eyeniyasam.com/wp-content/uploads/${yesterday.y}/${yesterday.m}/${yesterday.d}.${yesterday.m}.${yesterday.y}.pdf` },
+    ]
 
-    const latest = pdfItems[0]
-    const pdfUrl = latest.guid?.rendered || latest.source_url
-    if (!pdfUrl) return null
+    let pdfUrl = ''
+    let isoDate = ''
+    let yr = '2026'
+    let mo = '11'
 
-    const slug = latest.slug || ''
-    const m = slug.match(/(\d{2})[-.](\d{2})[-.](\d{4})/)
-    const d = m ? m[1] : '08'
-    const mo = m ? m[2] : '11'
-    const yr = m ? m[3] : '2026'
-    const isoDate = `${yr}-${mo}-${d}`
+    for (const cand of candidates) {
+      try {
+        const probeRes = await fetch(cand.url, { method: 'HEAD', headers: { 'User-Agent': UA } })
+        if (probeRes.ok) {
+          pdfUrl = cand.url
+          isoDate = cand.iso
+          yr = cand.yr
+          mo = cand.mo
+          break
+        }
+      } catch {}
+    }
 
-    let thumbUrl = ''
+    if (!pdfUrl) {
+      const res = await fetch('https://eyeniyasam.com/wp-json/wp/v2/media?mime_type=application/pdf&per_page=5', {
+        headers: { 'User-Agent': UA },
+      })
+      if (res.ok) {
+        const items = await res.json()
+        const pdfItems = (Array.isArray(items) ? items : []).filter((it) => it.guid?.rendered?.endsWith('.pdf') || it.source_url?.endsWith('.pdf'))
+        if (pdfItems.length) {
+          const latest = pdfItems[0]
+          pdfUrl = latest.guid?.rendered || latest.source_url
+          const slug = latest.slug || ''
+          const m = slug.match(/(\d{2})[-.](\d{2})[-.](\d{4})/)
+          const d = m ? m[1] : '09'
+          mo = m ? m[2] : '11'
+          yr = m ? m[3] : '2026'
+          isoDate = `${yr}-${mo}-${d}`
+        }
+      }
+    }
+
+    if (!pdfUrl) {
+      pdfUrl = 'https://eyeniyasam.com/wp-content/uploads/2026/11/10.11.2026.pdf'
+      isoDate = '2026-11-10'
+    }
+
+    let thumbUrl = `https://yeniyasamgazetesi10.com/wp-content/uploads/2026/11/s1-16_page-0001-618x1024.jpg`
     try {
       const mansetRes = await fetch('https://yeniyasamgazetesi10.com/gunun-manseti/', {
         headers: { 'User-Agent': UA },
@@ -2310,10 +2347,6 @@ async function fetchYeniYasam() {
         if (cMatch) thumbUrl = cMatch[0]
       }
     } catch {}
-
-    if (!thumbUrl) {
-      thumbUrl = `https://yeniyasamgazetesi10.com/wp-content/uploads/${yr}/${mo}/s1-16_page-0001-618x1024.jpg`
-    }
 
     return {
       id: `yeniyasam_${isoDate}`,
@@ -2533,6 +2566,16 @@ export async function fetchGuney() {
     const issueId = optMatch[1]
     const rawDateText = optMatch[2].trim()
 
+    let dateStr = formatTurkishDate(rawDateText)
+    const today = getTurkeyDate(0)
+    const issueDateParts = rawDateText.match(/(\d{4})-(\d{1,2})-(\d{1,2})/)
+    if (issueDateParts) {
+      const issueIso = `${issueDateParts[1]}-${String(issueDateParts[2]).padStart(2, '0')}-${String(issueDateParts[3]).padStart(2, '0')}`
+      if (today.iso > issueIso && (new Date(today.iso) - new Date(issueIso)) <= 86400000) {
+        dateStr = formatTurkishDate(today.iso)
+      }
+    }
+
     // Güney gazetesinin 8 sayfasını on-demand proxy üzerinden sun
     const pages = Array.from({ length: 8 }, (_, i) => {
       const p = i + 1
@@ -2548,7 +2591,7 @@ export async function fetchGuney() {
       id: `guney_${issueId}`,
       name: 'Güney',
       title: 'Güney Gazetesi',
-      date: formatTurkishDate(rawDateText),
+      date: dateStr,
       thumb: pages[0]?.thumb || '',
       pdf: '',
       pageCount: pages.length,
@@ -2617,63 +2660,6 @@ export async function fetchHurses() {
   }
 }
 
-/** 18. Haber Ekspres gazetesinin en güncel sayısını çeker. */
-export async function fetchEkspres() {
-  try {
-    const res = await fetch('https://www.haberekspres.com.tr/egazete/', { headers: { 'User-Agent': UA } })
-    if (!res.ok) return null
-    const html = await res.text()
-    const issueMatch = html.match(/href=["'](https?:\/\/www\.haberekspres\.com\.tr)?(\/egazete\/(?!kategori)[^"'\s]+)["']/i)
-    if (!issueMatch) return null
-    const detailUrl = issueMatch[2].startsWith('http') ? issueMatch[2] : `https://www.haberekspres.com.tr${issueMatch[2]}`
-
-    const dRes = await fetch(detailUrl, { headers: { 'User-Agent': UA } })
-    if (!dRes.ok) return null
-    const dHtml = await dRes.text()
-
-    const titleMatch = dHtml.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)
-    let dateStr = 'Bugün'
-    if (titleMatch) {
-      const tm = titleMatch[1].match(/(\d{1,2})\s+([^\s\d]+)\s+(\d{4})/)
-      if (tm) {
-        dateStr = formatTurkishDate(`${tm[1]} ${tm[2]} ${tm[3]}`)
-      }
-    }
-
-    const imgMatches = [...dHtml.matchAll(/https:\/\/habereksprescomtr\.teimg\.com\/haberekspres-com-tr\/uploads\/\d{4}\/\d{2}\/[^\s"']+\.jpe?g/gi)].map((x) => x[0])
-    const unique = [...new Set(imgMatches)].filter((u) => !u.includes('logo'))
-
-    unique.sort((a, b) => {
-      const ma = a.match(/-(\d+)\.jpe?g/i)
-      const mb = b.match(/-(\d+)\.jpe?g/i)
-      const na = ma ? parseInt(ma[1], 10) : 0
-      const nb = mb ? parseInt(mb[1], 10) : 0
-      return na - nb
-    })
-
-    const pages = unique.map((u, i) => ({
-      page: i + 1,
-      img: `/api/proxy-image?url=${encodeURIComponent(u)}`,
-      thumb: `/api/proxy-image?url=${encodeURIComponent(u)}`,
-    }))
-
-    if (pages.length === 0) return null
-
-    return {
-      id: `ekspres_${detailUrl.split('/').pop()}`,
-      name: 'Ekspres',
-      title: 'Haber Ekspres',
-      date: dateStr,
-      thumb: pages[0]?.thumb || '',
-      pdf: '',
-      pageCount: pages.length,
-      pages,
-    }
-  } catch (err) {
-    console.warn('[gazeteler] fetchEkspres hatasi:', String(err?.message ?? err).slice(0, 100))
-    return null
-  }
-}
 
 /** Eşzamanlı istek limitini aşmamak için görevleri küçük gruplar halinde çalıştırır */
 async function batchAll(tasks, batchSize = 6) {
@@ -2748,7 +2734,6 @@ export async function getGazeteler(env, forceFresh = false) {
     istanbulGazetesi,
     guney,
     hurses,
-    ekspres,
     hakimiyet,
     corumhaber,
     mansetler,
@@ -2781,7 +2766,6 @@ export async function getGazeteler(env, forceFresh = false) {
     () => fetchIstanbulGazetesi().catch(() => null),
     () => fetchGuney().catch(() => null),
     () => fetchHurses().catch(() => null),
-    () => fetchEkspres().catch(() => null),
     () => fetchHakimiyet().catch(() => null),
     () => fetchCorumHaber().catch(() => null),
     () => fetchMansetler(prevMap).catch(() => []),
@@ -2824,16 +2808,21 @@ export async function getGazeteler(env, forceFresh = false) {
     istanbulGazetesi || cachedData?.data?.tam_sayi?.find((g) => g.name === 'İstanbul'),
     guney || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Güney'),
     hurses || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Hürses') || FALLBACK_HURSES,
-    ekspres || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Ekspres') || FALLBACK_EKSPRES,
     hakimiyet || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Hakimiyet'),
-    corumhaber || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Çorum Haber') || FALLBACK_CORUMHABER,
+    (corumhaber?.pdf ? corumhaber : (cachedData?.data?.tam_sayi?.find((g) => g.name === 'Çorum Haber') || FALLBACK_CORUMHABER)),
   ].filter((g) => g && (g.pdf || (Array.isArray(g.pages) && g.pages.length > 0)))
+
+  const ybkyList = (bilimkurguDergi && bilimkurguDergi.length > 0)
+    ? bilimkurguDergi
+    : (cachedData?.data?.dergiler?.filter((d) => d.name?.includes('Bilimkurgu'))?.length
+        ? cachedData.data.dergiler.filter((d) => d.name?.includes('Bilimkurgu'))
+        : [FALLBACK_YBKY])
 
   const dergilerList = [
     ...(somuncuDergiler || []),
     ...(diyanetDergiler || []),
     ...(tubitakDergiler || []),
-    ...(bilimkurguDergi || []),
+    ...ybkyList,
   ].filter(Boolean)
 
   const payload = {

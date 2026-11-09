@@ -33,7 +33,6 @@ import {
   fetchIstanbulGazetesi,
   fetchGuney,
   fetchHurses,
-  fetchEkspres,
 } from './src/gazeteler.js'
 import { createColumnsStore } from './src/columns.js'
 
@@ -1111,11 +1110,6 @@ export default {
       } catch (e) {
         results.hursesErr = e.message
       }
-      try {
-        results.ekspres = await fetchEkspres()
-      } catch (e) {
-        results.ekspresErr = e.message
-      }
       return reply(results, 200)
     }
 
@@ -1184,8 +1178,8 @@ export default {
           reqHeaders['Referer'] = 'https://www.guneygazetesi.com/'
         } else if (targetImgUrl.includes('haberantalya.com')) {
           reqHeaders['Referer'] = 'https://www.haberantalya.com/'
-        } else if (targetImgUrl.includes('haberekspres') || targetImgUrl.includes('teimg.com')) {
-          reqHeaders['Referer'] = 'https://www.haberekspres.com.tr/'
+        } else if (targetImgUrl.includes('corumhaber') || targetImgUrl.includes('teimg.com')) {
+          reqHeaders['Referer'] = 'https://corumhaber.net/'
         }
         const imgRes = await fetch(targetImgUrl, {
           headers: reqHeaders,
