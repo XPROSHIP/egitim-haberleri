@@ -25,7 +25,16 @@ import {
   saveMessage,
   searchNews,
 } from './src/assistant.js'
-import { getGazeteler, getGztMansetler, fetchYanki } from './src/gazeteler.js'
+import {
+  getGazeteler,
+  getGztMansetler,
+  fetchYanki,
+  fetchAnkaraUlus,
+  fetchIstanbulGazetesi,
+  fetchGuney,
+  fetchHurses,
+  fetchEkspres,
+} from './src/gazeteler.js'
 import { createColumnsStore } from './src/columns.js'
 
 
@@ -1044,6 +1053,72 @@ export default {
       return reply({ ok: true, likes, liked: Boolean(on) })
     }
 
+    /* ── Güney Gazetesi On-Demand Sayfa Proxy ───────────────────────────── */
+    if (url.pathname === '/api/guney-page' && request.method === 'GET') {
+      const issueId = url.searchParams.get('issueId')
+      const page = url.searchParams.get('page') || '1'
+      if (!issueId) return reply({ error: 'issueId gerekli' }, 400)
+      try {
+        const pageRes = await fetch(`https://www.guneygazetesi.com/guneygazete.asp?sayfano=${page}&gazete=${issueId}`, {
+          headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' },
+        })
+        if (!pageRes.ok) throw new Error(`HTTP ${pageRes.status}`)
+        const html = await pageRes.text()
+        const imgMatch = html.match(/src=["'](gazeteler\/[^"']+\.jpe?g)["']/i)
+        if (!imgMatch) throw new Error('Sayfa görseli bulunamadı')
+        const fullImg = `https://www.guneygazetesi.com/${imgMatch[1]}`
+        const imgRes = await fetch(fullImg, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+            Referer: 'https://www.guneygazetesi.com/',
+          },
+        })
+        if (!imgRes.ok) throw new Error(`Image HTTP ${imgRes.status}`)
+        const buffer = await imgRes.arrayBuffer()
+        return new Response(buffer, {
+          status: 200,
+          headers: {
+            'content-type': 'image/jpeg',
+            'access-control-allow-origin': '*',
+            'cache-control': 'public, max-age=86400',
+          },
+        })
+      } catch (err) {
+        return reply({ error: `Güney sayfa yüklenemedi: ${err.message}` }, 502)
+      }
+    }
+
+    /* ── Test Scrapers ─────────────────────────────────────────────────── */
+    if (url.pathname === '/api/test-scrapers' && request.method === 'GET') {
+      const results = {}
+      try {
+        results.ankaraUlus = await fetchAnkaraUlus()
+      } catch (e) {
+        results.ankaraUlusErr = e.message
+      }
+      try {
+        results.istanbul = await fetchIstanbulGazetesi()
+      } catch (e) {
+        results.istanbulErr = e.message
+      }
+      try {
+        results.guney = await fetchGuney()
+      } catch (e) {
+        results.guneyErr = e.message
+      }
+      try {
+        results.hurses = await fetchHurses()
+      } catch (e) {
+        results.hursesErr = e.message
+      }
+      try {
+        results.ekspres = await fetchEkspres()
+      } catch (e) {
+        results.ekspresErr = e.message
+      }
+      return reply(results, 200)
+    }
+
     /* ── Günlük e-Gazeteler & Manşetler ─────────────────────────────────── */
     if (url.pathname === '/api/gazeteler' && request.method === 'GET') {
       const fresh = url.searchParams.has('fresh')
@@ -1101,6 +1176,16 @@ export default {
           reqHeaders['Referer'] = 'https://www.yankigazetesi.com/'
         } else if (targetImgUrl.includes('yeniyasam')) {
           reqHeaders['Referer'] = 'https://eyeniyasam.com/'
+        } else if (targetImgUrl.includes('ankaraulusgazetesi.com.tr')) {
+          reqHeaders['Referer'] = 'https://ankaraulusgazetesi.com.tr/'
+        } else if (targetImgUrl.includes('istanbulegazete.com')) {
+          reqHeaders['Referer'] = 'https://istanbulegazete.com/'
+        } else if (targetImgUrl.includes('guneygazetesi.com')) {
+          reqHeaders['Referer'] = 'https://www.guneygazetesi.com/'
+        } else if (targetImgUrl.includes('haberantalya.com')) {
+          reqHeaders['Referer'] = 'https://www.haberantalya.com/'
+        } else if (targetImgUrl.includes('haberekspres') || targetImgUrl.includes('teimg.com')) {
+          reqHeaders['Referer'] = 'https://www.haberekspres.com.tr/'
         }
         const imgRes = await fetch(targetImgUrl, {
           headers: reqHeaders,

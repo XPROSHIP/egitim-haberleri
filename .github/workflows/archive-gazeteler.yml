@@ -1,0 +1,40 @@
+name: e-Gazete PDF Otomatik Arşivleme
+
+on:
+  schedule:
+    # TSI (UTC+3) saatleri:
+    # 22:00 UTC -> 01:00 TSI (Gece yarısı düşen ilk baskılar)
+    # 02:00 UTC -> 05:00 TSI (Erken sabah güncellemeleri)
+    # 05:00 UTC -> 08:00 TSI (Sabah ana dağıtım baskıları)
+    # 09:00 UTC -> 12:00 TSI (Öğlen kontrolü & geç eklenen yerel/bölgesel gazeteler)
+    # 13:00 UTC -> 16:00 TSI (İkindi son tarama)
+    - cron: '0 22,2,5,9,13 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: archive-gazeteler
+  cancel-in-progress: false
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Bağımlılıkları Kur
+        run: |
+          npm ci
+          pip install Pillow
+
+      - name: Gazeteleri İndir, Birleştir ve egitim.store'a Yükle
+        run: node worker/scripts/archive_gazeteler.mjs

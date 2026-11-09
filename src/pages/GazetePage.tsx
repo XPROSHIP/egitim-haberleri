@@ -10,6 +10,10 @@ const TR_MONTHS_NAMES = [
 
 function formatDisplayDate(dateStr: string) {
   if (!dateStr) return 'Bugün'
+  // Eğer zaten Türkçe veya tarih aralığı ("6 - 12 Kasım 2026" gibi) içeriyorsa doğrudan döndür
+  if (/[a-zA-ZçğıöşüÇĞİÖŞÜ]/.test(dateStr)) {
+    return dateStr
+  }
   const extraMatch = dateStr.match(/^0?(\d{1,2})\s+([^\s\d]+)\s+(\d{4})(\s*·\s*.*)$/)
   if (extraMatch) {
     return `${parseInt(extraMatch[1], 10)} ${extraMatch[2]} ${extraMatch[3]}${extraMatch[4]}`
@@ -25,8 +29,9 @@ function formatDisplayDate(dateStr: string) {
       return `${parseInt(d, 10)} ${TR_MONTHS_NAMES[mIdx]} ${y}`
     }
   }
-  if (dateStr.includes('-')) {
-    const [y, mo, d] = dateStr.split('-')
+  const isoMatch = dateStr.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/)
+  if (isoMatch) {
+    const [, y, mo, d] = isoMatch
     const mIdx = parseInt(mo, 10) - 1
     if (mIdx >= 0 && mIdx < 12) {
       return `${parseInt(d, 10)} ${TR_MONTHS_NAMES[mIdx]} ${y}`
@@ -848,8 +853,20 @@ export function GazetePage() {
                           <span className="flex-1 text-center text-xs text-faint">Hazırlanıyor</span>
                         )}
 
-                        {/* İndir Düğmesi */}
-                        {g.pages && g.pages.length > 0 ? (
+                        {/* İndir Düğmesi: egitim.store / PDF öncelikli, yoksa istemci taraflı birleştirme */}
+                        {g.pdf ? (
+                          <a
+                            href={g.pdf}
+                            download
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg border border-line bg-surface-2 px-3.5 py-2.5 text-xs font-bold text-fg transition hover:bg-surface-3 sm:py-2"
+                            title={g.is_archived ? "Arşivden Hızlı PDF İndir (egitim.store)" : "PDF İndir"}
+                          >
+                            <Icon name="Download" size={14} />
+                            <span>İndir</span>
+                          </a>
+                        ) : g.pages && g.pages.length > 0 ? (
                           <button
                             type="button"
                             onClick={() => handleDownloadPagesPdf(g)}
@@ -878,18 +895,6 @@ export function GazetePage() {
                               {pdfState.status === 'ready' && 'İndir'}
                             </span>
                           </button>
-                        ) : g.pdf ? (
-                          <a
-                            href={g.pdf}
-                            download
-                            target="_blank"
-                            rel="noreferrer"
-                            className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg border border-line bg-surface-2 px-3.5 py-2.5 text-xs font-bold text-fg transition hover:bg-surface-3 sm:py-2"
-                            title="PDF İndir"
-                          >
-                            <Icon name="Download" size={14} />
-                            <span>İndir</span>
-                          </a>
                         ) : null}
                       </div>
                     </div>

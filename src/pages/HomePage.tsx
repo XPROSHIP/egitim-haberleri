@@ -1,8 +1,8 @@
-﻿import { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
-import { useAllNews, useFeed, useMostRead, useTrending } from '../lib/api'
+import { useAllNews, useFeed, useMostRead } from '../lib/api'
 import { useStore } from '../lib/store'
 import { interestScore, useInterests } from '../lib/interest'
 import { selectForYou } from '../lib/api'
@@ -54,8 +54,12 @@ export function HomePage() {
     hideRead,
     readMarks,
   })
-  const trending = useTrending()
   const mostRead = useMostRead()
+
+  const latestNews = useMemo(() => {
+    if (!data) return []
+    return [...data].sort((a, b) => +new Date(b.publishedAt) - +new Date(a.publishedAt))
+  }, [data])
 
   const feed = list ?? items
   // Kapak fotoğrafı büyük çözünürlükte olan haberi öne al
@@ -149,7 +153,7 @@ export function HomePage() {
                 {t('nav.digest')}
               </h3>
               <div className="space-y-1">
-                {trending.slice(0, 5).map((n, i) => (
+                {latestNews.slice(0, 5).map((n, i) => (
                   <Link
                     key={n.id}
                     to={`/haber/${n.slug}`}

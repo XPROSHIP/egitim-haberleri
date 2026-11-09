@@ -372,6 +372,7 @@ export interface TamSayiGazete {
   pdf: string
   pageCount?: number
   pages?: GazetePageItem[]
+  is_archived?: boolean
 }
 
 export interface MansetGazete {
@@ -385,6 +386,7 @@ export interface MansetGazete {
 export interface GazetelerResponse {
   tam_sayi: TamSayiGazete[]
   mansetler: MansetGazete[]
+  dergiler?: TamSayiGazete[]
   updated_at: string
 }
 
@@ -479,11 +481,18 @@ export function useRelated(item: NewsItem | undefined) {
 export function useTrending() {
   const { data } = useAllNews()
   if (!data) return []
+  const now = Date.now()
   return [...data]
-    .filter((n) => n.views > 0)
-    .sort((a, b) => b.views - a.views)
-    .slice(0, 8)
-    .concat(data.filter((n) => n.views === 0).slice(0, 4))
+    .map((n) => {
+      const pubTime = +new Date(n.publishedAt)
+      const ageHours = Math.max(1, (now - pubTime) / (1000 * 60 * 60))
+      // 7 günden eski haberlerin trend puanı sönümlenir
+      const decay = ageHours > 168 ? 0.001 : 1 / Math.pow(ageHours + 2, 1.1)
+      const trendScore = (n.views + 1) * decay
+      return { n, trendScore }
+    })
+    .sort((a, b) => b.trendScore - a.trendScore || +new Date(b.n.publishedAt) - +new Date(a.n.publishedAt))
+    .map((x) => x.n)
     .slice(0, 8)
 }
 
