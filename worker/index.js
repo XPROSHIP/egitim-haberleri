@@ -25,7 +25,7 @@ import {
   saveMessage,
   searchNews,
 } from './src/assistant.js'
-import { getGazeteler, getGztMansetler } from './src/gazeteler.js'
+import { getGazeteler, getGztMansetler, fetchYanki } from './src/gazeteler.js'
 import { createColumnsStore } from './src/columns.js'
 
 
@@ -1046,9 +1046,10 @@ export default {
 
     /* ── Günlük e-Gazeteler & Manşetler ─────────────────────────────────── */
     if (url.pathname === '/api/gazeteler' && request.method === 'GET') {
-      const data = await getGazeteler(env)
+      const fresh = url.searchParams.has('fresh')
+      const data = await getGazeteler(env, fresh)
       return reply(data, 200, {
-        'cache-control': 'public, max-age=900, stale-while-revalidate=1800',
+        'cache-control': fresh ? 'no-cache, no-store' : 'public, max-age=900, stale-while-revalidate=1800',
       })
     }
 
@@ -1062,8 +1063,16 @@ export default {
 
     /* ── Görsel Proxy (PDF birleştirme için CORS engelsiz) ───────────────── */
     if (url.pathname === '/api/proxy-image' && request.method === 'GET') {
-      const targetImgUrl = url.searchParams.get('url')
-      if (!targetImgUrl || !targetImgUrl.startsWith('http')) {
+      let targetImgUrl = url.searchParams.get('url')
+      if (!targetImgUrl) {
+        return reply({ error: 'Geçersiz görsel URL' }, 400)
+      }
+      // İç içe geçmiş proxy URL'lerini unwrap et
+      while (targetImgUrl && (targetImgUrl.includes('proxy-image?url=') || targetImgUrl.startsWith('/api/proxy-image'))) {
+        const parts = targetImgUrl.split('url=')
+        targetImgUrl = decodeURIComponent(parts[parts.length - 1])
+      }
+      if (!targetImgUrl.startsWith('http')) {
         return reply({ error: 'Geçersiz görsel URL' }, 400)
       }
       try {
@@ -1072,13 +1081,41 @@ export default {
           reqHeaders['Referer'] = 'https://www.yenicaggazetesi.com/'
         } else if (targetImgUrl.includes('hurimg.com')) {
           reqHeaders['Referer'] = 'https://egazete.hurriyet.com.tr/'
+        } else if (targetImgUrl.includes('analizgazetesi.com.tr')) {
+          reqHeaders['Referer'] = 'https://www.analizgazetesi.com.tr/'
+        } else if (targetImgUrl.includes('daktilo.com')) {
+          reqHeaders['Referer'] = 'https://anayurtgazetesi.com/'
+        } else if (targetImgUrl.includes('newsdata.com.tr')) {
+          reqHeaders['Referer'] = 'https://www.batmansonsoz.net/'
+        } else if (targetImgUrl.includes('yerlibilimkurguyukseliyor.com')) {
+          reqHeaders['Referer'] = 'https://yerlibilimkurguyukseliyor.com/'
+        } else if (targetImgUrl.includes('bik.gov.tr')) {
+          reqHeaders['Referer'] = 'https://gazete.bik.gov.tr/'
+        } else if (targetImgUrl.includes('gazeteoksijen.com')) {
+          reqHeaders['Referer'] = 'https://gazeteoksijen.com/'
+        } else if (targetImgUrl.includes('tunaydingazetesi.com')) {
+          reqHeaders['Referer'] = 'https://www.tunaydingazetesi.com/'
+        } else if (targetImgUrl.includes('dokuzeylul')) {
+          reqHeaders['Referer'] = 'https://dokuzeylul.com/'
+        } else if (targetImgUrl.includes('webaksiyon.com') || targetImgUrl.includes('yankigazetesi.com')) {
+          reqHeaders['Referer'] = 'https://www.yankigazetesi.com/'
+        } else if (targetImgUrl.includes('yeniyasam')) {
+          reqHeaders['Referer'] = 'https://eyeniyasam.com/'
         }
         const imgRes = await fetch(targetImgUrl, {
           headers: reqHeaders,
         })
         if (!imgRes.ok) throw new Error(`HTTP ${imgRes.status}`)
-        const contentType = imgRes.headers.get('content-type') || 'image/jpeg'
+        let contentType = imgRes.headers.get('content-type') || 'image/jpeg'
         const buffer = await imgRes.arrayBuffer()
+        const head = new Uint8Array(buffer, 0, Math.min(12, buffer.byteLength))
+        if (head.length >= 3 && head[0] === 0xff && head[1] === 0xd8 && head[2] === 0xff) {
+          contentType = 'image/jpeg'
+        } else if (head.length >= 4 && head[0] === 0x89 && head[1] === 0x50 && head[2] === 0x4e && head[3] === 0x47) {
+          contentType = 'image/png'
+        } else if (head.length >= 12 && head[0] === 0x52 && head[1] === 0x49 && head[2] === 0x46 && head[3] === 0x46 && head[8] === 0x57 && head[9] === 0x45 && head[10] === 0x42 && head[11] === 0x50) {
+          contentType = 'image/webp'
+        }
         return new Response(buffer, {
           status: 200,
           headers: {

@@ -10,6 +10,10 @@ const TR_MONTHS_NAMES = [
 
 function formatDisplayDate(dateStr: string) {
   if (!dateStr) return 'Bugün'
+  const extraMatch = dateStr.match(/^0?(\d{1,2})\s+([^\s\d]+)\s+(\d{4})(\s*·\s*.*)$/)
+  if (extraMatch) {
+    return `${parseInt(extraMatch[1], 10)} ${extraMatch[2]} ${extraMatch[3]}${extraMatch[4]}`
+  }
   const m = dateStr.match(/^0?(\d{1,2})\s+([^\s\d]+)\s+(\d{4})/)
   if (m) {
     return `${parseInt(m[1], 10)} ${m[2]} ${m[3]}`
@@ -31,23 +35,67 @@ function formatDisplayDate(dateStr: string) {
   return dateStr
 }
 
+// Görsel tamponunu (JPEG, PNG veya WebP) PDF uyumlu formata dönüştürerek gömer
+async function embedImageBuffer(pdfDoc: any, buf: ArrayBuffer) {
+  const u8 = new Uint8Array(buf, 0, Math.min(12, buf.byteLength))
+  const isJpg = u8.length >= 3 && u8[0] === 0xff && u8[1] === 0xd8 && u8[2] === 0xff
+  const isPng = u8.length >= 4 && u8[0] === 0x89 && u8[1] === 0x50 && u8[2] === 0x4e && u8[3] === 0x47
+
+  if (isJpg) {
+    return await pdfDoc.embedJpg(buf)
+  }
+  if (isPng) {
+    return await pdfDoc.embedPng(buf)
+  }
+
+  // WebP veya diğer formatlar için tarayıcı Canvas ile yüksek kaliteli JPEG'e dönüştür
+  const blob = new Blob([buf])
+  const imgBitmap = await createImageBitmap(blob)
+  const canvas = document.createElement('canvas')
+  canvas.width = imgBitmap.width
+  canvas.height = imgBitmap.height
+  const ctx = canvas.getContext('2d')
+  if (!ctx) throw new Error('Canvas bağlamı alınamadı')
+  ctx.drawImage(imgBitmap, 0, 0)
+
+  const convertedBlob = await new Promise<Blob | null>((resolve) =>
+    canvas.toBlob((b) => resolve(b), 'image/jpeg', 0.96),
+  )
+  if (!convertedBlob) throw new Error('Görsel JPG formatına dönüştürülemedi')
+  const convertedBuf = await convertedBlob.arrayBuffer()
+  return await pdfDoc.embedJpg(convertedBuf)
+}
+
+function toAsciiSafe(str: string): string {
+  return str
+    .replace(/ğ/g, 'g').replace(/Ğ/g, 'G')
+    .replace(/ü/g, 'u').replace(/Ü/g, 'U')
+    .replace(/ş/g, 's').replace(/Ş/g, 'S')
+    .replace(/ı/g, 'i').replace(/İ/g, 'I')
+    .replace(/ö/g, 'o').replace(/Ö/g, 'O')
+    .replace(/ç/g, 'c').replace(/Ç/g, 'C')
+    .replace(/[^\x20-\x7E]/g, '')
+}
+
 export function GazetePage() {
   const { data, isLoading, isError, refetch } = useGazeteler()
 
   // Lightbox state
+  const [lightboxImgError, setLightboxImgError] = useState(false)
   const [activeCover, setActiveCover] = useState<{
     name: string
     date: string
     fullUrl: string
     pdfUrl?: string
     index: number
-    listType: 'tam' | 'manset'
+    listType: 'tam' | 'manset' | 'dergi'
     pages?: { page: number; img: string; thumb: string }[]
     pageIndex?: number
   } | null>(null)
 
   function openLightboxForGazete(g: TamSayiGazete, idx: number) {
     resetZoomAndPan()
+    setLightboxImgError(false)
     const cleanName = g.name.replace(/\s+Gazetesi?$/i, '')
     const cleanDate = formatDisplayDate(g.date)
     if (g.pages && g.pages.length > 0) {
@@ -70,6 +118,19 @@ export function GazetePage() {
         listType: 'tam',
       })
     }
+  }
+
+  function openLightboxForDergi(d: TamSayiGazete, idx: number) {
+    resetZoomAndPan()
+    setLightboxImgError(false)
+    setActiveCover({
+      name: d.name,
+      date: formatDisplayDate(d.date),
+      fullUrl: d.thumb,
+      pdfUrl: d.pdf,
+      index: idx,
+      listType: 'dergi',
+    })
   }
 
   const [zoomLevel, setZoomLevel] = useState<number>(1)
@@ -178,9 +239,9 @@ export function GazetePage() {
       for (const entry of downloadedBuffers) {
         if (!entry?.arrayBuffer) continue
         try {
-          const jpg = await pdfDoc.embedJpg(entry.arrayBuffer)
-          const page = pdfDoc.addPage([jpg.width, jpg.height])
-          page.drawImage(jpg, { x: 0, y: 0, width: jpg.width, height: jpg.height })
+          const img = await embedImageBuffer(pdfDoc, entry.arrayBuffer)
+          const page = pdfDoc.addPage([img.width, img.height])
+          page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height })
         } catch (embedErr) {
           console.warn('[PDF] Embed hatası:', embedErr)
         }
@@ -260,7 +321,12 @@ export function GazetePage() {
 
       const fetchPageBuffer = async (imgUrl: string, maxRetries = 2): Promise<ArrayBuffer> => {
         // CDN CORS engellerini aşmak için worker proxy kullanılır
-        const proxyUrl = `${BASE}/api/proxy-image?url=${encodeURIComponent(imgUrl)}`
+        let proxyUrl = imgUrl
+        if (imgUrl.startsWith('/api/proxy-image') || imgUrl.startsWith('/')) {
+          proxyUrl = `${BASE}${imgUrl}`
+        } else if (!imgUrl.includes('/api/proxy-image')) {
+          proxyUrl = `${BASE}/api/proxy-image?url=${encodeURIComponent(imgUrl)}`
+        }
         let lastErr: unknown = null
         for (let attempt = 0; attempt <= maxRetries; attempt++) {
           try {
@@ -291,32 +357,38 @@ export function GazetePage() {
         await Promise.all(
           chunkIndices.map(async (idx) => {
             const p = pages[idx]
+            let buf: ArrayBuffer | null = null
             try {
-              const buf = await fetchPageBuffer(p.img)
-              downloadedBuffers[idx] = buf
-            } catch (err) {
-              console.warn(`[${g.name} PDF] Sayfa ${idx + 1} indirilemedi:`, err)
-            } finally {
-              loaded++
-              setMultiPdfStates((prev) => ({
-                ...prev,
-                [key]: {
-                  ...(prev[key] || { status: 'loading', blobUrl: null, pageCount: pages.length }),
-                  status: 'loading',
-                  progress: `(${loaded}/${pages.length})`,
-                },
-              }))
+              buf = await fetchPageBuffer(p.img)
+            } catch {
+              if (p.thumb && p.thumb !== p.img) {
+                try {
+                  buf = await fetchPageBuffer(p.thumb)
+                } catch {}
+              }
             }
+            if (buf) {
+              downloadedBuffers[idx] = buf
+            } else {
+              console.warn(`[${g.name} PDF] Sayfa ${idx + 1} indirilemedi`)
+            }
+            loaded++
+            setMultiPdfStates((prev) => ({
+              ...prev,
+              [key]: {
+                ...(prev[key] || { status: 'loading', blobUrl: null, pageCount: pages.length }),
+                status: 'loading',
+                progress: `(${loaded}/${pages.length})`,
+              },
+            }))
           }),
         )
       }
 
-      // Tüm sayfaların eksiksiz indirildiğini doğrula!
+      // En az bir sayfanın indirilebildiğini doğrula
       const successfulBuffers = downloadedBuffers.filter((b): b is ArrayBuffer => Boolean(b))
-      if (successfulBuffers.length < pages.length) {
-        throw new Error(
-          `${pages.length} sayfanın yalnızca ${successfulBuffers.length} tanesi indirilebildi. Eksik PDF oluşturulmadı; lütfen tekrar deneyiniz.`
-        )
+      if (successfulBuffers.length === 0) {
+        throw new Error('Hiçbir sayfa indirilemedi. Lütfen bağlantınızı kontrol edip tekrar deneyiniz.')
       }
 
       setMultiPdfStates((prev) => ({
@@ -327,16 +399,46 @@ export function GazetePage() {
         },
       }))
 
+      const safeTitle = toAsciiSafe(cleanName)
+      let defaultWidth = 1200
+      let defaultHeight = 1750
+
       for (let i = 0; i < downloadedBuffers.length; i++) {
         const buf = downloadedBuffers[i]
-        if (!buf) continue
-        try {
-          const jpg = await pdfDoc.embedJpg(buf)
-          const page = pdfDoc.addPage([jpg.width, jpg.height])
-          page.drawImage(jpg, { x: 0, y: 0, width: jpg.width, height: jpg.height })
-        } catch (embedErr) {
-          console.warn(`[${g.name} PDF] Sayfa ${i + 1} embed hatası:`, embedErr)
-          throw new Error(`Sayfa ${i + 1} PDF'e dönüştürülemedi`)
+        if (buf) {
+          try {
+            const img = await embedImageBuffer(pdfDoc, buf)
+            defaultWidth = img.width
+            defaultHeight = img.height
+            const page = pdfDoc.addPage([img.width, img.height])
+            page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height })
+          } catch (embedErr) {
+            console.warn(`[${g.name} PDF] Sayfa ${i + 1} embed hatası:`, embedErr)
+            const page = pdfDoc.addPage([defaultWidth, defaultHeight])
+            page.drawText(`[ ${safeTitle} - Sayfa ${i + 1} ]`, {
+              x: 50,
+              y: defaultHeight / 2 + 20,
+              size: 22,
+            })
+            page.drawText('Gorsel PDF formatina donusturulemedi.', {
+              x: 50,
+              y: defaultHeight / 2 - 15,
+              size: 15,
+            })
+          }
+        } else {
+          // Yayıncı sunucusunda eksik olan sayfa için yer tutucu ekle (numaralandırma kaymasın)
+          const page = pdfDoc.addPage([defaultWidth, defaultHeight])
+          page.drawText(`[ ${safeTitle} - Sayfa ${i + 1} ]`, {
+            x: 50,
+            y: defaultHeight / 2 + 20,
+            size: 22,
+          })
+          page.drawText('Bu sayfa yayinci CDN sunucusunda henuz bulunamadi.', {
+            x: 50,
+            y: defaultHeight / 2 - 15,
+            size: 15,
+          })
         }
       }
 
@@ -377,6 +479,7 @@ export function GazetePage() {
     const next = cur + delta
     if (next < 0 || next >= activeCover.pages.length) return
     resetZoomAndPan()
+    setLightboxImgError(false)
     setActiveCover({
       ...activeCover,
       pageIndex: next,
@@ -493,6 +596,7 @@ export function GazetePage() {
   }, [activeCover, data])
 
   const tamSayiList = data?.tam_sayi ?? []
+  const dergilerList = data?.dergiler ?? []
   const mansetList = useMemo(() => {
     const list = data?.mansetler ?? []
     if (!searchTerm.trim()) return list
@@ -502,10 +606,17 @@ export function GazetePage() {
 
   function goNext() {
     if (!activeCover || !data) return
-    const list = activeCover.listType === 'tam' ? tamSayiList : (data.mansetler ?? [])
+    const list =
+      activeCover.listType === 'tam'
+        ? tamSayiList
+        : activeCover.listType === 'dergi'
+          ? dergilerList
+          : (data.mansetler ?? [])
+    if (list.length === 0) return
     const nextIdx = (activeCover.index + 1) % list.length
     const item = list[nextIdx]
     resetZoomAndPan()
+    setLightboxImgError(false)
     if (activeCover.listType === 'tam') {
       const g = item as TamSayiGazete
       setActiveCover({
@@ -517,6 +628,16 @@ export function GazetePage() {
         listType: 'tam',
         pages: g.pages,
         pageIndex: g.pages && g.pages.length > 0 ? 0 : undefined,
+      })
+    } else if (activeCover.listType === 'dergi') {
+      const d = item as TamSayiGazete
+      setActiveCover({
+        name: d.name,
+        date: formatDisplayDate(d.date),
+        fullUrl: d.thumb,
+        pdfUrl: d.pdf,
+        index: nextIdx,
+        listType: 'dergi',
       })
     } else {
       const m = item as MansetGazete
@@ -532,10 +653,17 @@ export function GazetePage() {
 
   function goPrev() {
     if (!activeCover || !data) return
-    const list = activeCover.listType === 'tam' ? tamSayiList : (data.mansetler ?? [])
+    const list =
+      activeCover.listType === 'tam'
+        ? tamSayiList
+        : activeCover.listType === 'dergi'
+          ? dergilerList
+          : (data.mansetler ?? [])
+    if (list.length === 0) return
     const prevIdx = (activeCover.index - 1 + list.length) % list.length
     const item = list[prevIdx]
     resetZoomAndPan()
+    setLightboxImgError(false)
     if (activeCover.listType === 'tam') {
       const g = item as TamSayiGazete
       setActiveCover({
@@ -547,6 +675,16 @@ export function GazetePage() {
         listType: 'tam',
         pages: g.pages,
         pageIndex: g.pages && g.pages.length > 0 ? 0 : undefined,
+      })
+    } else if (activeCover.listType === 'dergi') {
+      const d = item as TamSayiGazete
+      setActiveCover({
+        name: d.name,
+        date: formatDisplayDate(d.date),
+        fullUrl: d.thumb,
+        pdfUrl: d.pdf,
+        index: prevIdx,
+        listType: 'dergi',
       })
     } else {
       const m = item as MansetGazete
@@ -629,32 +767,32 @@ export function GazetePage() {
                 <span className="text-xs font-medium text-muted">Tam baskı, tüm sayfalar</span>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {tamSayiList.map((g, idx) => {
-                  const cleanName = g.name.replace(/\s+Gazetesi?$/i, '')
+                  const cleanName = g.name.replace(/\s+Gazetesi?$/i, '').toLocaleUpperCase('tr-TR')
                   const cleanDate = formatDisplayDate(g.date)
                   const pdfState = getGazetePdfState(g.name)
 
                   return (
                     <div
                       key={g.id || g.name}
-                      className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-line bg-surface p-3.5 shadow-2xs transition duration-200 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg"
+                      className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-line bg-surface p-4 sm:p-3.5 shadow-2xs transition duration-200 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg max-w-md mx-auto w-full sm:max-w-none"
                     >
                       {/* Üst Bilgi Barı: Gazete Adı, Tarih ve Rozet */}
                       <div>
-                        <div className="mb-1.5 flex items-center justify-between gap-1.5">
-                          <h3 className="truncate text-base font-extrabold tracking-tight text-fg group-hover:text-accent">
+                        <div className="mb-2 flex items-center justify-between gap-2">
+                          <h3 className="truncate text-lg font-black tracking-wide text-fg group-hover:text-accent sm:text-base">
                             {cleanName}
                           </h3>
-                          <span className="shrink-0 rounded-full bg-accent/15 px-2 py-0.5 text-[0.68rem] font-bold tracking-wide text-accent uppercase">
+                          <span className="shrink-0 rounded-full bg-accent/15 px-2.5 py-0.5 text-[0.7rem] font-bold tracking-wider text-accent uppercase">
                             Tam Baskı
                           </span>
                         </div>
 
-                        <div className="mb-2.5 flex items-center justify-between text-xs text-muted">
-                          <span className="truncate">{cleanDate}</span>
+                        <div className="mb-3 flex items-center justify-between text-xs text-muted">
+                          <span className="font-medium">{cleanDate}</span>
                           {g.pages && g.pages.length > 0 && (
-                            <span className="shrink-0 text-[0.7rem] font-medium text-faint">
+                            <span className="shrink-0 rounded-md bg-surface-2 px-2 py-0.5 text-[0.72rem] font-semibold text-fg/80">
                               {g.pages.length} Sayfa
                             </span>
                           )}
@@ -669,6 +807,7 @@ export function GazetePage() {
                           <img
                             src={g.thumb}
                             alt={cleanName}
+                            referrerPolicy="no-referrer"
                             className="h-full w-full object-cover object-top transition duration-300 group-hover:scale-103"
                             loading="lazy"
                           />
@@ -688,21 +827,21 @@ export function GazetePage() {
                           <button
                             type="button"
                             onClick={() => openLightboxForGazete(g, idx)}
-                            className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-accent px-2 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-accent/90"
+                            className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-accent px-3 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-accent/90 sm:py-2"
                             title="Gazeteyi Sayfa Sayfa Oku"
                           >
-                            <Icon name="BookOpen" size={13} />
-                            <span className="truncate">Oku ({g.pages.length} Syf)</span>
+                            <Icon name="BookOpen" size={14} />
+                            <span>Oku ({g.pages.length} Syf)</span>
                           </button>
                         ) : g.pdf ? (
                           <a
                             href={g.pdf}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-accent px-2 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-accent/90"
+                            className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-accent px-3 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-accent/90 sm:py-2"
                             title="Resmi PDF Oku"
                           >
-                            <Icon name="BookOpen" size={13} />
+                            <Icon name="BookOpen" size={14} />
                             <span>Oku</span>
                           </a>
                         ) : (
@@ -716,7 +855,7 @@ export function GazetePage() {
                             onClick={() => handleDownloadPagesPdf(g)}
                             disabled={pdfState.status === 'loading'}
                             className={clsx(
-                              'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg border border-line px-3 py-2 text-xs font-semibold transition',
+                              'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg border border-line px-3.5 py-2.5 text-xs font-bold transition sm:py-2',
                               pdfState.status === 'ready'
                                 ? 'bg-emerald-600 text-white hover:bg-emerald-700'
                                 : 'bg-surface-2 text-fg hover:bg-surface-3',
@@ -726,12 +865,12 @@ export function GazetePage() {
                             <Icon
                               name={
                                 pdfState.status === 'loading'
-                                  ? 'Clock'
-                                  : pdfState.status === 'ready'
-                                    ? 'CheckCircle'
-                                    : 'Download'
+                                ? 'Clock'
+                                : pdfState.status === 'ready'
+                                  ? 'CheckCircle'
+                                  : 'Download'
                               }
-                              size={13}
+                              size={14}
                             />
                             <span>
                               {pdfState.status === 'idle' && 'İndir'}
@@ -745,10 +884,10 @@ export function GazetePage() {
                             download
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg border border-line bg-surface-2 px-3 py-2 text-xs font-semibold text-fg transition hover:bg-surface-3"
+                            className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg border border-line bg-surface-2 px-3.5 py-2.5 text-xs font-bold text-fg transition hover:bg-surface-3 sm:py-2"
                             title="PDF İndir"
                           >
-                            <Icon name="Download" size={13} />
+                            <Icon name="Download" size={14} />
                             <span>İndir</span>
                           </a>
                         ) : null}
@@ -850,6 +989,7 @@ export function GazetePage() {
                     <img
                       src={m.thumb}
                       alt={`${m.name} Manşeti`}
+                      referrerPolicy="no-referrer"
                       className="h-full w-full object-cover object-top transition duration-300 group-hover:scale-104"
                       loading="lazy"
                     />
@@ -878,6 +1018,110 @@ export function GazetePage() {
               </div>
             )}
           </section>
+
+          {/* BÖLÜM 3: AYLIK e-DERGİLER (PDF) */}
+          {dergilerList.length > 0 && (
+            <section className="border-t border-line-soft pt-10">
+              <div className="mb-5 flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-md bg-accent text-white">
+                    <Icon name="BookOpen" size={14} />
+                  </span>
+                  <h2 className="text-lg font-bold tracking-tight text-fg sm:text-xl">
+                    Aylık e-Dergiler (PDF)
+                  </h2>
+                </div>
+                <span className="text-xs font-medium text-muted">Güncel aylık dergiler, tam sayı PDF</span>
+              </div>
+
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {dergilerList.map((d, idx) => {
+                  const cleanName = d.name.toLocaleUpperCase('tr-TR')
+                  const cleanDate = formatDisplayDate(d.date)
+
+                  return (
+                    <div
+                      key={d.id || d.name}
+                      className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-line bg-surface p-4 sm:p-3.5 shadow-2xs transition duration-200 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg max-w-md mx-auto w-full sm:max-w-none"
+                    >
+                      {/* Üst Bilgi Barı: Dergi Adı, Tarih ve Rozet */}
+                      <div>
+                        <div className="mb-2 flex items-center justify-between gap-2">
+                          <h3 className="truncate text-lg font-black tracking-wide text-fg group-hover:text-accent sm:text-base" title={d.name}>
+                            {cleanName}
+                          </h3>
+                          <span className="shrink-0 rounded-full bg-accent/15 px-2.5 py-0.5 text-[0.7rem] font-bold tracking-wider text-accent uppercase">
+                            Aylık Dergi
+                          </span>
+                        </div>
+
+                        <div className="mb-3 flex items-center justify-between text-xs text-muted">
+                          <span className="font-medium">{cleanDate}</span>
+                          {d.title && d.title !== `${d.name} - ${d.date}` && (
+                            <span className="shrink-0 rounded-md bg-surface-2 px-2 py-0.5 text-[0.72rem] font-semibold text-fg/80">
+                              PDF Arşiv
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Dikey Kapak Görseli (aspect-[1/1.42]) */}
+                        <div
+                          className="relative aspect-[1/1.42] w-full cursor-pointer overflow-hidden rounded-xl border border-line-soft bg-surface-2 shadow-xs"
+                          onClick={() => openLightboxForDergi(d, idx)}
+                          title="Kapağı büyütmek için tıklayın"
+                        >
+                          <img
+                            src={d.thumb}
+                            alt={d.name}
+                            referrerPolicy="no-referrer"
+                            className="h-full w-full object-cover object-top transition duration-300 group-hover:scale-103"
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 backdrop-blur-[1px] transition duration-200 group-hover:opacity-100">
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-xs font-bold text-neutral-900 shadow-md">
+                              <Icon name="Maximize2" size={13} />
+                              <span>Büyüt</span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Alt İşlem Düğmeleri: Oku ve İndir */}
+                      <div className="mt-3.5 flex items-center gap-2 border-t border-line-soft pt-3">
+                        {d.pdf ? (
+                          <>
+                            <a
+                              href={d.pdf}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-accent px-3 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-accent/90 sm:py-2"
+                              title="Resmi PDF Oku"
+                            >
+                              <Icon name="BookOpen" size={14} />
+                              <span>Oku</span>
+                            </a>
+                            <a
+                              href={d.pdf}
+                              download
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg border border-line bg-surface-2 px-3.5 py-2.5 text-xs font-bold text-fg transition hover:bg-surface-3 sm:py-2"
+                              title="PDF İndir"
+                            >
+                              <Icon name="Download" size={14} />
+                              <span>İndir</span>
+                            </a>
+                          </>
+                        ) : (
+                          <span className="flex-1 text-center text-xs text-faint">Hazırlanıyor</span>
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </section>
+          )}
         </div>
       )}
 
@@ -1067,16 +1311,26 @@ export function GazetePage() {
               className="flex items-center justify-center"
               onDoubleClick={handleDoubleClick}
             >
-              <img
-                src={activeCover.fullUrl}
-                alt={`${activeCover.name} Gazete Manşeti`}
-                draggable={false}
-                style={{
-                  maxWidth: '92vw',
-                  maxHeight: '85vh',
-                }}
-                className="pointer-events-none select-none rounded-md object-contain shadow-2xl"
-              />
+              {lightboxImgError ? (
+                <div className="flex flex-col items-center justify-center p-8 text-center text-white/90 bg-neutral-900/90 rounded-2xl border border-white/10 max-w-md shadow-2xl backdrop-blur-md">
+                  <Icon name="AlertCircle" size={44} className="mb-3 text-amber-400" />
+                  <p className="text-base font-semibold">Bu sayfa yayıncı CDN sunucusunda henüz bulunamadı.</p>
+                  <p className="mt-1 text-xs text-white/60">Yayıncı sunucusu görseli yüklediğinde otomatik görüntülenecektir.</p>
+                </div>
+              ) : (
+                <img
+                  src={activeCover.fullUrl}
+                  alt={`${activeCover.name} Gazete Manşeti`}
+                  referrerPolicy="no-referrer"
+                  draggable={false}
+                  onError={() => setLightboxImgError(true)}
+                  style={{
+                    maxWidth: '92vw',
+                    maxHeight: '85vh',
+                  }}
+                  className="pointer-events-none select-none rounded-md object-contain shadow-2xl"
+                />
+              )}
             </div>
           </div>
         </div>
