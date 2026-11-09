@@ -2686,47 +2686,6 @@ async function batchAll(tasks, batchSize = 6) {
   return results
 }
 
-/** egitim.store için standart URL-dostu dosya adı üretir */
-function getStandardPdfName(name, dateStr) {
-  const trMap = {
-    'ç': 'c', 'Ç': 'C',
-    'ğ': 'g', 'Ğ': 'G',
-    'ı': 'i', 'İ': 'I',
-    'ö': 'o', 'Ö': 'O',
-    'ş': 's', 'Ş': 'S',
-    'ü': 'u', 'Ü': 'U'
-  }
-  let clean = String(name || '').trim().replace(/\s+Gazetesi?$/i, '')
-  for (const [tr, en] of Object.entries(trMap)) {
-    clean = clean.replaceAll(tr, en)
-  }
-  clean = clean.replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_+|_+$/g, '')
-
-  let iso = null
-  if (dateStr) {
-    const mIso = String(dateStr).match(/(\d{4})-(\d{1,2})-(\d{1,2})/)
-    if (mIso) {
-      iso = `${mIso[1]}-${String(mIso[2]).padStart(2, '0')}-${String(mIso[3]).padStart(2, '0')}`
-    } else {
-      const mDot = String(dateStr).match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/)
-      if (mDot) {
-        iso = `${mDot[3]}-${String(mDot[2]).padStart(2, '0')}-${String(mDot[1]).padStart(2, '0')}`
-      } else {
-        const mTxt = String(dateStr).match(/(\d{1,2})\s+([a-zA-ZçğıöşüÇĞİÖŞÜ]+)\s+(\d{4})/)
-        if (mTxt) {
-          const moNum = TR_MONTHS_MAP[mTxt[2].toLowerCase()] || '01'
-          iso = `${mTxt[3]}-${moNum}-${String(mTxt[1]).padStart(2, '0')}`
-        }
-      }
-    }
-  }
-  if (!iso) {
-    const now = new Date(Date.now() + 3 * 60 * 60 * 1000)
-    iso = now.toISOString().slice(0, 10)
-  }
-  return `${clean}_${iso}.pdf`
-}
-
 /**
  * eGazeteleri ve eDergileri D1 önbelleğinden okur, gerekirse arka planda günceller.
  */
@@ -2749,24 +2708,6 @@ export async function getGazeteler(env, forceFresh = false) {
         cachedData.data?.tam_sayi?.length >= 20 &&
         cachedData.data?.dergiler?.length >= 10
       ) {
-        // egitim.store manifest'i ile anında zenginleştir (tek hızlı sorgu, sıfır gecikme)
-        try {
-          const mfRes = await fetch('https://egitim.store/gazeteler/manifest.json', {
-            headers: { 'User-Agent': UA },
-          })
-          if (mfRes.ok) {
-            const mfData = await mfRes.json()
-            const storeManifest = mfData?.files || {}
-            const enriched = cachedData.data.tam_sayi.map((g) => {
-              const std = getStandardPdfName(g.name, g.date)
-              if (storeManifest[std]?.url) {
-                return { ...g, pdf: storeManifest[std].url, is_archived: true }
-              }
-              return g
-            })
-            return { ...cachedData.data, tam_sayi: enriched }
-          }
-        } catch {}
         return cachedData.data
       }
     }
@@ -2888,34 +2829,6 @@ export async function getGazeteler(env, forceFresh = false) {
     corumhaber || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Çorum Haber') || FALLBACK_CORUMHABER,
   ].filter((g) => g && (g.pdf || (Array.isArray(g.pages) && g.pages.length > 0)))
 
-  // egitim.store Arşiv Entegrasyonu (Öncelikli & Otomatik Fallback)
-  let storeManifest = {}
-  try {
-    const mfRes = await fetch('https://egitim.store/gazeteler/manifest.json', {
-      headers: { 'User-Agent': UA },
-    })
-    if (mfRes.ok) {
-      const mfData = await mfRes.json()
-      storeManifest = mfData?.files || {}
-    }
-  } catch {
-    // Sessiz fallback: egitim.store erişilemezse orijinal linkler aynen korunur
-  }
-
-  const enrichedTamSayi = tamSayiList.map((g) => {
-    if (!g) return g
-    const stdName = getStandardPdfName(g.name, g.date)
-    const storeItem = storeManifest[stdName]
-    if (storeItem && storeItem.url) {
-      return {
-        ...g,
-        pdf: storeItem.url,
-        is_archived: true,
-      }
-    }
-    return g
-  })
-
   const dergilerList = [
     ...(somuncuDergiler || []),
     ...(diyanetDergiler || []),
@@ -2924,7 +2837,7 @@ export async function getGazeteler(env, forceFresh = false) {
   ].filter(Boolean)
 
   const payload = {
-    tam_sayi: enrichedTamSayi,
+    tam_sayi: tamSayiList,
     mansetler: mansetler.length ? mansetler : (cachedData?.data?.mansetler || Object.values(FALLBACK_MANSETLER)),
     dergiler: dergilerList.length ? dergilerList : (cachedData?.data?.dergiler || []),
     updated_at: new Date().toISOString(),

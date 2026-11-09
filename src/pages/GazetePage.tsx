@@ -853,20 +853,8 @@ export function GazetePage() {
                           <span className="flex-1 text-center text-xs text-faint">Hazırlanıyor</span>
                         )}
 
-                        {/* İndir Düğmesi: egitim.store / PDF öncelikli, yoksa istemci taraflı birleştirme */}
-                        {g.pdf ? (
-                          <a
-                            href={g.pdf}
-                            download
-                            target="_blank"
-                            rel="noreferrer"
-                            className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg border border-line bg-surface-2 px-3.5 py-2.5 text-xs font-bold text-fg transition hover:bg-surface-3 sm:py-2"
-                            title={g.is_archived ? "Arşivden Hızlı PDF İndir (egitim.store)" : "PDF İndir"}
-                          >
-                            <Icon name="Download" size={14} />
-                            <span>İndir</span>
-                          </a>
-                        ) : g.pages && g.pages.length > 0 ? (
+                        {/* İndir Düğmesi */}
+                        {g.pages && g.pages.length > 0 ? (
                           <button
                             type="button"
                             onClick={() => handleDownloadPagesPdf(g)}
@@ -895,6 +883,18 @@ export function GazetePage() {
                               {pdfState.status === 'ready' && 'İndir'}
                             </span>
                           </button>
+                        ) : g.pdf ? (
+                          <a
+                            href={g.pdf}
+                            download
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg border border-line bg-surface-2 px-3.5 py-2.5 text-xs font-bold text-fg transition hover:bg-surface-3 sm:py-2"
+                            title="PDF İndir"
+                          >
+                            <Icon name="Download" size={14} />
+                            <span>İndir</span>
+                          </a>
                         ) : null}
                       </div>
                     </div>
