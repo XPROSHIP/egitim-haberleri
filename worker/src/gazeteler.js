@@ -148,6 +148,24 @@ const FALLBACK_AKSAM = {
   pdf: 'https://members.esmedya.com.tr/pdf/products/1269fb9c-feeb-4919-8669-e931fe641040.pdf',
 }
 
+const FALLBACK_AGOS = {
+  id: 'agos_404608',
+  name: 'Agos',
+  title: 'Agos Gazetesi',
+  date: '6 Kasım 2026',
+  thumb: 'https://static.agos.com.tr/2026/11/agos-sayfa-1-renkli-1574.jpg',
+  pdf: '',
+  pageCount: 16,
+  pages: Array.from({ length: 16 }, (_, i) => {
+    const p = String(i + 1).padStart(2, '0')
+    return {
+      page: i + 1,
+      img: `https://wikilalacom.blob.core.windows.net/bookpdf/Files/EXCEL/Agos_1996/2026/11/06_11_2026/${p}.pdf`,
+      thumb: 'https://static.agos.com.tr/2026/11/agos-sayfa-1-renkli-1574.jpg',
+    }
+  }),
+}
+
 const FALLBACK_YANKI = {
   id: 'yanki_2026-11-06',
   name: 'Yankı',
@@ -2283,82 +2301,87 @@ async function fetchTunaydin() {
   }
 }
 
-/** 12. Yeni Yaşam gazetesinin en güncel sayısını (PDF) çeker. */
-async function fetchYeniYasam() {
+/** 12. Agos haftalık gazetesinin en güncel sayısını (çoklu sayfa vektör PDF) çeker. */
+async function fetchAgos() {
   try {
-    const today = getTurkeyDate(0)
-    const yesterday = getTurkeyDate(-1)
-    const candidates = [
-      { d: today.d, mo: today.m, yr: today.y, iso: today.iso, url: `https://eyeniyasam.com/wp-content/uploads/${today.y}/${today.m}/${today.d}.${today.m}.${today.y}.pdf` },
-      { d: yesterday.d, mo: yesterday.m, yr: yesterday.y, iso: yesterday.iso, url: `https://eyeniyasam.com/wp-content/uploads/${yesterday.y}/${yesterday.m}/${yesterday.d}.${yesterday.m}.${yesterday.y}.pdf` },
-    ]
+    let docId = 404608
+    let thumbUrl = 'https://static.agos.com.tr/2026/11/agos-sayfa-1-renkli-1574.jpg'
 
-    let pdfUrl = ''
-    let isoDate = ''
-    let yr = '2026'
-    let mo = '11'
-
-    for (const cand of candidates) {
-      try {
-        const probeRes = await fetch(cand.url, { method: 'HEAD', headers: { 'User-Agent': UA } })
-        if (probeRes.ok) {
-          pdfUrl = cand.url
-          isoDate = cand.iso
-          yr = cand.yr
-          mo = cand.mo
-          break
-        }
-      } catch {}
-    }
-
-    if (!pdfUrl) {
-      const res = await fetch('https://eyeniyasam.com/wp-json/wp/v2/media?mime_type=application/pdf&per_page=5', {
+    try {
+      const res = await fetch('https://www.agos.com.tr/tr/e-gazete', {
         headers: { 'User-Agent': UA },
       })
       if (res.ok) {
-        const items = await res.json()
-        const pdfItems = (Array.isArray(items) ? items : []).filter((it) => it.guid?.rendered?.endsWith('.pdf') || it.source_url?.endsWith('.pdf'))
-        if (pdfItems.length) {
-          const latest = pdfItems[0]
-          pdfUrl = latest.guid?.rendered || latest.source_url
-          const slug = latest.slug || ''
-          const m = slug.match(/(\d{2})[-.](\d{2})[-.](\d{4})/)
-          const d = m ? m[1] : '09'
-          mo = m ? m[2] : '11'
-          yr = m ? m[3] : '2026'
-          isoDate = `${yr}-${mo}-${d}`
+        const html = await res.text()
+        const idMatch = html.match(/viewer\.agos\.com\.tr\/[^\s"'<>]*-(\d+)\/sayfa/i)
+        if (idMatch && idMatch[1]) {
+          docId = parseInt(idMatch[1], 10)
+        }
+        const thumbMatch = html.match(/https?:\/\/static\.agos\.com\.tr\/[^\s"'<>]+\.(?:jpg|jpeg|png|webp)/i)
+        if (thumbMatch) {
+          thumbUrl = thumbMatch[0]
         }
       }
+    } catch (scrapeErr) {
+      console.warn('[gazeteler] Agos e-gazete scrape uyarisi:', scrapeErr?.message)
     }
 
-    if (!pdfUrl) {
-      pdfUrl = 'https://eyeniyasam.com/wp-content/uploads/2026/11/10.11.2026.pdf'
-      isoDate = '2026-11-10'
+    const headers = {
+      'User-Agent': UA,
+      'Accept-Language': 'tr',
+      'X-Forwarded-For': '127.0.0.1',
     }
 
-    let thumbUrl = `https://yeniyasamgazetesi10.com/wp-content/uploads/2026/11/s1-16_page-0001-618x1024.jpg`
+    let doc = null
     try {
-      const mansetRes = await fetch('https://yeniyasamgazetesi10.com/gunun-manseti/', {
-        headers: { 'User-Agent': UA },
-      })
-      if (mansetRes.ok) {
-        const mHtml = await mansetRes.text()
-        const cMatch = mHtml.match(/https?:\/\/[^"'\s<>]+\/wp-content\/uploads\/[^\s"']*page-0001[^\s"']*\.jpg/i)
-        if (cMatch) thumbUrl = cMatch[0]
+      const docRes = await fetch(`https://viewerapi.agos.com.tr/read/document?i=${docId}`, { headers })
+      if (docRes.ok) {
+        const d = await docRes.json()
+        if ((d.publishmentName?.includes('Agos') || d.name?.includes('Agos')) && d.documents?.length) {
+          doc = d
+        }
       }
     } catch {}
 
+    // Belirtilen ID ile bulunamadıysa yakın ID aralığını kontrol et
+    if (!doc) {
+      for (let id = docId + 5; id >= docId - 5; id--) {
+        try {
+          const r = await fetch(`https://viewerapi.agos.com.tr/read/document?i=${id}`, { headers })
+          if (r.ok) {
+            const d = await r.json()
+            if ((d.publishmentName?.includes('Agos') || d.name?.includes('Agos')) && d.documents?.length) {
+              doc = d
+              break
+            }
+          }
+        } catch {}
+      }
+    }
+
+    if (!doc || !doc.documents?.length) {
+      return FALLBACK_AGOS
+    }
+
+    const dateStr = doc.publishDate ? formatTurkishDate(doc.publishDate.slice(0, 10)) : '6 Kasım 2026'
+
     return {
-      id: `yeniyasam_${isoDate}`,
-      name: 'Yeni Yaşam',
-      title: 'Yeni Yaşam',
-      date: formatTurkishDate(isoDate),
+      id: `agos_${doc.documentId}`,
+      name: 'Agos',
+      title: doc.name || 'Agos Gazetesi',
+      date: dateStr,
       thumb: thumbUrl,
-      pdf: pdfUrl,
+      pdf: '',
+      pageCount: doc.documents.length,
+      pages: doc.documents.map((d) => ({
+        page: d.page,
+        img: d.pdfPath,
+        thumb: thumbUrl,
+      })),
     }
   } catch (err) {
-    console.warn('[gazeteler] fetchYeniYasam hatasi:', String(err?.message ?? err).slice(0, 100))
-    return null
+    console.warn('[gazeteler] fetchAgos hatasi:', String(err?.message ?? err).slice(0, 100))
+    return FALLBACK_AGOS
   }
 }
 
@@ -2729,7 +2752,7 @@ export async function getGazeteler(env, forceFresh = false) {
     kadikoy,
     oksijen,
     tunaydin,
-    yeniyasam,
+    agos,
     ankaraUlus,
     istanbulGazetesi,
     guney,
@@ -2761,7 +2784,7 @@ export async function getGazeteler(env, forceFresh = false) {
     () => fetchKadikoy().catch(() => null),
     () => fetchOksijen(env).catch(() => null),
     () => fetchTunaydin().catch(() => null),
-    () => fetchYeniYasam().catch(() => null),
+    () => fetchAgos().catch(() => null),
     () => fetchAnkaraUlus().catch(() => null),
     () => fetchIstanbulGazetesi().catch(() => null),
     () => fetchGuney().catch(() => null),
@@ -2802,7 +2825,7 @@ export async function getGazeteler(env, forceFresh = false) {
     kadikoy || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Kadıköy'),
     oksijen || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Oksijen'),
     tunaydin || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Tünaydın'),
-    yeniyasam || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Yeni Yaşam'),
+    agos || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Agos') || FALLBACK_AGOS,
     (yanki?.pages?.length >= 2 ? yanki : (cachedData?.data?.tam_sayi?.find((g) => g.name === 'Yankı') || FALLBACK_YANKI)),
     ankaraUlus || cachedData?.data?.tam_sayi?.find((g) => g.name === 'Ankara Ulus'),
     istanbulGazetesi || cachedData?.data?.tam_sayi?.find((g) => g.name === 'İstanbul'),

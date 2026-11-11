@@ -244,6 +244,16 @@ export function GazetePage() {
       for (const entry of downloadedBuffers) {
         if (!entry?.arrayBuffer) continue
         try {
+          const u8 = new Uint8Array(entry.arrayBuffer, 0, Math.min(5, entry.arrayBuffer.byteLength))
+          const isPdf = u8[0] === 0x25 && u8[1] === 0x50 && u8[2] === 0x44 && u8[3] === 0x46 // %PDF-
+          if (isPdf) {
+            const srcDoc = await PDFDocument.load(entry.arrayBuffer, { ignoreEncryption: true })
+            const copiedPages = await pdfDoc.copyPages(srcDoc, srcDoc.getPageIndices())
+            for (const cp of copiedPages) {
+              pdfDoc.addPage(cp)
+            }
+            continue
+          }
           const img = await embedImageBuffer(pdfDoc, entry.arrayBuffer)
           const page = pdfDoc.addPage([img.width, img.height])
           page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height })
@@ -325,19 +335,20 @@ export function GazetePage() {
       const BASE = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '')
 
       const fetchPageBuffer = async (imgUrl: string, maxRetries = 2): Promise<ArrayBuffer> => {
-        // CDN CORS engellerini aşmak için worker proxy kullanılır
-        let proxyUrl = imgUrl
-        if (imgUrl.startsWith('/api/proxy-image') || imgUrl.startsWith('/')) {
-          proxyUrl = `${BASE}${imgUrl}`
-        } else if (!imgUrl.includes('/api/proxy-image')) {
-          proxyUrl = `${BASE}/api/proxy-image?url=${encodeURIComponent(imgUrl)}`
-        }
         let lastErr: unknown = null
         for (let attempt = 0; attempt <= maxRetries; attempt++) {
           try {
+            let reqUrl = imgUrl
+            if (imgUrl.startsWith('/api/proxy-image') || imgUrl.startsWith('/')) {
+              reqUrl = `${BASE}${imgUrl}`
+            } else if (attempt === 0 && imgUrl.includes('blob.core.windows.net')) {
+              reqUrl = imgUrl
+            } else if (!imgUrl.includes('/api/proxy-image')) {
+              reqUrl = `${BASE}/api/proxy-image?url=${encodeURIComponent(imgUrl)}`
+            }
             const controller = new AbortController()
-            const timer = setTimeout(() => controller.abort(), 20000)
-            const res = await fetch(proxyUrl, { signal: controller.signal })
+            const timer = setTimeout(() => controller.abort(), 60000)
+            const res = await fetch(reqUrl, { signal: controller.signal })
             clearTimeout(timer)
             if (!res.ok) throw new Error(`HTTP ${res.status}`)
             const buf = await res.arrayBuffer()
@@ -412,6 +423,17 @@ export function GazetePage() {
         const buf = downloadedBuffers[i]
         if (buf) {
           try {
+            const u8 = new Uint8Array(buf, 0, Math.min(5, buf.byteLength))
+            const isPdf = u8[0] === 0x25 && u8[1] === 0x50 && u8[2] === 0x44 && u8[3] === 0x46 // %PDF-
+            if (isPdf) {
+              const srcDoc = await PDFDocument.load(buf, { ignoreEncryption: true })
+              const copiedPages = await pdfDoc.copyPages(srcDoc, srcDoc.getPageIndices())
+              for (const cp of copiedPages) {
+                pdfDoc.addPage(cp)
+              }
+              continue
+            }
+
             const img = await embedImageBuffer(pdfDoc, buf)
             defaultWidth = img.width
             defaultHeight = img.height
@@ -1280,64 +1302,85 @@ export function GazetePage() {
             <Icon name="ChevronRight" size={24} />
           </button>
 
-          {/* Manşet Görseli (Kaydırılabilir & Yakınlaştırılabilir & Tutup Sürüklenebilir) */}
-          <div
-            className="relative flex h-full w-full select-none items-center justify-center overflow-hidden pt-16 pb-8"
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            onWheel={handleWheel}
-            onClick={(e) => {
-              if (e.target === e.currentTarget && !isDragging) {
-                setActiveCover(null)
-                resetZoomAndPan()
-              }
-            }}
-            style={{
-              cursor: zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
-            }}
-          >
-            {zoomLevel > 1 && (
-              <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full bg-black/75 px-3 py-1 text-[0.7rem] font-medium text-white/90 shadow-lg backdrop-blur-md">
-                Tutup sürükleyerek veya fare tekerleğiyle sayfada gezinebilirsiniz
+          {/* Manşet Görseli veya PDF Sayfası */}
+          {activeCover.fullUrl && (activeCover.fullUrl.toLowerCase().includes('.pdf') || activeCover.fullUrl.toLowerCase().endsWith('.pdf')) ? (
+            <div className="relative flex h-full w-full max-w-5xl flex-col items-center justify-center p-3 pt-16 pb-6">
+              <iframe
+                src={`${activeCover.fullUrl}#toolbar=0&navpanes=0`}
+                title={`${activeCover.name} - Sayfa ${(activeCover.pageIndex ?? 0) + 1}`}
+                className="h-[80vh] w-full rounded-xl bg-white shadow-2xl border-0"
+              />
+              <div className="mt-2.5 flex items-center gap-3">
+                <a
+                  href={activeCover.fullUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-white/20 px-3.5 py-1.5 text-xs font-semibold text-white backdrop-blur-md transition hover:bg-white/30"
+                >
+                  <Icon name="ExternalLink" size={14} />
+                  <span>Bu Sayfayı Yeni Sekmede Tam Aç</span>
+                </a>
               </div>
-            )}
-            <div
-              style={{
-                transform: `translate3d(${panOffset.x}px, ${panOffset.y}px, 0) scale(${zoomLevel})`,
-                transformOrigin: 'center center',
-                transition: isDragging ? 'none' : 'transform 0.12s ease-out',
-                willChange: 'transform',
-              }}
-              className="flex items-center justify-center"
-              onDoubleClick={handleDoubleClick}
-            >
-              {lightboxImgError ? (
-                <div className="flex flex-col items-center justify-center p-8 text-center text-white/90 bg-neutral-900/90 rounded-2xl border border-white/10 max-w-md shadow-2xl backdrop-blur-md">
-                  <Icon name="AlertCircle" size={44} className="mb-3 text-amber-400" />
-                  <p className="text-base font-semibold">Bu sayfa yayıncı CDN sunucusunda henüz bulunamadı.</p>
-                  <p className="mt-1 text-xs text-white/60">Yayıncı sunucusu görseli yüklediğinde otomatik görüntülenecektir.</p>
-                </div>
-              ) : (
-                <img
-                  src={activeCover.fullUrl}
-                  alt={`${activeCover.name} Gazete Manşeti`}
-                  referrerPolicy="no-referrer"
-                  draggable={false}
-                  onError={() => setLightboxImgError(true)}
-                  style={{
-                    maxWidth: '92vw',
-                    maxHeight: '85vh',
-                  }}
-                  className="pointer-events-none select-none rounded-md object-contain shadow-2xl"
-                />
-              )}
             </div>
-          </div>
+          ) : (
+            <div
+              className="relative flex h-full w-full select-none items-center justify-center overflow-hidden pt-16 pb-8"
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              onWheel={handleWheel}
+              onClick={(e) => {
+                if (e.target === e.currentTarget && !isDragging) {
+                  setActiveCover(null)
+                  resetZoomAndPan()
+                }
+              }}
+              style={{
+                cursor: zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
+              }}
+            >
+              {zoomLevel > 1 && (
+                <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full bg-black/75 px-3 py-1 text-[0.7rem] font-medium text-white/90 shadow-lg backdrop-blur-md">
+                  Tutup sürükleyerek veya fare tekerleğiyle sayfada gezinebilirsiniz
+                </div>
+              )}
+              <div
+                style={{
+                  transform: `translate3d(${panOffset.x}px, ${panOffset.y}px, 0) scale(${zoomLevel})`,
+                  transformOrigin: 'center center',
+                  transition: isDragging ? 'none' : 'transform 0.12s ease-out',
+                  willChange: 'transform',
+                }}
+                className="flex items-center justify-center"
+                onDoubleClick={handleDoubleClick}
+              >
+                {lightboxImgError ? (
+                  <div className="flex flex-col items-center justify-center p-8 text-center text-white/90 bg-neutral-900/90 rounded-2xl border border-white/10 max-w-md shadow-2xl backdrop-blur-md">
+                    <Icon name="AlertCircle" size={44} className="mb-3 text-amber-400" />
+                    <p className="text-base font-semibold">Bu sayfa yayıncı CDN sunucusunda henüz bulunamadı.</p>
+                    <p className="mt-1 text-xs text-white/60">Yayıncı sunucusu görseli yüklediğinde otomatik görüntülenecektir.</p>
+                  </div>
+                ) : (
+                  <img
+                    src={activeCover.fullUrl}
+                    alt={`${activeCover.name} Gazete Manşeti`}
+                    referrerPolicy="no-referrer"
+                    draggable={false}
+                    onError={() => setLightboxImgError(true)}
+                    style={{
+                      maxWidth: '92vw',
+                      maxHeight: '85vh',
+                    }}
+                    className="pointer-events-none select-none rounded-md object-contain shadow-2xl"
+                  />
+                )}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

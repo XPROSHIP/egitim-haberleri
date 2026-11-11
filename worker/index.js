@@ -1168,8 +1168,9 @@ export default {
           reqHeaders['Referer'] = 'https://dokuzeylul.com/'
         } else if (targetImgUrl.includes('webaksiyon.com') || targetImgUrl.includes('yankigazetesi.com')) {
           reqHeaders['Referer'] = 'https://www.yankigazetesi.com/'
-        } else if (targetImgUrl.includes('yeniyasam')) {
-          reqHeaders['Referer'] = 'https://eyeniyasam.com/'
+        } else if (targetImgUrl.includes('agos.com.tr') || targetImgUrl.includes('wikilala')) {
+          reqHeaders['Referer'] = 'https://www.agos.com.tr/'
+          reqHeaders['X-Forwarded-For'] = '127.0.0.1'
         } else if (targetImgUrl.includes('ankaraulusgazetesi.com.tr')) {
           reqHeaders['Referer'] = 'https://ankaraulusgazetesi.com.tr/'
         } else if (targetImgUrl.includes('istanbulegazete.com')) {
@@ -1194,6 +1195,8 @@ export default {
           contentType = 'image/png'
         } else if (head.length >= 12 && head[0] === 0x52 && head[1] === 0x49 && head[2] === 0x46 && head[3] === 0x46 && head[8] === 0x57 && head[9] === 0x45 && head[10] === 0x42 && head[11] === 0x50) {
           contentType = 'image/webp'
+        } else if (head.length >= 4 && head[0] === 0x25 && head[1] === 0x50 && head[2] === 0x44 && head[3] === 0x46) {
+          contentType = 'application/pdf'
         }
         return new Response(buffer, {
           status: 200,
