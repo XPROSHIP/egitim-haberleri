@@ -2218,9 +2218,11 @@ async function fetchTunaydin() {
 /** 12. Agos haftalık gazetesinin en güncel sayısını (çoklu sayfa vektör PDF) çeker. */
 async function fetchAgos() {
   try {
-    let issueNo = 1575
-    let thumbUrl = 'https://static.agos.com.tr/2026/11/agos-sayfa-1-renkli-1575.jpg'
+    let detectedIssueNo = 1574
+    let detectedThumb = 'https://static.agos.com.tr/2026/11/agos-sayfa-1-renkli-1574.jpg'
+    let viewerSlugDate = ''
 
+    // 1. Agos ana sayfasından yüklenen sayı kapağını ve viewer bağlantısını tara
     try {
       const res = await fetch('https://www.agos.com.tr/tr/e-gazete', {
         headers: { 'User-Agent': UA },
@@ -2229,35 +2231,61 @@ async function fetchAgos() {
         const html = await res.text()
         const allThumbs = [...html.matchAll(/https?:\/\/static\.agos\.com\.tr\/[^\s"'<>]+\/agos-sayfa-1-renkli[^\s"'<>]*\.jpg/gi)].map((m) => m[0])
         if (allThumbs.length) {
-          thumbUrl = allThumbs[0]
-          const numM = thumbUrl.match(/15\d{2}/)
-          if (numM) issueNo = parseInt(numM[0], 10)
+          detectedThumb = allThumbs[0]
+          const numM = detectedThumb.match(/15\d{2}/)
+          if (numM) detectedIssueNo = parseInt(numM[0], 10)
+        }
+        // Sitedeki dijital viewer bağlantısını tara: /agos-gazetesi-06-11-2026-404608/sayfa
+        const vm = html.match(/viewer\.agos\.com\.tr\/agos-gazetesi-(\d{2})-(\d{2})-(\d{4})-(\d+)/i)
+        if (vm) {
+          viewerSlugDate = `${vm[1]}_${vm[2]}_${vm[3]}`
         }
       }
     } catch (scrapeErr) {
       console.warn('[gazeteler] Agos e-gazete scrape uyarisi:', scrapeErr?.message)
     }
 
-    const folderDate = '06_11_2026'
-    const issueDateStr = issueNo === 1575 ? '13 Kasım 2026' : '6 Kasım 2026'
+    // 2. Yeni sayının (örn: 1575 - 13 Kasım) 16 sayfalık PDF'i sunucuda GERÇEKTEN var mı doğrula!
+    // Yalnızca kapak yüklenip PDF henüz eklenmemişse son tam sayı (1574 - 6 Kasım) sunulur.
+    let activeIssueNo = 1574
+    let activeThumb = 'https://static.agos.com.tr/2026/11/agos-sayfa-1-renkli-1574.jpg'
+    let activeDate = '6 Kasım 2026 · 1574. Sayı'
+    let folderDate = '06_11_2026'
+
+    if (detectedIssueNo >= 1575) {
+      // 13 Kasım Cuma blob klasörünü doğrudan HEAD isteğiyle doğrula
+      const is1575BlobReady = await fetch(
+        'https://wikilalacom.blob.core.windows.net/bookpdf/Files/EXCEL/Agos_1996/2026/11/13_11_2026/01.pdf',
+        { method: 'HEAD', headers: { 'User-Agent': UA } },
+      ).then((r) => r.ok).catch(() => false)
+
+      const isViewerUpdated = viewerSlugDate && viewerSlugDate !== '06_11_2026'
+
+      if (is1575BlobReady || isViewerUpdated) {
+        activeIssueNo = detectedIssueNo
+        activeThumb = detectedThumb
+        activeDate = '13 Kasım 2026 · 1575. Sayı'
+        folderDate = is1575BlobReady ? '13_11_2026' : viewerSlugDate
+      }
+    }
 
     const pages = Array.from({ length: 16 }, (_, i) => {
       const p = String(i + 1).padStart(2, '0')
       return {
         page: i + 1,
         img: `https://wikilalacom.blob.core.windows.net/bookpdf/Files/EXCEL/Agos_1996/2026/11/${folderDate}/${p}.pdf`,
-        thumb: thumbUrl,
+        thumb: activeThumb,
       }
     })
 
     return {
-      id: `agos_${issueNo}`,
+      id: `agos_${activeIssueNo}`,
       name: 'Agos',
-      title: `Agos Gazetesi · Sayı ${issueNo}`,
-      date: `${issueDateStr} · ${issueNo}. Sayı`,
-      thumb: thumbUrl,
+      title: `Agos Gazetesi · Sayı ${activeIssueNo}`,
+      date: activeDate,
+      thumb: activeThumb,
       pdf: '',
-      pageCount: pages.length,
+      pageCount: 16,
       pages,
     }
   } catch (err) {
