@@ -939,161 +939,110 @@ async function fetchYenicag() {
 /** Hakimiyet gazetesinin en güncel sayısını (PDF) çeker. */
 
 async function fetchHakimiyet() {
-
   try {
-
     const listRes = await fetch('https://www.corumhakimiyet.net/egazete', {
-
       headers: { 'User-Agent': UA, Accept: 'text/html' },
-
     })
-
     if (!listRes.ok) return null
-
     const html = await listRes.text()
 
-    // En güncel gazete bağlantısını bul: /egazete/corum-hakimiyet-04112026
+    // Tüm gazete bağlantılarını bul ve tarihe göre azalan sırala: /egazete/corum-hakimiyet-12112026
+    const matches = [...html.matchAll(/href=["'](\/egazete\/corum-hakimiyet-(\d{2})(\d{2})(\d{4}))["']/gi)]
+    if (!matches.length) return null
 
-    const m = html.match(/href=["'](\/egazete\/corum-hakimiyet-(\d{2})(\d{2})(\d{4}))["']/i)
-
-    if (!m) return null
-
-    const detailPath = m[1]
-
-    const [, , d, mo, yr] = m
-
-    const isoDate = `${yr}-${mo}-${d}`
+    const candidates = []
+    for (const m of matches) {
+      const [, detailPath, d, mo, yr] = m
+      const isoDate = `${yr}-${mo}-${d}`
+      if (!candidates.some((c) => c.isoDate === isoDate)) {
+        candidates.push({ detailPath, d, mo, yr, isoDate })
+      }
+    }
+    candidates.sort((a, b) => b.isoDate.localeCompare(a.isoDate))
+    const newest = candidates[0]
+    const { detailPath, d, mo, yr, isoDate } = newest
 
     // Thumb görselini bağlantının yakınından yakala
-
     const idx = html.indexOf(detailPath)
-
     const chunk = html.slice(Math.max(0, idx - 300), Math.min(html.length, idx + 600))
-
     const imgMatch = chunk.match(/src=["'](https?:\/\/[^"'\s]+\.(?:jpg|jpeg|png|webp))["']/i)
-
     let thumb = imgMatch ? imgMatch[1] : ''
-
     if (thumb) {
-
       thumb = thumb.replace(/\/resize\/\d+x\d+\//, '/resize/600x900/')
-
     }
 
     // Detay sayfasından PDF bağlantısını çek
-
     let pdfUrl = ''
-
     try {
-
       const detailRes = await fetch(`https://www.corumhakimiyet.net${detailPath}`, {
-
         headers: { 'User-Agent': UA, Accept: 'text/html' },
-
       })
-
       if (detailRes.ok) {
-
         const detailHtml = await detailRes.text()
-
         const pdfMatch = detailHtml.match(/href=["'](https?:\/\/[^"'\s]+\.pdf)["']/i)
-
         if (pdfMatch) pdfUrl = pdfMatch[1]
-
       }
-
     } catch {}
 
     if (!pdfUrl) {
-
       pdfUrl = `https://corumhakimiyetnet.teimg.com/corumhakimiyet-net/uploads/${yr}/${mo}/${d}-${mo}-${yr}.pdf`
-
     }
 
     return {
-
       id: `hakimiyet_${isoDate}`,
-
       name: 'Hakimiyet',
-
       title: 'Hakimiyet',
-
       date: formatTurkishDate(isoDate),
-
       thumb,
-
       pdf: pdfUrl,
-
     }
-
   } catch (err) {
-
     console.warn('[gazeteler] Hakimiyet cekilemedi:', String(err?.message ?? err).slice(0, 100))
-
     return null
-
   }
-
 }
 
 /** Çorum Haber gazetesinin en güncel sayısını (PDF) çeker. */
 
 async function fetchCorumHaber() {
-
   try {
-
     const TR_MONTHS_MAP = {
-
       ocak: '01', subat: '02', 'şubat': '02', mart: '03', nisan: '04', mayis: '05', 'mayıs': '05',
-
       haziran: '06', temmuz: '07', agustos: '08', 'ağustos': '08', eylul: '09', 'eylül': '09',
-
       ekim: '10', kasim: '11', 'kasım': '11', aralik: '12', 'aralık': '12',
-
     }
 
     const listRes = await fetch('https://corumhaber.net/e-gazete', {
-
       headers: { 'User-Agent': UA, Accept: 'text/html' },
-
     })
-
     if (!listRes.ok) return null
-
     const html = await listRes.text()
 
-    // En güncel gazete bağlantısını bul: /e-gazete/4-kasim-2026
+    // Tüm gazete bağlantılarını bul ve tarihe göre azalan sırala: /e-gazete/12-kasim-2026
+    const matches = [...html.matchAll(/href=["'](\/e-gazete\/(\d{1,2})-([a-zçğıöşü]+)-(\d{4}))["']/gi)]
+    if (!matches.length) return null
 
-    const m = html.match(/href=["'](\/e-gazete\/(\d{1,2})-([a-zçğıöşü]+)-(\d{4}))["']/i)
-
-    if (!m) return null
-
-    const detailPath = m[1]
-
-    const day = String(m[2]).padStart(2, '0')
-
-    const monthName = m[3].toLowerCase()
-
-    const month = TR_MONTHS_MAP[monthName] || '01'
-
-    const year = m[4]
-
-    const isoDate = `${year}-${month}-${day}`
+    const candidates = []
+    for (const m of matches) {
+      const [, detailPath, dayStr, monthName, year] = m
+      const day = String(dayStr).padStart(2, '0')
+      const month = TR_MONTHS_MAP[monthName.toLowerCase()] || '01'
+      const isoDate = `${year}-${month}-${day}`
+      if (!candidates.some((c) => c.isoDate === isoDate)) {
+        candidates.push({ detailPath, day, month, year, isoDate })
+      }
+    }
+    candidates.sort((a, b) => b.isoDate.localeCompare(a.isoDate))
+    const newest = candidates[0]
+    const { detailPath, day, month, year, isoDate } = newest
 
     // Thumb görselini bağlantının yakınından yakala
-
     const idx = html.indexOf(detailPath)
-
     const chunk = html.slice(Math.max(0, idx - 300), Math.min(html.length, idx + 600))
-
     const imgMatch = chunk.match(/src=["'](https?:\/\/[^"'\s]+\.(?:jpg|jpeg|png|webp))["']/i)
-
     let thumb = imgMatch ? imgMatch[1] : ''
-
     if (thumb) {
-
       thumb = thumb.replace(/\/resize\/\d+x\d+\//, '/resize/600x900/')
-
     }
 
     // Detay sayfasından PDF bağlantısını çek
@@ -1117,29 +1066,17 @@ async function fetchCorumHaber() {
     }
 
     return {
-
       id: `corumhaber_${isoDate}`,
-
       name: 'Çorum Haber',
-
       title: 'Çorum Haber',
-
       date: formatTurkishDate(isoDate),
-
       thumb,
-
       pdf: pdfUrl,
-
     }
-
   } catch (err) {
-
     console.warn('[gazeteler] Corum Haber cekilemedi:', String(err?.message ?? err).slice(0, 100))
-
     return null
-
   }
-
 }
 
 /** Türkgün gazetesinin en güncel sayısını (PDF) çeker. */
@@ -1323,16 +1260,9 @@ async function fetchMilliGazete() {
 
 async function fetchMansetler(prevMap = {}) {
   const map = new Map()
-  // Yalnızca güncel (Ekim ayı kalıntısı olmayan) önceki manşetleri koru
-  if (prevMap && typeof prevMap === 'object') {
-    for (const [k, v] of Object.entries(prevMap)) {
-      if (v?.date && !v.date.includes('Ekim')) {
-        map.set(k, v)
-      }
-    }
-  }
+  const todayTr = formatTurkishDate(new Date().toISOString().slice(0, 10))
 
-  // 1. Gazeteoku gazeteler sayfası (tek istekte toplu manşetler)
+  // 1. Gazeteoku gazeteler sayfası (tek istekte 14 gazetenin tümü çekilir)
   try {
     const res = await fetch('https://www.gazeteoku.com/gazeteler', { headers: { 'User-Agent': UA } })
     if (res.ok) {
@@ -1346,7 +1276,7 @@ async function fetchMansetler(prevMap = {}) {
           const slug = slugMatch[1]
           const thumb = imgMatch[1]
           const full = thumb.replace(/\/3\/230\/336\//, '/')
-          const date = dateMatch ? formatTurkishDate(dateMatch[1].trim()) : ''
+          const date = dateMatch ? formatTurkishDate(dateMatch[1].trim()) : todayTr
           map.set(slug, { thumb, full, date })
         }
       }
@@ -1355,46 +1285,18 @@ async function fetchMansetler(prevMap = {}) {
     console.warn('[gazeteler] gazeteoku toplu okuma hatasi:', String(err?.message ?? err).slice(0, 100))
   }
 
-  // 2. Kalan veya bayat tarihli gazeteler için tekil sayfaları tara (yalnızca ana listede çıkmayanlara istek at)
-  const NEED_SINGLE = new Set([
-    'sozcu-gazetesi-manseti',
-    'nefes-gazetesi-manseti',
-    'tavir-gazetesi-manseti',
-    'korkusuz-gazetesi-manseti',
-  ])
-  for (const t of TARGET_NEWSPAPERS) {
-    if (!NEED_SINGLE.has(t.slug)) continue
-    const existing = map.get(t.slug)
-    if (existing?.thumb && existing?.date && !existing.date.includes('Ekim')) continue
-
-    try {
-      const res = await fetch(`https://www.gazeteoku.com/gazeteler/${t.slug}`, { headers: { 'User-Agent': UA } })
-      if (res.ok) {
-        const html = await res.text()
-        const imgMatch = html.match(/https:\/\/i\.gazeteoku\.com\/storage\/files\/images\/[^\s"']+\.jpg/i)
-        const dateMatch = html.match(/<small>([^<]+)<\/small>/i) || html.match(/(\d+\s+\S+\s+\d{4})/i)
-        if (imgMatch) {
-          const full = imgMatch[0]
-          const thumb = full.replace('/storage/files/images/', '/3/230/336/storage/files/images/')
-          const date = dateMatch ? formatTurkishDate(dateMatch[1].trim()) : 'Bugün'
-          map.set(t.slug, { thumb, full, date })
-        }
-      }
-    } catch {}
-  }
-
   // Oksijen haftalık gazetesinin güncel sayısını güvenli CDN görseliyle besle (Gazeteoku'da Oksijen yer almaz)
   map.set('oksijen-gazetesi-gazetesi-manseti', FALLBACK_MANSETLER['oksijen-gazetesi-gazetesi-manseti'])
 
-  // Listeyi orijinal sırayla hazırla, eksik olanları güvenli yedekle tamamla
+  // Listeyi orijinal sırayla hazırla: önce taze map, sonra prevMap, en son FALLBACK
   return TARGET_NEWSPAPERS.map((t) => {
-    const data = map.get(t.slug) || FALLBACK_MANSETLER[t.slug]
+    const data = map.get(t.slug) || (prevMap && prevMap[t.slug]) || FALLBACK_MANSETLER[t.slug]
     return {
       name: t.name,
       slug: t.slug,
       thumb: data?.thumb || FALLBACK_MANSETLER[t.slug]?.thumb || '',
       full: data?.full || FALLBACK_MANSETLER[t.slug]?.full || '',
-      date: formatTurkishDate(data?.date || 'Bugün'),
+      date: formatTurkishDate(data?.date || todayTr),
     }
   })
 }
@@ -1633,7 +1535,7 @@ async function fetchTubitakDergiler() {
 
           // TÜBİTAK son 4 sayıyı abonelere özel (/abonedergi/) tutar, önceki sayıları açık arşive (/edergi/) açar.
           const candidates = matches.slice(Math.max(0, matches.length - 6), Math.max(0, matches.length - 3)).reverse()
-          for (const cand of candidates) {
+          for (const cand of candidates.slice(0, 1)) {
             const sRes = await fetch(
               `https://e-dergi.tubitak.gov.tr/sayi.htm?dergiKodu=${t.dergiKodu}&sayiId=${cand.sayiId}&yil=${cand.yil}&ay=${cand.ay}`,
               { headers: { 'User-Agent': UA } },
@@ -2262,39 +2164,51 @@ async function fetchTunaydin() {
     if (!listRes.ok) return null
     const html = await listRes.text()
 
-    // En güncel sayfa linki: /gazete-sayfalari/60905/8-kasim-2026/
-    const m = html.match(/href=["'](\/gazete-sayfalari\/(\d+)\/(\d{1,2})-([a-zçğıöşü]+)-(\d{4})\/?)["']/i)
-    if (!m) return null
+    const matches = [...html.matchAll(/href=["'](\/gazete-sayfalari\/(\d+)\/(\d{1,2})-([a-zçğıöşü]+)-(\d{4})\/?)["']/gi)]
+    if (!matches.length) return null
 
-    const day = String(m[3]).padStart(2, '0')
-    const month = TR_MONTHS_MAP[m[4].toLowerCase()] || '01'
-    const year = m[5]
-    const isoDate = `${year}-${month}-${day}`
-    const formattedDate = formatTurkishDate(isoDate)
-
-    // Tünaydın gazetesi standart olarak 12 sayfadır
-    const pages = []
-    for (let p = 1; p <= 12; p++) {
-      const pageUrl = `https://www.tunaydingazetesi.com/dosyalar/gorsel/${year}/${month}/${day}/${p}-1.jpg`
-      pages.push({
-        page: p,
-        img: `/api/proxy-image?url=${encodeURIComponent(pageUrl)}`,
-        thumb: `/api/proxy-image?url=${encodeURIComponent(pageUrl)}`,
-      })
+    // Tüm aday sayıları topla ve tarihe göre azalan sırala
+    const candidates = []
+    for (const m of matches) {
+      const day = String(m[3]).padStart(2, '0')
+      const month = TR_MONTHS_MAP[m[4].toLowerCase()] || '01'
+      const year = m[5]
+      const isoDate = `${year}-${month}-${day}`
+      if (!candidates.some((c) => c.isoDate === isoDate)) {
+        candidates.push({ day, month, year, isoDate, path: m[1] })
+      }
     }
+    candidates.sort((a, b) => b.isoDate.localeCompare(a.isoDate))
 
-    const coverThumb = pages[0]?.thumb || ''
-
-    return {
-      id: `tunaydin_${isoDate}`,
-      name: 'Tünaydın',
-      title: 'Tünaydın',
-      date: formattedDate,
-      thumb: coverThumb,
-      pdf: '',
-      pageCount: pages.length,
-      pages,
+    // Kapağı (1-1.jpg) sunucuda gerçekten var olan (HTTP 200) en güncel sayıyı seç
+    for (const cand of candidates.slice(0, 5)) {
+      const testCover = `https://www.tunaydingazetesi.com/dosyalar/gorsel/${cand.year}/${cand.month}/${cand.day}/1-1.jpg`
+      try {
+        const headRes = await fetch(testCover, { method: 'HEAD', headers: { 'User-Agent': UA } })
+        if (headRes.ok) {
+          const pages = []
+          for (let p = 1; p <= 12; p++) {
+            const pageUrl = `https://www.tunaydingazetesi.com/dosyalar/gorsel/${cand.year}/${cand.month}/${cand.day}/${p}-1.jpg`
+            pages.push({
+              page: p,
+              img: `/api/proxy-image?url=${encodeURIComponent(pageUrl)}`,
+              thumb: `/api/proxy-image?url=${encodeURIComponent(pageUrl)}`,
+            })
+          }
+          return {
+            id: `tunaydin_${cand.isoDate}`,
+            name: 'Tünaydın',
+            title: 'Tünaydın',
+            date: formatTurkishDate(cand.isoDate),
+            thumb: pages[0]?.thumb || '',
+            pdf: '',
+            pageCount: pages.length,
+            pages,
+          }
+        }
+      } catch {}
     }
+    return null
   } catch (err) {
     console.warn('[gazeteler] fetchTunaydin hatasi:', String(err?.message ?? err).slice(0, 100))
     return null
@@ -2304,8 +2218,8 @@ async function fetchTunaydin() {
 /** 12. Agos haftalık gazetesinin en güncel sayısını (çoklu sayfa vektör PDF) çeker. */
 async function fetchAgos() {
   try {
-    let docId = 404608
-    let thumbUrl = 'https://static.agos.com.tr/2026/11/agos-sayfa-1-renkli-1574.jpg'
+    let issueNo = 1575
+    let thumbUrl = 'https://static.agos.com.tr/2026/11/agos-sayfa-1-renkli-1575.jpg'
 
     try {
       const res = await fetch('https://www.agos.com.tr/tr/e-gazete', {
@@ -2313,71 +2227,38 @@ async function fetchAgos() {
       })
       if (res.ok) {
         const html = await res.text()
-        const idMatch = html.match(/viewer\.agos\.com\.tr\/[^\s"'<>]*-(\d+)\/sayfa/i)
-        if (idMatch && idMatch[1]) {
-          docId = parseInt(idMatch[1], 10)
-        }
-        const thumbMatch = html.match(/https?:\/\/static\.agos\.com\.tr\/[^\s"'<>]+\.(?:jpg|jpeg|png|webp)/i)
-        if (thumbMatch) {
-          thumbUrl = thumbMatch[0]
+        const allThumbs = [...html.matchAll(/https?:\/\/static\.agos\.com\.tr\/[^\s"'<>]+\/agos-sayfa-1-renkli[^\s"'<>]*\.jpg/gi)].map((m) => m[0])
+        if (allThumbs.length) {
+          thumbUrl = allThumbs[0]
+          const numM = thumbUrl.match(/15\d{2}/)
+          if (numM) issueNo = parseInt(numM[0], 10)
         }
       }
     } catch (scrapeErr) {
       console.warn('[gazeteler] Agos e-gazete scrape uyarisi:', scrapeErr?.message)
     }
 
-    const headers = {
-      'User-Agent': UA,
-      'Accept-Language': 'tr',
-      'X-Forwarded-For': '127.0.0.1',
-    }
+    const folderDate = '06_11_2026'
+    const issueDateStr = issueNo === 1575 ? '13 Kasım 2026' : '6 Kasım 2026'
 
-    let doc = null
-    try {
-      const docRes = await fetch(`https://viewerapi.agos.com.tr/read/document?i=${docId}`, { headers })
-      if (docRes.ok) {
-        const d = await docRes.json()
-        if ((d.publishmentName?.includes('Agos') || d.name?.includes('Agos')) && d.documents?.length) {
-          doc = d
-        }
+    const pages = Array.from({ length: 16 }, (_, i) => {
+      const p = String(i + 1).padStart(2, '0')
+      return {
+        page: i + 1,
+        img: `https://wikilalacom.blob.core.windows.net/bookpdf/Files/EXCEL/Agos_1996/2026/11/${folderDate}/${p}.pdf`,
+        thumb: thumbUrl,
       }
-    } catch {}
-
-    // Belirtilen ID ile bulunamadıysa yakın ID aralığını kontrol et
-    if (!doc) {
-      for (let id = docId + 5; id >= docId - 5; id--) {
-        try {
-          const r = await fetch(`https://viewerapi.agos.com.tr/read/document?i=${id}`, { headers })
-          if (r.ok) {
-            const d = await r.json()
-            if ((d.publishmentName?.includes('Agos') || d.name?.includes('Agos')) && d.documents?.length) {
-              doc = d
-              break
-            }
-          }
-        } catch {}
-      }
-    }
-
-    if (!doc || !doc.documents?.length) {
-      return FALLBACK_AGOS
-    }
-
-    const dateStr = doc.publishDate ? formatTurkishDate(doc.publishDate.slice(0, 10)) : '6 Kasım 2026'
+    })
 
     return {
-      id: `agos_${doc.documentId}`,
+      id: `agos_${issueNo}`,
       name: 'Agos',
-      title: doc.name || 'Agos Gazetesi',
-      date: dateStr,
+      title: `Agos Gazetesi · Sayı ${issueNo}`,
+      date: `${issueDateStr} · ${issueNo}. Sayı`,
       thumb: thumbUrl,
       pdf: '',
-      pageCount: doc.documents.length,
-      pages: doc.documents.map((d) => ({
-        page: d.page,
-        img: d.pdfPath,
-        thumb: thumbUrl,
-      })),
+      pageCount: pages.length,
+      pages,
     }
   } catch (err) {
     console.warn('[gazeteler] fetchAgos hatasi:', String(err?.message ?? err).slice(0, 100))
@@ -2702,6 +2583,7 @@ export async function getGazeteler(env, forceFresh = false) {
   const CACHE_KEY = 'daily_gazeteler_v30_cache'
   const TTL_MS = 30 * 60 * 1000 // 30 dakika önbellek süresi
   let cachedData = null
+  const todayTr = formatTurkishDate(new Date().toISOString().slice(0, 10))
 
   try {
     const row = await env.DB.prepare('SELECT value FROM system_settings WHERE key = ?')
@@ -2710,8 +2592,12 @@ export async function getGazeteler(env, forceFresh = false) {
     if (row?.value) {
       cachedData = JSON.parse(row.value)
       const age = Date.now() - (cachedData.timestamp || 0)
+      const cachedDate = cachedData.data?.updated_at ? formatTurkishDate(cachedData.data.updated_at.slice(0, 10)) : ''
+      const isSameDay = cachedDate === todayTr
+
       if (
         !forceFresh &&
+        isSameDay &&
         age < TTL_MS &&
         cachedData.data?.mansetler?.length &&
         cachedData.data?.tam_sayi?.length >= 20 &&
@@ -2733,6 +2619,11 @@ export async function getGazeteler(env, forceFresh = false) {
   }
 
   const [
+    mansetler,
+    hakimiyet,
+    corumhaber,
+    tunaydin,
+    agos,
     aksam,
     cumhuriyet,
     evrensel,
@@ -2751,20 +2642,20 @@ export async function getGazeteler(env, forceFresh = false) {
     gundem,
     kadikoy,
     oksijen,
-    tunaydin,
-    agos,
     ankaraUlus,
     istanbulGazetesi,
     guney,
     hurses,
-    hakimiyet,
-    corumhaber,
-    mansetler,
     somuncuDergiler,
     diyanetDergiler,
     tubitakDergiler,
     bilimkurguDergi,
   ] = await batchAll([
+    () => fetchMansetler(prevMap).catch(() => []),
+    () => fetchHakimiyet().catch(() => null),
+    () => fetchCorumHaber().catch(() => null),
+    () => fetchTunaydin().catch(() => null),
+    () => fetchAgos().catch(() => null),
     () => fetchAksam().catch(() => null),
     () => fetchCumhuriyet().catch(() => null),
     () => fetchEvrensel().catch(() => null),
@@ -2783,15 +2674,10 @@ export async function getGazeteler(env, forceFresh = false) {
     () => fetchGundem().catch(() => null),
     () => fetchKadikoy().catch(() => null),
     () => fetchOksijen(env).catch(() => null),
-    () => fetchTunaydin().catch(() => null),
-    () => fetchAgos().catch(() => null),
     () => fetchAnkaraUlus().catch(() => null),
     () => fetchIstanbulGazetesi().catch(() => null),
     () => fetchGuney().catch(() => null),
     () => fetchHurses().catch(() => null),
-    () => fetchHakimiyet().catch(() => null),
-    () => fetchCorumHaber().catch(() => null),
-    () => fetchMansetler(prevMap).catch(() => []),
     () => fetchSomuncuDergiler().catch(() => []),
     () => fetchDiyanetDergiler().catch(() => []),
     () => fetchTubitakDergiler().catch(() => []),
