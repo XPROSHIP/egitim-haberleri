@@ -82,7 +82,133 @@ function toAsciiSafe(str: string): string {
     .replace(/[^\x20-\x7E]/g, '')
 }
 
+const GAZETE_PASS = '2027'
+const GAZETE_LOCK_KEY = 'eh_gazete_lock_until'
+const GAZETE_LOCK_MS = 60_000
+
+function readGazeteLockRemaining(): number {
+  try {
+    const raw = localStorage.getItem(GAZETE_LOCK_KEY)
+    if (!raw) return 0
+    const until = Number(raw)
+    if (!Number.isFinite(until)) return 0
+    const rem = Math.ceil((until - Date.now()) / 1000)
+    if (rem <= 0) {
+      localStorage.removeItem(GAZETE_LOCK_KEY)
+      return 0
+    }
+    return rem
+  } catch {
+    return 0
+  }
+}
+
 export function GazetePage() {
+  const [unlocked, setUnlocked] = useState(false)
+  const [pin, setPin] = useState('')
+  const [remainingSec, setRemainingSec] = useState<number>(() => readGazeteLockRemaining())
+  const [wrongAttempt, setWrongAttempt] = useState(false)
+
+  useEffect(() => {
+    if (remainingSec <= 0) return
+    const timer = window.setInterval(() => {
+      const rem = readGazeteLockRemaining()
+      setRemainingSec(rem)
+      if (rem <= 0) {
+        setWrongAttempt(false)
+      }
+    }, 500)
+    return () => window.clearInterval(timer)
+  }, [remainingSec])
+
+  if (unlocked) {
+    return <GazeteContent />
+  }
+
+  const isLocked = remainingSec > 0
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    const currentRem = readGazeteLockRemaining()
+    if (currentRem > 0) {
+      setRemainingSec(currentRem)
+      return
+    }
+    if (pin.trim() === GAZETE_PASS) {
+      setUnlocked(true)
+      setWrongAttempt(false)
+      return
+    }
+    const until = Date.now() + GAZETE_LOCK_MS
+    try {
+      localStorage.setItem(GAZETE_LOCK_KEY, String(until))
+    } catch {}
+    setRemainingSec(60)
+    setWrongAttempt(true)
+    setPin('')
+  }
+
+  return (
+    <div className="mx-auto flex min-h-[70vh] max-w-md items-center justify-center px-4 py-12">
+      <div className="w-full rounded-2xl border border-line bg-surface p-7 shadow-xl sm:p-8">
+        <div className="mx-auto mb-5 grid size-12 place-items-center rounded-full border border-line bg-surface-2 text-fg">
+          <Icon name="Lock" size={20} />
+        </div>
+
+        <h1 className="text-center text-xl font-bold tracking-tight text-fg">eGazete Arşivi</h1>
+        <p className="mt-1.5 text-center text-sm text-muted">
+          Günlük gazete ve dergilere erişmek için şifreyi girin.
+        </p>
+
+        <form onSubmit={handleSubmit} className="mt-6 space-y-3.5">
+          <div>
+            <input
+              type="password"
+              inputMode="numeric"
+              autoComplete="off"
+              autoFocus
+              disabled={isLocked}
+              value={pin}
+              onChange={(e) => setPin(e.target.value)}
+              placeholder={isLocked ? `Kilitli (${remainingSec} sn)` : 'Şifre'}
+              aria-label="Erişim şifresi"
+              className={clsx(
+                'w-full rounded-xl border bg-bg px-4 py-3 text-center font-mono text-base tracking-[0.3em] text-fg outline-none transition placeholder:font-sans placeholder:tracking-normal placeholder:text-faint',
+                isLocked
+                  ? 'cursor-not-allowed border-accent/40 opacity-60'
+                  : 'border-line focus:border-primary',
+              )}
+            />
+          </div>
+
+          {(isLocked || wrongAttempt) && (
+            <div className="flex items-center justify-center gap-2 rounded-xl border border-accent/30 bg-accent-soft px-3.5 py-2.5 text-center text-xs font-medium text-accent">
+              <Icon name="Clock" size={14} className="shrink-0" />
+              <span>
+                Hatalı şifre! Tekrar denemek için <strong>{remainingSec} sn</strong> bekleyin.
+              </span>
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={isLocked || !pin.trim()}
+            className={clsx(
+              'w-full rounded-xl px-4 py-3 text-sm font-semibold transition',
+              isLocked || !pin.trim()
+                ? 'cursor-not-allowed bg-surface-3 text-faint'
+                : 'cursor-pointer bg-fg text-bg hover:opacity-90',
+            )}
+          >
+            {isLocked ? `Bekleniyor (${remainingSec} sn)` : 'Giriş Yap'}
+          </button>
+        </form>
+      </div>
+    </div>
+  )
+}
+
+function GazeteContent() {
   const { data, isLoading, isError, refetch } = useGazeteler()
 
   // Lightbox state

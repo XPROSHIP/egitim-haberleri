@@ -5,9 +5,12 @@ import { categories } from '../data/categories'
 import { CategoryMark } from './CategoryMark'
 import { Icon } from './Icon'
 import { Logo } from './Logo'
+import { formatVisitCount, useVisitCount } from '../lib/visitCounter'
 
 export function Footer() {
   const { t } = useTranslation()
+  const visitCount = useVisitCount()
+  const visitLabel = formatVisitCount(visitCount)
 
   return (
     <footer className="mt-16 border-t border-line bg-surface">
@@ -85,16 +88,16 @@ export function Footer() {
         <div className="mt-10 flex flex-col items-center gap-2 border-t border-line pt-6 text-center">
           <p className="flex flex-wrap items-center justify-center gap-2 text-[0.6875rem] text-faint">
             <span>
-              © 2026 Eğitim Haberleri ·{' '}
+              {visitLabel ? (
+                <span className="tnum mr-1.5 font-mono text-muted" title="Toplam ziyaret">{visitLabel}</span>
+              ) : null}
+              © 2027 Eğitim Haberleri ·{' '}
               <a
                 href="https://corummesem.com.tr"
                 className="underline hover:text-fg"
               >
                 www.corummesem.com.tr
-              </a>{' '}
-              · {t('legal.preparedBy')}{' '}
-              <span className="font-semibold tracking-wide text-muted">OMERZEN</span>
-              {' '}· Tüm hakları saklıdır.
+              </a>
             </span>
           </p>
         </div>

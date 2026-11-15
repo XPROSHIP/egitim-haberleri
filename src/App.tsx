@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { BrowserRouter, Route, Routes, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { StoreProvider, useStore } from './lib/store'
@@ -24,6 +24,7 @@ import { ProfilePage } from './pages/ProfilePage'
 import { PodcastPage } from './pages/PodcastPage'
 import { GazetePage } from './pages/GazetePage'
 import { KosePage } from './pages/KosePage'
+import { AdminPage } from './pages/AdminPage'
 import { LegalPage, LoginPage, NotFoundPage } from './pages/LegalPages'
 import { MobileTabBar } from './components/MobileTabBar'
 import { bus, EVENTS } from './lib/bus'
@@ -164,6 +165,7 @@ function Shell() {
           <Route path="/kose" element={<KosePage />} />
           <Route path="/kose/:slug" element={<KosePage />} />
           <Route path="/ayarlar" element={<SettingsPage />} />
+          <Route path="/admin" element={<AdminPage />} />
           <Route path="/giris" element={<LoginPage onOpen={() => setLogin(true)} />} />
           <Route path="/hakkimizda" element={<LegalPage />} />
           <Route path="/kurumsal" element={<LegalPage />} />

@@ -390,21 +390,55 @@ export interface GazetelerResponse {
   updated_at: string
 }
 
+function withApiOrigin(u?: string): string {
+  if (!u) return ''
+  if (BASE && (u.startsWith('/api/') || u.startsWith('/img/'))) {
+    return `${BASE}${u}`
+  }
+  return u
+}
+
+function normalizeTamSayiItem(g: TamSayiGazete): TamSayiGazete {
+  return {
+    ...g,
+    thumb: withApiOrigin(g.thumb),
+    pdf: withApiOrigin(g.pdf),
+    pages: g.pages?.map((p) => ({
+      ...p,
+      img: withApiOrigin(p.img),
+      thumb: withApiOrigin(p.thumb),
+    })),
+  }
+}
+
 /** Günlük e-gazeteler ve günün manşetlerini çeker. */
 export function useGazeteler() {
   return useQuery({
     queryKey: ['gazeteler'],
     queryFn: async (): Promise<GazetelerResponse> => {
-      const endpoints = ['/api/gazeteler', `${BASE}/api/gazeteler`].filter(Boolean)
+      const endpoints = [BASE ? `${BASE}/api/gazeteler` : '', '/api/gazeteler'].filter(Boolean)
       for (const ep of endpoints) {
         try {
           const res = await fetch(ep)
-          if (res.ok) return await res.json()
+          if (!res.ok) continue
+          const ct = res.headers.get('content-type') || ''
+          if (!ct.includes('json')) continue
+          const raw = (await res.json()) as GazetelerResponse
+          return {
+            ...raw,
+            tam_sayi: (raw.tam_sayi || []).map(normalizeTamSayiItem),
+            dergiler: (raw.dergiler || []).map(normalizeTamSayiItem),
+            mansetler: (raw.mansetler || []).map((m) => ({
+              ...m,
+              thumb: withApiOrigin(m.thumb),
+              full: withApiOrigin(m.full),
+            })),
+          }
         } catch {}
       }
       throw new Error('Gazeteler yüklenemedi')
     },
-    staleTime: 10 * 60 * 1000,
+    staleTime: 60 * 1000,
   })
 }
 

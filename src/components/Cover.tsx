@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import clsx from 'clsx'
 import { getCategory } from '../data/categories'
 import { CategoryMark } from './CategoryMark'
@@ -6,7 +6,7 @@ import { hashOf } from '../lib/coverHash'
 
 /**
  * Haber görseli. Kaynağın kapağı varsa onu gösterir; yoksa
- * kategori rengine dayalı, üretim gibi durmayan sade bir yedek üretir.
+ * veya görsel yüklenemezse kategori rengine dayalı sade bir yer tutucu gösterir.
  */
 export function Cover({
   id,
@@ -23,7 +23,9 @@ export function Cover({
   iconScale?: number
   showIcon?: boolean
 }) {
-  if (image) {
+  const [broken, setBroken] = useState(false)
+
+  if (image && !broken) {
     return (
       <div className={clsx('relative overflow-hidden bg-surface-2', className)}>
         <img
@@ -31,6 +33,7 @@ export function Cover({
           alt=""
           loading="lazy"
           decoding="async"
+          onError={() => setBroken(true)}
           className="size-full object-cover transition-transform duration-[600ms] ease-out group-hover:scale-[1.045]"
         />
         <FallbackCover

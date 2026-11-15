@@ -11,6 +11,7 @@ import { CategoryMark } from '../components/CategoryMark'
 import { Cover } from '../components/Cover'
 import { Icon } from '../components/Icon'
 import { StoryBar } from '../components/StoryBar'
+import { formatVisitCount, useVisitCount } from '../lib/visitCounter'
 
 const MODES: { key: FeedMode; label: string }[] = [
   { key: 'latest', label: 'Güncel' },
@@ -227,7 +228,7 @@ export function FeedPage() {
           </div>
 
           <p className="mt-8 px-3 text-[0.6875rem] text-faint">
-            <span className="font-semibold tracking-wide">OMERZEN</span> © 2026
+            <FeedVisitLabel /> © 2027 Eğitim Haberleri
           </p>
         </aside>
 
@@ -388,4 +389,10 @@ export function FeedPage() {
       </div>
     </div>
   )
+}
+
+function FeedVisitLabel() {
+  const label = formatVisitCount(useVisitCount())
+  if (!label) return null
+  return <span className="tnum mr-1 font-mono text-muted" title="Toplam ziyaret">{label}</span>
 }

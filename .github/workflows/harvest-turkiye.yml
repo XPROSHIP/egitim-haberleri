@@ -1,0 +1,32 @@
+# Türkiye Gazetesi sabah erken saatlerde API sızıntısını probe edip 16 sayfalık tam baskıyı birleştirerek egitim.store FTP sunucusuna yükler.
+name: Türkiye Gazetesi Hasat
+
+on:
+  schedule:
+    # 04:00 - 12:30 TSİ arası her 30 dakikada (UTC 01:00 - 09:30)
+    - cron: '0,30 1,2,3,4,5,6,7,8,9 * * *'
+    # Öğleden sonra ve akşam yedek kontrolleri (14:00, 17:00, 20:00, 22:00 TSİ)
+    - cron: '0 11,14,17,19 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: harvest-turkiye
+  cancel-in-progress: false
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Bağımlılıkları kur
+        run: pip install pypdf
+
+      - name: Türkiye Gazetesi tam sayıyı hasat et ve FTP'ye yükle
+        run: python worker/scripts/harvest-turkiye-gazetesi.py
+

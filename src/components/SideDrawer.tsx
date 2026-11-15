@@ -8,6 +8,7 @@ import { CategoryMark } from './CategoryMark'
 import { Icon } from './Icon'
 import { Logo } from './Logo'
 import { bus, EVENTS } from '../lib/bus'
+import { formatVisitCount, useVisitCount } from '../lib/visitCounter'
 
 export function SideDrawer({
   open,
@@ -44,16 +45,26 @@ export function SideDrawer({
     <>
       <div
         onClick={onClose}
+        aria-hidden={!open}
+        style={{
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          visibility: open ? 'visible' : 'hidden',
+          pointerEvents: open ? 'auto' : 'none',
+        }}
         className={clsx(
-          'fixed inset-0 z-50 bg-black/60 backdrop-blur-sm transition-opacity lg:hidden',
-          open ? 'opacity-100' : 'pointer-events-none opacity-0',
+          'fixed inset-0 z-50 backdrop-blur-sm transition-opacity lg:hidden',
+          open ? 'opacity-100' : 'opacity-0',
         )}
       />
       <aside
-        className={clsx(
-          'fixed top-0 left-0 z-50 flex h-full w-[290px] flex-col border-r border-line bg-surface transition-transform duration-300',
-          open ? 'translate-x-0' : '-translate-x-full',
-        )}
+        aria-hidden={!open}
+        style={{
+          transform: open ? 'translateX(0)' : 'translateX(-100%)',
+          WebkitTransform: open ? 'translateX(0)' : 'translateX(-100%)',
+          visibility: open ? 'visible' : 'hidden',
+          pointerEvents: open ? 'auto' : 'none',
+        }}
+        className="fixed top-0 left-0 z-50 flex h-full w-[290px] flex-col border-r border-line bg-surface transition-transform duration-300 lg:hidden"
       >
         <div className="flex h-14 items-center justify-between border-b border-line px-4">
           <Logo compact />
@@ -61,7 +72,7 @@ export function SideDrawer({
             type="button"
             onClick={onClose}
             aria-label={t('common.close')}
-            className="grid size-9 place-items-center rounded-full text-fg transition hover:bg-surface-2"
+            className="relative z-10 grid size-9 cursor-pointer touch-manipulation place-items-center rounded-full text-fg transition hover:bg-surface-2"
           >
             <Icon name="X" size={18} />
           </button>
@@ -191,7 +202,7 @@ export function SideDrawer({
             </button>
           )}
           <p className="mt-3 text-center text-[0.6875rem] text-faint">
-            {t('legal.preparedBy')} <span className="font-semibold">OMERZEN</span> © 2026
+            <SideVisitLabel /> © 2027 Eğitim Haberleri
           </p>
           <Link
             to="/kvkk"
@@ -213,4 +224,10 @@ function useDrawerState() {
     ...store,
     bookmarkCount: store.bookmarks.length,
   }
+}
+
+function SideVisitLabel() {
+  const label = formatVisitCount(useVisitCount())
+  if (!label) return null
+  return <span className="tnum mr-1 font-mono text-muted" title="Toplam ziyaret">{label}</span>
 }

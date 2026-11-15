@@ -133,8 +133,10 @@ export function LegalPage() {
           ))}
         </div>
         <p className="mt-6 text-center text-[0.6875rem] text-faint">
-          © 2026 Eğitim Haberleri · {t('legal.preparedBy')} <span className="font-semibold">OMERZEN</span> ·{' '}
-          {t('legal.rights')}
+          © 2027 Eğitim Haberleri ·{' '}
+          <a href="https://corummesem.com.tr" className="underline hover:text-fg">
+            www.corummesem.com.tr
+          </a>
         </p>
       </footer>
     </div>

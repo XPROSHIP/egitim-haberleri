@@ -35,6 +35,7 @@ import {
   fetchHurses,
 } from './src/gazeteler.js'
 import { createColumnsStore } from './src/columns.js'
+import { handleAdminRequest } from './src/admin.js'
 
 
 /**
@@ -47,8 +48,8 @@ function corsFor(request) {
   const origin = request.headers.get('origin')
   return {
     'access-control-allow-origin': origin ?? '*',
-    'access-control-allow-headers': 'content-type, authorization, x-collect-secret',
-    'access-control-allow-methods': 'GET, POST, OPTIONS',
+    'access-control-allow-headers': 'content-type, authorization, x-collect-secret, x-admin-token',
+    'access-control-allow-methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
     'access-control-max-age': '86400',
     vary: 'Origin',
   }
@@ -316,6 +317,10 @@ export default {
     const reply = (body, status = 200, extra = {}) => json(body, status, extra, cors)
 
     if (request.method === 'OPTIONS') return new Response(null, { headers: cors })
+
+    if (url.pathname.startsWith('/api/admin/')) {
+      return await handleAdminRequest(request, env, url, reply, { getAudioDbs, getImageDbs, getGazeteler })
+    }
 
     // Haber görselleri
     // Not: D1, BLOB sütununu normal sorguda sayı dizisi olarak döndürüyor;
@@ -1118,7 +1123,7 @@ export default {
       const fresh = url.searchParams.has('fresh')
       const data = await getGazeteler(env, fresh)
       return reply(data, 200, {
-        'cache-control': fresh ? 'no-cache, no-store' : 'public, max-age=900, stale-while-revalidate=1800',
+        'cache-control': fresh ? 'no-cache, no-store' : 'public, max-age=60, stale-while-revalidate=180',
       })
     }
 
@@ -1181,6 +1186,8 @@ export default {
           reqHeaders['Referer'] = 'https://www.haberantalya.com/'
         } else if (targetImgUrl.includes('corumhaber') || targetImgUrl.includes('teimg.com')) {
           reqHeaders['Referer'] = 'https://corumhaber.net/'
+        } else if (targetImgUrl.includes('yenialanya.com')) {
+          reqHeaders['Referer'] = 'https://egazete.yenialanya.com/'
         }
         const imgRes = await fetch(targetImgUrl, {
           headers: reqHeaders,
@@ -1541,6 +1548,29 @@ export default {
         at: new Date().toISOString(),
       })
       return reply({ ok: true, inserted, skipped })
+    }
+
+    if (url.pathname === '/api/visit') {
+      try {
+        if (request.method === 'POST') {
+          const [, rowRes] = await env.DB.batch([
+            env.DB.prepare(
+              `INSERT INTO system_settings (key, value) VALUES ('site_visit_count', '1')
+               ON CONFLICT(key) DO UPDATE SET value = CAST(CAST(COALESCE(NULLIF(system_settings.value, ''), '0') AS INTEGER) + 1 AS TEXT)`,
+            ),
+            env.DB.prepare("SELECT value FROM system_settings WHERE key = 'site_visit_count'"),
+          ])
+          const count = Number(rowRes?.results?.[0]?.value ?? 1)
+          return reply({ count }, 200, { 'cache-control': 'no-store' })
+        }
+        if (request.method === 'GET') {
+          const row = await env.DB.prepare("SELECT value FROM system_settings WHERE key = 'site_visit_count'").first()
+          const count = Number(row?.value ?? 0)
+          return reply({ count }, 200, { 'cache-control': 'no-store' })
+        }
+      } catch {
+        return reply({ count: 0 }, 200, { 'cache-control': 'no-store' })
+      }
     }
 
     if (url.pathname === '/api/health') {

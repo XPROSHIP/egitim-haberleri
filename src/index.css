@@ -20,6 +20,11 @@
   --primary: #2f6bff;
   --primary-fg: #ffffff;
   --ring: rgba(255, 255, 255, 0.13);
+  --eh-logo-title: #fafafa;
+  --eh-logo-cyan: #00D2FF;
+  --eh-logo-sub: #8e8e96;
+  --eh-grad-1: #00D2FF;
+  --eh-grad-2: #FF3B30;
 }
 
 .light {
@@ -38,6 +43,11 @@
   --primary: #1f5ae0;
   --primary-fg: #ffffff;
   --ring: rgba(27, 23, 16, 0.12);
+  --eh-logo-title: #1b1710;
+  --eh-logo-cyan: #0088A8;
+  --eh-logo-sub: #6c6252;
+  --eh-grad-1: #0096B4;
+  --eh-grad-2: #D8262C;
 }
 
 .sepia,
@@ -57,6 +67,11 @@
   --primary: #633211;
   --primary-fg: #f5eedf;
   --ring: rgba(44, 28, 16, 0.25);
+  --eh-logo-title: #2c1c10;
+  --eh-logo-cyan: #007088;
+  --eh-logo-sub: #533924;
+  --eh-grad-1: #007A94;
+  --eh-grad-2: #A52D18;
 }
 
 @theme inline {
