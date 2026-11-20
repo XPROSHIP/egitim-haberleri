@@ -150,6 +150,58 @@
     "lang": "tr"
   },
   {
+    "id": "f_i8ipna_mwoxjmy1",
+    "slug": "yabanci-sinav-katilimcilarini-izlemek-artik-guvenligi-saglamak-icin--i8ipna",
+    "title": "Sınav Katılımcılarını İzlemek Artık Güvenliği Sağlamak İçin Yeterli Değil",
+    "excerpt": "Değerlendirme programları, güvenlik modellerinin çoğunun desteklemek üzere tasarlandığından temelde farklı görünen bir test ortamında faaliyet göstermektedir. Uzaktan teslimatın genişlemesi ve yapay zeka araçlarına artan erişim, sınav bütünlüğünü tehlikeye atan yeni yollar yaratmıştır.",
+    "body": [
+      "Değerlendirme programları, güvenlik modellerinin çoğunun desteklemek üzere tasarlandığından temelde farklı görünen bir test ortamında faaliyet göstermektedir. Uzaktan teslimatın genişlemesi, üretken yapay zeka araçlarına artan erişim, organize içerik paylaşımı ve vekil sınav katılımı ile teknolojideki hızlı ilerlemeler, sınav bütünlüğünü tehlikeye atmak için yeni yollar yaratmıştır. Bu riskler K-12, yükseköğretim, lisans, sertifikasyon ve iş gücü kimlik doğrulaması dahil neredeyse tüm test sektörlerini etkilemektedir.",
+      "Buna karşılık birçok kuruluş gözetim önlemlerini ve gözetleme yeteneklerini genişletmiştir. Gözlem sınav güvenliğinin önemli bir bileşeni olmaya devam etse de tek başına yeterli değildir. Modern tehditler bir sınav oturumu sırasında giderek daha az görünür kanıt bırakmakta veya hiç kanıt bırakmamakta, bu da öncelikle gerçek zamanlı gözleme güvenen yaklaşımların etkinliğini sınırlamaktadır.",
+      "Bu değişim, test kuruluşlarının sınavların güvenliğini izleme konusunda yeniden düşünmesini gerektirmektedir. Puan geçerliliğini korumak, idari kontrolleri, önleyici tedbirleri ve yalnızca gözlemin kaçırabileceği anormallikleri tanımlama kapasitesine sahip adli analizi birleştiren katmanlı güvenlik modellerine bağlıdır.",
+      "## Gözetim güvenlik modellerinin sınırları",
+      "On yıllardır gözetmenler sınavlar sırasında öğrencileri izlemek için bir sınıfın önündeki sandalyelerde oturmuş veya sıradan masaların arasında gidip gelmiştir. Geleneksel gözetmenlik modelleri, görünen kötü davranışlar etrafında oluşturulmuştur: cevapları kopyalamak, yetkisiz materyaller, yasaklı cihazlar veya bir sınav oturumu sırasında meydana gelen şüphe uyandıran eylemler. Bu riskler hala mevcuttur, ancak birçok modern tehdit farklı şekilde çalışmaktadır.",
+      "Anket verileri, teknoloji destekli kötü davranış biçimlerinin ne ölçüde normalleştiğini yansıtmaktadır. Yakın tarihli bir anket, gençlerin yüzde 59'unun öğrencilerin en azından biraz sıklıkta kopya çekmek için yapay zeka kullandığına inandığını ortaya koydu. Aynı zamanda test dağıtım modelleri giderek merkezden uzaklaşmış ve hem yüz yüze hem de uzaktan ortamlarda organize içerik paylaşımı ile yetkisiz yardım için daha fazla fırsat yaratmıştır.",
+      "Sınav soruları yakalanabilir ve organize paylaşım kanalları aracılığıyla dağıtılabilir. Bu durum adayların bir sınav uygulamasından önce canlı test içeriği hakkında ön bilgi elde etmesine yol açar.",
+      "Teknoloji destekli yardım, akıllı gözlükler veya yapay zeka kaplamaları gibi canlı bir oturum sırasında kolayca gözlemlenemeyecek şekillerde ortaya çıkabilir.",
+      "Bu senaryolar gözetim öncelikli güvenlik modellerinin önemli bir sınırlamasını vurgulamaktadır: görünür kötü davranışın bulunmaması, mutlaka bir test güvenliği sorununun olmadığı anlamına gelmez.",
+      "Test ortamları daha da dağıtık ve teknolojik olarak karmaşık hale geldikçe, değerlendirme programlarının yalnızca bir uygulama sırasında ne gözlemlendiğini değil, aynı zamanda ortaya çıkan puanların geçerli ve savunulabilir kalıp kalmadığını da değerlendirebilecek güvenlik yaklaşımlarına ihtiyacı vardır.",
+      "## Modern test güvenliğinde veri adli tıp bilimi rolü",
+      "Veri adli tıp bilimi, yalnızca gözlem yoluyla açık olmayabilecek bütünlük risklerini belirlemek için bir mekanizma sağlar. Görünür göstergelere güvenmek yerine adli metodolojiler, tehlikeye atılmış test maddelerini veya bağımsız olarak elde edilmiş olması imkansız bir puanı gösterebilecek yanıt verilerini, test kalıplarını ve ilişkileri değerlendirir.",
+      "Yapay zeka ve otomatik izleme araçları test ortamlarında daha yaygın hale geldikçe, kuruluşlar algoritmik işaretlemeyi eksiksiz bir test güvenliği çözümü olarak ele alma cazibesine kapılabilir. Uygulamada otomatik sistemler operasyonel izlemeyi ve önceliklendirmeyi destekleyebilir, ancak kanıta dayalı karar almanın veya uzman liderliğindeki veri analizinin yerini almamalıdırlar.",
+      "Adli analiz; teknolojiyi, psikometrik kanıtları, insan incelemesini ve istatistiksel sonuçları yorumlamadaki uzmanlığı birleştiren daha geniş bir bütünlük çerçevesinin parçası olarak çalıştığında en etkili olmaktadır.",
+      "## Gelişen test ortamlarında puan geçerliliğini korumak",
+      "Değerlendirme kuruluşları, daha esnek ve merkeziyetsiz teslimat modellerinde faaliyet gösterirken test sonuçlarına olan güveni sürdürmek için artan baskı altındadır. Bu zorlukla başa çıkmak, öncelikle görünür kötü davranışları izlemek için tasarlanmış güvenlik yaklaşımlarının ötesine geçmeyi ve madde ve test tasarımlarını yeniden düşünmeyi gerektirir.",
+      "Gözetime dayalı izleme değerli olmaya devam etmektedir, ancak kapsamlı bir bütünlük stratejisinin yalnızca bir katmanını temsil etmektedir. Modern test programlarının ayrıca ölçekte puan geçerliliğini değerlendirebilecek, ortaya çıkan riskleri belirleyebilecek ve anormallikler meydana geldiğinde savunulabilir kararları destekleyebilecek mekanizmalara ihtiyacı vardır.",
+      "Veri adli tıp bilimi bu ek katmanın sağlanmasına yardımcı olur. İstatistiksel analizi uzman yorumu ve insan incelemesiyle birleştirerek test kuruluşları; tehlikeye atılmış test maddelerini veya puanlarını tespit etme, gelişen tehditlere yanıt verme ve sağladıkları puanların geçerliliğini koruma yeteneklerini güçlendirebilir.",
+      "Test etme evrim geçirmeye devam ettikçe güvenlik modelleri de onunla birlikte evrim geçirmelidir. Amaç sadece test oturumlarını daha yakından gözlemlemek değildir. Amaç, değerlendirme sonuçlarının güvenilir, savunulabilir ve ölçmeyi amaçladıkları bilgi ve becerileri yansıtmasını sağlamaktır.",
+      "Dr. Sarah Toton, eğitim, tıp, hukuk ve teknoloji sektörlerindeki geniş bir müşteri yelpazesi için karmaşık test güvenliği analizleri gerçekleştiren ve ayrıntılı istatistiksel raporlar üreten veri mühendisleri ve adli bilim adamlarından oluşan bir ekibe liderlik ettiği Caveon'da Veri Adli Tıp Direktörüdür.",
+      "Öğrencilerle bulundukları yerde buluşmak: Yükseköğretim ruh sağlığına bütüncül bir yaklaşım - 13 Kasım 2026"
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "TEST GÜVENLİĞİ",
+      "YAPAY ZEKA",
+      "EĞİTİM TEKNOLOJİLERİ"
+    ],
+    "source": {
+      "name": "eCampus News",
+      "url": "https://www.ecampusnews.com/teaching-learning/2026/11/20/watching-test-takers-isnt-enough-anymore/",
+      "image": "/img/watching-test-takers-isn-t-enough-anymore-1v1vuk.jpg"
+    },
+    "publishedAt": "2026-11-20T10:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:i8ipna",
+    "rawTitle": "Watching test takers isn’t enough anymore",
+    "status": "published",
+    "lang": "en"
+  },
+  {
     "id": "f_1iv7lay_mwox2rs6",
     "slug": "yabanci-gectigimiz-haftanin-k-12-egitim-haberleri-hakkinda-bilginizi-1iv7la",
     "title": "Geçtiğimiz haftanın K-12 eğitim haberleri hakkında bilginizi test edin",
@@ -322,6 +374,50 @@
     "rawTitle": "51Talk’un iki Türk öğrencisi COP31’de dünyaya seslendi",
     "status": "published",
     "lang": "tr"
+  },
+  {
+    "id": "f_b86at1_mwoxjmy1",
+    "slug": "yabanci-hukuk-fakultesi-verileri-2006-dan-bu-yana-en-dusuk-kabul-ora-b86at1",
+    "title": "Hukuk Fakültesi Verileri 2006'dan Bu Yana En Düşük Kabul Oranını Gösteriyor",
+    "excerpt": "2024-25 döneminde hukuk fakültesi adaylarının yalnızca yüzde 65'ine bir üniversiteden kabul teklifi geldi. Ancak bu oran, beyazlar dışındaki tüm ırklardan adaylar için daha düşüktü.",
+    "body": [
+      "Hukuk fakültelerine başvuran insan sayısının artmasıyla birlikte kabul oranları, dün yayınlanan yıllık hukuki eğitim verileri analizinde AccessLex Institute'ün bildirdiğine göre 2024-25 kabul döngüsünde 20 yılın en düşük seviyesine ulaştı. Ancak beyaz ve Siyah adaylar arasındaki kabul oranı farkı, erkek ve kadın adaylar arasındaki fark gibi açılmaya devam etti.",
+      "AccessLex'in yıllık Hukuki Eğitim Veri Paketi (Legal Education Data Deck), Law School Admission Council, National Conference of Bar Examiners ve daha pek çok kamu veri setinden elde edilen hukuki eğitim verilerini özetlemekte ve analiz etmektedir. Rapor, hukuk fakültesi kabulleri ve kayıtlarının yanı sıra baro sınavı sonuçları ve istihdam sonuçlarındaki trendleri vurgulamayı amaçlamaktadır.",
+      "2024-25 yıllarında yaklaşık 76.500 kişi hukuk fakültesine başvurmuş olup, bu sayı bir önceki yıla göre yüzde 18'lik bir artış göstererek ülke genelinde yüzde 65'lik bir kabul oranına yol açmıştır. Bu oran 2006'dan bu yana en düşük oran olmakla birlikte, kabul oranının yüzde 69 civarında seyrettiği üst üste beş yılın ardından gelmektedir.",
+      "Beyaz adayların kabul edilme olasılığı en yüksek grup olup, bunların yüzde 76'sına bir hukuk fakültesinden kabul teklifi gelmiştir; bu oran iki veya daha fazla ırk bildiren adaylarda yüzde 64, Asyalı adaylarda yüzde 62, Hispanik adaylarda yüzde 53, Kızılderili adaylarda yüzde 51 ve Siyah adaylarda yüzde 41'dir. Ayrıca diğer tüm ırklardan daha fazla sayıda beyaz insan hukuk fakültesine başvurmakta olup, tüm başvuranların yüzde 43'ünü oluşturmaktadırlar. 2025 sonbaharındaki yeni sınıfın yüzde 57'si öğrencilerden oluşuyordu.",
+      "Yüksek Mahkeme'nin üniversite kabullerinde ırk kullanımını yasakladığı 2023 yılından bu yana beyaz ve Siyah adayların kabul oranları arasındaki fark biraz artmıştır; o dönemde beyaz adayların yüzde 78,5'i ve Siyah adayların yüzde 46,3'ü kabul edilmişti; bu oran 2024-25'te 35 yüzde puanlık bir farka kıyasla 32,5 yüzde puanlık bir farkı temsil ediyordu. Asyalı adaylar, 2023'ten bu yana herhangi bir ırk grubundaki en büyük kabul oranı düşüşünü 6,5 yüzde puanı ile yaşadı.",
+      "Rapor, Siyah ve Hispanik öğrencilerin hukuk fakülteleri için giriş sınavı olan LSAT'te 160 puanın üzerinde—yaklaşık olarak 30. persentil—not alma oranlarının beyaz ve Asyalı öğrencilere göre daha düşük olduğunu belirtmektedir. American Bar Association eskiden okulların bu puanları kabullerde kullanmasını şart koşuyordu, ancak artık okullar bunun yerine diğer standart testleri dikkate alabilir ve bir avuç okulun test puanı gerekliliklerini tamamen atlamasına izin verilmektedir. Bazı hukuki eğitim erişim savunucuları, birçok standart test gibi LSAT'in de haksız bir şekilde beyaz ve varlıklı öğrencileri kayırdığını savunmaktadır.",
+      "AccessLex raporunda, \"Kabullerde LSAT puanına aşırı güvenmek, [Siyah ve Hispanik] öğrencilerin hukuk fakültesinde temsil edilmeme durumunu daha da kötüleştirebilir\" denmektedir.",
+      "Trump yönetimi, Siyah ve Hispanik öğrencileri daha düşük medyan puanlarla kabul ederek beyaz ve Asyalı adaylara ayrımcılık yaptıklarını iddia ederek iki hukuk fakültesi hakkında soruşturma başlatmak için LSAT puanlarındaki ırksal eşitsizlikleri fırsat bilmiştir.",
+      "Kadınlar ve erkekler arasındaki kabul açığı da büyümektedir. Kadınlar, 2015 yılından bu yana erkeklerden daha büyük bir hukuk fakültesi başvuru sahibi oranını oluşturmuş ve bu pay her yıl artmıştır; en son vergilere göre, 2023-24 kabul döngüsünde başvuranların yüzde 57'sini oluştururken erkekler yüzde 40'ını oluşturmuştur. Yine de erkeklerin kabul edilme olasılığı dört yüzde puanı daha yüksek olup, erkeklerin yüzde 72'si ve kadınların yüzde 68'i en az bir teklif almıştır.",
+      "Veriler, kadınların tüm J.D. öğrencilerinin yüzde 56'sını oluşturduğunu belirtmektedir. Bununla birlikte 2025 yılı, 2010'dan bu yana bir hukuk programına kayıtlı toplam erkek sayısında ilk artışın görüldüğü yıl oldu.",
+      "Hukuk fakülteleri ve diğer lisansüstü programlar tarihsel olarak ekonomik durgunluk dönemlerinde yüksek başvuru sayıları görür; son artış, yaklaşık 71.000 öğrencinin başvuru yaptığı ve o sırada bir on yıldaki en yüksek hacim olan 2020-21 yıllarındaki COVID-19 pandemisi sırasında gerçekleşti. Yine de son rakamlar 2008 resesyonunun seviyelerine veya AccessLex'in veri setindeki en yüksek kaydedilen rakam olan 2004'teki 110.600'e ulaşmadı.",
+      "2024-25 başvuru havuzunun büyümesinin ardından birkaç üniversite, şimdiye kadarki en seçici veya yüksek başarı gösteren yeni sınıflarını kutladı. Hofstra University Hukuk Fakültesi'nden yapılan bir basın açıklamasında, 2029 Sınıfı'nın birinci sınıf sınıflarının herhangi birinden en yüksek LSAT puanlarına ve not ortalamalarına sahip olması kutlanırken, University of Iowa da bunu kutladı. University of Miami, geçen yılki kabul döngüsünün şimdiye kadarki en seçici döngü olduğunu ve 2011'den bu yana en yüksek başvuru sayısını elde ettiğini söyledi.",
+      "AccessLex, mezuniyet sonrası sonuçlara ilişkin incelemesinde, ırka göre baro sınavını geçme oranlarındaki eşitsizliklerin 2023'e kıyasla azaldığını, tüm gruplar için geçme oranının yüzde 80'i aştığını bildirdi. İstihdam oranları 2021'den bu yana nispeten istikrarlı kaldı."
+    ],
+    "category": "yabanci",
+    "tags": [
+      "yabancı eğitim",
+      "HUKUK FAKÜLTESİ",
+      "KABUL ORANLARI",
+      "EĞİTİM VERİLERİ"
+    ],
+    "source": {
+      "name": "Inside Higher Ed",
+      "url": "https://www.insidehighered.com/news/admissions/graduate/2026/11/20/latest-law-school-data-shows-20-year-low-acceptance-rate",
+      "image": "/img/latest-law-school-data-shows-lowest-acceptance-rate-since-20-1rwgmy.jpg"
+    },
+    "publishedAt": "2026-11-20T08:00:00.000Z",
+    "views": 0,
+    "likes": 0,
+    "commentsCount": 0,
+    "featured": false,
+    "fullText": true,
+    "score": 4,
+    "dedupeKey": "foreign:b86at1",
+    "rawTitle": "Latest Law School Data Shows Lowest Acceptance Rate Since 2006",
+    "status": "published",
+    "lang": "en"
   },
   {
     "id": "f_whr9m9_mwox2rs6",
