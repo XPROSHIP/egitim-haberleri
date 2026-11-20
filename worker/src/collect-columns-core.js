@@ -9,16 +9,24 @@
  * eğitim yazılarını Gemini ile 1:1 (özetlemesiz) çevirerek zenginleştirir.
  */
 import { fetchFeed } from './rss.js'
-import { fetchArticle } from './article.js'
+import { fetchSectionLinks } from './section.js'
+import { fetchArticle, splitLongParagraphs } from './article.js'
 import { createGemini } from './gemini.js'
 import { slugify, hash } from './text.js'
 
 export const COLUMN_FEEDS_TR = [
   // Köşe Yazarları & Görüş Odaklı
   { name: 'Cumhuriyet', url: 'https://www.cumhuriyet.com.tr/rss/yazarlar', isColumn: true },
-  { name: 'BirGün', url: 'https://www.birgun.net/xml/rss.xml', isColumn: true },
+  { name: 'BirGün', url: 'https://www.birgun.net/rss/yazarlar', isColumn: true },
+  { name: 'Sözcü', url: 'https://www.sozcu.com.tr/rss/yazarlar.xml', isColumn: true },
   { name: 'Hürriyet', url: 'https://www.hurriyet.com.tr/rss/yazarlar', isColumn: true },
+  { name: 'Milliyet', url: 'https://www.milliyet.com.tr/rss/rssnew/yazarlarrss.xml', isColumn: true },
+  { name: 'Sabah', url: 'https://www.sabah.com.tr/rss/yazarlar.xml', isColumn: true },
   { name: 'Habertürk', url: 'https://www.haberturk.com/rss/kategori/yazarlar.xml', isColumn: true },
+  { name: 'Karar', url: 'https://www.karar.com/service/rss.php', isColumn: true },
+  { name: 'Aydınlık', url: 'https://www.aydinlik.com.tr/feed', isColumn: true },
+  { name: 'T24', url: 'https://t24.com.tr/rss/yazarlar', isColumn: true },
+  { name: 'TR724', url: 'https://www.tr724.com/yazarlar/feed/', isColumn: true },
   { name: 'Gazete Duvar', url: 'https://www.gazeteduvar.com.tr/rss', isColumn: true },
   { name: 'Diken', url: 'https://www.diken.com.tr/feed/', isColumn: true },
   { name: 'Medyascope', url: 'https://medyascope.tv/feed/', isColumn: true },
@@ -30,6 +38,12 @@ export const COLUMN_FEEDS_TR = [
   { name: 'Odatv', url: 'https://www.odatv.com/rss.xml', isColumn: true },
   { name: 'Diriliş Postası', url: 'https://www.dirilispostasi.com/rss/yazarlar', isColumn: true },
   { name: 'Milat Gazetesi', url: 'https://www.milatgazetesi.com/rss/yazarlar.xml', isColumn: true },
+]
+
+export const COLUMN_PAGES_TR = [
+  { name: 'Gazete Pencere', url: 'https://www.gazetepencere.com/yazarlar', prefix: '/yazarlar/' },
+  { name: 'Evrensel', url: 'https://www.evrensel.net/', prefix: '/yazi/' },
+  { name: 'T24', url: 'https://t24.com.tr/yazarlar', prefix: '/yazarlar/' },
 ]
 
 export const COLUMN_FEEDS_FOREIGN = [
@@ -182,6 +196,26 @@ KURALLAR:
 JSON nesnesi döndür.`
 
 /**
+ * Sayfa gövdesi ile RSS tam metnini karşılaştırıp en eksiksiz paragraf dizisini seçer.
+ */
+function pickBestParagraphs(artParagraphs = [], rssParagraphs = [], fallbackDesc = '') {
+  const artList = splitLongParagraphs(Array.isArray(artParagraphs) ? artParagraphs : [])
+  const rssList = splitLongParagraphs(Array.isArray(rssParagraphs) ? rssParagraphs : [])
+  const artChars = artList.join(' ').length
+  const rssChars = rssList.join(' ').length
+
+  if (artChars >= rssChars && artList.length >= 2) return artList
+  if (rssChars > artChars && rssList.length >= 2) return rssList
+  if (artChars >= 450) return artList
+  if (rssChars >= 450) return rssList
+
+  if (fallbackDesc && fallbackDesc.length >= 450) {
+    return splitLongParagraphs([fallbackDesc])
+  }
+  return artList.length ? artList : rssList
+}
+
+/**
  * Köşe yazılarını toplar.
  */
 export async function collectColumns({
@@ -213,16 +247,20 @@ export async function collectColumns({
 
         try {
           const art = await fetchArticle(item.link, { timeoutMs: 12000 })
-          const paragraphs = art.paragraphs && art.paragraphs.length >= 2
-            ? art.paragraphs
-            : item.description ? [item.description] : []
+          const paragraphs = pickBestParagraphs(art.paragraphs, item.contentParagraphs, item.description)
+          const totalChars = paragraphs.join(' ').length
 
-          if (paragraphs.length === 0) continue
+          // Eksik / 1 cümlelik özet kırıntılarını yazma
+          if (paragraphs.length < 2 && totalChars < 450) {
+            logger.warn(`[columns] Yetersiz gövde atlandı (${paragraphs.length}p, ${totalChars}c): ${item.link}`)
+            continue
+          }
 
           const { author, title } = extractAuthorAndTitle(
             art.title || item.title,
             item.link,
-            feed.name
+            feed.name,
+            art.author || item.author || '',
           )
           const dedupeKey = hash(`${author}:${title}`)
           const itemSlug = slugify(title) + '-' + dedupeKey.slice(0, 6)
@@ -233,7 +271,7 @@ export async function collectColumns({
             slug: itemSlug,
             title,
             author_name: author,
-            author_image: art.image || null,
+            author_image: art.image || item.image || null,
             author_title: feed.name + ' Köşe Yazarı',
             source_name: feed.name,
             source_url: item.link,
@@ -252,6 +290,66 @@ export async function collectColumns({
       }
     } catch (err) {
       logger.warn(`[columns] Besleme okunamadı (${feed.name}):`, err.message)
+    }
+  }
+
+  // RSS'i olmayan köşe yazısı sayfalarını tara (Gazete Pencere, Evrensel, T24 vb.)
+  for (const page of COLUMN_PAGES_TR) {
+    try {
+      const links = await fetchSectionLinks(page.url, page.prefix, {
+        timeoutMs: 10000,
+        allowColumns: true,
+      })
+      const candidates = links.filter((l) => l && !seenUrls.has(l)).slice(0, 18)
+      logger.log(`[columns:Page] ${page.name}: ${candidates.length} yeni yazı bağlantısı`)
+
+      for (const link of candidates) {
+        seenUrls.add(link)
+        try {
+          const art = await fetchArticle(link, { timeoutMs: 12000 })
+          if (!art.title) continue
+          const lead = `${art.title} ${art.description || ''} ${(art.paragraphs?.[0] || '')}`
+          if (!isEduTr(lead)) continue
+
+          const paragraphs = splitLongParagraphs(art.paragraphs || [])
+          const totalChars = paragraphs.join(' ').length
+          if (paragraphs.length < 2 && totalChars < 450) continue
+
+          const { author, title } = extractAuthorAndTitle(
+            art.title,
+            link,
+            page.name,
+            art.author || '',
+          )
+          const dedupeKey = hash(`${author}:${title}`)
+          const itemSlug = slugify(title) + '-' + dedupeKey.slice(0, 6)
+          const smartTags = extractSmartTags(title, paragraphs, page.name)
+
+          articles.push({
+            id: 'col_' + dedupeKey.slice(0, 16),
+            slug: itemSlug,
+            title,
+            author_name: author,
+            author_image: art.image || null,
+            author_title: page.name + ' Köşe Yazarı',
+            source_name: page.name,
+            source_url: link,
+            excerpt: art.description || (paragraphs[0] ? paragraphs[0].slice(0, 240) + '...' : ''),
+            body: paragraphs,
+            published_at: art.publishedAt || new Date().toISOString(),
+            lang: 'tr',
+            original_lang: 'tr',
+            translated: 0,
+            tags: smartTags,
+            dedupe_key: dedupeKey,
+          })
+          logger.log(`[columns:Page] Eklendi: "${title}" (${page.name})`)
+        } catch (err) {
+          logger.warn(`[columns:Page] Makale okunamadı (${link}):`, err.message)
+        }
+      }
+    } catch (err) {
+      logger.warn(`[columns:Page] Sayfa taranamadı (${page.name}):`, err.message)
     }
   }
 

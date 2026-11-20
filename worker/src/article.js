@@ -13,10 +13,35 @@ import { decodeEntities } from './rss.js'
 const UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
 
+const REQ_HEADERS = {
+  'user-agent': UA,
+  accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'accept-language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
+}
+
 const BAD_IMG = /meta-photo|logo|placeholder|default[-_.]?img|avatar|1x1|blank\.|banner|sponsor|mansetresim|varsayilan|gorsel-yeri|header[-_.]?image/i
+
+const JUNK_CONTAINER =
+  /\b(share|social|related|ilgili|recommend|newsletter|abone-ol|subscribe|comment|yorum|breadcrumb|post-info-bar|post-topics|post-source|follow-strip|author-bio|adpro|advert|evr-sub-cta|drawer-content|gpsource-cta)\b/i
 
 /** Gövdenin bulunduğu kutular (öncelik sırasına göre). */
 const BODY_SELECTORS = [
+  'div.content-text',
+  'div.article-prose',
+  'div.node-body',
+  'div.c-article-content',
+  'div.js-article-content',
+  'div.article__content',
+  'div.article__body',
+  'div.detail-content',
+  'div.news-body',
+  'div.haber-metni',
+  'div.yazi-icerik',
+  'div.yazi-metni',
+  'div.column-content',
+  'div.author-article',
+  'div.news-detail-text',
+  'div.rhd-all-article-detail',
   'div.article-body',
   'div.article-content',
   'div.article-text',
@@ -27,7 +52,6 @@ const BODY_SELECTORS = [
   'div.haber-govde',
   'div.story-body',
   'div.article-detail',
-  'div.article-text',
   'div.news-content',
   'div.haber-detay',
   'div.detay-icerik',
@@ -47,7 +71,7 @@ const BOILERPLATE_TEXT = [
   /sayfa\s+(?:genişliği|düzeni)/i,
   /görünüm\s+(?:modu|ayarları)/i,
   /çerez\s+(?:politikası|tercihleri)/i,
-  /paylaş|yazdır|facebook|twitter|instagram|linkedin|telegram|whatsapp/i,
+  /(?:whatsapp(?:'ta| kanal| grub)|telegram kanal|sosyal medya hesaplarımız|bizi takip edin|yazıyı paylaş|haberi paylaş|haberi yazdır|linki kopyala)/i,
   /bize\s+ulaşın|iletişim\s+bilgileri/i,
   /güncel\s+(?:haberler|gelişmeler)/i,
   /ilgili\s+(?:haberler|news)/i,
@@ -196,7 +220,12 @@ function collectBlocks(node) {
     for (const child of el.childNodes) {
       if (child.nodeType !== 1) continue
       const tag = child.rawTagName?.toLowerCase()
-      if (['script', 'style', 'noscript', 'svg', 'iframe', 'form', 'nav', 'footer', 'header'].includes(tag)) {
+      if (['script', 'style', 'noscript', 'svg', 'iframe', 'form', 'nav', 'footer', 'header', 'aside', 'button'].includes(tag)) {
+        continue
+      }
+      const cls = child.getAttribute?.('class') ?? ''
+      const id = child.getAttribute?.('id') ?? ''
+      if (JUNK_CONTAINER.test(`${cls} ${id}`)) {
         continue
       }
       if (['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', 'blockquote', 'figcaption'].includes(tag)) {
@@ -243,23 +272,206 @@ function collectBlocks(node) {
   return blocks
 }
 
+/** Tek parça uzun paragrafları cümle sınırlarından bölerek okunaklı paragraflar üretir. */
+export function splitLongParagraphs(list = [], maxLen = 900, targetLen = 480) {
+  const out = []
+  for (const raw of list) {
+    const p = String(raw || '').trim()
+    if (!p) continue
+    if (p.startsWith('## ') || p.length <= maxLen) {
+      out.push(p)
+      continue
+    }
+    const sentences = p.split(/(?<=[.!?…»"])\s+(?=[A-ZÇĞİÖŞÜ0-9"«“])/).map((s) => s.trim()).filter(Boolean)
+    if (sentences.length <= 1) {
+      out.push(p)
+      continue
+    }
+    let buf = ''
+    for (const s of sentences) {
+      if (buf && (buf.length + 1 + s.length > targetLen)) {
+        out.push(buf)
+        buf = s
+      } else {
+        buf = buf ? `${buf} ${s}` : s
+      }
+    }
+    if (buf) out.push(buf)
+  }
+  return out
+}
+
+function filterCleanParagraphs(rawList = []) {
+  return splitLongParagraphs(rawList)
+    .filter((p) => {
+      if (p.startsWith('## ')) return p.length >= 8 && p.length <= 150
+      if (p.length < 130 && /^(?:paylaş|yazdır|facebook|twitter|instagram|linkedin|telegram|whatsapp)\b/i.test(p)) {
+        return false
+      }
+      return (
+        p.length >= 30 &&
+        p.split(/\s+/).length >= 5 &&
+        !/^(İçindekiler|Editör|Abone ol|©|Photo|Fotoğraf|REKLAM|Bu haber|Kaynakça|Linki Kopyala|Kaynak:|Bu içerik|Bu haber |İşte |Bunlar )/i.test(p) &&
+        !/Kanuna aykırı ve izinsiz olarak kopyalanamaz/i.test(p) &&
+        !/son dakika haberleri, köşe yazıları/i.test(p) &&
+        !/haber içerikleri izin alınmadan/i.test(p) &&
+        !p.includes('©')
+      )
+    })
+    .filter((p, i, arr) => arr.indexOf(p) === i)
+    .slice(0, 80)
+}
+
+/** DOM kapsayıcısından temiz makale paragraflarını çıkarır. */
+export function extractParagraphsFromNode(scope) {
+  if (!scope) return []
+  const blocks = collectBlocks(scope)
+  const paragraphs = []
+  let collectedChars = 0
+  let realParaCount = 0
+
+  for (const b of blocks) {
+    const t = b.text
+    if (!t) continue
+    const pastIntro = realParaCount >= 2 || collectedChars >= 300
+    if (LIST_MARKER.test(t) || CUT_MARKER.test(t) || /^ABONE\s*OL/i.test(t.slice(0, 20))) {
+      if (pastIntro) break
+      continue
+    }
+    if (BOILERPLATE_TEXT.some((re) => re.test(t))) continue
+    if (BOILERPLATE_DATE.test(t)) continue
+    if (b.strong) {
+      if (t.length >= 8 && t.length <= 140) paragraphs.push(`## ${t}`)
+      continue
+    }
+    paragraphs.push(t)
+    collectedChars += t.length
+    realParaCount++
+  }
+
+  return filterCleanParagraphs(paragraphs)
+}
+
+/** Sayfadaki JSON-LD şemalarından articleBody ve yazar adını çıkarır. */
+function extractJsonLd(root) {
+  let articleBody = ''
+  let authorName = ''
+  const targetTypes = new Set(['NewsArticle', 'Article', 'OpinionNewsArticle', 'BlogPosting', 'ReportageNewsArticle'])
+
+  const inspectNode = (node) => {
+    if (!node || typeof node !== 'object') return
+    if (Array.isArray(node)) {
+      for (const item of node) inspectNode(item)
+      return
+    }
+    if (Array.isArray(node['@graph'])) inspectNode(node['@graph'])
+
+    const rawType = node['@type']
+    const types = Array.isArray(rawType) ? rawType : [rawType]
+    const isArticle = types.some((t) => typeof t === 'string' && targetTypes.has(t))
+
+    if (typeof node.articleBody === 'string' && node.articleBody.trim().length > articleBody.length && (isArticle || !articleBody)) {
+      articleBody = decodeEntities(node.articleBody).trim()
+    }
+    if (!authorName && node.author) {
+      const a = Array.isArray(node.author) ? node.author[0] : node.author
+      if (typeof a === 'string') authorName = clean(a)
+      else if (a && typeof a.name === 'string') authorName = clean(a.name)
+    }
+  }
+
+  const scripts = root.querySelectorAll('script[type="application/ld+json"]')
+  for (const s of scripts) {
+    try {
+      const txt = (s.text || s.rawText || '').trim()
+      if (!txt) continue
+      inspectNode(JSON.parse(txt))
+    } catch {}
+  }
+
+  return { articleBody, authorName }
+}
+
+/** WordPress sitelerinde (örn. Medyascope) HTML engellendiğinde veya kısa kaldığında WP REST API'sinden tam yazıyı çeker. */
+async function tryWordPressApi(url, signal) {
+  try {
+    const u = new URL(url)
+    const segments = u.pathname.split('/').filter(Boolean)
+    const slug = segments[segments.length - 1]
+    if (!slug || slug.length < 4 || /^\d+$/.test(slug)) return null
+
+    const apiUrl = `${u.origin}/wp-json/wp/v2/posts?slug=${encodeURIComponent(slug)}&_embed=1`
+    const ctrl = new AbortController()
+    const timer = setTimeout(() => ctrl.abort(), 8000)
+    if (signal) signal.addEventListener('abort', () => ctrl.abort(), { once: true })
+
+    try {
+      const res = await fetch(apiUrl, {
+        signal: ctrl.signal,
+        headers: { 'user-agent': UA, accept: 'application/json' },
+      })
+      if (!res.ok) return null
+      const arr = await res.json()
+      const post = Array.isArray(arr) ? arr[0] : null
+      if (!post?.content?.rendered) return null
+
+      const contentRoot = parse(post.content.rendered)
+      const paragraphs = extractParagraphsFromNode(contentRoot)
+      if (paragraphs.length === 0) return null
+
+      const wpTitle = clean(post.title?.rendered ?? '')
+      const wpDesc = clean(post.excerpt?.rendered ?? '')
+      const wpAuthor = clean(post._embedded?.author?.[0]?.name ?? '')
+      const wpImage = post._embedded?.['wp:featuredmedia']?.[0]?.source_url ?? null
+      const wpDateRaw = post.date_gmt || post.date || null
+      const wpDate = wpDateRaw ? new Date(wpDateRaw) : null
+
+      return {
+        title: wpTitle || null,
+        author: wpAuthor || null,
+        image: wpImage && !BAD_IMG.test(wpImage) ? absolutize(wpImage, url) : null,
+        paragraphs,
+        description: wpDesc || null,
+        siteName: null,
+        publishedAt: wpDate && !Number.isNaN(+wpDate) ? wpDate.toISOString() : null,
+      }
+    } finally {
+      clearTimeout(timer)
+    }
+  } catch {
+    return null
+  }
+}
+
 /**
  * Haber sayfasını okur.
- * @returns {{image:string|null, paragraphs:string[], description:string|null, siteName:string|null}}
+ * @returns {{title?:string|null, author?:string|null, image:string|null, paragraphs:string[], description:string|null, siteName:string|null, publishedAt?:string|null}}
  */
-export async function fetchArticle(url, { timeoutMs = 15000 } = {}) {
+export async function fetchArticle(url, { timeoutMs = 20000 } = {}) {
   if (/news\.google\.com/i.test(url)) {
-    return { image: null, paragraphs: [], description: null, siteName: null, title: null }
+    return { image: null, paragraphs: [], description: null, siteName: null, title: null, author: null }
   }
   const ctrl = new AbortController()
   const timer = setTimeout(() => ctrl.abort(), timeoutMs)
   try {
-    const res = await fetch(url, {
+    let res = await fetch(url, {
       signal: ctrl.signal,
       redirect: 'follow',
-      headers: { 'user-agent': UA, accept: 'text/html,application/xhtml+xml' },
+      headers: REQ_HEADERS,
     })
-    if (!res.ok) return { image: null, paragraphs: [], description: null, siteName: null }
+    if (!res.ok && (res.status === 429 || res.status >= 500)) {
+      await new Promise((r) => setTimeout(r, 700))
+      res = await fetch(url, {
+        signal: ctrl.signal,
+        redirect: 'follow',
+        headers: REQ_HEADERS,
+      })
+    }
+    if (!res.ok) {
+      const wp = await tryWordPressApi(url, ctrl.signal)
+      if (wp) return wp
+      return { image: null, paragraphs: [], description: null, siteName: null, title: null, author: null }
+    }
     const html = decodeHtml(await res.arrayBuffer(), res.headers.get('content-type'))
 
     const root = parse(html, {
@@ -290,64 +502,88 @@ export async function fetchArticle(url, { timeoutMs = 15000 } = {}) {
       null
     const published = publishedRaw ? new Date(publishedRaw) : null
 
-    // Gövde kutusu: bilinen seçiciler, sonra en çok metin içeren kutu.
-    let scope = null
+    const { articleBody: ldBody, authorName: ldAuthor } = extractJsonLd(root)
+    const metaAuthor = metaOf(root, 'meta[name="author"]', 'meta[property="article:author"]')
+    const author = ldAuthor || metaAuthor || null
+
+    // Gövde kutusu: bilinen seçicileri dene, içi boş olmayan en iyi gövdeyi seç.
+    let bestParagraphs = []
+    let bestChars = 0
+
     for (const sel of BODY_SELECTORS) {
-      const found = root.querySelector(sel)
-      if (found) {
-        scope = found
+      const matches = root.querySelectorAll(sel)
+      for (const found of matches) {
+        const cand = extractParagraphsFromNode(found)
+        const chars = cand.join(' ').length
+        if (chars > bestChars) {
+          bestParagraphs = cand
+          bestChars = chars
+        }
+        if (sel !== 'article' && sel !== 'main' && cand.length >= 2 && chars >= 300) {
+          break
+        }
+      }
+      if (sel !== 'article' && sel !== 'main' && bestParagraphs.length >= 2 && bestChars >= 300) {
         break
       }
     }
-    if (!scope) {
+
+    if (bestParagraphs.length < 2 || bestChars < 300) {
       const candidates = root.querySelectorAll('div, section, article')
       let best = null
       let bestLen = 0
       for (const c of candidates) {
+        const cls = c.getAttribute?.('class') ?? ''
+        const id = c.getAttribute?.('id') ?? ''
+        if (JUNK_CONTAINER.test(`${cls} ${id}`)) continue
         const len = clean(c.text).length
         if (len > bestLen && len < 200000) {
           bestLen = len
           best = c
         }
       }
-      scope = best ?? root
-    }
-
-    const blocks = collectBlocks(scope)
-    const paragraphs = []
-    for (const b of blocks) {
-      const t = b.text
-      if (!t) continue
-      if (LIST_MARKER.test(t)) break
-      if (CUT_MARKER.test(t)) break
-      if (BOILERPLATE_TEXT.some((re) => re.test(t))) continue
-      if (BOILERPLATE_DATE.test(t)) continue
-      if (b.strong) {
-        if (t.length >= 8 && t.length <= 140) paragraphs.push(`## ${t}`)
-        continue
+      if (best) {
+        const cand = extractParagraphsFromNode(best)
+        const chars = cand.join(' ').length
+        if (chars > bestChars) {
+          bestParagraphs = cand
+          bestChars = chars
+        }
       }
-      if (/^ABONE\s*OL/i.test(t.slice(0, 20))) break
-      paragraphs.push(t)
     }
 
-    const cleaned = paragraphs
-      .filter((p) => {
-        if (p.startsWith('## ')) return p.length >= 8 && p.length <= 150
-        return (
-          p.length >= 80 &&
-          p.split(' ').length > 12 &&
-          !/^(İçindekiler|Editör|Abone ol|©|Photo|Fotoğraf|REKLAM|Bu haber|Kaynakça|Linki Kopyala|Kaynak:|Bu içerik|Bu haber |İşte |Bunlar )/i.test(p) &&
-          !/Kanuna aykırı ve izinsiz olarak kopyalanamaz/i.test(p) &&
-          !/son dakika haberleri, köşe yazıları/i.test(p) &&
-          !/haber içerikleri izin alınmadan/i.test(p) &&
-          !p.includes('©')
-        )
-      })
-      .filter((p, i, arr) => arr.indexOf(p) === i)
-      .slice(0, 30)
+    // JSON-LD articleBody yedek/zenginleştirici
+    if (ldBody && (bestParagraphs.length < 2 || bestChars < 350 || (ldBody.length > bestChars * 1.8 && bestChars < 900))) {
+      const rawLines = ldBody
+        .split(/\r?\n+/)
+        .map((l) => clean(l))
+        .filter((l) => l && !BOILERPLATE_TEXT.some((re) => re.test(l)) && !LIST_MARKER.test(l) && !CUT_MARKER.test(l))
+      const ldParas = filterCleanParagraphs(rawLines)
+      const ldChars = ldParas.join(' ').length
+      if (ldChars > bestChars) {
+        bestParagraphs = ldParas
+        bestChars = ldChars
+      }
+    }
+
+    // WordPress REST API fallback (HTML metin çok kısaysa veya engellendiyse)
+    if (bestParagraphs.length < 2 || bestChars < 300) {
+      const wp = await tryWordPressApi(url, ctrl.signal)
+      if (wp && wp.paragraphs.join(' ').length > bestChars) {
+        return {
+          title: wp.title || title,
+          author: wp.author || author,
+          image: wp.image || (image && !BAD_IMG.test(image) ? absolutize(image, url) : null),
+          paragraphs: wp.paragraphs,
+          description: wp.description || description,
+          siteName,
+          publishedAt: (published && !Number.isNaN(+published) ? published.toISOString() : null) || wp.publishedAt,
+        }
+      }
+    }
 
     // Gövde bulunamadıysa özet metninden paragraf kur.
-    if (cleaned.length < 2 && description && description.length > 200) {
+    if (bestParagraphs.length < 2 && description && description.length > 200) {
       const sentences = description
         .split(/(?<=[.!?])\s+(?=[A-ZÇĞİÖŞÜ])/)
         .reduce((acc, s) => {
@@ -358,20 +594,25 @@ export async function fetchArticle(url, { timeoutMs = 15000 } = {}) {
         }, [])
         .map((s) => s.trim())
         .filter((s) => s.split(' ').length > 12)
-      if (sentences.length > 0) cleaned.push(...sentences.slice(0, 6))
+      if (sentences.length > 0 && bestParagraphs.length === 0) {
+        bestParagraphs.push(...sentences.slice(0, 6))
+      }
     }
 
     return {
       title,
+      author,
       image: image && !BAD_IMG.test(image) ? absolutize(image, url) : null,
-      paragraphs: cleaned,
+      paragraphs: bestParagraphs,
       description,
       siteName,
       publishedAt: published && !Number.isNaN(+published) ? published.toISOString() : null,
     }
   } catch (err) {
     console.warn(`[article] okunamadı: ${url} ${String(err?.message ?? err).slice(0, 90)}`)
-    return { image: null, paragraphs: [], description: null, siteName: null, title: null }
+    const wp = await tryWordPressApi(url, null)
+    if (wp) return wp
+    return { image: null, paragraphs: [], description: null, siteName: null, title: null, author: null }
   } finally {
     clearTimeout(timer)
   }

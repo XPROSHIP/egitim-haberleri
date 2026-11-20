@@ -12,7 +12,7 @@ const JUNK =
  * @param {string} prefix     yol ön eki (boş ise tüm bağlantılar)
  * @returns {Promise<string[]>} makale bağlantıları
  */
-export async function fetchSectionLinks(url, prefix = '', { timeoutMs = 20000 } = {}) {
+export async function fetchSectionLinks(url, prefix = '', { timeoutMs = 20000, allowColumns = false } = {}) {
   const ctrl = new AbortController()
   const timer = setTimeout(() => ctrl.abort(), timeoutMs)
   try {
@@ -41,7 +41,7 @@ export async function fetchSectionLinks(url, prefix = '', { timeoutMs = 20000 } 
       const p = u.pathname
       if (p === '/' || p.length < 22) continue
       if (JUNK.test(p)) continue
-      if (BLOCKED_PATH.test(p)) continue
+      if (!allowColumns && BLOCKED_PATH.test(p)) continue
       if (/\.(xml|json|jpg|jpeg|png|webp|svg|gif|ico|pdf|html?)$/i.test(p)) continue
       if (prefix && !p.startsWith(prefix)) continue
       found.add(u.origin + p)

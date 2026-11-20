@@ -67,7 +67,7 @@ export function detectProvince(text) {
   return null
 }
 
-const TRUSTED = /aa\.com\.tr|meb\.gov\.tr|hurriyet\.com\.tr|cumhuriyet\.com\.tr|sozcu\.com\.tr|trthaber|resmigazete|osym\.gov\.tr/
+const TRUSTED = /aa\.com\.tr|meb\.gov\.tr|hurriyet\.com\.tr|cumhuriyet\.com\.tr|sozcu\.com\.tr|trthaber|resmigazete|osym\.gov\.tr|ankahaber\.net|birgun\.net|evrensel\.net|gazetepencere\.com|t24\.com\.tr|tr724\.com/
 
 /** Alaka puanı 0–10. Eğitim dışı içerik 0 alır. */
 export function scoreItem(item) {

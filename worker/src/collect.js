@@ -23,7 +23,8 @@ import { collectForeign } from './foreign.js'
 import { createGemini, enrichWithGemini, cleanBodies } from './gemini.js'
 import { fetchArticle } from './article.js'
 
-const MAX_SECTION_FETCH = 45 // tur başına açılacak en fazla bölüm bağlantısı
+const MAX_SECTION_FETCH = 75 // tur başına açılacak en fazla bölüm bağlantısı
+const MAX_PER_SECTION = 8 // her bölüm kaynağından tur başına alınacak en fazla yeni bağlantı
 
 /** Aynı konudaki farklı kaynak kopyalarını tek kayda indirger. */
 function clusterItems(items, threshold = 0.42) {
@@ -182,11 +183,14 @@ export async function collect({
     }
     const { name, links, weight } = f.value
     run.sectionLinks += links.length
+    let addedFromSection = 0
     for (const link of links) {
+      if (freshSectionLinks.length >= MAX_SECTION_FETCH) break
+      if (addedFromSection >= MAX_PER_SECTION) break
       if (knownUrls.has(link)) continue
       if (freshSectionLinks.some((x) => x.link === link)) continue
       freshSectionLinks.push({ link, sourceName: name, feedWeight: weight })
-      if (freshSectionLinks.length >= MAX_SECTION_FETCH) break
+      addedFromSection++
     }
   })
   logger.log(
@@ -284,17 +288,17 @@ export async function collect({
       clusters.map(async (c) => {
         if (c.paragraphs?.length) run.withFullText++
         if (c.image) run.withImage++
-        else if (!c.direct) {
+        else if (!c.direct && /news\.google\.com/i.test(c.link || '')) {
           c.image = null
         } else {
           try {
-            const art = c.paragraphs ? null : await fetchArticle(c.link)
+            const art = c.paragraphs?.length >= 2 ? null : await fetchArticle(c.link)
             if (art) {
-              c.image = art.image
-              c.paragraphs = art.paragraphs
-              c.siteName = art.siteName
-              if (art.image) run.withImage++
-              if (art.paragraphs?.length >= 2) run.withFullText++
+              if (art.image) c.image = art.image
+              if (art.paragraphs?.length) c.paragraphs = art.paragraphs
+              if (art.siteName) c.siteName = art.siteName
+              if (c.image) run.withImage++
+              if (c.paragraphs?.length >= 2) run.withFullText++
             }
           } catch {
             /* yoksay */
@@ -359,6 +363,8 @@ export async function collect({
     const title = normalizeTitleCase(ai?.title || cluster.title, cluster.title, {
       bodyText: cluster.paragraphs,
     })
+    const rawLen = Array.isArray(cluster.paragraphs) ? cluster.paragraphs.join(' ').length : 0
+    const aiLen = Array.isArray(ai?.paragraphs) ? ai.paragraphs.join(' ').length : 0
     const fullText = Array.isArray(cluster.paragraphs) && cluster.paragraphs.length >= 2
     const sourceName = cluster.siteName || cluster.sourceName || 'Eğitim Haberleri'
     return {
@@ -367,7 +373,7 @@ export async function collect({
       title,
       excerpt: ai?.excerpt || cluster.description || title,
       body: fullText
-        ? cluster.paragraphs
+        ? (aiLen >= rawLen * 0.65 && (ai?.paragraphs?.length ?? 0) >= 2 ? ai.paragraphs : cluster.paragraphs)
         : (ai?.paragraphs?.length
             ? ai.paragraphs
             : bodyFromDescription(cluster.description, title)),

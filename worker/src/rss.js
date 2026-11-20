@@ -26,6 +26,20 @@ export function stripHtml(html = '') {
     .trim()
 }
 
+export function htmlToParagraphs(html = '') {
+  if (!html) return []
+  const normalized = html
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<\/(?:p|div|li|h[1-6]|blockquote)\s*>/gi, '\n')
+    .replace(/<br\s*\/?>\s*<br\s*\/?>/gi, '\n')
+    .replace(/<br\s*\/?>/gi, ' ')
+  return normalized
+    .split(/\n+/)
+    .map((part) => decodeEntities(part.replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim())
+    .filter((p) => p.length >= 25)
+}
+
 function unwrapCdata(v = '') {
   const m = v.match(/<!\[CDATA\[([\s\S]*?)\]\]>/)
   return (m ? m[1] : v).trim()
@@ -65,7 +79,17 @@ export function parseFeed(xml = '') {
     if (!rawTitle) continue
     const { title, publisher } = splitTitle(stripHtml(rawTitle))
     const src = sourceTag(block)
-    const description = stripHtml(tag(block, 'description'))
+    const rawDesc = tag(block, 'description')
+    const rawContent = tag(block, 'content:encoded')
+    const description = stripHtml(rawDesc)
+    const contentParagraphs = htmlToParagraphs(rawContent || rawDesc)
+    const author = stripHtml(tag(block, 'dc:creator') || tag(block, 'author'))
+    const mediaImage =
+      block.match(/<media:content[^>]+url=["']([^"']+)["']/i)?.[1] ??
+      block.match(/<media:thumbnail[^>]+url=["']([^"']+)["']/i)?.[1] ??
+      block.match(/<enclosure[^>]+url=["']([^"']+\.(?:jpe?g|png|webp)[^"']*)["']/i)?.[1] ??
+      block.match(/<img[^>]+src=["']?([^"'\s>]+)/i)?.[1] ??
+      ''
     const pubDate = tag(block, 'pubDate') || tag(block, 'dc:date')
     const parsed = pubDate ? new Date(pubDate) : null
 
@@ -73,7 +97,9 @@ export function parseFeed(xml = '') {
       title,
       link: tag(block, 'link') || tag(block, 'guid'),
       description,
-      image: block.match(/<img[^>]+src=["']?([^"']+)/i)?.[1] ?? '',
+      contentParagraphs,
+      author,
+      image: mediaImage,
       sourceName: src.name || publisher || '',
       sourceUrl: src.url || '',
       publishedAt: parsed && !Number.isNaN(+parsed) ? parsed.toISOString() : new Date().toISOString(),

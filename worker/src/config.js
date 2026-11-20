@@ -23,6 +23,12 @@ export const RSS_FEEDS = [
   { name: 'Dünya', url: 'https://www.dunya.com/rss', weight: 1 },
   { name: 'Ege Haber', url: 'https://www.egehaber.com/rss', weight: 1 },
   { name: 'Bianet', url: 'https://bianet.org/rss/bianet', weight: 3 },
+  { name: 'Gazete Pencere', url: 'https://www.gazetepencere.com/rss', weight: 3 },
+  { name: 'BirGün', url: 'https://www.birgun.net/rss/kategori/egitim-13', weight: 4 },
+  { name: 'Evrensel', url: 'https://www.evrensel.net/rss/haber.xml', weight: 3 },
+  { name: 'T24', url: 'https://t24.com.tr/rss', weight: 3 },
+  { name: 'TR724', url: 'https://www.tr724.com/feed/', weight: 2 },
+  { name: 'TR724 Eğitim', url: 'https://www.tr724.com/category/egitim/feed/', weight: 3 },
 ]
 
 /**
@@ -89,6 +95,10 @@ export const SECTION_PAGES = [
     weight: 4,
     category: 'mesleki',
   },
+  { name: 'Gazete Pencere', url: 'https://www.gazetepencere.com/egitim', prefix: '/egitim/', weight: 4 },
+  { name: 'Anka Haber Ajansı', url: 'https://ankahaber.net/', prefix: '/haber/', weight: 4 },
+  { name: 'BirGün', url: 'https://www.birgun.net/kategori/egitim-13', prefix: '/haber/', weight: 4 },
+  { name: 'T24', url: 'https://t24.com.tr/haber/egitim', prefix: '/haber/', weight: 3 },
 ]
 
 /** Google News — yalnızca tekrar tespiti ve kapsam genişletme, yayın yok. */
